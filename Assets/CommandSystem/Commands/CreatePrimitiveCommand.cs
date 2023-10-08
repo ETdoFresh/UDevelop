@@ -7,7 +7,8 @@ namespace CommandSystem.Commands
     [Serializable]
     public class CreatePrimitiveCommand : Command
     {
-        [SerializeField] private GameObject instance;
+        [SerializeField] private string objectName;
+        [SerializeField] private int index;
         [SerializeField] private Vector3 inputPosition;
         [SerializeField] private Quaternion inputRotation;
         [SerializeField] private Vector3 inputScale;
@@ -26,13 +27,15 @@ namespace CommandSystem.Commands
         public override void Run(params string[] args)
         {
             var primitiveType = PrimitiveType.Cube;
+            objectName = "Cube";
             inputPosition = Vector3.zero;
             inputRotation = Quaternion.identity;
             inputScale = Vector3.one;
         
             if (args.Length > 1)
             {
-                primitiveType = primitiveTypeDictionary[args[1].ToLower()];
+                objectName = args[1];
+                primitiveType = primitiveTypeDictionary[objectName.ToLower()];
             }
             if (args.Length > 4)
             {
@@ -47,20 +50,25 @@ namespace CommandSystem.Commands
                 inputScale = new Vector3(float.Parse(args[9]), float.Parse(args[10]), float.Parse(args[11]));
             }
         
-            instance = GameObject.CreatePrimitive(primitiveType);
+            var instance = GameObject.CreatePrimitive(primitiveType);
             instance.transform.position = inputPosition;
             instance.transform.rotation = inputRotation;
             instance.transform.localScale = inputScale;
+            ObjectDBBehaviour.Add(objectName, instance);
         }
         
         public override void Undo()
         {
-            instance.SetActive(false);
+            ObjectDBBehaviour.RemoveLast(objectName);
         }
         
         public override void Redo()
         {
-            instance.SetActive(true);
+            var instance = GameObject.CreatePrimitive(primitiveTypeDictionary[objectName.ToLower()]);
+            instance.transform.position = inputPosition;
+            instance.transform.rotation = inputRotation;
+            instance.transform.localScale = inputScale;
+            ObjectDBBehaviour.Add(objectName, instance);
         }
     }
 }

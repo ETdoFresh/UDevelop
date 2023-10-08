@@ -18,12 +18,12 @@ namespace CommandSystem
         {
             this.commandInput = commandInput;
             var args = commandInput.Split(' ', ',');
-            var commandName = args[0].ToLower();
+            var commandTypeName = GetType().Name;
             this.args.AddRange(args);
-            if (!hasRun.Contains(commandName))
+            if (!hasRun.Contains(commandTypeName))
             {
                 FirstRun();
-                hasRun.Add(commandName);
+                hasRun.Add(commandTypeName);
             }
             Run(args);
         }
@@ -35,5 +35,17 @@ namespace CommandSystem
         public virtual void Undo() { }
 
         public virtual void Redo() { }
+        
+        protected void GetObjectNameAndIndex(string str, out string objectName, out int index)
+        {
+            objectName = str;
+            index = 0;
+            var indexStart = objectName.IndexOf('[');
+            var indexEnd = objectName.IndexOf(']');
+            if (indexStart == -1 || indexEnd == -1) return;
+            var indexString = objectName.Substring(indexStart + 1, indexEnd - indexStart - 1);
+            objectName = objectName.Substring(0, indexStart);
+            index = int.Parse(indexString);
+        }
     }
 }

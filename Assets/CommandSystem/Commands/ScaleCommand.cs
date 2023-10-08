@@ -4,37 +4,37 @@ using UnityEngine;
 namespace CommandSystem.Commands
 {
     [Serializable]
-    public class MoveCommand : Command
+    public class ScaleCommand : Command
     {
         [SerializeField] private string objectName;
         [SerializeField] private int index;
-        [SerializeField] private Vector3 initialPosition;
-        [SerializeField] private Vector3 inputPosition;
+        [SerializeField] private Vector3 initialScale;
+        [SerializeField] private Vector3 inputScale;
         
-        public MoveCommand(string command) : base(command) { }
+        public ScaleCommand(string command) : base(command) { }
         
         public override void Run(params string[] args)
         {
             GetObjectNameAndIndex(args[1], out objectName, out index);
             var instance = ObjectDBBehaviour.Get(objectName, index);
-            initialPosition = instance.transform.position;
+            initialScale = instance.transform.localScale;
             var x = float.Parse(args[2]);
-            var y = float.Parse(args[3]);
-            var z = args.Length > 4 ? float.Parse(args[4]) : 0;
-            inputPosition = new Vector3(x, y, z);
-            instance.transform.position = inputPosition;
+            var y = args.Length > 3 ? float.Parse(args[3]) : x;
+            var z = args.Length > 4 ? float.Parse(args[4]) : x;
+            inputScale = new Vector3(x, y, z);
+            instance.transform.localScale = inputScale;
         }
 
         public override void Undo()
         {
             var instance = ObjectDBBehaviour.Get(objectName, index);
-            instance.transform.position = initialPosition;
+            instance.transform.localScale = initialScale;
         }
         
         public override void Redo()
         {
             var instance = ObjectDBBehaviour.Get(objectName, index);
-            instance.transform.position = inputPosition;
+            instance.transform.localScale = inputScale;
         }
     }
 }

@@ -6,28 +6,27 @@ namespace CommandSystem.Commands
     [Serializable]
     public class DestroyCommand : Command
     {
-        [SerializeField] private GameObject instance;
+        [SerializeField] private string objectName;
+        [SerializeField] private int index;
         
         public DestroyCommand(string commandInput) : base(commandInput) { }
         
         public override void Run(params string[] args)
         {
-            instance = GameObject.Find(args[1]);
-            if (instance == null)
-            {
-                Debug.LogError($"GameObject {args[1]} not found!");
-                return;
-            }
+            GetObjectNameAndIndex(args[1], out objectName, out index);
+            var instance = ObjectDBBehaviour.Get(objectName, index);
             instance.SetActive(false);
         }
         
         public override void Undo()
         {
+            var instance = ObjectDBBehaviour.Get(objectName, index);
             instance.SetActive(true);
         }
         
         public override void Redo()
         {
+            var instance = ObjectDBBehaviour.Get(objectName, index);
             instance.SetActive(false);
         }
     }
