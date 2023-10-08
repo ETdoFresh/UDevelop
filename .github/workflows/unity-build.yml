@@ -1,0 +1,149 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: ["master"]
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    environment:
+      name: Build for ${{ matrix.targetPlatform }}
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        targetPlatform:
+          - StandaloneOSX
+          - StandaloneWindows
+          - StandaloneWindows64
+          - StandaloneLinux64
+          # - iOS
+          # - Android
+          - WebGL
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3      
+
+      - name: Get number of commits in current branch
+        id: get_commits
+        run: echo "COMMITS=$(git rev-list --count master)" >> "$GITHUB_OUTPUT"
+      
+      - name: Get Short SHA
+        id: get_short_sha
+        run: echo "SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)" >> "$GITHUB_OUTPUT"
+
+      - name: Unity Build
+        uses: game-ci/unity-builder@v3
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+        with:
+          targetPlatform: ${{ matrix.targetPlatform }}
+
+      - name: Upload artifact ${{ matrix.targetPlatform }}
+        uses: actions/upload-artifact@v3
+        with:
+            name: Build-${{ matrix.targetPlatform }}
+            path: build/${{ matrix.targetPlatform }}
+        
+      - name: Archive Release
+        uses: thedoctor0/zip-release@0.7.1
+        with:
+          type: 'zip'
+          filename: 'release-${{ matrix.targetPlatform }}.zip'
+          directory: 'build/${{ matrix.targetPlatform }}'
+      
+      - name: Upload Release
+        shell: bash
+        run: |
+          hub release create v${{ steps.get_commits.outputs.COMMITS }} \
+          -m "UDevelop v${{ steps.get_commits.outputs.COMMITS }}" \
+          -a ./release-${{ matrix.targetPlatform }}.zip \
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+      - if: matrix.targetPlatform == 'WebGL'
+        name: Move WebGL to v{commits} folder and remove other folders
+        run: |
+          mv build/WebGL v${{ steps.get_commits.outputs.COMMITS }} | mkdir v${{ steps.get_commits.outputs.COMMITS }}
+          ls | grep -v v${{ steps.get_commits.outputs.COMMITS }} | xargs rm -rf
+
+      - if: matrix.targetPlatform == 'WebGL'
+        name: Checkout gh-pages
+        uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          clean: false
+
+      # Remove "latest" folder and copy v{commits} folder to "latest"
+      - if: matrix.targetPlatform == 'WebGL'
+        name: Create latest folder
+        run: |
+          rm -rf latest
+          cp -r v${{ steps.get_commits.outputs.COMMITS }} latest
+
+      # Commit and push changes to gh-pages and write SHA to PAGE_SHA
+      - if: matrix.targetPlatform == 'WebGL'
+        name: Commit and push changes
+        id: commit_and_push
+        run: |
+          git config --global user.email "ETdoFresh@gmail.com"
+          git config --global user.name "ETdoFresh"
+          git add .
+          git commit -m "Deploy v${{ steps.get_commits.outputs.COMMITS }} to GitHub Pages"
+          echo "PAGE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          git push
+
+      # Dispay folders on GitHub Pages
+      - if: matrix.targetPlatform == 'WebGL'
+        name: Display folders
+        run: |
+          ls -l
+          ls -l latest
+
+      - if: matrix.targetPlatform == 'WebGL'
+        name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+      
+      - if: matrix.targetPlatform == 'WebGL'
+        name: Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          DISCORD_USERNAME: GitHub Actions
+          DISCORD_EMBEDS: '[    { 
+            "author": {  "icon_url": "https://avatars.githubusercontent.com/${{ github.actor }}", "name": "${{ github.actor }}", "url": "https://github.com/${{github.actor}}" },
+            "url": "https://github.com/${{github.repository}}/commit/${{github.sha}}",
+            "fields": [
+            { "name": "Repository", "value": "[${{github.event.repository.name}}](${{github.event.repository.clone_url}})", "inline": true },
+            { "name": "Branch", "value": "[${{github.ref_name}}](https://github.com/${{github.repository}}/tree/${{github.ref_name}})", "inline": true },
+            { "name": "Event", "value": "${{github.event_name}}", "inline": true },
+            { "name": "Commit", "value": "[${{steps.get_short_sha.outputs.SHORT_SHA}}](https://github.com/${{github.repository}}/commit/${{github.sha}})", "inline": true },
+            { "name": "Version", "value": "[v${{steps.get_commits.outputs.COMMITS}}](https://github.com/${{github.repository}}/commit/${{steps.commit_and_push.outputs.PAGE_SHA}})", "inline": true },
+            { "name": "Commit Message", "value": "`${{github.event.head_commit.message}}`" }
+            ],
+            "color":6710886,
+            "timestamp": "${{github.event.head_commit.timestamp}}",
+            "footer":{"text": "${{github.event.head_commit.timestamp}}"}
+            }    ]'
+        uses: Ilshidur/action-discord@master
+        with:
+          args: 
