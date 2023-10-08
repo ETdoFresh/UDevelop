@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CommandSystem.Commands
 {
@@ -54,12 +55,14 @@ namespace CommandSystem.Commands
             instance.transform.position = inputPosition;
             instance.transform.rotation = inputRotation;
             instance.transform.localScale = inputScale;
-            ObjectDBBehaviour.Add(objectName, instance);
+            index = ObjectDBBehaviour.Add(objectName, instance);
         }
         
         public override void Undo()
         {
-            ObjectDBBehaviour.RemoveLast(objectName);
+            var instance = ObjectDBBehaviour.Get(objectName, index);
+            Object.Destroy(instance);
+            ObjectDBBehaviour.Remove(objectName, index);
         }
         
         public override void Redo()
@@ -68,7 +71,7 @@ namespace CommandSystem.Commands
             instance.transform.position = inputPosition;
             instance.transform.rotation = inputRotation;
             instance.transform.localScale = inputScale;
-            ObjectDBBehaviour.Add(objectName, instance);
+            index = ObjectDBBehaviour.Add(objectName, instance);
         }
     }
 }

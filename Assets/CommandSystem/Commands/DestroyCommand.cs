@@ -8,26 +8,28 @@ namespace CommandSystem.Commands
     {
         [SerializeField] private string objectName;
         [SerializeField] private int index;
+        private GameObject instance;
         
         public DestroyCommand(string commandInput) : base(commandInput) { }
         
         public override void Run(params string[] args)
         {
             GetObjectNameAndIndex(args[1], out objectName, out index);
-            var instance = ObjectDBBehaviour.Get(objectName, index);
+            instance = ObjectDBBehaviour.Get(objectName, index);
             instance.SetActive(false);
+            ObjectDBBehaviour.Remove(objectName, index);
         }
         
         public override void Undo()
         {
-            var instance = ObjectDBBehaviour.Get(objectName, index);
             instance.SetActive(true);
+            index = ObjectDBBehaviour.Add(objectName, instance);
         }
         
         public override void Redo()
         {
-            var instance = ObjectDBBehaviour.Get(objectName, index);
             instance.SetActive(false);
+            ObjectDBBehaviour.Remove(objectName, index);
         }
     }
 }

@@ -32,28 +32,16 @@ public class ObjectDBBehaviour : MonoBehaviour
         return entries?.ConvertAll(e => e.instance);
     }
 
-    public static GameObject GetFirst(string name)
+    public static void Remove(string objectName, int index)
     {
-        var entries = GetAll(name);
-        return entries[0];
-    }
-    
-    public static GameObject GetLast(string name)
-    {
-        var entries = GetAll(name);
-        return entries[^1];
+        var entries = _instance.objectEntries.FindAll(e => string.Equals(e.name, objectName, StringComparison.CurrentCultureIgnoreCase));
+        var entry = entries[index];
+        _instance.objectEntries.Remove(entry);
     }
 
-    public static void RemoveLast(string name)
-    {
-        var lastEntry = _instance.objectEntries.FindLast(e => string.Equals(e.name, name, StringComparison.CurrentCultureIgnoreCase));
-        if (lastEntry == null) return;
-        _instance.objectEntries.Remove(lastEntry);
-        Destroy(lastEntry.instance);
-    }
-
-    public static void Add(string name, GameObject instance)
+    public static int Add(string name, GameObject instance)
     {
         _instance.objectEntries.Add(new ObjectEntry { name = name, instance = instance });
+        return _instance.objectEntries.Count - 1;
     }
 }
