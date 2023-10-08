@@ -17,7 +17,7 @@ namespace CommandSystem
         
         private void OnCommandEvent(CommandEvent e)
         {
-            Debug.Log($"CommandEvent: {e.Command}");
+            Debug.Log($"[CommandDebugLog] Command: {e.Command}");
         }
     }
 }
