@@ -1,5 +1,26 @@
 {
   "dependencies": {
+    "com.etdofresh.unitypackages.editortools": {
+      "version": "https://github.com/ETdoFresh/UnityPackages.EditorTools.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "289b2389a7007e540582627af83905736b0bfbb2"
+    },
+    "com.etdofresh.unitypackages.eventbus": {
+      "version": "https://github.com/ETdoFresh/UnityPackages.EventBus.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "82ce2aa61c6b9f3a4d3616818c37d4413dd4cf1c"
+    },
+    "com.etdofresh.unitypackages.extensionmethods": {
+      "version": "https://github.com/ETdoFresh/UnityPackages.ExtensionMethods.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "945bfd8f523655c2aa74db56893d6e0c2372b359"
+    },
     "com.unity.2d.animation": {
       "version": "9.0.3",
       "depth": 1,
