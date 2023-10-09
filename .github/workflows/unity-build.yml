@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages
+name: Unity Build, Upload, and Deploy
 
 on:
   push:
@@ -22,10 +22,10 @@ jobs:
       fail-fast: false
       matrix:
         targetPlatform:
-          # - StandaloneOSX
-          # - StandaloneWindows
-          # - StandaloneWindows64
-          # - StandaloneLinux64
+          - StandaloneOSX
+          - StandaloneWindows
+          - StandaloneWindows64
+          - StandaloneLinux64
           # - iOS
           # - Android
           - WebGL
@@ -76,7 +76,7 @@ jobs:
         name: Prepare v${{ steps.get_commits.outputs.COMMITS }} and latest folders
         run: |
           ls -l ./build
-          cp -r ./build/WebGL/ ./v${{ steps.get_commits.outputs.COMMITS }}/
+          cp -r ./build/WebGL/. ./v${{ steps.get_commits.outputs.COMMITS }}/
           rm -Rf ./latest
           cp -R ./v${{ steps.get_commits.outputs.COMMITS }} ./latest
 
@@ -99,11 +99,6 @@ jobs:
         run: |
           ls -l
           ls -l latest
-
-      - if: matrix.targetPlatform == 'WebGL'
-        name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v2
       
       - if: matrix.targetPlatform == 'WebGL'
         name: Discord notification
@@ -120,6 +115,7 @@ jobs:
             { "name": "Commit", "value": "[${{steps.get_short_sha.outputs.SHORT_SHA}}](https://github.com/${{github.repository}}/commit/${{github.sha}})", "inline": true },
             { "name": "Version", "value": "[v${{steps.get_commits.outputs.COMMITS}}](https://github.com/${{github.repository}}/commit/${{steps.commit_and_push.outputs.PAGE_SHA}})", "inline": true },
             { "name": "Commit Message", "value": "`${{github.event.head_commit.message}}`" }
+            { "name": "Web Internal Testing Link", "value": "https://github.etdofresh.com/${{github.event.repository.name}}/v${{steps.get_commits.outputs.COMMITS}}/" }
             ],
             "color":6710886,
             "timestamp": "${{github.event.head_commit.timestamp}}",
