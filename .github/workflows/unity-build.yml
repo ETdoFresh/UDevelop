@@ -16,7 +16,6 @@ jobs:
   deploy:
     environment:
       name: Build for ${{ matrix.targetPlatform }}
-      url: ${{ steps.deployment.outputs.page_url }}
 
     runs-on: ubuntu-latest
     strategy:
@@ -36,10 +35,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
-      - if: matrix.targetPlatform == 'WebGL'
-        name: Setup Pages
-        uses: actions/configure-pages@v3      
 
       - name: Get number of commits in current branch
         id: get_commits
@@ -81,9 +76,9 @@ jobs:
         name: Prepare v${{ steps.get_commits.outputs.COMMITS }} and latest folders
         run: |
           ls -l ./build
-          cp -r build/WebGL ./v${{ steps.get_commits.outputs.COMMITS }}
-          rm -Rf latest
-          cp -R v${{ steps.get_commits.outputs.COMMITS }} latest
+          cp -r ./build/WebGL/ ./v${{ steps.get_commits.outputs.COMMITS }}/
+          rm -Rf ./latest
+          cp -R ./v${{ steps.get_commits.outputs.COMMITS }} ./latest
 
       # Commit and push changes to gh-pages and write SHA to PAGE_SHA
       - if: matrix.targetPlatform == 'WebGL'
