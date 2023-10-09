@@ -69,9 +69,10 @@ jobs:
         uses: thedoctor0/zip-release@0.7.1
         with:
           type: 'zip'
-          filename: './release-${{ matrix.targetPlatform }}.zip'
-          directory: 'build/${{ matrix.targetPlatform }}'
-      
+          filename: 'release-${{ matrix.targetPlatform }}.zip'
+          directory: '.'
+          path: 'build/${{ matrix.targetPlatform }}'
+        
       - name: Upload Release
         shell: bash
         run: |
