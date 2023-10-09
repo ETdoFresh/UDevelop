@@ -65,21 +65,13 @@ jobs:
             name: Build-${{ matrix.targetPlatform }}
             path: build/${{ matrix.targetPlatform }}
         
-      - name: Archive Release
+      - name: Zip Build
         uses: thedoctor0/zip-release@0.7.1
         with:
           type: 'zip'
-          filename: './release-${{ matrix.targetPlatform }}.zip'
-          directory: 'build/${{ matrix.targetPlatform }}'
-      
-      - name: Upload Release
-        shell: bash
-        run: |
-          hub release create v${{ steps.get_commits.outputs.COMMITS }} \
-          -m "UDevelop v${{ steps.get_commits.outputs.COMMITS }}" \
-          -a ./release-${{ matrix.targetPlatform }}.zip \
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          filename: 'release-${{ matrix.targetPlatform }}.zip'
+          directory: '.'
+          path: 'build/${{ matrix.targetPlatform }}'
 
       - if: matrix.targetPlatform == 'WebGL'
         name: Move WebGL to v{commits} folder and remove other folders
