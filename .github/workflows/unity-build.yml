@@ -26,10 +26,10 @@ jobs:
       fail-fast: false
       matrix:
         targetPlatform:
-          - StandaloneOSX
-          - StandaloneWindows
-          - StandaloneWindows64
-          - StandaloneLinux64
+          # - StandaloneOSX
+          # - StandaloneWindows
+          # - StandaloneWindows64
+          # - StandaloneLinux64
           # - iOS
           # - Android
           - WebGL
@@ -74,24 +74,18 @@ jobs:
           path: 'build/${{ matrix.targetPlatform }}'
 
       - if: matrix.targetPlatform == 'WebGL'
-        name: Move WebGL to v{commits} folder and remove other folders
-        run: |
-          mv build/WebGL v${{ steps.get_commits.outputs.COMMITS }} | mkdir v${{ steps.get_commits.outputs.COMMITS }}
-          ls | grep -v v${{ steps.get_commits.outputs.COMMITS }} | xargs rm -rf
-
-      - if: matrix.targetPlatform == 'WebGL'
         name: Checkout gh-pages
         uses: actions/checkout@v2
         with:
           ref: gh-pages
           clean: false
 
-      # Remove "latest" folder and copy v{commits} folder to "latest"
       - if: matrix.targetPlatform == 'WebGL'
-        name: Create latest folder
+        name: Prepare v${{ steps.get_commits.outputs.COMMITS }} and latest folders
         run: |
-          rm -rf latest
-          cp -r v${{ steps.get_commits.outputs.COMMITS }} latest
+          mv build/WebGL v${{ steps.get_commits.outputs.COMMITS }}
+          rm -Rf latest
+          cp -R v${{ steps.get_commits.outputs.COMMITS }} latest
 
       # Commit and push changes to gh-pages and write SHA to PAGE_SHA
       - if: matrix.targetPlatform == 'WebGL'
@@ -100,7 +94,8 @@ jobs:
         run: |
           git config --global user.email "ETdoFresh@gmail.com"
           git config --global user.name "ETdoFresh"
-          git add .
+          git add ./v${{ steps.get_commits.outputs.COMMITS }}
+          git add ./latest
           git commit -m "Deploy v${{ steps.get_commits.outputs.COMMITS }} to GitHub Pages"
           echo "PAGE_SHA=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
           git push
