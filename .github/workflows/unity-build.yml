@@ -40,7 +40,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Setup Pages
+      - if: matrix.targetPlatform == 'WebGL'
+        name: Setup Pages
         uses: actions/configure-pages@v3      
 
       - name: Get number of commits in current branch
@@ -68,7 +69,7 @@ jobs:
         uses: thedoctor0/zip-release@0.7.1
         with:
           type: 'zip'
-          filename: 'release-${{ matrix.targetPlatform }}.zip'
+          filename: './release-${{ matrix.targetPlatform }}.zip'
           directory: 'build/${{ matrix.targetPlatform }}'
       
       - name: Upload Release
