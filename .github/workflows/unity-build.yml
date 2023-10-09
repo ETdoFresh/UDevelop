@@ -73,25 +73,6 @@ jobs:
           directory: '.'
           path: 'build/${{ matrix.targetPlatform }}'
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        with:
-          tag_name: v${{ steps.get_commits.outputs.COMMITS }}
-          release_name: Release v${{ steps.get_commits.outputs.COMMITS }}
-          draft: false
-          prerelease: false
-
-      - name: Upload Release
-        uses: actions/upload-release-asset@v1
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./release-${{ matrix.targetPlatform }}.zip
-          asset_name: release-${{ matrix.targetPlatform }}.zip
-          asset_content_type: application/zip
-
       - if: matrix.targetPlatform == 'WebGL'
         name: Move WebGL to v{commits} folder and remove other folders
         run: |
