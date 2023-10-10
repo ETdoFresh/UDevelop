@@ -21,6 +21,13 @@
       "dependencies": {},
       "hash": "945bfd8f523655c2aa74db56893d6e0c2372b359"
     },
+    "com.spoiledcat.git": {
+      "version": "1.0.18",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://registry.spoiledcat.com"
+    },
     "com.unity.2d.animation": {
       "version": "9.0.3",
       "depth": 1,
