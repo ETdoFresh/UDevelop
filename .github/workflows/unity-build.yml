@@ -77,7 +77,7 @@ jobs:
         run: |
           mkdir -p ./v${{ steps.get_commits.outputs.COMMITS }}
           ls -l ./build
-          cp -a ./build/WebGL/* ./v${{ steps.get_commits.outputs.COMMITS }}
+          cp -a ./build/WebGL/* ./v${{ steps.get_commits.outputs.COMMITS }}/*
           rm -Rf ./latest
           cp -R ./v${{ steps.get_commits.outputs.COMMITS }} ./latest
 
