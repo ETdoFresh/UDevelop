@@ -75,14 +75,13 @@ jobs:
       - if: matrix.targetPlatform == 'WebGL'
         name: Prepare v${{ steps.get_commits.outputs.COMMITS }} and latest folders
         run: |
-          cd ./build
           mkdir -p ./v${{ steps.get_commits.outputs.COMMITS }}
-          cp -a ./WebGL ./v${{ steps.get_commits.outputs.COMMITS }}
-          mv ./v${{ steps.get_commits.outputs.COMMITS }} ../v${{ steps.get_commits.outputs.COMMITS }}
-          cd ..
+          cp -a ./build/WebGL ./v${{ steps.get_commits.outputs.COMMITS }}
+          mv ./v${{ steps.get_commits.outputs.COMMITS }}/WebGL ./v${{ steps.get_commits.outputs.COMMITS }}
+          rm -Rf ./v${{ steps.get_commits.outputs.COMMITS }}/WebGL
           rm -Rf ./latest
           mkdir -p ./latest
-          cp -a ./v${{ steps.get_commits.outputs.COMMITS }}/. ./latest
+          cp -a ./v${{ steps.get_commits.outputs.COMMITS }} ./latest
 
       # Commit and push changes to gh-pages and write SHA to PAGE_SHA
       - if: matrix.targetPlatform == 'WebGL'
