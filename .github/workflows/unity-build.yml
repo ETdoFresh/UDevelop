@@ -114,7 +114,7 @@ jobs:
             { "name": "Event", "value": "${{github.event_name}}", "inline": true },
             { "name": "Commit", "value": "[${{steps.get_short_sha.outputs.SHORT_SHA}}](https://github.com/${{github.repository}}/commit/${{github.sha}})", "inline": true },
             { "name": "Version", "value": "[v${{steps.get_commits.outputs.COMMITS}}](https://github.com/${{github.repository}}/commit/${{steps.commit_and_push.outputs.PAGE_SHA}})", "inline": true },
-            { "name": "Commit Message", "value": "`${{github.event.head_commit.message}}`" }
+            { "name": "Commit Message", "value": "`${{github.event.head_commit.message}}`" },
             { "name": "Web Internal Testing Link", "value": "https://github.etdofresh.com/${{github.event.repository.name}}/v${{steps.get_commits.outputs.COMMITS}}/" }
             ],
             "color":6710886,
