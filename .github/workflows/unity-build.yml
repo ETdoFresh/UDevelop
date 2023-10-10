@@ -79,7 +79,8 @@ jobs:
           ls -l ./build
           cp -a ./build/WebGL/* ./v${{ steps.get_commits.outputs.COMMITS }}/*
           rm -Rf ./latest
-          cp -R ./v${{ steps.get_commits.outputs.COMMITS }} ./latest
+          mkdir -p ./latest
+          cp -a ./v${{ steps.get_commits.outputs.COMMITS }}/* ./latest/*
 
       # Commit and push changes to gh-pages and write SHA to PAGE_SHA
       - if: matrix.targetPlatform == 'WebGL'
@@ -99,7 +100,8 @@ jobs:
         name: Display folders
         run: |
           ls -l
-          ls -l latest
+          echo --------
+          ls -l ./latest
       
       - if: matrix.targetPlatform == 'WebGL'
         name: Discord notification
