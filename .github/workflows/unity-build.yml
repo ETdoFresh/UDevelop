@@ -77,7 +77,6 @@ jobs:
         run: |
           cp -a ./build/WebGL/WebGL ./v${{ steps.get_commits.outputs.COMMITS }}
           rm -Rf ./latest
-          mkdir -p ./latest
           cp -a ./v${{ steps.get_commits.outputs.COMMITS }} ./latest
 
       # Commit and push changes to gh-pages and write SHA to PAGE_SHA
