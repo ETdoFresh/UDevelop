@@ -75,13 +75,7 @@ jobs:
       - if: matrix.targetPlatform == 'WebGL'
         name: Prepare v${{ steps.get_commits.outputs.COMMITS }} and latest folders
         run: |
-          mkdir -p ./v${{ steps.get_commits.outputs.COMMITS }}
-          cp -a ./build/WebGL ./v${{ steps.get_commits.outputs.COMMITS }}
-          cd v${{ steps.get_commits.outputs.COMMITS }}/WebGL
-          mv * ..
-          cd ..
-          cd ..
-          rm -Rf ./v${{ steps.get_commits.outputs.COMMITS }}/WebGL
+          cp -a ./build/WebGL/WebGL ./v${{ steps.get_commits.outputs.COMMITS }}
           rm -Rf ./latest
           mkdir -p ./latest
           cp -a ./v${{ steps.get_commits.outputs.COMMITS }} ./latest
