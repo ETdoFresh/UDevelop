@@ -40,7 +40,7 @@ namespace CommandSystem.Editor
 
         public static string AutoCompleteCommand(string command)
         {
-            return command;
+            return command + " {autocompleted}";
         }
     }
 }

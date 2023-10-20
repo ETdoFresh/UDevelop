@@ -13,7 +13,8 @@ namespace CommandSystem.Editor
         private bool _isCommandLineInputFocused = true;
         private string _tempCurrentCommand = "";
 
-        [MenuItem("Window/Unity Command Line Terminal")]
+        // Ctrl + space to open the window.
+        [MenuItem("Window/Unity Command Line Terminal %SPACE")]
         public static void ShowWindow()
         {
             GetWindow<EditorCommandLineTerminalWindow>("Command Line Terminal");
@@ -126,7 +127,8 @@ namespace CommandSystem.Editor
                     }
                     else if (Event.current.keyCode == KeyCode.Space)
                     {
-                        _commandLineInput += " ";
+                        if (!Event.current.control)
+                            _commandLineInput += " ";
                     }
                     else if (Event.current.keyCode == KeyCode.Backspace)
                     {
