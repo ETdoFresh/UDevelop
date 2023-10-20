@@ -13,7 +13,7 @@ namespace CommandSystem.Commands
         
         public MoveCommand(string command) : base(command) { }
         
-        public override void Run(params string[] args)
+        public override void OnRun(params string[] args)
         {
             GetObjectNameAndIndex(args[1], out objectName, out index);
             var instance = ObjectDBBehaviour.Get(objectName, index);
@@ -25,13 +25,13 @@ namespace CommandSystem.Commands
             instance.transform.position = inputPosition;
         }
 
-        public override void Undo()
+        public override void OnUndo()
         {
             var instance = ObjectDBBehaviour.Get(objectName, index);
             instance.transform.position = initialPosition;
         }
         
-        public override void Redo()
+        public override void OnRedo()
         {
             var instance = ObjectDBBehaviour.Get(objectName, index);
             instance.transform.position = inputPosition;

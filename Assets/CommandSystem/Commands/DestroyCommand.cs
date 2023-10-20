@@ -12,7 +12,7 @@ namespace CommandSystem.Commands
         
         public DestroyCommand(string commandInput) : base(commandInput) { }
         
-        public override void Run(params string[] args)
+        public override void OnRun(params string[] args)
         {
             GetObjectNameAndIndex(args[1], out objectName, out index);
             instance = ObjectDBBehaviour.Get(objectName, index);
@@ -20,13 +20,13 @@ namespace CommandSystem.Commands
             ObjectDBBehaviour.Remove(objectName, index);
         }
         
-        public override void Undo()
+        public override void OnUndo()
         {
             instance.SetActive(true);
             index = ObjectDBBehaviour.Add(objectName, instance);
         }
         
-        public override void Redo()
+        public override void OnRedo()
         {
             instance.SetActive(false);
             ObjectDBBehaviour.Remove(objectName, index);

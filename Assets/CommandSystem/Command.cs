@@ -8,34 +8,50 @@ namespace CommandSystem
     public class Command
     {
         private static readonly List<string> hasRun = new();
-        
+
         [SerializeField] private string commandInput;
         [SerializeField] protected List<string> args = new();
-        
+
         public string CommandInput => commandInput;
+
+        public virtual string[] CommandName => new[]
+        {
+            GetType().Name.EndsWith("Command")
+                ? GetType().Name.Substring(0, GetType().Name.Length - 7).ToLower()
+                : GetType().Name.ToLower()
+        };
+
+        public virtual string CommandOutput => $"{commandInput} Complete!";
+
+        internal Command() { }
 
         public Command(string commandInput)
         {
             this.commandInput = commandInput;
+        }
+
+        public void Run()
+        {
             var args = commandInput.Split(' ', ',');
             var commandTypeName = GetType().Name;
             this.args.AddRange(args);
             if (!hasRun.Contains(commandTypeName))
             {
-                FirstRun();
+                OnFirstRun();
                 hasRun.Add(commandTypeName);
             }
-            Run(args);
+
+            OnRun(args);
         }
 
-        public virtual void FirstRun() { }
+        public virtual void OnFirstRun() { }
 
-        public virtual void Run(params string[] args) { }
+        public virtual void OnRun(params string[] args) { }
 
-        public virtual void Undo() { }
+        public virtual void OnUndo() { }
 
-        public virtual void Redo() { }
-        
+        public virtual void OnRedo() { }
+
         protected void GetObjectNameAndIndex(string str, out string objectName, out int index)
         {
             objectName = str;

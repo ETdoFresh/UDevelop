@@ -16,6 +16,7 @@ namespace CommandSystem.Editor
         private TextEditor _textEditor;
         private bool _hasAutomaticallyFocusedInitially = false;
         private Vector2 _scrollPosition = Vector2.zero;
+        private Texture2D _backgroundTexture;
 
         // Ctrl + alt + space to open the window.
         [MenuItem("Window/Unity Command Line Terminal 2 %&SPACE")]
@@ -31,6 +32,13 @@ namespace CommandSystem.Editor
                     ?.GetValue(null) as TextEditor;
 
             var windowRect = new Rect(0, 0, position.width, position.height);
+            
+            // Slightly darker background
+            var darkerBackgroundStyle = new GUIStyle(GUI.skin.box);
+            if (_backgroundTexture == null) _backgroundTexture = MakeTex(1, 1, new Color(0f, 0f, 0f, 0.5f));
+            darkerBackgroundStyle.normal.background = _backgroundTexture;
+            darkerBackgroundStyle.normal.textColor = Color.white;
+            GUI.Box(windowRect, GUIContent.none, darkerBackgroundStyle);
 
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
             EditorGUILayout.BeginVertical();
@@ -44,11 +52,28 @@ namespace CommandSystem.Editor
             EditorGUILayout.LabelField(commandOutput, GUILayout.Height(commandOutputHeight));
 
             // Draw the command line input. and name it "CommandLineInput" so we can focus it.
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(">", GUILayout.Width(10));
             GUI.SetNextControlName("CommandLineInput");
-            _commandLineInput = EditorGUILayout.TextField(_commandLineInput);
+            
+            // _commandLineInput = EditorGUILayout.TextField(_commandLineInput);
+            // Allow the command line input to be multiline. Left Align the text.
+            var commandInputHeight = EditorStyles.textField.CalcHeight(new GUIContent(_commandLineInput), windowRect.width);
+            // left align the text area style
+            var textAreaStyle = new GUIStyle(EditorStyles.textField)
+            {
+                alignment = TextAnchor.MiddleLeft,
+                normal = {background = _backgroundTexture},
+                fixedHeight = commandInputHeight + 5,
+            };
+            _commandLineInput = EditorGUILayout.TextArea(_commandLineInput, textAreaStyle, GUILayout.Width(windowRect.width - 40));
+            EditorGUILayout.EndHorizontal();
 
             // Draw the command line input auto complete.
             var autoCompleteCommand = EditorCommandProcessor.AutoCompleteCommand(_commandLineInput);
+            autoCompleteCommand = string.IsNullOrEmpty(autoCompleteCommand)
+                ? ""
+                : autoCompleteCommand + " {Tab to autocomplete}";
             EditorGUILayout.LabelField(autoCompleteCommand);
 
             EditorGUILayout.EndVertical();
@@ -59,12 +84,37 @@ namespace CommandSystem.Editor
             if (isKeyUp && _isCommandLineWindowFocused)
             {
                 var keyCode = Event.current.keyCode;
+                var isShift = Event.current.shift;
                 if (keyCode == KeyCode.Return)
                 {
-                    EditorCommandProcessor.ExecuteCommand(_commandLineInput);
-                    _commandLineInput = "";
-                    _selectedCommandIndex = -1;
-                    EditorGUI.FocusTextInControl("CommandLineInput");
+                    // Ignore Return Key Down
+                    if (_commandLineInput.EndsWith("\n"))
+                        _commandLineInput = _commandLineInput.Remove(_commandLineInput.Length - 1);
+                    
+                    if (isShift && _textEditor != null)
+                    {
+                        _textEditor.Insert('\n');
+                        _commandLineInput = _textEditor.text;
+                        EditorGUI.FocusTextInControl("CommandLineInput");
+                        EditorApplication.delayCall += OnDelayCallSelectCommandLineInput;
+                    }
+                    else
+                    {
+                        if (_commandLineInput.ToLower() == "close" || _commandLineInput.ToLower() == "exit")
+                        {
+                            Close();
+                            return;
+                        }
+
+                        EditorCommandProcessor.ExecuteCommand(_commandLineInput);
+                        _commandLineInput = "";
+                        _selectedCommandIndex = -1;
+                        if (_textEditor != null)
+                        {
+                            _textEditor.text = _commandLineInput;
+                            _textEditor.MoveTextEnd();
+                        }
+                    }
                 }
                 else if (keyCode == KeyCode.UpArrow)
                 {
@@ -147,6 +197,19 @@ namespace CommandSystem.Editor
             _textEditor.text = _commandLineInput;
             _textEditor.MoveTextEnd();
             Repaint();
+        }
+        
+        private Texture2D MakeTex(int width, int height, Color col)
+        {
+            var pix = new Color[width * height];
+            for (int i = 0; i < pix.Length; i++)
+            {
+                pix[i] = col;
+            }
+            var result = new Texture2D(width, height);
+            result.SetPixels(pix);
+            result.Apply();
+            return result;
         }
     }
 }

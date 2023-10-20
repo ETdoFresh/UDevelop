@@ -17,7 +17,7 @@ namespace CommandSystem.Commands
         
         public CreatePrimitiveCommand(string command) : base(command) { }
         
-        public override void FirstRun()
+        public override void OnFirstRun()
         {
             foreach(var primitiveType in Enum.GetValues(typeof(PrimitiveType)))
             {
@@ -25,7 +25,7 @@ namespace CommandSystem.Commands
             }
         }
         
-        public override void Run(params string[] args)
+        public override void OnRun(params string[] args)
         {
             var primitiveType = PrimitiveType.Cube;
             objectName = "Cube";
@@ -58,14 +58,17 @@ namespace CommandSystem.Commands
             index = ObjectDBBehaviour.Add(objectName, instance);
         }
         
-        public override void Undo()
+        public override void OnUndo()
         {
             var instance = ObjectDBBehaviour.Get(objectName, index);
-            Object.Destroy(instance);
+            if (Application.isPlaying)
+                Object.Destroy(instance);
+            else
+                Object.DestroyImmediate(instance);
             ObjectDBBehaviour.Remove(objectName, index);
         }
         
-        public override void Redo()
+        public override void OnRedo()
         {
             var instance = GameObject.CreatePrimitive(primitiveTypeDictionary[objectName.ToLower()]);
             instance.transform.position = inputPosition;

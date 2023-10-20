@@ -11,13 +11,13 @@ public class ObjectDBBehaviour : MonoBehaviour
         public GameObject instance;
     }
     
-    private static ObjectDBBehaviour _instance;
-    
-    [SerializeField] private List<ObjectEntry> objectEntries = new();
+    private static List<ObjectEntry> ObjectEntries = new();
+
+    [SerializeField] private List<ObjectEntry> objectEntries;
 
     private void Awake()
     {
-        _instance = this;
+        objectEntries = ObjectEntries;
     }
     
     public static GameObject Get(string name, int index = 0)
@@ -28,20 +28,20 @@ public class ObjectDBBehaviour : MonoBehaviour
 
     public static List<GameObject> GetAll(string name)
     {
-        var entries = _instance.objectEntries.FindAll(e => string.Equals(e.name, name, StringComparison.CurrentCultureIgnoreCase));
+        var entries = ObjectEntries.FindAll(e => string.Equals(e.name, name, StringComparison.CurrentCultureIgnoreCase));
         return entries?.ConvertAll(e => e.instance);
     }
 
     public static void Remove(string objectName, int index)
     {
-        var entries = _instance.objectEntries.FindAll(e => string.Equals(e.name, objectName, StringComparison.CurrentCultureIgnoreCase));
+        var entries = ObjectEntries.FindAll(e => string.Equals(e.name, objectName, StringComparison.CurrentCultureIgnoreCase));
         var entry = entries[index];
-        _instance.objectEntries.Remove(entry);
+        ObjectEntries.Remove(entry);
     }
 
     public static int Add(string name, GameObject instance)
     {
-        _instance.objectEntries.Add(new ObjectEntry { name = name, instance = instance });
-        return _instance.objectEntries.Count - 1;
+        ObjectEntries.Add(new ObjectEntry { name = name, instance = instance });
+        return ObjectEntries.Count - 1;
     }
 }

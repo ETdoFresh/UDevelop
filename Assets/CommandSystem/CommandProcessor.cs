@@ -53,14 +53,14 @@ namespace CommandSystem
                 {
                     if (commandHistoryIndex <= 0) continue;
                     commandHistoryIndex--;
-                    commandHistory[commandHistoryIndex].Undo();
+                    commandHistory[commandHistoryIndex].OnUndo();
                     continue;
                 }
 
                 if (string.Equals(commandName, "redo", StringComparison.CurrentCultureIgnoreCase))
                 {
                     if (commandHistoryIndex >= commandHistory.Count) continue;
-                    commandHistory[commandHistoryIndex].Redo();
+                    commandHistory[commandHistoryIndex].OnRedo();
                     commandHistoryIndex++;
                     continue;
                 }
