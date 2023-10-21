@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace CommandSystem.Editor
 {
@@ -49,6 +50,7 @@ namespace CommandSystem.Editor
                 {
                     CommandData.Outputs.Add($"Error: {ex.Message}");
                     CommandData.Display.Add($"Error: {ex.Message}");
+                    Debug.LogException(ex);
                 }
             }
             CommandData.Display.Add("");
