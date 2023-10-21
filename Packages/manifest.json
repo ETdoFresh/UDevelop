@@ -3,7 +3,6 @@
     "com.etdofresh.unitypackages.editortools": "https://github.com/ETdoFresh/UnityPackages.EditorTools.git",
     "com.etdofresh.unitypackages.eventbus": "https://github.com/ETdoFresh/UnityPackages.EventBus.git",
     "com.etdofresh.unitypackages.extensionmethods": "https://github.com/ETdoFresh/UnityPackages.ExtensionMethods.git",
-    "com.spoiledcat.git": "1.0.18",
     "com.unity.feature.2d": "2.0.0",
     "com.unity.ide.rider": "3.0.25",
     "com.unity.nuget.newtonsoft-json": "3.2.1",
@@ -44,14 +43,5 @@
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
-  },
-  "scopedRegistries": [
-    {
-      "name": "https://registry.spoiledcat.com",
-      "url": "https://registry.spoiledcat.com",
-      "scopes": [
-        "com.spoiledcat"
-      ]
-    }
-  ]
+  }
 }

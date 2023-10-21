@@ -14,14 +14,16 @@ namespace CommandSystem
 
         public string CommandInput => commandInput;
 
-        public virtual string[] CommandName => new[]
+        public virtual string CommandOutput => $"{commandInput} Complete!";
+        
+        public virtual bool AddToHistory => true;
+
+        public virtual string[] CommandNames => new[]
         {
             GetType().Name.EndsWith("Command")
                 ? GetType().Name.Substring(0, GetType().Name.Length - 7).ToLower()
                 : GetType().Name.ToLower()
         };
-
-        public virtual string CommandOutput => $"{commandInput} Complete!";
 
         internal Command() { }
 

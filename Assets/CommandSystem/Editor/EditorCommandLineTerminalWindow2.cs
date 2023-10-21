@@ -27,9 +27,9 @@ namespace CommandSystem.Editor
 
         private void OnGUI()
         {
-            _textEditor ??=
-                typeof(EditorGUI).GetField("activeEditor", BindingFlags.Static | BindingFlags.NonPublic)
-                    ?.GetValue(null) as TextEditor;
+            var activeEditor = typeof(EditorGUI).GetField("activeEditor", BindingFlags.Static | BindingFlags.NonPublic)
+                ?.GetValue(null);
+            _textEditor ??= activeEditor as TextEditor;
 
             var windowRect = new Rect(0, 0, position.width, position.height);
             
@@ -142,6 +142,12 @@ namespace CommandSystem.Editor
                 }
                 else if (keyCode == KeyCode.Tab)
                 {
+                    if (_textEditor != null && _textEditor.text.EndsWith('\t'))
+                    {
+                        _textEditor.text = _textEditor.text.Remove(_textEditor.text.Length - 1);
+                        _commandLineInput = _textEditor.text;
+                    }
+                    
                     _commandLineInput = EditorCommandProcessor.AutoCompleteCommand(_commandLineInput);
                     EditorGUI.FocusTextInControl("CommandLineInput");
                     EditorApplication.delayCall += OnDelayCallSelectCommandLineInput;
