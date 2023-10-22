@@ -24,6 +24,11 @@ namespace CommandSystem
                 ? GetType().Name.Substring(0, GetType().Name.Length - 7).ToLower()
                 : GetType().Name.ToLower()
         };
+        
+        public virtual string CommandUsage => CommandNames[0];
+        public virtual string CommandDescription => null;
+        public virtual Dictionary<string, string> CommandArg1Descriptions { get; } = new();
+        public virtual Dictionary<string, string> CommandArg2Descriptions { get; } = new();
 
         internal Command() { }
 

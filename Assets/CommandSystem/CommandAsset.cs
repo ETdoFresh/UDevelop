@@ -21,69 +21,57 @@ namespace CommandSystem
             return null;
         }
 
-        public static T CreateAsset<T>(string path = "") where T : Object
+        public static string GetUniquePath(string path, bool generateUniqueName)
         {
+            if (!System.IO.File.Exists(path)) return path;
 #if UNITY_EDITOR
-            if (typeof(T) == typeof(GameObject))
-            {
-                var prefab = new GameObject(path);
-                var prefabPath = $"{ASSET_PATH}/{path}";
-                UnityEditor.PrefabUtility.SaveAsPrefabAsset(prefab, prefabPath);
-                Object.DestroyImmediate(prefab);
-                return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(prefabPath);
-            }
-
-            if (typeof(T) == typeof(ScriptableObject))
-            {
-                var asset = ScriptableObject.CreateInstance(typeof(T));
-                var assetPath = $"{ASSET_PATH}/{path}";
-                UnityEditor.AssetDatabase.CreateAsset(asset, assetPath);
-                return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(assetPath);
-            }
-
-            if (typeof(T) == typeof(Material))
-            {
-                var asset = new Material(Shader.Find("Standard"));
-                var assetPath = $"{ASSET_PATH}/{path}";
-                UnityEditor.AssetDatabase.CreateAsset(asset, assetPath);
-                return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(assetPath);
-            }
-
-            if (typeof(T) == typeof(UnityEditor.SceneAsset))
-            {
-                var emptySceneAsset = FindAsset<UnityEditor.SceneAsset>("EmptyScene");
-                var asset = Object.Instantiate(emptySceneAsset);
-                var assetPath = $"{ASSET_PATH}/{path}";
-                UnityEditor.AssetDatabase.CreateAsset(asset, assetPath);
-                return UnityEditor.AssetDatabase.LoadAssetAtPath<T>(assetPath);
-            }
-#endif
+            if (generateUniqueName) return UnityEditor.AssetDatabase.GenerateUniqueAssetPath(path);
+            throw new Exception($"Asset already exists at path: {path}");
+#else
             throw new NotImplementedException();
+#endif
         }
 
-        public static string GetUniquePath(string path)
+        public static string HandleNullOrEmptyPath(string path, string defaultFilename)
         {
-#if UNITY_EDITOR
-            var assetPath = $"{ASSET_PATH}/{path}";
-            return UnityEditor.AssetDatabase.GenerateUniqueAssetPath(assetPath);
-#endif
-            throw new NotImplementedException();
+            return string.IsNullOrEmpty(path) ? defaultFilename : path;
         }
 
-        public static bool Exists(string path)
+        public static string HandleMissingExtension(string path, string defaultExtension)
         {
-#if UNITY_EDITOR
-            return UnityEditor.AssetDatabase.LoadAssetAtPath(path, typeof(Object)) != null;
-#endif
-            throw new NotImplementedException();
+            var hasExtension = path.ToLower().EndsWith(defaultExtension);
+            return hasExtension ? path : path + defaultExtension;
         }
 
-        private static string GetSceneNameFromPath(string path)
+        private static string HandleMissingAssetPath(string path)
         {
-            var split = path.Split('/');
-            var filename = split[^1];
-            split = filename.Split('.');
-            return split[0];
+            return path.StartsWith(ASSET_PATH) ? path : System.IO.Path.Combine(ASSET_PATH, path);
+        }
+
+        public static string HandleMissingDirectory(string path)
+        {
+            var noAssetsPath = path.StartsWith("Assets") ? path[6..] : path;
+            var combinedPath = System.IO.Path.Combine(Application.dataPath, noAssetsPath);
+            var directory = System.IO.Path.GetDirectoryName(combinedPath);
+            if (!string.IsNullOrEmpty(directory) && !System.IO.Directory.Exists(directory))
+                System.IO.Directory.CreateDirectory(directory);
+            return path;
+        }
+
+        public static string GetNameFromPath(string path)
+        {
+            return System.IO.Path.GetFileNameWithoutExtension(path);
+        }
+
+        public static string ResolvePath(string nameOrPath, string defaultFilename, string defaultExtension, bool generateUniqueName = true)
+        {
+            var path = nameOrPath;
+            path = HandleNullOrEmptyPath(path, $"{defaultFilename}{defaultExtension}");
+            path = HandleMissingExtension(path, defaultExtension);
+            path = HandleMissingAssetPath(path);
+            path = HandleMissingDirectory(path);
+            path = GetUniquePath(path, generateUniqueName);
+            return path;
         }
     }
 }

@@ -1,0 +1,39 @@
+﻿using System;
+using UnityEngine;
+
+namespace CommandSystem.Commands.Create
+{
+    [Serializable]
+    public class CreateCameraCommand : Command
+    {
+        private GameObject _gameObject;
+        private string _gameObjectName;
+
+        public CreateCameraCommand(string commandInput) : base(commandInput) { }
+
+        public override bool AddToHistory => true;
+        public override string CommandOutput => $"Created Camera {_gameObjectName}";
+
+        public override string[] CommandNames => new[] { "create-camera", "createcamera", "c-c" };
+        public override string CommandUsage => $"{CommandNames[0]} [CAMERA_NAME/PATH]";
+        public override string CommandDescription => "Creates an empty .prefab object in project.";
+
+        public override void OnRun(params string[] args)
+        {
+            _gameObjectName = args.Length < 3 ? "Camera" : string.Join("_", args[2..]);
+            _gameObject = new GameObject(_gameObjectName, typeof(Camera));
+            UnityEditor.Selection.activeObject = _gameObject;
+        }
+        
+        public override void OnUndo()
+        {
+            UnityEngine.Object.DestroyImmediate(_gameObject);
+        }
+        
+        public override void OnRedo()
+        {
+            _gameObject = new GameObject(_gameObjectName, typeof(Camera));
+            UnityEditor.Selection.activeObject = _gameObject;
+        }
+    }
+}
