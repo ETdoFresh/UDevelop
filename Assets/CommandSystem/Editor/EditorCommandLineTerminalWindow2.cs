@@ -27,6 +27,9 @@ namespace CommandSystem.Editor
 
         private void OnGUI()
         {
+            if (IgnoreKeyDown('\n')) return;
+            if (IgnoreKeyDown('\t')) return;
+            
             var activeEditor = typeof(EditorGUI).GetField("activeEditor", BindingFlags.Static | BindingFlags.NonPublic)
                 ?.GetValue(null);
             _textEditor ??= activeEditor as TextEditor;
@@ -49,7 +52,7 @@ namespace CommandSystem.Editor
             var commandOutput = CommandLineHeader.GetHeader();
             commandOutput += EditorCommandProcessor.GetCommandOutput();
             var commandOutputHeight = EditorStyles.label.CalcHeight(new GUIContent(commandOutput), windowRect.width);
-            EditorGUILayout.LabelField(commandOutput, GUILayout.Height(commandOutputHeight));
+            EditorGUILayout.SelectableLabel(commandOutput, GUILayout.Height(commandOutputHeight));
 
             // Draw the command line input. and name it "CommandLineInput" so we can focus it.
             EditorGUILayout.BeginHorizontal();
@@ -204,7 +207,7 @@ namespace CommandSystem.Editor
             _textEditor.MoveTextEnd();
             Repaint();
         }
-        
+
         private Texture2D MakeTex(int width, int height, Color col)
         {
             var pix = new Color[width * height];
@@ -216,6 +219,15 @@ namespace CommandSystem.Editor
             result.SetPixels(pix);
             result.Apply();
             return result;
+        }
+
+        private bool IgnoreKeyDown(char c)
+        {
+            var isKeyDown = Event.current.type == EventType.KeyDown;
+            if (!isKeyDown) return false;
+            if (Event.current.character != c) return false;
+            Event.current.Use();
+            return true;
         }
     }
 }
