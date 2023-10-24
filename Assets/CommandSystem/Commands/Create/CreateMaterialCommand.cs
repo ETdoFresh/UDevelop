@@ -13,8 +13,8 @@ namespace CommandSystem.Commands.Create
         public override bool AddToHistory => true;
         public override string CommandOutput => $"Created Material {_materialName}";
 
-        public override string[] CommandNames => new[] { "create-material", "creatematerial", "c-m" };
-        public override string CommandUsage => $"{CommandNames[0]} [MATERIAL_NAME/PATH]";
+        public override string[] CommandAliases => new[] { "create-material", "creatematerial", "c-m" };
+        public override string CommandUsage => $"{CommandAliases[0]} [MATERIAL_NAME/PATH]";
         public override string CommandDescription => "Creates an empty .mat object in project.";
 
         public override void OnRun(params string[] args)

@@ -14,8 +14,8 @@ namespace CommandSystem.Commands.Create
         public override bool AddToHistory => true;
         public override string CommandOutput => $"Created Cube {_gameObjectName}";
 
-        public override string[] CommandNames => new[] { "create-cube", "createcube", "c-c" };
-        public override string CommandUsage => $"{CommandNames[0]} [CUBE_NAME/PATH]";
+        public override string[] CommandAliases => new[] { "create-cube", "createcube", "c-c" };
+        public override string CommandUsage => $"{CommandAliases[0]} [CUBE_NAME/PATH]";
         public override string CommandDescription => "Creates an empty .prefab object in project.";
 
         public override void OnRun(params string[] args)

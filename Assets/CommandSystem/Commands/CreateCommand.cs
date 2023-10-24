@@ -15,8 +15,8 @@ namespace CommandSystem.Commands
         public override bool AddToHistory => true;
         public override string CommandOutput => _commandOutput;
         
-        public override string[] CommandNames => new[] { "create", "c" };
-        public override string CommandUsage => $"{CommandNames[0]} [OBJECT_TYPE] [OBJECT_NAME]";
+        public override string[] CommandAliases => new[] { "create", "c" };
+        public override string CommandUsage => $"{CommandAliases[0]} [OBJECT_TYPE] [OBJECT_NAME]";
         public override string CommandDescription => "Creates a new object in project or scene.";
         public override Dictionary<string, string> CommandArg1Descriptions => new()
         {

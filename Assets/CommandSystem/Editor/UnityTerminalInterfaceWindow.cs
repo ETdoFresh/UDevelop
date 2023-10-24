@@ -7,7 +7,7 @@ namespace CommandSystem.Editor
     /// <summary>
     /// A window that displays a command line like terminal for the editor.
     /// </summary>
-    public class EditorCommandLineTerminalWindow2 : EditorWindow
+    public class UnityTerminalInterfaceWindow : EditorWindow
     {
         private int _selectedCommandIndex = -1;
         private string _commandLineInput = "";
@@ -18,24 +18,24 @@ namespace CommandSystem.Editor
         private Vector2 _scrollPosition = Vector2.zero;
         private Texture2D _backgroundTexture;
 
-        // Ctrl + alt + space to open the window.
-        [MenuItem("Window/Unity Command Line Terminal 2 %&SPACE")]
+        // Alt/Option + Space to open the window.
+        [MenuItem("Window/Unity Terminal Interface &SPACE")]
         public static void ShowWindow()
         {
-            GetWindow<EditorCommandLineTerminalWindow2>("Command Line Terminal");
+            GetWindow<UnityTerminalInterfaceWindow>("Unity Terminal Interface");
         }
 
         private void OnGUI()
         {
             if (IgnoreKeyDown('\n')) return;
             if (IgnoreKeyDown('\t')) return;
-            
+
             var activeEditor = typeof(EditorGUI).GetField("activeEditor", BindingFlags.Static | BindingFlags.NonPublic)
                 ?.GetValue(null);
             _textEditor ??= activeEditor as TextEditor;
 
             var windowRect = new Rect(0, 0, position.width, position.height);
-            
+
             // Slightly darker background
             var darkerBackgroundStyle = new GUIStyle(GUI.skin.box);
             if (_backgroundTexture == null) _backgroundTexture = MakeTex(1, 1, new Color(0f, 0f, 0f, 0.5f));
@@ -45,7 +45,7 @@ namespace CommandSystem.Editor
 
             _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
             EditorGUILayout.BeginVertical();
-            
+
             // ShowDebugInformation();
 
             // Draw the growing command history.
@@ -58,18 +58,20 @@ namespace CommandSystem.Editor
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField(">", GUILayout.Width(10));
             GUI.SetNextControlName("CommandLineInput");
-            
+
             // _commandLineInput = EditorGUILayout.TextField(_commandLineInput);
             // Allow the command line input to be multiline. Left Align the text.
-            var commandInputHeight = EditorStyles.textField.CalcHeight(new GUIContent(_commandLineInput), windowRect.width);
+            var commandInputHeight =
+                EditorStyles.textField.CalcHeight(new GUIContent(_commandLineInput), windowRect.width);
             // left align the text area style
             var textAreaStyle = new GUIStyle(EditorStyles.textField)
             {
                 alignment = TextAnchor.MiddleLeft,
-                normal = {background = _backgroundTexture},
+                normal = { background = _backgroundTexture },
                 fixedHeight = commandInputHeight + 5,
             };
-            _commandLineInput = EditorGUILayout.TextArea(_commandLineInput, textAreaStyle, GUILayout.Width(windowRect.width - 40));
+            _commandLineInput =
+                EditorGUILayout.TextArea(_commandLineInput, textAreaStyle, GUILayout.Width(windowRect.width - 40));
             EditorGUILayout.EndHorizontal();
 
             // Draw the command line input auto complete.
@@ -93,7 +95,7 @@ namespace CommandSystem.Editor
                     // Ignore Return Key Down
                     if (_commandLineInput.EndsWith("\n"))
                         _commandLineInput = _commandLineInput.Remove(_commandLineInput.Length - 1);
-                    
+
                     if (isShift && _textEditor != null)
                     {
                         _textEditor.Insert('\n');
@@ -150,7 +152,7 @@ namespace CommandSystem.Editor
                         _textEditor.text = _textEditor.text.Remove(_textEditor.text.Length - 1);
                         _commandLineInput = _textEditor.text;
                     }
-                    
+
                     _commandLineInput = EditorCommandProcessor.AutoCompleteCommand(_commandLineInput);
                     EditorGUI.FocusTextInControl("CommandLineInput");
                     EditorApplication.delayCall += OnDelayCallSelectCommandLineInput;
@@ -162,9 +164,8 @@ namespace CommandSystem.Editor
                     _tempCurrentCommand = "";
                     EditorGUI.FocusTextInControl("CommandLineInput");
                     EditorApplication.delayCall += OnDelayCallSelectCommandLineInput;
-                    
                 }
-                
+
                 Repaint();
                 _scrollPosition.y = Mathf.Infinity;
             }
@@ -215,6 +216,7 @@ namespace CommandSystem.Editor
             {
                 pix[i] = col;
             }
+
             var result = new Texture2D(width, height);
             result.SetPixels(pix);
             result.Apply();

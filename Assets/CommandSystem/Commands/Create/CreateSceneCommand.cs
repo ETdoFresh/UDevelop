@@ -13,8 +13,8 @@ namespace CommandSystem.Commands.Create
         public override bool AddToHistory => true;
         public override string CommandOutput => $"Created Scene {_sceneName}";
 
-        public override string[] CommandNames => new[] { "create-scene", "createscene", "c-s" };
-        public override string CommandUsage => $"{CommandNames[0]} [SCENE_NAME/PATH]";
+        public override string[] CommandAliases => new[] { "create-scene", "createscene", "c-s" };
+        public override string CommandUsage => $"{CommandAliases[0]} [SCENE_NAME/PATH]";
         public override string CommandDescription => "Creates an empty .unity object in project.";
 
         public override void OnRun(params string[] args)

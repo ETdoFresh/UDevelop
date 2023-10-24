@@ -21,10 +21,10 @@ namespace CommandSystem.Commands
             $"Selected {_selectedObjectNames.Length} object(s): {string.Join(", ", _selectedObjectNames)}" :
             _scope == "none" ? "Deselected all objects" : $"No objects found using \"{CommandInput}\"!";
 
-        public override string[] CommandNames => new[] { "select", "s" };
+        public override string[] CommandAliases => new[] { "select", "s" };
 
         public override string CommandUsage =>
-            $"{CommandNames[0]} [SCOPE] [TYPE] PATH\n{CommandNames[0]} ALL-SCOPE [TYPE] [PATH]";
+            $"{CommandAliases[0]} [SCOPE] [TYPE] PATH\n{CommandAliases[0]} ALL-SCOPE [TYPE] [PATH]";
 
         public override string CommandDescription => "Selects an object in scene or project.";
 

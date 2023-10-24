@@ -14,21 +14,30 @@ namespace CommandSystem
 
         public string CommandInput => commandInput;
 
-        public virtual string CommandOutput => $"{commandInput} Complete!";
-        
-        public virtual bool AddToHistory => true;
+        public virtual string CommandOutput =>
+            CommandJsonData.Get<string>($"{TypeName}.Output") ?? $"{CommandInput} completed!";
 
-        public virtual string[] CommandNames => new[]
-        {
-            GetType().Name.EndsWith("Command")
-                ? GetType().Name.Substring(0, GetType().Name.Length - 7).ToLower()
-                : GetType().Name.ToLower()
-        };
+        public virtual bool AddToHistory =>
+            CommandJsonData.Get<bool?>($"{TypeName}.AddToHistory") ?? true;
+
+        public virtual string Name => TypeName.EndsWith("Command")
+            ? TypeName.Substring(0, TypeName.Length - 7)
+            : TypeName;
+
+        public virtual string[] CommandAliases =>
+            CommandJsonData.Get<string[]>($"{TypeName}.Aliases") ?? new[] { Name.ToLower() };
+
+        public virtual string CommandUsage =>
+            CommandJsonData.Get<string>($"{TypeName}.Usage") != null
+                ? Name + " " + CommandJsonData.Get<string>($"{TypeName}.Usage")
+                : Name;
+
+        public virtual string CommandDescription => CommandJsonData.Get<string>($"{TypeName}.Description");
         
-        public virtual string CommandUsage => CommandNames[0];
-        public virtual string CommandDescription => null;
-        public virtual Dictionary<string, string> CommandArg1Descriptions { get; } = new();
-        public virtual Dictionary<string, string> CommandArg2Descriptions { get; } = new();
+        public virtual Dictionary<string, string> CommandArg1Descriptions => CommandJsonData.GetKeyAndValue<string>($"{TypeName}.Arg1.PossibleValues", "Description");
+        public virtual Dictionary<string, string> CommandArg2Descriptions => CommandJsonData.GetKeyAndValue<string>($"{TypeName}.Arg2.PossibleValues", "Description");
+        
+        protected string TypeName => GetType().Name;
 
         internal Command() { }
 

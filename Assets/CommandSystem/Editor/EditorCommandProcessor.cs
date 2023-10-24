@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using CommandSystem.Commands;
 using UnityEngine;
 
 namespace CommandSystem.Editor
@@ -19,17 +21,15 @@ namespace CommandSystem.Editor
                     var trimmedCommand = command.Trim();
                     var commandName = trimmedCommand.Split(' ')[0];
 
-                    var commandEntry = CommandData.PossibleCommands.Find(entry =>
-                        string.Equals(entry.commandName, commandName, StringComparison.CurrentCultureIgnoreCase));
+                    var commandType = GetCommandTypeByAlias(commandName.ToLower());
                     
-                    if (commandEntry == null)
+                    if (commandType == null)
                     {
                         CommandData.Outputs.Add($"Command {commandName} not found!");
                         CommandData.Display.Add($"Command {commandName} not found!");
                         continue;
                     }
-
-                    var commandType = commandEntry.commandType;
+                    
                     var commandInstance = (Command)Activator.CreateInstance(commandType, trimmedCommand);
                     commandInstance.Run();
                     
@@ -85,13 +85,27 @@ namespace CommandSystem.Editor
         {
             if (string.IsNullOrEmpty(command)) return "";
             var args = command.Split(' ');
-            if (args.Length == 1)
-            {
-                var possibleCommandName = CommandData.PossibleCommands.Find(x => x.commandName.StartsWith(args[0].ToLower()));
-                return possibleCommandName == null ? command : possibleCommandName.commandName + " ";
-            }
+            // if (args.Length == 1)
+            // {
+            //     var possibleCommandName = CommandData.PossibleCommands.Find(x => x.commandName.StartsWith(args[0].ToLower()));
+            //     return possibleCommandName == null ? command : possibleCommandName.commandName + " ";
+            // }
 
             return command;
+        }
+
+        public static Type GetCommandTypeByAlias(string alias)
+        {
+            var aliasDictionary = CommandJsonData.GetKeyAndValue<string[]>("", "Aliases");
+            if (aliasDictionary == null) return null;
+            foreach (var entry in aliasDictionary)
+            {
+                if (entry.Value == null) continue;
+                if (entry.Value.Contains(alias))
+                    return CommandTypes.GetByName(entry.Key);
+            }
+
+            return null;
         }
     }
 }

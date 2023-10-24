@@ -13,8 +13,8 @@ namespace CommandSystem.Commands.Create
         public override bool AddToHistory => true;
         public override string CommandOutput => $"Created Prefab {_prefabName}";
 
-        public override string[] CommandNames => new[] { "create-prefab", "createprefab", "c-p" };
-        public override string CommandUsage => $"{CommandNames[0]} [PREFAB_NAME/PATH]";
+        public override string[] CommandAliases => new[] { "create-prefab", "createprefab", "c-p" };
+        public override string CommandUsage => $"{CommandAliases[0]} [PREFAB_NAME/PATH]";
         public override string CommandDescription => "Creates an empty .prefab object in project.";
 
         public override void OnRun(params string[] args)

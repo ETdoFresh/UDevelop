@@ -1,15 +1,9 @@
 {
   "CreateCommand": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "<type>",
-      "PossibleValues": {
-        "Create": {
-          "Aliases": ["create", "c"],
-          "Description": "Creates a new object in scene or project"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["create", "c"],
+    "Description": "Creates a new object in scene or project",
+    "Usage": "<type>",
     "Arg1": {
       "Required": true,
       "PossibleValues": {
@@ -185,19 +179,14 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.CreateCommand"
   },
   "CreatePrefab": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createprefab"],
-          "Description": "Creates an empty prefab in project"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createprefab"],
+    "Description": "Creates an empty prefab in project",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -207,19 +196,14 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreatePrefabCommand"
   },
   "CreateScene": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createscene"],
-          "Description": "Creates an empty scene in project"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createscene"],
+    "Description": "Creates an empty scene in project",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -229,19 +213,14 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateSceneCommand"
   },
   "CreateScriptableObject": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "<type> [name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createscriptableobject"],
-          "Description": "Creates an empty scriptable object in project"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createscriptableobject"],
+    "Description": "Creates an empty scriptable object in project",
+    "Usage": "<type> [name]",
     "Arg1": {
       "Required": true,
       "PossibleValues": {
@@ -260,19 +239,14 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateScriptableObjectCommand"
   },
   "CreateMaterial": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["creatematerial"],
-          "Description": "Creates an empty material in project"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["creatematerial"],
+    "Description": "Creates an empty material in project",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -282,19 +256,14 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateMaterialCommand"
   },
   "CreateFolder": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createfolder"],
-          "Description": "Creates an empty folder in project"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createfolder"],
+    "Description": "Creates an empty folder in project",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -304,19 +273,14 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateFolderCommand"
   },
   "CreateInstance": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "<prefab> [name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createinstance"],
-          "Description": "Creates an instance of an object in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createinstance"],
+    "Description": "Creates an instance of an object in scene",
+    "Usage": "<prefab> [name]",
     "Arg1": {
       "Required": true,
       "PossibleValues": {
@@ -335,19 +299,14 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateInstanceCommand"
   },
   "CreateGameObject": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["creategameobject"],
-          "Description": "Creates an empty GameObject in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["creategameobject"],
+    "Description": "Creates an empty GameObject in scene",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -357,7 +316,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateGameObjectCommand"
   },
   "CreateCube": {
     "Arg0": {
@@ -379,7 +339,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateCubeCommand"
   },
   "CreateSphere": {
     "Arg0": {
@@ -401,7 +362,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateSphereCommand"
   },
   "CreateCapsule": {
     "Arg0": {
@@ -423,7 +385,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateCapsuleCommand"
   },
   "CreateCylinder": {
     "Arg0": {
@@ -445,7 +408,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateCylinderCommand"
   },
   "CreatePlane": {
     "Arg0": {
@@ -467,7 +431,8 @@
           "Description": "Name of GameObject to create"
         }
       },
-      "Output": "{_commandOutput}"
+      "Output": "{_commandOutput}",
+      "TypeFullName": "CommandSystem.Commands.Create.CreatePlaneCommand"
     },
     "CreateLight": {
       "Arg0": {
@@ -489,7 +454,8 @@
           }
         }
       },
-      "Output": "{_commandOutput}"
+      "Output": "{_commandOutput}",
+      "TypeFullName": "CommandSystem.Commands.Create.CreateLightCommand"
     },
     "CreateCamera": {
       "Arg0": {
@@ -511,7 +477,8 @@
           }
         }
       },
-      "Output": "{_commandOutput}"
+      "Output": "{_commandOutput}",
+      "TypeFullName": "CommandSystem.Commands.Create.CreateCameraCommand"
     },
     "CreateAudio": {
       "Arg0": {
@@ -533,7 +500,8 @@
           }
         }
       },
-      "Output": "{_commandOutput}"
+      "Output": "{_commandOutput}",
+      "TypeFullName": "CommandSystem.Commands.Create.CreateAudioCommand"
     },
     "CreateParticle": {
       "Arg0": {
@@ -555,7 +523,8 @@
           }
         }
       },
-      "Output": "{_commandOutput}"
+      "Output": "{_commandOutput}",
+      "TypeFullName": "CommandSystem.Commands.Create.CreateParticleCommand"
     },
     "CreateCanvas": {
       "Arg0": {
@@ -577,7 +546,8 @@
           }
         }
       },
-      "Output": "{_commandOutput}"
+      "Output": "{_commandOutput}",
+      "TypeFullName": "CommandSystem.Commands.Create.CreateCanvasCommand"
     },
     "CreateText": {
       "Arg0": {
@@ -599,7 +569,8 @@
           }
         }
       },
-      "Output": "{_commandOutput}"
+      "Output": "{_commandOutput}",
+      "TypeFullName": "CommandSystem.Commands.Create.CreateTextCommand"
     },
     "CreateImage": {
       "Arg0": {
@@ -621,7 +592,8 @@
           }
         }
       },
-      "Output": "{_commandOutput}"
+      "Output": "{_commandOutput}",
+      "TypeFullName": "CommandSystem.Commands.Create.CreateImageCommand"
     },
     "CreateRawImage": {
       "Arg0": {
@@ -643,7 +615,8 @@
           }
         }
       },
-      "Output": "{_commandOutput}"
+      "Output": "{_commandOutput}",
+      "TypeFullName": "CommandSystem.Commands.Create.CreateRawImageCommand"
     },
     "CreateButton": {
       "Arg0": {
@@ -665,7 +638,8 @@
           }
         }
       },
-      "Output": "{_commandOutput}"
+      "Output": "{_commandOutput}",
+      "TypeFullName": "CommandSystem.Commands.Create.CreateButtonCommand"
     },
     "CreateSlider": {
       "Arg0": {
@@ -688,7 +662,8 @@
           }
         }
       },
-      "Output": "{_commandOutput}"
+      "Output": "{_commandOutput}",
+      "TypeFullName": "CommandSystem.Commands.Create.CreateSliderCommand"
     },
     "CreateScrollbar": {
       "Arg0": {
@@ -711,7 +686,8 @@
           }
         }
       },
-      "Output": "{_commandOutput}"
+      "Output": "{_commandOutput}",
+      "TypeFullName": "CommandSystem.Commands.Create.CreateScrollbarCommand"
     },
     "CreateToggle": {
       "Arg0": {
@@ -734,7 +710,8 @@
           }
         }
       },
-      "Output": "{_commandOutput}"
+      "Output": "{_commandOutput}",
+      "TypeFullName": "CommandSystem.Commands.Create.CreateToggleCommand"
     }
   },
   "CreateInputField": {
@@ -758,7 +735,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateInputFieldCommand"
   },
   "CreateDropdown": {
     "Arg0": {
@@ -781,7 +759,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateDropdownCommand"
   },
   "CreateScrollView": {
     "Arg0": {
@@ -804,7 +783,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateScrollViewCommand"
   },
   "CreateEventSystem": {
     "Arg0": {
@@ -827,7 +807,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateEventSystemCommand"
   },
   "CreateTMP_Text": {
     "Arg0": {
@@ -850,7 +831,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateTMP_TextCommand"
   },
   "CreateTMP_Dropdown": {
     "Arg0": {
@@ -873,7 +855,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateTMP_DropdownCommand"
   },
   "CreateTMP_InputField": {
     "Arg0": {
@@ -896,7 +879,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateTMP_InputFieldCommand"
   },
   "CreateTMP_Button": {
     "Arg0": {
@@ -919,7 +903,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateTMP_ButtonCommand"
   },
   "CreateTMP_Toggle": {
     "Arg0": {
@@ -942,7 +927,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.Create.CreateTMP_ToggleCommand"
   },
   "DestroyCommand": {
     "Arg0": {
@@ -964,7 +950,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.DestroyCommand"
   },
   "DeleteCommand": {
     "Arg0": {
@@ -986,19 +973,14 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.DeleteCommand"
   },
   "HelpCommand": {
-    "Arg0": {
-      "AddToHistory": false,
-      "Usage": "[command]",
-      "PossibleValues": {
-        "Help": {
-          "Aliases": ["help", "h", "?"],
-          "Description": "Displays help for a command"
-        }
-      }
-    },
+    "AddToHistory": false,
+    "Aliases": ["help", "h", "?"],
+    "Description": "Displays help for a command",
+    "Usage": "[command]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -1008,7 +990,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.HelpCommand"
   },
   "MoveCommand": {
     "Arg0": {
@@ -1039,7 +1022,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.MoveCommand"
   },
   "RotateCommand": {
     "Arg0": {
@@ -1070,7 +1054,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.RotateCommand"
   },
   "ScaleCommand": {
     "Arg0": {
@@ -1101,7 +1086,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.ScaleCommand"
   },
   "PlayCommand": {
     "Arg0": {
@@ -1114,7 +1100,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.PlayCommand"
   },
   "PauseCommand": {
     "Arg0": {
@@ -1127,7 +1114,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.PauseCommand"
   },
   "StopCommand": {
     "Arg0": {
@@ -1140,7 +1128,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.StopCommand"
   },
   "UndoCommand": {
     "Arg0": {
@@ -1153,7 +1142,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.UndoCommand"
   },
   "RedoCommand": {
     "Arg0": {
@@ -1166,7 +1156,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.RedoCommand"
   },
   "SelectCommand": {
     "Arg0": {
@@ -1241,7 +1232,8 @@
         }
       }
     },
-    "Output": "{_commandOutput}"
+    "Output": "{_commandOutput}",
+    "TypeFullName": "CommandSystem.Commands.SelectCommand"
   },
   "SelectParentCommand": {},
   "SelectChildCommand": {},
