@@ -735,257 +735,533 @@
         }
       },
       "Output": "{_commandOutput}"
-    },
-    "CreateInputField": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createinputfield"],
-            "Description": "Creates an input field GameObject in scene"
-          }
-        }
-      },
-      "Arg1": {
-        "Required": false,
-        "PossibleValues": {
-          "Name": {
-            "Type": "string",
-            "Default": "InputField",
-            "Description": "Name of GameObject to create"
-          }
-        }
-      },
-      "Output": "{_commandOutput}"
-    },
-    "CreateDropdown": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createdropdown"],
-            "Description": "Creates a dropdown GameObject in scene"
-          }
-        }
-      },
-      "Arg1": {
-        "Required": false,
-        "PossibleValues": {
-          "Name": {
-            "Type": "string",
-            "Default": "Dropdown",
-            "Description": "Name of GameObject to create"
-          }
-        }
-      },
-      "Output": "{_commandOutput}"
-    },
-    "CreateScrollView": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createscrollview"],
-            "Description": "Creates a scroll view GameObject in scene"
-          }
-        }
-      },
-      "Arg1": {
-        "Required": false,
-        "PossibleValues": {
-          "Name": {
-            "Type": "string",
-            "Default": "ScrollView",
-            "Description": "Name of GameObject to create"
-          }
-        }
-      },
-      "Output": "{_commandOutput}"
-    },
-    "CreateEventSystem": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createeventsystem"],
-            "Description": "Creates an event system GameObject in scene"
-          }
-        }
-      },
-      "Arg1": {
-        "Required": false,
-        "PossibleValues": {
-          "Name": {
-            "Type": "string",
-            "Default": "EventSystem",
-            "Description": "Name of GameObject to create"
-          }
-        }
-      },
-      "Output": "{_commandOutput}"
-    },
-    "CreateTMP_Text": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createtmp_text"],
-            "Description": "Creates a TMP text GameObject in scene"
-          }
-        }
-      },
-      "Arg1": {
-        "Required": false,
-        "PossibleValues": {
-          "Name": {
-            "Type": "string",
-            "Default": "Text (TMP)",
-            "Description": "Name of GameObject to create"
-          }
-        }
-      },
-      "Output": "{_commandOutput}"
-    },
-    "CreateTMP_Dropdown": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createtmp_dropdown"],
-            "Description": "Creates a TMP dropdown GameObject in scene"
-          }
-        }
-      },
-      "Arg1": {
-        "Required": false,
-        "PossibleValues": {
-          "Name": {
-            "Type": "string",
-            "Default": "Dropdown (TMP)",
-            "Description": "Name of GameObject to create"
-          }
-        }
-      },
-      "Output": "{_commandOutput}"
-    },
-    "CreateTMP_InputField": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createtmp_inputfield"],
-            "Description": "Creates a TMP input field GameObject in scene"
-          }
-        }
-      },
-      "Arg1": {
-        "Required": false,
-        "PossibleValues": {
-          "Name": {
-            "Type": "string",
-            "Default": "InputField (TMP)",
-            "Description": "Name of GameObject to create"
-          }
-        }
-      },
-      "Output": "{_commandOutput}"
-    },
-    "CreateTMP_Button": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createtmp_button"],
-            "Description": "Creates a TMP button GameObject in scene"
-          }
-        }
-      },
-      "Arg1": {
-        "Required": false,
-        "PossibleValues": {
-          "Name": {
-            "Type": "string",
-            "Default": "Button (TMP)",
-            "Description": "Name of GameObject to create"
-          }
-        }
-      },
-      "Output": "{_commandOutput}"
-    },
-    "CreateTMP_Toggle": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createtmp_toggle"],
-            "Description": "Creates a TMP toggle GameObject in scene"
-          }
-        }
-      },
-      "Arg1": {
-        "Required": false,
-        "PossibleValues": {
-          "Name": {
-            "Type": "string",
-            "Default": "Toggle (TMP)",
-            "Description": "Name of GameObject to create"
-          }
-        }
-      },
-      "Output": "{_commandOutput}"
-    },
-    "DestroyCommand": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "<name>[index]",
-        "PossibleValues": {
-          "Destroy": {
-            "Aliases": ["destroy", "d"],
-            "Description": "Destroys an object in scene"
-          }
-        }
-      },
-      "Arg1": {
-        "Required": true,
-        "PossibleValues": {
-          "Name": {
-            "Type": "string",
-            "Description": "Name or path of object to destroy. If an index is specified, it will destroy the object at that index in the hierarchy. If no index is specified, it will destroy the first object with that name in the hierarchy. If an index of * is specified, it will destroy all objects with that name in the hierarchy."
-          }
-        }
-      },
-      "Output": "{_commandOutput}"
-    },
-    "DeleteCommand": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "<name>",
-        "PossibleValues": {
-          "Delete": {
-            "Aliases": ["delete", "del", "rm"],
-            "Description": "Deletes an object in project"
-          }
-        }
-      },
-      "Arg1": {
-        "Required": true,
-        "PossibleValues": {
-          "Name": {
-            "Type": "string",
-            "Description": "Name or path of object to delete"
-          }
-        }
-      },
-      "Output": "{_commandOutput}"
     }
-  }
+  },
+  "CreateInputField": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createinputfield"],
+          "Description": "Creates an input field GameObject in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Default": "InputField",
+          "Description": "Name of GameObject to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateDropdown": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createdropdown"],
+          "Description": "Creates a dropdown GameObject in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Default": "Dropdown",
+          "Description": "Name of GameObject to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateScrollView": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createscrollview"],
+          "Description": "Creates a scroll view GameObject in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Default": "ScrollView",
+          "Description": "Name of GameObject to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateEventSystem": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createeventsystem"],
+          "Description": "Creates an event system GameObject in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Default": "EventSystem",
+          "Description": "Name of GameObject to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateTMP_Text": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createtmp_text"],
+          "Description": "Creates a TMP text GameObject in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Default": "Text (TMP)",
+          "Description": "Name of GameObject to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateTMP_Dropdown": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createtmp_dropdown"],
+          "Description": "Creates a TMP dropdown GameObject in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Default": "Dropdown (TMP)",
+          "Description": "Name of GameObject to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateTMP_InputField": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createtmp_inputfield"],
+          "Description": "Creates a TMP input field GameObject in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Default": "InputField (TMP)",
+          "Description": "Name of GameObject to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateTMP_Button": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createtmp_button"],
+          "Description": "Creates a TMP button GameObject in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Default": "Button (TMP)",
+          "Description": "Name of GameObject to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateTMP_Toggle": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createtmp_toggle"],
+          "Description": "Creates a TMP toggle GameObject in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Default": "Toggle (TMP)",
+          "Description": "Name of GameObject to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "DestroyCommand": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "<name>[index]",
+      "PossibleValues": {
+        "Destroy": {
+          "Aliases": ["destroy", "d"],
+          "Description": "Destroys an object in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": true,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name or path of object to destroy. If an index is specified, it will destroy the object at that index in the hierarchy. If no index is specified, it will destroy the first object with that name in the hierarchy. If an index of * is specified, it will destroy all objects with that name in the hierarchy."
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "DeleteCommand": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "<name>",
+      "PossibleValues": {
+        "Delete": {
+          "Aliases": ["delete", "del", "rm"],
+          "Description": "Deletes an object in project"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": true,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name or path of object to delete"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "HelpCommand": {
+    "Arg0": {
+      "AddToHistory": false,
+      "Usage": "[command]",
+      "PossibleValues": {
+        "Help": {
+          "Aliases": ["help", "h", "?"],
+          "Description": "Displays help for a command"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Command": {
+          "Type": "string",
+          "Description": "Name of command to display help for"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "MoveCommand": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "<position> [name]",
+      "PossibleValues": {
+        "Move": {
+          "Aliases": ["move", "m"],
+          "Description": "Moves an object in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": true,
+      "PossibleValues": {
+        "Position": {
+          "Type": "Vector3",
+          "Description": "Position to move object to. If Vector2 specified, the Z value will be unchanged."
+        }
+      }
+    },
+    "Arg2": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name or path of object to move. If no name is specified, it will move the selected object(s)."
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "RotateCommand": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "<rotation> [name]",
+      "PossibleValues": {
+        "Rotate": {
+          "Aliases": ["rotate", "r"],
+          "Description": "Rotates an object in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": true,
+      "PossibleValues": {
+        "Rotation": {
+          "Type": "Quaternion",
+          "Description": "Rotation to rotate object to. If Vector3 specified, euler angles will be used. If Vector1 specified, the rotation will be around the Z axis."
+        }
+      }
+    },
+    "Arg2": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name or path of object to rotate. If no name is specified, it will rotate the selected object(s)."
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "ScaleCommand": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "<scale> [name]",
+      "PossibleValues": {
+        "Scale": {
+          "Aliases": ["scale", "s"],
+          "Description": "Scales an object in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": true,
+      "PossibleValues": {
+        "Scale": {
+          "Type": "Vector3",
+          "Description": "Scale to scale object to. If Vector2 specified, the Z value will be unchanged. If Vector1 specified, the scale will be uniform."
+        }
+      }
+    },
+    "Arg2": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name or path of object to scale. If no name is specified, it will scale the selected object(s)."
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "PlayCommand": {
+    "Arg0": {
+      "AddToHistory": false,
+      "Usage": "",
+      "PossibleValues": {
+        "Play": {
+          "Aliases": ["play"],
+          "Description": "Plays the scene"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "PauseCommand": {
+    "Arg0": {
+      "AddToHistory": false,
+      "Usage": "",
+      "PossibleValues": {
+        "Pause": {
+          "Aliases": ["pause"],
+          "Description": "Pauses the scene"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "StopCommand": {
+    "Arg0": {
+      "AddToHistory": false,
+      "Usage": "",
+      "PossibleValues": {
+        "Stop": {
+          "Aliases": ["stop"],
+          "Description": "Stops the scene"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "UndoCommand": {
+    "Arg0": {
+      "AddToHistory": false,
+      "Usage": "",
+      "PossibleValues": {
+        "Undo": {
+          "Aliases": ["undo"],
+          "Description": "Undoes the last action"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "RedoCommand": {
+    "Arg0": {
+      "AddToHistory": false,
+      "Usage": "",
+      "PossibleValues": {
+        "Redo": {
+          "Aliases": ["redo"],
+          "Description": "Redoes the last action"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "SelectCommand": {
+    "Arg0": {
+      "AddToHistory": false,
+      "Usage": "<type> [name][index]",
+      "PossibleValues": {
+        "Select": {
+          "Aliases": ["select"],
+          "Description": "Selects an object in scene or project by name"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": true,
+      "PossibleValues": {
+        "GameObject": {
+          "Aliases": ["gameobject", "go"],
+          "Description": "Selects a GameObject"
+        },
+        "Material": {
+          "Aliases": ["material", "m"],
+          "Description": "Selects a Material"
+        },
+        "Texture": {
+          "Aliases": ["texture", "t"],
+          "Description": "Selects a Texture"
+        },
+        "Shader": {
+          "Aliases": ["shader", "s"],
+          "Description": "Selects a Shader"
+        },
+        "AudioClip": {
+          "Aliases": ["audioclip", "ac"],
+          "Description": "Selects an AudioClip"
+        },
+        "AnimationClip": {
+          "Aliases": ["animationclip", "an"],
+          "Description": "Selects an AnimationClip"
+        },
+        "AnimatorController": {
+          "Aliases": ["animatorcontroller", "anc"],
+          "Description": "Selects an AnimatorController"
+        },
+        "Font": {
+          "Aliases": ["font", "f"],
+          "Description": "Selects a Font"
+        },
+        "Prefab": {
+          "Aliases": ["prefab", "p"],
+          "Description": "Selects a Prefab"
+        },
+        "ScriptableObject": {
+          "Aliases": ["scriptableobject", "so"],
+          "Description": "Selects a ScriptableObject"
+        },
+        "Scene": {
+          "Aliases": ["scene", "s"],
+          "Description": "Selects a Scene"
+        },
+        "None": {
+          "Aliases": ["none", "n"],
+          "Description": "Deselects all objects"
+        }
+      }
+    },
+    "Arg2": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name of object to select. If no name is specified, it will select the first object of the specified type. If an index is specified, it will select the object at that index in the hierarchy. If an index of * is specified, it will select all objects of the specified type."
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "SelectParentCommand": {},
+  "SelectChildCommand": {},
+  "SelectSiblingCommand": {},
+  "SelectByNameCommand": {},
+  "SelectByTagCommand": {},
+  "SelectByLayerCommand": {},
+  "SelectByComponentCommand": {},
+  "SelectByMaterialCommand": {},
+  "SelectByTextureCommand": {},
+  "SelectByShaderCommand": {},
+  "SelectByAudioClipCommand": {},
+  "SelectByAnimationClipCommand": {},
+  "SelectByAnimatorControllerCommand": {},
+  "SelectByReferenceCommand": {},
+  "SerializeSceneCommand": {},
+  "DeserializeSceneCommand": {},
+  "SerializeObjectCommand": {},
+  "DeserializeObjectCommand": {},
+  "SetValueCommand": {},
+  "AddComponentCommand": {},
+  "RemoveComponentCommand": {}
 }
