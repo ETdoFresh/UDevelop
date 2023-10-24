@@ -1,0 +1,991 @@
+{
+  "CreateCommand": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "<type>",
+      "PossibleValues": {
+        "Create": {
+          "Aliases": ["create", "c"],
+          "Description": "Creates a new object in scene or project"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": true,
+      "PossibleValues": {
+        "Prefab": {
+          "Aliases": ["prefab", "p"],
+          "Description": "Creates an empty prefab in project",
+          "SubCommand": "CreatePrefab"
+        },
+        "Scene": {
+          "Aliases": ["scene", "s"],
+          "Description": "Creates an empty scene in project",
+          "SubCommand": "CreateScene"
+        },
+        "ScriptableObject": {
+          "Aliases": ["scriptableobject", "so"],
+          "Description": "Creates an empty scriptable object in project",
+          "SubCommand": "CreateScriptableObject"
+        },
+        "Material": {
+          "Aliases": ["material", "m"],
+          "Description": "Creates an empty material in project",
+          "SubCommand": "CreateMaterial"
+        },
+        "Folder": {
+          "Aliases": ["folder", "f"],
+          "Description": "Creates an empty folder in project",
+          "SubCommand": "CreateFolder"
+        },
+        "Instance": {
+          "Aliases": ["instance", "i"],
+          "Description": "Creates an instance of an object in scene",
+          "SubCommand": "CreateInstance"
+        },
+        "GameObject": {
+          "Aliases": ["gameobject", "go", "empty", "e"],
+          "Description": "Creates an empty GameObject in scene",
+          "SubCommand": "CreateGameObject"
+        },
+        "Cube": {
+          "Aliases": ["cube"],
+          "Description": "Creates a cube GameObject in scene",
+          "SubCommand": "CreateCube"
+        },
+        "Sphere": {
+          "Aliases": ["sphere"],
+          "Description": "Creates a sphere GameObject in scene",
+          "SubCommand": "CreateSphere"
+        },
+        "Capsule": {
+          "Aliases": ["capsule"],
+          "Description": "Creates a capsule GameObject in scene",
+          "SubCommand": "CreateCapsule"
+        },
+        "Cylinder": {
+          "Aliases": ["cylinder"],
+          "Description": "Creates a cylinder GameObject in scene",
+          "SubCommand": "CreateCylinder"
+        },
+        "Plane": {
+          "Aliases": ["plane"],
+          "Description": "Creates a plane GameObject in scene",
+          "SubCommand": "CreatePlane"
+        },
+        "Quad": {
+          "Aliases": ["quad"],
+          "Description": "Creates a quad GameObject in scene",
+          "SubCommand": "CreateQuad"
+        },
+        "Light": {
+          "Aliases": ["light", "l"],
+          "Description": "Creates a light GameObject in scene",
+          "SubCommand": "CreateLight"
+        },
+        "Camera": {
+          "Aliases": ["camera", "cam"],
+          "Description": "Creates a camera GameObject in scene",
+          "SubCommand": "CreateCamera"
+        },
+        "Audio": {
+          "Aliases": ["audio", "a"],
+          "Description": "Creates an audio source GameObject in scene",
+          "SubCommand": "CreateAudio"
+        },
+        "Particle": {
+          "Aliases": ["particle", "p"],
+          "Description": "Creates a particle emitter GameObject in scene",
+          "SubCommand": "CreateParticle"
+        },
+        "Canvas": {
+          "Aliases": ["canvas", "cv"],
+          "Description": "Creates a canvas GameObject in scene",
+          "SubCommand": "CreateCanvas"
+        },
+        "Text": {
+          "Aliases": ["text", "t"],
+          "Description": "Creates a text GameObject in scene",
+          "SubCommand": "CreateText"
+        },
+        "Image": {
+          "Aliases": ["image", "im"],
+          "Description": "Creates an image GameObject in scene",
+          "SubCommand": "CreateImage"
+        },
+        "RawImage": {
+          "Aliases": ["rawimage", "ri"],
+          "Description": "Creates a raw image GameObject in scene",
+          "SubCommand": "CreateRawImage"
+        },
+        "Button": {
+          "Aliases": ["button", "b"],
+          "Description": "Creates a button GameObject in scene",
+          "SubCommand": "CreateButton"
+        },
+        "Slider": {
+          "Aliases": ["slider", "sl"],
+          "Description": "Creates a slider GameObject in scene",
+          "SubCommand": "CreateSlider"
+        },
+        "Scrollbar": {
+          "Aliases": ["scrollbar", "sb"],
+          "Description": "Creates a scrollbar GameObject in scene",
+          "SubCommand": "CreateScrollbar"
+        },
+        "Toggle": {
+          "Aliases": ["toggle", "to"],
+          "Description": "Creates a toggle GameObject in scene",
+          "SubCommand": "CreateToggle"
+        },
+        "InputField": {
+          "Aliases": ["inputfield", "if"],
+          "Description": "Creates an input field GameObject in scene",
+          "SubCommand": "CreateInputField"
+        },
+        "Dropdown": {
+          "Aliases": ["dropdown", "dd"],
+          "Description": "Creates a dropdown GameObject in scene",
+          "SubCommand": "CreateDropdown"
+        },
+        "ScrollView": {
+          "Aliases": ["scrollview", "sv"],
+          "Description": "Creates a scroll view GameObject in scene",
+          "SubCommand": "CreateScrollView"
+        },
+        "EventSystem": {
+          "Aliases": ["eventsystem", "es"],
+          "Description": "Creates an event system GameObject in scene",
+          "SubCommand": "CreateEventSystem"
+        },
+        "TMP_Text": {
+          "Aliases": ["tmp_text", "tmp_t"],
+          "Description": "Creates a TMP text GameObject in scene",
+          "SubCommand": "CreateTMP_Text"
+        },
+        "TMP_Dropdown": {
+          "Aliases": ["tmp_dropdown", "tmp_dd"],
+          "Description": "Creates a TMP dropdown GameObject in scene",
+          "SubCommand": "CreateTMP_Dropdown"
+        },
+        "TMP_InputField": {
+          "Aliases": ["tmp_inputfield", "tmp_if"],
+          "Description": "Creates a TMP input field GameObject in scene",
+          "SubCommand": "CreateTMP_InputField"
+        },
+        "TMP_Button": {
+          "Aliases": ["tmp_button", "tmp_b"],
+          "Description": "Creates a TMP button GameObject in scene",
+          "SubCommand": "CreateTMP_Button"
+        },
+        "TMP_Toggle": {
+          "Aliases": ["tmp_toggle", "tmp_to"],
+          "Description": "Creates a TMP toggle GameObject in scene",
+          "SubCommand": "CreateTMP_Toggle"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreatePrefab": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createprefab"],
+          "Description": "Creates an empty prefab in project"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name or path of prefab to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateScene": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createscene"],
+          "Description": "Creates an empty scene in project"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name or path of scene to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateScriptableObject": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "<type> [name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createscriptableobject"],
+          "Description": "Creates an empty scriptable object in project"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": true,
+      "PossibleValues": {
+        "Type": {
+          "Type": "string",
+          "Description": "Name or path of scriptable object to create"
+        }
+      }
+    },
+    "Arg2": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name or path of scriptable object to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateMaterial": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["creatematerial"],
+          "Description": "Creates an empty material in project"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name or path of material to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateFolder": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createfolder"],
+          "Description": "Creates an empty folder in project"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name or path of folder to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateInstance": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "<prefab> [name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createinstance"],
+          "Description": "Creates an instance of an object in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": true,
+      "PossibleValues": {
+        "Prefab": {
+          "Type": "string",
+          "Description": "Name or path of prefab to create instance of"
+        }
+      }
+    },
+    "Arg2": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name or path of instance to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateGameObject": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["creategameobject"],
+          "Description": "Creates an empty GameObject in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name of GameObject to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateCube": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createcube"],
+          "Description": "Creates a cube GameObject in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name of GameObject to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateSphere": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createsphere"],
+          "Description": "Creates a sphere GameObject in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name of GameObject to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateCapsule": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createcapsule"],
+          "Description": "Creates a capsule GameObject in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name of GameObject to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreateCylinder": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createcylinder"],
+          "Description": "Creates a cylinder GameObject in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Description": "Name of GameObject to create"
+        }
+      }
+    },
+    "Output": "{_commandOutput}"
+  },
+  "CreatePlane": {
+    "Arg0": {
+      "AddToHistory": true,
+      "Usage": "[name]",
+      "PossibleValues": {
+        "Name": {
+          "Aliases": ["createplane"],
+          "Description": "Creates a plane GameObject in scene"
+        }
+      }
+    },
+    "Arg1": {
+      "Required": false,
+      "PossibleValues": {
+        "Name": {
+          "Type": "string",
+          "Default": "Plane",
+          "Description": "Name of GameObject to create"
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateLight": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createlight"],
+            "Description": "Creates a light GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateCamera": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createcamera"],
+            "Description": "Creates a camera GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateAudio": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createaudio"],
+            "Description": "Creates an audio source GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateParticle": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createparticle"],
+            "Description": "Creates a particle emitter GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateCanvas": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createcanvas"],
+            "Description": "Creates a canvas GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateText": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createtext"],
+            "Description": "Creates a text GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateImage": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createimage"],
+            "Description": "Creates an image GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateRawImage": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createrawimage"],
+            "Description": "Creates a raw image GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateButton": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createbutton"],
+            "Description": "Creates a button GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateSlider": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createslider"],
+            "Description": "Creates a slider GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Default": "Slider",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateScrollbar": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createscrollbar"],
+            "Description": "Creates a scrollbar GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Default": "Scrollbar",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateToggle": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createtoggle"],
+            "Description": "Creates a toggle GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Default": "Toggle",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateInputField": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createinputfield"],
+            "Description": "Creates an input field GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Default": "InputField",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateDropdown": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createdropdown"],
+            "Description": "Creates a dropdown GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Default": "Dropdown",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateScrollView": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createscrollview"],
+            "Description": "Creates a scroll view GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Default": "ScrollView",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateEventSystem": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createeventsystem"],
+            "Description": "Creates an event system GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Default": "EventSystem",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateTMP_Text": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createtmp_text"],
+            "Description": "Creates a TMP text GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Default": "Text (TMP)",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateTMP_Dropdown": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createtmp_dropdown"],
+            "Description": "Creates a TMP dropdown GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Default": "Dropdown (TMP)",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateTMP_InputField": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createtmp_inputfield"],
+            "Description": "Creates a TMP input field GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Default": "InputField (TMP)",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateTMP_Button": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createtmp_button"],
+            "Description": "Creates a TMP button GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Default": "Button (TMP)",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "CreateTMP_Toggle": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "[name]",
+        "PossibleValues": {
+          "Name": {
+            "Aliases": ["createtmp_toggle"],
+            "Description": "Creates a TMP toggle GameObject in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": false,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Default": "Toggle (TMP)",
+            "Description": "Name of GameObject to create"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "DestroyCommand": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "<name>[index]",
+        "PossibleValues": {
+          "Destroy": {
+            "Aliases": ["destroy", "d"],
+            "Description": "Destroys an object in scene"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": true,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Description": "Name or path of object to destroy. If an index is specified, it will destroy the object at that index in the hierarchy. If no index is specified, it will destroy the first object with that name in the hierarchy. If an index of * is specified, it will destroy all objects with that name in the hierarchy."
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    },
+    "DeleteCommand": {
+      "Arg0": {
+        "AddToHistory": true,
+        "Usage": "<name>",
+        "PossibleValues": {
+          "Delete": {
+            "Aliases": ["delete", "del", "rm"],
+            "Description": "Deletes an object in project"
+          }
+        }
+      },
+      "Arg1": {
+        "Required": true,
+        "PossibleValues": {
+          "Name": {
+            "Type": "string",
+            "Description": "Name or path of object to delete"
+          }
+        }
+      },
+      "Output": "{_commandOutput}"
+    }
+  }
+}
