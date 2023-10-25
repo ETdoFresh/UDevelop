@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CommandSystem.Commands
 {
@@ -24,11 +25,25 @@ namespace CommandSystem.Commands
                 }
             }
         }
-        
-        public static Type GetByFullName(string fullName) => 
+
+        public static Type GetByFullName(string fullName) =>
             CommandTypeFullNameDictionary.TryGetValue(fullName, out var value) ? value : null;
-        
+
         public static Type GetByName(string name) =>
             CommandTypeNameDictionary.TryGetValue(name, out var value) ? value : null;
+
+        public static Type GetByAlias(string alias)
+        {
+            var aliasDictionary = CommandJsonData.GetKeyAndValue<string[]>("", "Aliases");
+            if (aliasDictionary == null) return null;
+            foreach (var entry in aliasDictionary)
+            {
+                if (entry.Value == null) continue;
+                if (entry.Value.Contains(alias))
+                    return GetByName(entry.Key);
+            }
+
+            return null;
+        }
     }
 }

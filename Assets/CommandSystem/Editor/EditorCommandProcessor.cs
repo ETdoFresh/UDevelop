@@ -21,7 +21,7 @@ namespace CommandSystem.Editor
                     var trimmedCommand = command.Trim();
                     var commandName = trimmedCommand.Split(' ')[0];
 
-                    var commandType = GetCommandTypeByAlias(commandName.ToLower());
+                    var commandType = CommandTypes.GetByAlias(commandName.ToLower());
                     
                     if (commandType == null)
                     {
@@ -92,20 +92,6 @@ namespace CommandSystem.Editor
             // }
 
             return command;
-        }
-
-        public static Type GetCommandTypeByAlias(string alias)
-        {
-            var aliasDictionary = CommandJsonData.GetKeyAndValue<string[]>("", "Aliases");
-            if (aliasDictionary == null) return null;
-            foreach (var entry in aliasDictionary)
-            {
-                if (entry.Value == null) continue;
-                if (entry.Value.Contains(alias))
-                    return CommandTypes.GetByName(entry.Key);
-            }
-
-            return null;
         }
     }
 }

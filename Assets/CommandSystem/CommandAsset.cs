@@ -51,6 +51,8 @@ namespace CommandSystem
         public static string HandleMissingDirectory(string path)
         {
             var noAssetsPath = path.StartsWith("Assets") ? path[6..] : path;
+            noAssetsPath = noAssetsPath.StartsWith("/") ? noAssetsPath[1..] : noAssetsPath;
+            noAssetsPath = noAssetsPath.StartsWith("\\") ? noAssetsPath[1..] : noAssetsPath;
             var combinedPath = System.IO.Path.Combine(Application.dataPath, noAssetsPath);
             var directory = System.IO.Path.GetDirectoryName(combinedPath);
             if (!string.IsNullOrEmpty(directory) && !System.IO.Directory.Exists(directory))

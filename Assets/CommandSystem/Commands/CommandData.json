@@ -320,16 +320,10 @@
     "TypeFullName": "CommandSystem.Commands.Create.CreateGameObjectCommand"
   },
   "CreateCube": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createcube"],
-          "Description": "Creates a cube GameObject in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createcube"],
+    "Description": "Creates a cube GameObject in scene",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -343,16 +337,10 @@
     "TypeFullName": "CommandSystem.Commands.Create.CreateCubeCommand"
   },
   "CreateSphere": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createsphere"],
-          "Description": "Creates a sphere GameObject in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createsphere"],
+    "Description": "Creates a sphere GameObject in scene",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -366,16 +354,10 @@
     "TypeFullName": "CommandSystem.Commands.Create.CreateSphereCommand"
   },
   "CreateCapsule": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createcapsule"],
-          "Description": "Creates a capsule GameObject in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createcapsule"],
+    "Description": "Creates a capsule GameObject in scene",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -389,16 +371,10 @@
     "TypeFullName": "CommandSystem.Commands.Create.CreateCapsuleCommand"
   },
   "CreateCylinder": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createcylinder"],
-          "Description": "Creates a cylinder GameObject in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createcylinder"],
+    "Description": "Creates a cylinder GameObject in scene",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -412,16 +388,10 @@
     "TypeFullName": "CommandSystem.Commands.Create.CreateCylinderCommand"
   },
   "CreatePlane": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createplane"],
-          "Description": "Creates a plane GameObject in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createplane"],
+    "Description": "Creates a plane GameObject in scene",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -715,16 +685,10 @@
     }
   },
   "CreateInputField": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createinputfield"],
-          "Description": "Creates an input field GameObject in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createinputfield"],
+    "Description": "Creates an input field GameObject in scene",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -739,16 +703,10 @@
     "TypeFullName": "CommandSystem.Commands.Create.CreateInputFieldCommand"
   },
   "CreateDropdown": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createdropdown"],
-          "Description": "Creates a dropdown GameObject in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createdropdown"],
+    "Description": "Creates a dropdown GameObject in scene",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -763,16 +721,10 @@
     "TypeFullName": "CommandSystem.Commands.Create.CreateDropdownCommand"
   },
   "CreateScrollView": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createscrollview"],
-          "Description": "Creates a scroll view GameObject in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createscrollview"],
+    "Description": "Creates a scroll view GameObject in scene",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -787,16 +739,10 @@
     "TypeFullName": "CommandSystem.Commands.Create.CreateScrollViewCommand"
   },
   "CreateEventSystem": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createeventsystem"],
-          "Description": "Creates an event system GameObject in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createeventsystem"],
+    "Description": "Creates an event system GameObject in scene",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -811,16 +757,10 @@
     "TypeFullName": "CommandSystem.Commands.Create.CreateEventSystemCommand"
   },
   "CreateTMP_Text": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createtmp_text"],
-          "Description": "Creates a TMP text GameObject in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createtmp_text"],
+    "Description": "Creates a TMP text GameObject in scene",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -835,16 +775,10 @@
     "TypeFullName": "CommandSystem.Commands.Create.CreateTMP_TextCommand"
   },
   "CreateTMP_Dropdown": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createtmp_dropdown"],
-          "Description": "Creates a TMP dropdown GameObject in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createtmp_dropdown"],
+    "Description": "Creates a TMP dropdown GameObject in scene",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -859,16 +793,10 @@
     "TypeFullName": "CommandSystem.Commands.Create.CreateTMP_DropdownCommand"
   },
   "CreateTMP_InputField": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createtmp_inputfield"],
-          "Description": "Creates a TMP input field GameObject in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createtmp_inputfield"],
+    "Description": "Creates a TMP input field GameObject in scene",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -883,16 +811,10 @@
     "TypeFullName": "CommandSystem.Commands.Create.CreateTMP_InputFieldCommand"
   },
   "CreateTMP_Button": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createtmp_button"],
-          "Description": "Creates a TMP button GameObject in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createtmp_button"],
+    "Description": "Creates a TMP button GameObject in scene",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -907,16 +829,10 @@
     "TypeFullName": "CommandSystem.Commands.Create.CreateTMP_ButtonCommand"
   },
   "CreateTMP_Toggle": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "[name]",
-      "PossibleValues": {
-        "Name": {
-          "Aliases": ["createtmp_toggle"],
-          "Description": "Creates a TMP toggle GameObject in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["createtmp_toggle"],
+    "Description": "Creates a TMP toggle GameObject in scene",
+    "Usage": "[name]",
     "Arg1": {
       "Required": false,
       "PossibleValues": {
@@ -931,16 +847,10 @@
     "TypeFullName": "CommandSystem.Commands.Create.CreateTMP_ToggleCommand"
   },
   "DestroyCommand": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "<name>[index]",
-      "PossibleValues": {
-        "Destroy": {
-          "Aliases": ["destroy", "d"],
-          "Description": "Destroys an object in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["destroy", "d"],
+    "Description": "Destroys an object in scene",
+    "Usage": "<name>[index]",
     "Arg1": {
       "Required": true,
       "PossibleValues": {
@@ -954,16 +864,10 @@
     "TypeFullName": "CommandSystem.Commands.DestroyCommand"
   },
   "DeleteCommand": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "<name>",
-      "PossibleValues": {
-        "Delete": {
-          "Aliases": ["delete", "del", "rm"],
-          "Description": "Deletes an object in project"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["delete", "del", "rm"],
+    "Description": "Deletes an object in project",
+    "Usage": "<name>",
     "Arg1": {
       "Required": true,
       "PossibleValues": {
@@ -994,16 +898,10 @@
     "TypeFullName": "CommandSystem.Commands.HelpCommand"
   },
   "MoveCommand": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "<position> [name]",
-      "PossibleValues": {
-        "Move": {
-          "Aliases": ["move", "m"],
-          "Description": "Moves an object in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["move", "m"],
+    "Description": "Moves an object in scene",
+    "Usage": "<position> [name]",
     "Arg1": {
       "Required": true,
       "PossibleValues": {
@@ -1026,16 +924,10 @@
     "TypeFullName": "CommandSystem.Commands.MoveCommand"
   },
   "RotateCommand": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "<rotation> [name]",
-      "PossibleValues": {
-        "Rotate": {
-          "Aliases": ["rotate", "r"],
-          "Description": "Rotates an object in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["rotate", "r"],
+    "Description": "Rotates an object in scene",
+    "Usage": "<rotation> [name]",
     "Arg1": {
       "Required": true,
       "PossibleValues": {
@@ -1058,16 +950,10 @@
     "TypeFullName": "CommandSystem.Commands.RotateCommand"
   },
   "ScaleCommand": {
-    "Arg0": {
-      "AddToHistory": true,
-      "Usage": "<scale> [name]",
-      "PossibleValues": {
-        "Scale": {
-          "Aliases": ["scale", "s"],
-          "Description": "Scales an object in scene"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["scale", "s"],
+    "Description": "Scales an object in scene",
+    "Usage": "<scale> [name]",
     "Arg1": {
       "Required": true,
       "PossibleValues": {
@@ -1090,86 +976,50 @@
     "TypeFullName": "CommandSystem.Commands.ScaleCommand"
   },
   "PlayCommand": {
-    "Arg0": {
-      "AddToHistory": false,
-      "Usage": "",
-      "PossibleValues": {
-        "Play": {
-          "Aliases": ["play"],
-          "Description": "Plays the scene"
-        }
-      }
-    },
+    "AddToHistory": false,
+    "Aliases": ["play"],
+    "Description": "Plays the scene",
+    "Usage": "",
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.PlayCommand"
   },
   "PauseCommand": {
-    "Arg0": {
-      "AddToHistory": false,
-      "Usage": "",
-      "PossibleValues": {
-        "Pause": {
-          "Aliases": ["pause"],
-          "Description": "Pauses the scene"
-        }
-      }
-    },
+    "AddToHistory": false,
+    "Aliases": ["pause"],
+    "Description": "Pauses the scene",
+    "Usage": "",
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.PauseCommand"
   },
   "StopCommand": {
-    "Arg0": {
-      "AddToHistory": false,
-      "Usage": "",
-      "PossibleValues": {
-        "Stop": {
-          "Aliases": ["stop"],
-          "Description": "Stops the scene"
-        }
-      }
-    },
+    "AddToHistory": false,
+    "Aliases": ["stop"],
+    "Description": "Stops the scene",
+    "Usage": "",
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.StopCommand"
   },
   "UndoCommand": {
-    "Arg0": {
-      "AddToHistory": false,
-      "Usage": "",
-      "PossibleValues": {
-        "Undo": {
-          "Aliases": ["undo"],
-          "Description": "Undoes the last action"
-        }
-      }
-    },
+    "AddToHistory": false,
+    "Aliases": ["undo"],
+    "Description": "Undoes the last action",
+    "Usage": "",
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.UndoCommand"
   },
   "RedoCommand": {
-    "Arg0": {
-      "AddToHistory": false,
-      "Usage": "",
-      "PossibleValues": {
-        "Redo": {
-          "Aliases": ["redo"],
-          "Description": "Redoes the last action"
-        }
-      }
-    },
+    "AddToHistory": false,
+    "Aliases": ["redo"],
+    "Description": "Redoes the last action",
+    "Usage": "",
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.RedoCommand"
   },
   "SelectCommand": {
-    "Arg0": {
-      "AddToHistory": false,
-      "Usage": "<type> [name][index]",
-      "PossibleValues": {
-        "Select": {
-          "Aliases": ["select"],
-          "Description": "Selects an object in scene or project by name"
-        }
-      }
-    },
+    "AddToHistory": true,
+    "Aliases": ["select", "sel", "s"],
+    "Description": "Selects an object in scene or project by name",
+    "Usage": "<type> [name][index]",
     "Arg1": {
       "Required": true,
       "PossibleValues": {

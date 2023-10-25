@@ -44,7 +44,9 @@ namespace CommandSystem.Commands.Create
         public override void OnRedo()
         {
 #if UNITY_EDITOR
-            var prefab = UnityEditor.PrefabUtility.CreateEmptyPrefab(_prefabPath);
+            var emptyGameObject = new UnityEngine.GameObject(_prefabName);
+            var prefab = UnityEditor.PrefabUtility.SaveAsPrefabAsset(emptyGameObject, _prefabPath);
+            UnityEngine.Object.DestroyImmediate(emptyGameObject);
             UnityEditor.AssetDatabase.SaveAssets();
             UnityEditor.AssetDatabase.Refresh();
             UnityEditor.Selection.activeObject = prefab;
