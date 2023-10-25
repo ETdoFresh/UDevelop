@@ -11,8 +11,7 @@ namespace CommandSystem.Commands
 
         public override void OnRun(params string[] args)
         {
-            CommandData.Outputs.Clear();
-            CommandData.Display.Clear();
+            CommandData.Clear();
         }
     }
 }

@@ -39,5 +39,14 @@ namespace CommandSystem
         [SerializeField] private List<Command> _history = new();
         [SerializeField] private List<string> _display = new();
         [SerializeField] private int _historyIndex;
+
+        public static void Clear()
+        {
+            Instance._inputs.Clear();
+            Instance._outputs.Clear();
+            Instance._history.Clear();
+            Instance._display.Clear();
+            Instance._historyIndex = 0;
+        }
     }
 }

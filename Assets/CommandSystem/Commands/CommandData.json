@@ -812,6 +812,11 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateTMP_ToggleCommand"
   },
+  "ClearCommand": {
+    "AddToHistory": false,
+    "Aliases": ["clear", "cls"],
+    "Description": "Clears the console and command history",
+  },
   "DestroyCommand": {
     "AddToHistory": true,
     "Aliases": ["destroy", "d"],
