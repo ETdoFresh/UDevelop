@@ -6,13 +6,13 @@ namespace CommandSystem.Commands.Create
     [Serializable]
     public class CreateCubeCommand : Command
     {
-        private GameObject _gameObject;
-        private string _gameObjectName;
+        [SerializeField] private GameObject gameObject;
+        [SerializeField] private string gameObjectName;
 
         public CreateCubeCommand(string commandInput) : base(commandInput) { }
 
         public override bool AddToHistory => true;
-        public override string CommandOutput => $"Created Cube {_gameObjectName}";
+        public override string CommandOutput => $"Created Cube {gameObjectName}";
 
         public override string[] CommandAliases => new[] { "create-cube", "createcube", "c-c" };
         public override string CommandUsage => $"{CommandAliases[0]} [CUBE_NAME/PATH]";
@@ -20,22 +20,22 @@ namespace CommandSystem.Commands.Create
 
         public override void OnRun(params string[] args)
         {
-            _gameObjectName = args.Length < 3 ? "Cube" : string.Join("_", args[2..]);
-            _gameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            _gameObject.name = _gameObjectName;
-            UnityEditor.Selection.activeObject = _gameObject;
+            gameObjectName = args.Length < 3 ? "Cube" : string.Join("_", args[2..]);
+            gameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            gameObject.name = gameObjectName;
+            UnityEditor.Selection.activeObject = gameObject;
         }
         
         public override void OnUndo()
         {
-            UnityEngine.Object.DestroyImmediate(_gameObject);
+            UnityEngine.Object.DestroyImmediate(gameObject);
         }
         
         public override void OnRedo()
         {
-            _gameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            _gameObject.name = _gameObjectName;
-            UnityEditor.Selection.activeObject = _gameObject;
+            gameObject = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            gameObject.name = gameObjectName;
+            UnityEditor.Selection.activeObject = gameObject;
         }
     }
 }

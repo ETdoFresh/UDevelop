@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CommandSystem.Commands
@@ -20,6 +21,11 @@ namespace CommandSystem.Commands
             }
             
             return null;
+        }
+        
+        public static Dictionary<string, string[]> GetArgAliases(Type commandType, int arg)
+        {
+            return CommandJsonData.GetKeyAndValue<string[]>($"{commandType.Name}.Arg{arg}.PossibleValues", "Aliases");
         }
     }
 }

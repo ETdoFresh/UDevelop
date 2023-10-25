@@ -6,13 +6,13 @@ namespace CommandSystem.Commands.Create
     [Serializable]
     public class CreateSphereCommand : Command
     {
-        private GameObject _gameObject;
-        private string _gameObjectName;
+        [SerializeField] private GameObject gameObject;
+        [SerializeField] private string gameObjectName;
 
         public CreateSphereCommand(string commandInput) : base(commandInput) { }
 
         public override bool AddToHistory => true;
-        public override string CommandOutput => $"Created Sphere {_gameObjectName}";
+        public override string CommandOutput => $"Created Sphere {gameObjectName}";
 
         public override string[] CommandAliases => new[] { "create-sphere", "createsphere", "c-s" };
         public override string CommandUsage => $"{CommandAliases[0]} [SPHERE_NAME/PATH]";
@@ -20,22 +20,22 @@ namespace CommandSystem.Commands.Create
 
         public override void OnRun(params string[] args)
         {
-            _gameObjectName = args.Length < 3 ? "Sphere" : string.Join("_", args[2..]);
-            _gameObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            _gameObject.name = _gameObjectName;
-            UnityEditor.Selection.activeObject = _gameObject;
+            gameObjectName = args.Length < 3 ? "Sphere" : string.Join("_", args[2..]);
+            gameObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            gameObject.name = gameObjectName;
+            UnityEditor.Selection.activeObject = gameObject;
         }
         
         public override void OnUndo()
         {
-            UnityEngine.Object.DestroyImmediate(_gameObject);
+            UnityEngine.Object.DestroyImmediate(gameObject);
         }
         
         public override void OnRedo()
         {
-            _gameObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            _gameObject.name = _gameObjectName;
-            UnityEditor.Selection.activeObject = _gameObject;
+            gameObject = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            gameObject.name = gameObjectName;
+            UnityEditor.Selection.activeObject = gameObject;
         }
     }
 }

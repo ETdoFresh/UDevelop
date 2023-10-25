@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using CommandSystem.Commands;
 using UnityEditor;
 using UnityEngine;
 
@@ -75,7 +76,7 @@ namespace CommandSystem.Editor
             EditorGUILayout.EndHorizontal();
 
             // Draw the command line input auto complete.
-            var autoCompleteCommand = EditorCommandProcessor.AutoCompleteCommand(_commandLineInput);
+            var autoCompleteCommand = CommandAutoComplete.Get(_commandLineInput);
             autoCompleteCommand = string.IsNullOrEmpty(autoCompleteCommand)
                 ? ""
                 : autoCompleteCommand + " {Tab to autocomplete}";
@@ -147,13 +148,12 @@ namespace CommandSystem.Editor
                 }
                 else if (keyCode == KeyCode.Tab)
                 {
-                    if (_textEditor != null && _textEditor.text.EndsWith('\t'))
+                    _commandLineInput = CommandAutoComplete.Get(_commandLineInput);
+                    if (_textEditor != null)
                     {
-                        _textEditor.text = _textEditor.text.Remove(_textEditor.text.Length - 1);
-                        _commandLineInput = _textEditor.text;
+                        _textEditor.text = _commandLineInput;
+                        _textEditor.MoveTextEnd();
                     }
-
-                    _commandLineInput = EditorCommandProcessor.AutoCompleteCommand(_commandLineInput);
                     EditorGUI.FocusTextInControl("CommandLineInput");
                     EditorApplication.delayCall += OnDelayCallSelectCommandLineInput;
                 }

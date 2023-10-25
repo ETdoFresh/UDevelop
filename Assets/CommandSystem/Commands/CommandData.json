@@ -10,172 +10,172 @@
         "Prefab": {
           "Aliases": ["prefab", "p"],
           "Description": "Creates an empty prefab in project",
-          "SubCommand": "CreatePrefab"
+          "SubCommand": "CreatePrefabCommand"
         },
         "Scene": {
           "Aliases": ["scene", "s"],
           "Description": "Creates an empty scene in project",
-          "SubCommand": "CreateScene"
+          "SubCommand": "CreateSceneCommand"
         },
         "ScriptableObject": {
           "Aliases": ["scriptableobject", "so"],
           "Description": "Creates an empty scriptable object in project",
-          "SubCommand": "CreateScriptableObject"
+          "SubCommand": "CreateScriptableObjectCommand"
         },
         "Material": {
           "Aliases": ["material", "m"],
           "Description": "Creates an empty material in project",
-          "SubCommand": "CreateMaterial"
+          "SubCommand": "CreateMaterialCommand"
         },
         "Folder": {
           "Aliases": ["folder", "f"],
           "Description": "Creates an empty folder in project",
-          "SubCommand": "CreateFolder"
+          "SubCommand": "CreateFolderCommand"
         },
         "Instance": {
           "Aliases": ["instance", "i"],
           "Description": "Creates an instance of an object in scene",
-          "SubCommand": "CreateInstance"
+          "SubCommand": "CreateInstanceCommand"
         },
         "GameObject": {
           "Aliases": ["gameobject", "go", "empty", "e"],
           "Description": "Creates an empty GameObject in scene",
-          "SubCommand": "CreateGameObject"
+          "SubCommand": "CreateGameObjectCommand"
         },
         "Cube": {
           "Aliases": ["cube"],
           "Description": "Creates a cube GameObject in scene",
-          "SubCommand": "CreateCube"
+          "SubCommand": "CreateCubeCommand"
         },
         "Sphere": {
           "Aliases": ["sphere"],
           "Description": "Creates a sphere GameObject in scene",
-          "SubCommand": "CreateSphere"
+          "SubCommand": "CreateSphereCommand"
         },
         "Capsule": {
           "Aliases": ["capsule"],
           "Description": "Creates a capsule GameObject in scene",
-          "SubCommand": "CreateCapsule"
+          "SubCommand": "CreateCapsuleCommand"
         },
         "Cylinder": {
           "Aliases": ["cylinder"],
           "Description": "Creates a cylinder GameObject in scene",
-          "SubCommand": "CreateCylinder"
+          "SubCommand": "CreateCylinderCommand"
         },
         "Plane": {
           "Aliases": ["plane"],
           "Description": "Creates a plane GameObject in scene",
-          "SubCommand": "CreatePlane"
+          "SubCommand": "CreatePlaneCommand"
         },
         "Quad": {
           "Aliases": ["quad"],
           "Description": "Creates a quad GameObject in scene",
-          "SubCommand": "CreateQuad"
+          "SubCommand": "CreateQuadCommand"
         },
         "Light": {
           "Aliases": ["light", "l"],
           "Description": "Creates a light GameObject in scene",
-          "SubCommand": "CreateLight"
+          "SubCommand": "CreateLightCommand"
         },
         "Camera": {
           "Aliases": ["camera", "cam"],
           "Description": "Creates a camera GameObject in scene",
-          "SubCommand": "CreateCamera"
+          "SubCommand": "CreateCameraCommand"
         },
         "Audio": {
           "Aliases": ["audio", "a"],
           "Description": "Creates an audio source GameObject in scene",
-          "SubCommand": "CreateAudio"
+          "SubCommand": "CreateAudioCommand"
         },
         "Particle": {
           "Aliases": ["particle", "p"],
           "Description": "Creates a particle emitter GameObject in scene",
-          "SubCommand": "CreateParticle"
+          "SubCommand": "CreateParticleCommand"
         },
         "Canvas": {
           "Aliases": ["canvas", "cv"],
           "Description": "Creates a canvas GameObject in scene",
-          "SubCommand": "CreateCanvas"
+          "SubCommand": "CreateCanvasCommand"
         },
         "Text": {
           "Aliases": ["text", "t"],
           "Description": "Creates a text GameObject in scene",
-          "SubCommand": "CreateText"
+          "SubCommand": "CreateTextCommand"
         },
         "Image": {
           "Aliases": ["image", "im"],
           "Description": "Creates an image GameObject in scene",
-          "SubCommand": "CreateImage"
+          "SubCommand": "CreateImageCommand"
         },
         "RawImage": {
           "Aliases": ["rawimage", "ri"],
           "Description": "Creates a raw image GameObject in scene",
-          "SubCommand": "CreateRawImage"
+          "SubCommand": "CreateRawImageCommand"
         },
         "Button": {
           "Aliases": ["button", "b"],
           "Description": "Creates a button GameObject in scene",
-          "SubCommand": "CreateButton"
+          "SubCommand": "CreateButtonCommand"
         },
         "Slider": {
           "Aliases": ["slider", "sl"],
           "Description": "Creates a slider GameObject in scene",
-          "SubCommand": "CreateSlider"
+          "SubCommand": "CreateSliderCommand"
         },
         "Scrollbar": {
           "Aliases": ["scrollbar", "sb"],
           "Description": "Creates a scrollbar GameObject in scene",
-          "SubCommand": "CreateScrollbar"
+          "SubCommand": "CreateScrollbarCommand"
         },
         "Toggle": {
           "Aliases": ["toggle", "to"],
           "Description": "Creates a toggle GameObject in scene",
-          "SubCommand": "CreateToggle"
+          "SubCommand": "CreateToggleCommand"
         },
         "InputField": {
           "Aliases": ["inputfield", "if"],
           "Description": "Creates an input field GameObject in scene",
-          "SubCommand": "CreateInputField"
+          "SubCommand": "CreateInputFieldCommand"
         },
         "Dropdown": {
           "Aliases": ["dropdown", "dd"],
           "Description": "Creates a dropdown GameObject in scene",
-          "SubCommand": "CreateDropdown"
+          "SubCommand": "CreateDropdownCommand"
         },
         "ScrollView": {
           "Aliases": ["scrollview", "sv"],
           "Description": "Creates a scroll view GameObject in scene",
-          "SubCommand": "CreateScrollView"
+          "SubCommand": "CreateScrollViewCommand"
         },
         "EventSystem": {
           "Aliases": ["eventsystem", "es"],
           "Description": "Creates an event system GameObject in scene",
-          "SubCommand": "CreateEventSystem"
+          "SubCommand": "CreateEventSystemCommand"
         },
         "TMP_Text": {
           "Aliases": ["tmp_text", "tmp_t"],
           "Description": "Creates a TMP text GameObject in scene",
-          "SubCommand": "CreateTMP_Text"
+          "SubCommand": "CreateTMP_TextCommand"
         },
         "TMP_Dropdown": {
           "Aliases": ["tmp_dropdown", "tmp_dd"],
           "Description": "Creates a TMP dropdown GameObject in scene",
-          "SubCommand": "CreateTMP_Dropdown"
+          "SubCommand": "CreateTMP_DropdownCommand"
         },
         "TMP_InputField": {
           "Aliases": ["tmp_inputfield", "tmp_if"],
           "Description": "Creates a TMP input field GameObject in scene",
-          "SubCommand": "CreateTMP_InputField"
+          "SubCommand": "CreateTMP_InputFieldCommand"
         },
         "TMP_Button": {
           "Aliases": ["tmp_button", "tmp_b"],
           "Description": "Creates a TMP button GameObject in scene",
-          "SubCommand": "CreateTMP_Button"
+          "SubCommand": "CreateTMP_ButtonCommand"
         },
         "TMP_Toggle": {
           "Aliases": ["tmp_toggle", "tmp_to"],
           "Description": "Creates a TMP toggle GameObject in scene",
-          "SubCommand": "CreateTMP_Toggle"
+          "SubCommand": "CreateTMP_ToggleCommand"
         }
       }
     },
@@ -186,6 +186,7 @@
     "AddToHistory": true,
     "Aliases": ["createprefab"],
     "Description": "Creates an empty prefab in project",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -203,6 +204,7 @@
     "AddToHistory": true,
     "Aliases": ["createscene"],
     "Description": "Creates an empty scene in project",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -220,6 +222,7 @@
     "AddToHistory": true,
     "Aliases": ["createscriptableobject"],
     "Description": "Creates an empty scriptable object in project",
+    "ExcludeFromHelp": true,
     "Usage": "<type> [name]",
     "Arg1": {
       "Required": true,
@@ -246,6 +249,7 @@
     "AddToHistory": true,
     "Aliases": ["creatematerial"],
     "Description": "Creates an empty material in project",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -263,6 +267,7 @@
     "AddToHistory": true,
     "Aliases": ["createfolder"],
     "Description": "Creates an empty folder in project",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -280,6 +285,7 @@
     "AddToHistory": true,
     "Aliases": ["createinstance"],
     "Description": "Creates an instance of an object in scene",
+    "ExcludeFromHelp": true,
     "Usage": "<prefab> [name]",
     "Arg1": {
       "Required": true,
@@ -306,6 +312,7 @@
     "AddToHistory": true,
     "Aliases": ["creategameobject"],
     "Description": "Creates an empty GameObject in scene",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -323,6 +330,7 @@
     "AddToHistory": true,
     "Aliases": ["createcube"],
     "Description": "Creates a cube GameObject in scene",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -340,6 +348,7 @@
     "AddToHistory": true,
     "Aliases": ["createsphere"],
     "Description": "Creates a sphere GameObject in scene",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -357,6 +366,7 @@
     "AddToHistory": true,
     "Aliases": ["createcapsule"],
     "Description": "Creates a capsule GameObject in scene",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -374,6 +384,7 @@
     "AddToHistory": true,
     "Aliases": ["createcylinder"],
     "Description": "Creates a cylinder GameObject in scene",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -391,6 +402,7 @@
     "AddToHistory": true,
     "Aliases": ["createplane"],
     "Description": "Creates a plane GameObject in scene",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -405,16 +417,11 @@
       "TypeFullName": "CommandSystem.Commands.Create.CreatePlaneCommand"
     },
     "CreateLight": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createlight"],
-            "Description": "Creates a light GameObject in scene"
-          }
-        }
-      },
+      "AddToHistory": true,
+      "Aliases": ["createlight"],
+      "Description": "Creates a light GameObject in scene",
+      "ExcludeFromHelp": true,
+      "Usage": "[name]",
       "Arg1": {
         "Required": false,
         "PossibleValues": {
@@ -451,16 +458,11 @@
       "TypeFullName": "CommandSystem.Commands.Create.CreateCameraCommand"
     },
     "CreateAudio": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createaudio"],
-            "Description": "Creates an audio source GameObject in scene"
-          }
-        }
-      },
+      "AddToHistory": true,
+      "Aliases": ["createaudio"],
+      "Description": "Creates an audio source GameObject in scene",
+      "ExcludeFromHelp": true,
+      "Usage": "[name]",
       "Arg1": {
         "Required": false,
         "PossibleValues": {
@@ -474,16 +476,11 @@
       "TypeFullName": "CommandSystem.Commands.Create.CreateAudioCommand"
     },
     "CreateParticle": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createparticle"],
-            "Description": "Creates a particle emitter GameObject in scene"
-          }
-        }
-      },
+      "AddToHistory": true,
+      "Aliases": ["createparticle"],
+      "Description": "Creates a particle emitter GameObject in scene",
+      "ExcludeFromHelp": true,
+      "Usage": "[name]",
       "Arg1": {
         "Required": false,
         "PossibleValues": {
@@ -497,16 +494,11 @@
       "TypeFullName": "CommandSystem.Commands.Create.CreateParticleCommand"
     },
     "CreateCanvas": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createcanvas"],
-            "Description": "Creates a canvas GameObject in scene"
-          }
-        }
-      },
+      "AddToHistory": true,
+      "Aliases": ["createcanvas"],
+      "Description": "Creates a canvas GameObject in scene",
+      "ExcludeFromHelp": true,
+      "Usage": "[name]",
       "Arg1": {
         "Required": false,
         "PossibleValues": {
@@ -520,16 +512,11 @@
       "TypeFullName": "CommandSystem.Commands.Create.CreateCanvasCommand"
     },
     "CreateText": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createtext"],
-            "Description": "Creates a text GameObject in scene"
-          }
-        }
-      },
+      "AddToHistory": true,
+      "Aliases": ["createtext"],
+      "Description": "Creates a text GameObject in scene",
+      "ExcludeFromHelp": true,
+      "Usage": "[name]",
       "Arg1": {
         "Required": false,
         "PossibleValues": {
@@ -543,16 +530,11 @@
       "TypeFullName": "CommandSystem.Commands.Create.CreateTextCommand"
     },
     "CreateImage": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createimage"],
-            "Description": "Creates an image GameObject in scene"
-          }
-        }
-      },
+      "AddToHistory": true,
+      "Aliases": ["createimage"],
+      "Description": "Creates an image GameObject in scene",
+      "ExcludeFromHelp": true,
+      "Usage": "[name]",
       "Arg1": {
         "Required": false,
         "PossibleValues": {
@@ -566,16 +548,11 @@
       "TypeFullName": "CommandSystem.Commands.Create.CreateImageCommand"
     },
     "CreateRawImage": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createrawimage"],
-            "Description": "Creates a raw image GameObject in scene"
-          }
-        }
-      },
+      "AddToHistory": true,
+      "Aliases": ["createrawimage"],
+      "Description": "Creates a raw image GameObject in scene",
+      "ExcludeFromHelp": true,
+      "Usage": "[name]",
       "Arg1": {
         "Required": false,
         "PossibleValues": {
@@ -589,16 +566,11 @@
       "TypeFullName": "CommandSystem.Commands.Create.CreateRawImageCommand"
     },
     "CreateButton": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createbutton"],
-            "Description": "Creates a button GameObject in scene"
-          }
-        }
-      },
+      "AddToHistory": true,
+      "Aliases": ["createbutton"],
+      "Description": "Creates a button GameObject in scene",
+      "ExcludeFromHelp": true,
+      "Usage": "[name]",
       "Arg1": {
         "Required": false,
         "PossibleValues": {
@@ -612,16 +584,11 @@
       "TypeFullName": "CommandSystem.Commands.Create.CreateButtonCommand"
     },
     "CreateSlider": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createslider"],
-            "Description": "Creates a slider GameObject in scene"
-          }
-        }
-      },
+      "AddToHistory": true,
+      "Aliases": ["createslider"],
+      "Description": "Creates a slider GameObject in scene",
+      "ExcludeFromHelp": true,
+      "Usage": "[name]",
       "Arg1": {
         "Required": false,
         "PossibleValues": {
@@ -636,16 +603,11 @@
       "TypeFullName": "CommandSystem.Commands.Create.CreateSliderCommand"
     },
     "CreateScrollbar": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createscrollbar"],
-            "Description": "Creates a scrollbar GameObject in scene"
-          }
-        }
-      },
+      "AddToHistory": true,
+      "Aliases": ["createscrollbar"],
+      "Description": "Creates a scrollbar GameObject in scene",
+      "ExcludeFromHelp": true,
+      "Usage": "[name]",
       "Arg1": {
         "Required": false,
         "PossibleValues": {
@@ -660,16 +622,11 @@
       "TypeFullName": "CommandSystem.Commands.Create.CreateScrollbarCommand"
     },
     "CreateToggle": {
-      "Arg0": {
-        "AddToHistory": true,
-        "Usage": "[name]",
-        "PossibleValues": {
-          "Name": {
-            "Aliases": ["createtoggle"],
-            "Description": "Creates a toggle GameObject in scene"
-          }
-        }
-      },
+      "AddToHistory": true,
+      "Aliases": ["createtoggle"],
+      "Description": "Creates a toggle GameObject in scene",
+      "ExcludeFromHelp": true,
+      "Usage": "[name]",
       "Arg1": {
         "Required": false,
         "PossibleValues": {
@@ -688,6 +645,7 @@
     "AddToHistory": true,
     "Aliases": ["createinputfield"],
     "Description": "Creates an input field GameObject in scene",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -706,6 +664,7 @@
     "AddToHistory": true,
     "Aliases": ["createdropdown"],
     "Description": "Creates a dropdown GameObject in scene",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -724,6 +683,7 @@
     "AddToHistory": true,
     "Aliases": ["createscrollview"],
     "Description": "Creates a scroll view GameObject in scene",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -742,6 +702,7 @@
     "AddToHistory": true,
     "Aliases": ["createeventsystem"],
     "Description": "Creates an event system GameObject in scene",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -760,6 +721,7 @@
     "AddToHistory": true,
     "Aliases": ["createtmp_text"],
     "Description": "Creates a TMP text GameObject in scene",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -778,6 +740,7 @@
     "AddToHistory": true,
     "Aliases": ["createtmp_dropdown"],
     "Description": "Creates a TMP dropdown GameObject in scene",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -796,6 +759,7 @@
     "AddToHistory": true,
     "Aliases": ["createtmp_inputfield"],
     "Description": "Creates a TMP input field GameObject in scene",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -814,6 +778,7 @@
     "AddToHistory": true,
     "Aliases": ["createtmp_button"],
     "Description": "Creates a TMP button GameObject in scene",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,
@@ -832,6 +797,7 @@
     "AddToHistory": true,
     "Aliases": ["createtmp_toggle"],
     "Description": "Creates a TMP toggle GameObject in scene",
+    "ExcludeFromHelp": true,
     "Usage": "[name]",
     "Arg1": {
       "Required": false,

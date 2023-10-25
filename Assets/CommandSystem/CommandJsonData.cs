@@ -41,6 +41,13 @@ namespace CommandSystem
             }
             return dictionary;
         }
+        
+        public static bool HasKey(string tokenPath)
+        {
+            _jsonObject ??= LoadJson();
+            var token = _jsonObject.SelectToken(tokenPath);
+            return token != null;
+        }
 
         private static JObject LoadJson()
         {

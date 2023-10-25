@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using CommandSystem.Commands;
 using UnityEngine;
 
@@ -79,19 +78,6 @@ namespace CommandSystem.Editor
         {
             if (selectedCommandIndex <= -1) return "";
             return CommandData.Inputs[selectedCommandIndex];
-        }
-
-        public static string AutoCompleteCommand(string command)
-        {
-            if (string.IsNullOrEmpty(command)) return "";
-            var args = command.Split(' ');
-            // if (args.Length == 1)
-            // {
-            //     var possibleCommandName = CommandData.PossibleCommands.Find(x => x.commandName.StartsWith(args[0].ToLower()));
-            //     return possibleCommandName == null ? command : possibleCommandName.commandName + " ";
-            // }
-
-            return command;
         }
     }
 }

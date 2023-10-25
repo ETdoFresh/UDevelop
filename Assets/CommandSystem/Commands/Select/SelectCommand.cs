@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace CommandSystem.Commands
+namespace CommandSystem.Commands.Select
 {
     [Serializable]
     public class SelectCommand : Command
