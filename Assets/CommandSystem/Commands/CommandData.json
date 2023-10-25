@@ -1026,6 +1026,18 @@
   "SelectChildCommand": {},
   "SelectSiblingCommand": {},
   "SelectByNameCommand": {},
+  "SelectGameObjectByNameCommand": {
+    "Aliases": ["selectgameobjectbyname"]
+  },
+  "SelectAllGameObjectsCommand": {
+    "Aliases": ["selectallgameobjects"]
+  },
+  "SelectRootGameObjectsCommand": {
+    "Aliases": ["selectrootgameobjects"]
+  },
+  "SelectNoneCommand": {
+    "Aliases": ["selectnone"]
+  },
   "SelectByTagCommand": {},
   "SelectByLayerCommand": {},
   "SelectByComponentCommand": {},

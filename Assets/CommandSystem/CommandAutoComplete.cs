@@ -34,7 +34,8 @@ namespace CommandSystem.Commands
                 }
             }
 
-            autoComplete += " ";
+            if (string.IsNullOrEmpty(autoComplete)) autoComplete = command;
+            else autoComplete += " ";
             lastCommand = command;
             lastAutoComplete = autoComplete;
             return autoComplete;
