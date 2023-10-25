@@ -54,5 +54,10 @@ namespace CommandSystem
             var jsonText = File.ReadAllText(JSON_PATH);
             return JsonConvert.DeserializeObject<JObject>(jsonText);
         }
+
+        public static void Reload()
+        {
+            _jsonObject = LoadJson();
+        }
     }
 }

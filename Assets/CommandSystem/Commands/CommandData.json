@@ -9,173 +9,139 @@
       "PossibleValues": {
         "Prefab": {
           "Aliases": ["prefab", "p"],
-          "Description": "Creates an empty prefab in project",
-          "SubCommand": "CreatePrefabCommand"
+          "Subcommand": "CreatePrefabCommand"
         },
         "Scene": {
           "Aliases": ["scene", "s"],
-          "Description": "Creates an empty scene in project",
-          "SubCommand": "CreateSceneCommand"
+          "Subcommand": "CreateSceneCommand"
         },
         "ScriptableObject": {
           "Aliases": ["scriptableobject", "so"],
-          "Description": "Creates an empty scriptable object in project",
-          "SubCommand": "CreateScriptableObjectCommand"
+          "Subcommand": "CreateScriptableObjectCommand"
         },
         "Material": {
           "Aliases": ["material", "m"],
-          "Description": "Creates an empty material in project",
-          "SubCommand": "CreateMaterialCommand"
+          "Subcommand": "CreateMaterialCommand"
         },
         "Folder": {
           "Aliases": ["folder", "f"],
-          "Description": "Creates an empty folder in project",
-          "SubCommand": "CreateFolderCommand"
+          "Subcommand": "CreateFolderCommand"
         },
         "Instance": {
           "Aliases": ["instance", "i"],
-          "Description": "Creates an instance of an object in scene",
-          "SubCommand": "CreateInstanceCommand"
+          "Subcommand": "CreateInstanceCommand"
         },
         "GameObject": {
           "Aliases": ["gameobject", "go", "empty", "e"],
-          "Description": "Creates an empty GameObject in scene",
-          "SubCommand": "CreateGameObjectCommand"
+          "Subcommand": "CreateGameObjectCommand"
         },
         "Cube": {
           "Aliases": ["cube"],
-          "Description": "Creates a cube GameObject in scene",
-          "SubCommand": "CreateCubeCommand"
+          "Subcommand": "CreateCubeCommand"
         },
         "Sphere": {
           "Aliases": ["sphere"],
-          "Description": "Creates a sphere GameObject in scene",
-          "SubCommand": "CreateSphereCommand"
+          "Subcommand": "CreateSphereCommand"
         },
         "Capsule": {
           "Aliases": ["capsule"],
-          "Description": "Creates a capsule GameObject in scene",
-          "SubCommand": "CreateCapsuleCommand"
+          "Subcommand": "CreateCapsuleCommand"
         },
         "Cylinder": {
           "Aliases": ["cylinder"],
-          "Description": "Creates a cylinder GameObject in scene",
-          "SubCommand": "CreateCylinderCommand"
+          "Subcommand": "CreateCylinderCommand"
         },
         "Plane": {
           "Aliases": ["plane"],
-          "Description": "Creates a plane GameObject in scene",
-          "SubCommand": "CreatePlaneCommand"
+          "Subcommand": "CreatePlaneCommand"
         },
         "Quad": {
           "Aliases": ["quad"],
-          "Description": "Creates a quad GameObject in scene",
-          "SubCommand": "CreateQuadCommand"
+          "Subcommand": "CreateQuadCommand"
         },
         "Light": {
           "Aliases": ["light", "l"],
-          "Description": "Creates a light GameObject in scene",
-          "SubCommand": "CreateLightCommand"
+          "Subcommand": "CreateLightCommand"
         },
         "Camera": {
           "Aliases": ["camera", "cam"],
-          "Description": "Creates a camera GameObject in scene",
-          "SubCommand": "CreateCameraCommand"
+          "Subcommand": "CreateCameraCommand"
         },
         "Audio": {
           "Aliases": ["audio", "a"],
-          "Description": "Creates an audio source GameObject in scene",
-          "SubCommand": "CreateAudioCommand"
+          "Subcommand": "CreateAudioCommand"
         },
         "Particle": {
           "Aliases": ["particle", "p"],
-          "Description": "Creates a particle emitter GameObject in scene",
-          "SubCommand": "CreateParticleCommand"
+          "Subcommand": "CreateParticleCommand"
         },
         "Canvas": {
           "Aliases": ["canvas", "cv"],
-          "Description": "Creates a canvas GameObject in scene",
-          "SubCommand": "CreateCanvasCommand"
+          "Subcommand": "CreateCanvasCommand"
         },
         "Text": {
           "Aliases": ["text", "t"],
-          "Description": "Creates a text GameObject in scene",
-          "SubCommand": "CreateTextCommand"
+          "Subcommand": "CreateTextCommand"
         },
         "Image": {
           "Aliases": ["image", "im"],
-          "Description": "Creates an image GameObject in scene",
-          "SubCommand": "CreateImageCommand"
+          "Subcommand": "CreateImageCommand"
         },
         "RawImage": {
           "Aliases": ["rawimage", "ri"],
-          "Description": "Creates a raw image GameObject in scene",
-          "SubCommand": "CreateRawImageCommand"
+          "Subcommand": "CreateRawImageCommand"
         },
         "Button": {
           "Aliases": ["button", "b"],
-          "Description": "Creates a button GameObject in scene",
-          "SubCommand": "CreateButtonCommand"
+          "Subcommand": "CreateButtonCommand"
         },
         "Slider": {
           "Aliases": ["slider", "sl"],
-          "Description": "Creates a slider GameObject in scene",
-          "SubCommand": "CreateSliderCommand"
+          "Subcommand": "CreateSliderCommand"
         },
         "Scrollbar": {
           "Aliases": ["scrollbar", "sb"],
-          "Description": "Creates a scrollbar GameObject in scene",
-          "SubCommand": "CreateScrollbarCommand"
+          "Subcommand": "CreateScrollbarCommand"
         },
         "Toggle": {
           "Aliases": ["toggle", "to"],
-          "Description": "Creates a toggle GameObject in scene",
-          "SubCommand": "CreateToggleCommand"
+          "Subcommand": "CreateToggleCommand"
         },
         "InputField": {
           "Aliases": ["inputfield", "if"],
-          "Description": "Creates an input field GameObject in scene",
-          "SubCommand": "CreateInputFieldCommand"
+          "Subcommand": "CreateInputFieldCommand"
         },
         "Dropdown": {
           "Aliases": ["dropdown", "dd"],
-          "Description": "Creates a dropdown GameObject in scene",
-          "SubCommand": "CreateDropdownCommand"
+          "Subcommand": "CreateDropdownCommand"
         },
         "ScrollView": {
           "Aliases": ["scrollview", "sv"],
-          "Description": "Creates a scroll view GameObject in scene",
-          "SubCommand": "CreateScrollViewCommand"
+          "Subcommand": "CreateScrollViewCommand"
         },
         "EventSystem": {
           "Aliases": ["eventsystem", "es"],
-          "Description": "Creates an event system GameObject in scene",
-          "SubCommand": "CreateEventSystemCommand"
+          "Subcommand": "CreateEventSystemCommand"
         },
         "TMP_Text": {
           "Aliases": ["tmp_text", "tmp_t"],
-          "Description": "Creates a TMP text GameObject in scene",
-          "SubCommand": "CreateTMP_TextCommand"
+          "Subcommand": "CreateTMP_TextCommand"
         },
         "TMP_Dropdown": {
           "Aliases": ["tmp_dropdown", "tmp_dd"],
-          "Description": "Creates a TMP dropdown GameObject in scene",
-          "SubCommand": "CreateTMP_DropdownCommand"
+          "Subcommand": "CreateTMP_DropdownCommand"
         },
         "TMP_InputField": {
           "Aliases": ["tmp_inputfield", "tmp_if"],
-          "Description": "Creates a TMP input field GameObject in scene",
-          "SubCommand": "CreateTMP_InputFieldCommand"
+          "Subcommand": "CreateTMP_InputFieldCommand"
         },
         "TMP_Button": {
           "Aliases": ["tmp_button", "tmp_b"],
-          "Description": "Creates a TMP button GameObject in scene",
-          "SubCommand": "CreateTMP_ButtonCommand"
+          "Subcommand": "CreateTMP_ButtonCommand"
         },
         "TMP_Toggle": {
           "Aliases": ["tmp_toggle", "tmp_to"],
-          "Description": "Creates a TMP toggle GameObject in scene",
-          "SubCommand": "CreateTMP_ToggleCommand"
+          "Subcommand": "CreateTMP_ToggleCommand"
         }
       }
     },
@@ -815,7 +781,7 @@
   "ClearCommand": {
     "AddToHistory": false,
     "Aliases": ["clear", "cls"],
-    "Description": "Clears the console and command history",
+    "Description": "Clears the console and command history"
   },
   "DestroyCommand": {
     "AddToHistory": true,
@@ -1075,6 +1041,9 @@
   "SerializeObjectCommand": {},
   "DeserializeObjectCommand": {},
   "SetValueCommand": {},
+  "ReloadCommand": {
+    "Aliases": ["reload"]
+  },
   "AddComponentCommand": {},
-  "RemoveComponentCommand": {}
+  "RemoveComponentCommand": {},
 }

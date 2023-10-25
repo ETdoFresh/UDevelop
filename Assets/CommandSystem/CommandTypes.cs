@@ -11,19 +11,7 @@ namespace CommandSystem.Commands
 
         static CommandTypes()
         {
-            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (var assembly in assemblies)
-            {
-                var types = assembly.GetTypes();
-                foreach (var type in types)
-                {
-                    if (!typeof(Command).IsAssignableFrom(type)) continue;
-                    if (type == typeof(Command)) continue;
-                    if (type.FullName == null) continue;
-                    CommandTypeFullNameDictionary.Add(type.FullName, type);
-                    CommandTypeNameDictionary.Add(type.Name, type);
-                }
-            }
+            Reload();
         }
 
         public static Type GetByFullName(string fullName) =>
@@ -44,6 +32,25 @@ namespace CommandSystem.Commands
             }
 
             return null;
+        }
+
+        public static void Reload()
+        {
+            CommandTypeFullNameDictionary.Clear();
+            CommandTypeNameDictionary.Clear();
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var assembly in assemblies)
+            {
+                var types = assembly.GetTypes();
+                foreach (var type in types)
+                {
+                    if (!typeof(Command).IsAssignableFrom(type)) continue;
+                    if (type == typeof(Command)) continue;
+                    if (type.FullName == null) continue;
+                    CommandTypeFullNameDictionary.Add(type.FullName, type);
+                    CommandTypeNameDictionary.Add(type.Name, type);
+                }
+            }
         }
     }
 }

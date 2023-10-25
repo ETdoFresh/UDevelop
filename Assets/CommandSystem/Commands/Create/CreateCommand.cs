@@ -20,11 +20,11 @@ namespace CommandSystem.Commands.Create
                 .Where(x => x.Value.Contains(arg1))
                 .Select(x => x.Key)
                 .FirstOrDefault();
-            var arg1SubCommandTypeName = CommandJsonData.Get<string>($"{TypeName}.Arg1.PossibleValues.{arg1Name}.SubCommand");
-            var arg1SubCommandType = CommandTypes.GetByName(arg1SubCommandTypeName);
-            if (arg1SubCommandType == null) throw new ArgumentException($"Invalid type of object to create: {arg1}");
+            var arg1SubcommandTypeName = CommandJsonData.Get<string>($"{TypeName}.Arg1.PossibleValues.{arg1Name}.Subcommand");
+            var arg1SubcommandType = CommandTypes.GetByName(arg1SubcommandTypeName);
+            if (arg1SubcommandType == null) throw new ArgumentException($"Invalid type of object to create: {arg1}");
             var subArgs = string.Join(' ', args.Skip(1));
-            _createCommand = (Command)Activator.CreateInstance(arg1SubCommandType, subArgs);
+            _createCommand = (Command)Activator.CreateInstance(arg1SubcommandType, subArgs);
             _createCommand.Run();
         }
         
