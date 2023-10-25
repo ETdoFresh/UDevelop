@@ -182,7 +182,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.CreateCommand"
   },
-  "CreatePrefab": {
+  "CreatePrefabCommand": {
     "AddToHistory": true,
     "Aliases": ["createprefab"],
     "Description": "Creates an empty prefab in project",
@@ -200,7 +200,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreatePrefabCommand"
   },
-  "CreateScene": {
+  "CreateSceneCommand": {
     "AddToHistory": true,
     "Aliases": ["createscene"],
     "Description": "Creates an empty scene in project",
@@ -218,7 +218,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateSceneCommand"
   },
-  "CreateScriptableObject": {
+  "CreateScriptableObjectCommand": {
     "AddToHistory": true,
     "Aliases": ["createscriptableobject"],
     "Description": "Creates an empty scriptable object in project",
@@ -245,7 +245,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateScriptableObjectCommand"
   },
-  "CreateMaterial": {
+  "CreateMaterialCommand": {
     "AddToHistory": true,
     "Aliases": ["creatematerial"],
     "Description": "Creates an empty material in project",
@@ -263,7 +263,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateMaterialCommand"
   },
-  "CreateFolder": {
+  "CreateFolderCommand": {
     "AddToHistory": true,
     "Aliases": ["createfolder"],
     "Description": "Creates an empty folder in project",
@@ -281,7 +281,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateFolderCommand"
   },
-  "CreateInstance": {
+  "CreateInstanceCommand": {
     "AddToHistory": true,
     "Aliases": ["createinstance"],
     "Description": "Creates an instance of an object in scene",
@@ -308,7 +308,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateInstanceCommand"
   },
-  "CreateGameObject": {
+  "CreateGameObjectCommand": {
     "AddToHistory": true,
     "Aliases": ["creategameobject"],
     "Description": "Creates an empty GameObject in scene",
@@ -326,7 +326,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateGameObjectCommand"
   },
-  "CreateCube": {
+  "CreateCubeCommand": {
     "AddToHistory": true,
     "Aliases": ["createcube"],
     "Description": "Creates a cube GameObject in scene",
@@ -344,7 +344,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateCubeCommand"
   },
-  "CreateSphere": {
+  "CreateSphereCommand": {
     "AddToHistory": true,
     "Aliases": ["createsphere"],
     "Description": "Creates a sphere GameObject in scene",
@@ -362,7 +362,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateSphereCommand"
   },
-  "CreateCapsule": {
+  "CreateCapsuleCommand": {
     "AddToHistory": true,
     "Aliases": ["createcapsule"],
     "Description": "Creates a capsule GameObject in scene",
@@ -380,7 +380,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateCapsuleCommand"
   },
-  "CreateCylinder": {
+  "CreateCylinderCommand": {
     "AddToHistory": true,
     "Aliases": ["createcylinder"],
     "Description": "Creates a cylinder GameObject in scene",
@@ -398,7 +398,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateCylinderCommand"
   },
-  "CreatePlane": {
+  "CreatePlaneCommand": {
     "AddToHistory": true,
     "Aliases": ["createplane"],
     "Description": "Creates a plane GameObject in scene",
@@ -641,7 +641,7 @@
       "TypeFullName": "CommandSystem.Commands.Create.CreateToggleCommand"
     }
   },
-  "CreateInputField": {
+  "CreateInputFieldCommand": {
     "AddToHistory": true,
     "Aliases": ["createinputfield"],
     "Description": "Creates an input field GameObject in scene",
@@ -660,7 +660,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateInputFieldCommand"
   },
-  "CreateDropdown": {
+  "CreateDropdownCommand": {
     "AddToHistory": true,
     "Aliases": ["createdropdown"],
     "Description": "Creates a dropdown GameObject in scene",
@@ -679,7 +679,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateDropdownCommand"
   },
-  "CreateScrollView": {
+  "CreateScrollViewCommand": {
     "AddToHistory": true,
     "Aliases": ["createscrollview"],
     "Description": "Creates a scroll view GameObject in scene",
@@ -698,7 +698,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateScrollViewCommand"
   },
-  "CreateEventSystem": {
+  "CreateEventSystemCommand": {
     "AddToHistory": true,
     "Aliases": ["createeventsystem"],
     "Description": "Creates an event system GameObject in scene",
@@ -717,7 +717,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateEventSystemCommand"
   },
-  "CreateTMP_Text": {
+  "CreateTMP_TextCommand": {
     "AddToHistory": true,
     "Aliases": ["createtmp_text"],
     "Description": "Creates a TMP text GameObject in scene",
@@ -736,7 +736,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateTMP_TextCommand"
   },
-  "CreateTMP_Dropdown": {
+  "CreateTMP_DropdownCommand": {
     "AddToHistory": true,
     "Aliases": ["createtmp_dropdown"],
     "Description": "Creates a TMP dropdown GameObject in scene",
@@ -755,7 +755,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateTMP_DropdownCommand"
   },
-  "CreateTMP_InputField": {
+  "CreateTMP_InputFieldCommand": {
     "AddToHistory": true,
     "Aliases": ["createtmp_inputfield"],
     "Description": "Creates a TMP input field GameObject in scene",
@@ -774,7 +774,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateTMP_InputFieldCommand"
   },
-  "CreateTMP_Button": {
+  "CreateTMP_ButtonCommand": {
     "AddToHistory": true,
     "Aliases": ["createtmp_button"],
     "Description": "Creates a TMP button GameObject in scene",
@@ -793,7 +793,7 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateTMP_ButtonCommand"
   },
-  "CreateTMP_Toggle": {
+  "CreateTMP_ToggleCommand": {
     "AddToHistory": true,
     "Aliases": ["createtmp_toggle"],
     "Description": "Creates a TMP toggle GameObject in scene",

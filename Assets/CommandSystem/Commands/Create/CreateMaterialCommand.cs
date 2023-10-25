@@ -20,7 +20,7 @@ namespace CommandSystem.Commands.Create
         public override void OnRun(params string[] args)
         {
 #if UNITY_EDITOR
-            var materialNameOrPath = args.Length < 3 ? null : string.Join("_", args[2..]);
+            var materialNameOrPath = args.Length < 2 ? null : string.Join("_", args[1..]);
             _materialPath = CommandAsset.ResolvePath(materialNameOrPath, "Material", ".mat");
             _materialName = CommandAsset.GetNameFromPath(_materialPath);
             var material = new UnityEngine.Material(UnityEngine.Shader.Find("Standard"));

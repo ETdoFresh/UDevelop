@@ -20,7 +20,7 @@ namespace CommandSystem.Commands.Create
 
         public override void OnRun(params string[] args)
         {
-            _gameObjectName = args.Length < 3 ? "Plane" : string.Join("_", args[2..]);
+            _gameObjectName = args.Length < 2 ? "Plane" : string.Join("_", args[1..]);
             _gameObject = GameObject.CreatePrimitive(PrimitiveType.Plane);
             _gameObject.name = _gameObjectName;
             UnityEditor.Selection.activeObject = _gameObject;

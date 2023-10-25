@@ -20,7 +20,7 @@ namespace CommandSystem.Commands.Create
         public override void OnRun(params string[] args)
         {
 #if UNITY_EDITOR
-            var prefabNameOrPath =  args.Length < 3 ? null : string.Join("_", args[2..]);
+            var prefabNameOrPath =  args.Length < 2 ? null : string.Join("_", args[1..]);
             _prefabPath = CommandAsset.ResolvePath(prefabNameOrPath, "Prefab", ".prefab");
             _prefabName = CommandAsset.GetNameFromPath(_prefabPath);
             var emptyGameObject = new UnityEngine.GameObject(_prefabName);

@@ -20,7 +20,7 @@ namespace CommandSystem.Commands.Create
         public override void OnRun(params string[] args)
         {
 #if UNITY_EDITOR
-            var sceneNameOrPath =  args.Length < 3 ? null : string.Join("_", args[2..]);
+            var sceneNameOrPath =  args.Length < 2 ? null : string.Join("_", args[1..]);
             _scenePath = CommandAsset.ResolvePath(sceneNameOrPath, "Scene", ".unity");
             _sceneName = CommandAsset.GetNameFromPath(_scenePath);
             var scene = UnityEditor.SceneManagement.EditorSceneManager.NewScene(

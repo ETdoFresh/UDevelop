@@ -20,7 +20,7 @@ namespace CommandSystem.Commands.Create
 
         public override void OnRun(params string[] args)
         {
-            _gameObjectName = args.Length < 3 ? "Camera" : string.Join("_", args[2..]);
+            _gameObjectName = args.Length < 2 ? "Camera" : string.Join("_", args[1..]);
             _gameObject = new GameObject(_gameObjectName, typeof(Camera));
             UnityEditor.Selection.activeObject = _gameObject;
         }

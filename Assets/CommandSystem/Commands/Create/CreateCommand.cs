@@ -23,7 +23,7 @@ namespace CommandSystem.Commands.Create
             var arg1SubCommandTypeName = CommandJsonData.Get<string>($"{TypeName}.Arg1.PossibleValues.{arg1Name}.SubCommand");
             var arg1SubCommandType = CommandTypes.GetByName(arg1SubCommandTypeName);
             if (arg1SubCommandType == null) throw new ArgumentException($"Invalid type of object to create: {arg1}");
-            var subArgs = args.Skip(1).ToArray();
+            var subArgs = string.Join(' ', args.Skip(1));
             _createCommand = (Command)Activator.CreateInstance(arg1SubCommandType, subArgs);
             _createCommand.Run();
         }
