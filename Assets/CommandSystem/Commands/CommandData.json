@@ -1038,6 +1038,12 @@
   "SelectNoneCommand": {
     "Aliases": ["selectnone"]
   },
+  "SelectAssetByNameCommand": {
+    "Aliases": ["selectassetbyname"]
+  },
+  "SelectAssetByTypeNameCommand": {
+    "Aliases": ["selectassetbytypename"]
+  },
   "SelectByTagCommand": {},
   "SelectByLayerCommand": {},
   "SelectByComponentCommand": {},
