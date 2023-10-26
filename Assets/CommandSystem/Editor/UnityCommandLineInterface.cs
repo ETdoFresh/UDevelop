@@ -8,7 +8,7 @@ namespace CommandSystem.Editor
     /// <summary>
     /// A window that displays a command line like terminal for the editor.
     /// </summary>
-    public class UnityTerminalInterfaceWindow : EditorWindow
+    public class UnityCommandLineInterface : EditorWindow
     {
         private int _selectedCommandIndex = -1;
         private string _commandLineInput = "";
@@ -20,10 +20,10 @@ namespace CommandSystem.Editor
         private Texture2D _backgroundTexture;
 
         // Alt/Option + Space to open the window.
-        [MenuItem("Window/Unity Terminal Interface &SPACE")]
+        [MenuItem("Window/Unity Command Line Interface &SPACE")]
         public static void ShowWindow()
         {
-            GetWindow<UnityTerminalInterfaceWindow>("Unity Terminal Interface");
+            GetWindow<UnityCommandLineInterface>("Unity CLI");
         }
 
         private void OnGUI()
@@ -108,6 +108,7 @@ namespace CommandSystem.Editor
                     {
                         if (_commandLineInput.ToLower() == "close" || _commandLineInput.ToLower() == "exit")
                         {
+                            Debug.Log("Thank-you for using UNITY COMMAND LINE INTERFACE!");
                             Close();
                             return;
                         }

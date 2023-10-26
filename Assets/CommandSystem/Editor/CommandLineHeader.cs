@@ -2,13 +2,24 @@
 {
     public static class CommandLineHeader
     {
-        public static string HeaderText = "Unity Terminal Interface";
-        public static string VersionText = "v0.0.1";
-        public static string AuthorText = "by ETdoFresh";
+        private const string HeaderText = "Unity Command Line Interface";
+        private const string ShortHeaderText = "UNITY/CLI";
+        private const string VersionText = "0.0.1";
+        private const string AuthorText = "ETdoFresh";
+        private const string CompanyText = "ETdoFresh, not Inc.";
+        private const string YearsText = "2023-2023";
 
         public static string GetHeader()
         {
-            return $"{HeaderText}\n{VersionText} {AuthorText}\n\n";
+            //UNITY/CLI Professional Unprotected Mode Editor  Version 0.0.1
+            // Copyright (c) ETdoFresh, not Inc. 2023-2023
+#if UNITY_EDITOR
+            const string mode = "Editor";
+#else
+            const string mode = "Run-time";
+#endif
+            return $"{ShortHeaderText} Professional Unprotected Mode {mode}  Version {VersionText}\n" +
+                   $"Copyright (c) {CompanyText} {YearsText}\n\n";
         }
     }
 }
