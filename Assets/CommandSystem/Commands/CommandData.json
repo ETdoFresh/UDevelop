@@ -956,57 +956,52 @@
     "AddToHistory": true,
     "Aliases": ["select", "sel", "s"],
     "Description": "Selects an object in scene or project by name",
-    "Usage": "<type> [name][index]",
+    "Usage": "[type] [name][index]",
     "Arg1": {
-      "Required": true,
       "PossibleValues": {
-        "GameObject": {
-          "Aliases": ["gameobject", "go"],
-          "Description": "Selects a GameObject"
+        "GameObjectByName": {
+          "Aliases": ["gameobjectbyname", "gameobject", "go", "byname", "name", "n"],
+          "Subcommand": "SelectGameObjectByNameCommand"
         },
-        "Material": {
-          "Aliases": ["material", "m"],
-          "Description": "Selects a Material"
+        "GameObjectByTag": {
+          "Aliases": ["gameobjectbytag", "bytag", "tag", "t"],
+          "Subcommand": "SelectByTagCommand"
         },
-        "Texture": {
-          "Aliases": ["texture", "t"],
-          "Description": "Selects a Texture"
+        "GameObjectByLayer": {
+          "Aliases": ["gameobjectbylayer", "bylayer", "layer", "l"],
+          "Subcommand": "SelectByLayerCommand"
         },
-        "Shader": {
-          "Aliases": ["shader", "s"],
-          "Description": "Selects a Shader"
+        "GameObjectByComponentTypeName": {
+            "Aliases": ["gameobjectbycomponenttypename", "componenttype", "bycomponent", "component", "c"],
+            "Subcommand": "SelectByComponentCommand"
+            },
+        "GameObjectByComponentTypeNameAndName": {
+          "Aliases": ["gameobjectbycomponenttypenameandname", "componenttypename", "bycomponentandname", "componentname", "ctn"],
+          "Subcommand": "SelectByComponentCommand"
         },
-        "AudioClip": {
-          "Aliases": ["audioclip", "ac"],
-          "Description": "Selects an AudioClip"
+        "AllGameObjects": {
+          "Aliases": ["allgameobjects", "all", "a"],
+          "Subcommand": "SelectAllGameObjectsCommand"
         },
-        "AnimationClip": {
-          "Aliases": ["animationclip", "an"],
-          "Description": "Selects an AnimationClip"
+        "RootGameObjects": {
+          "Aliases": ["rootgameobjects", "root", "r"],
+          "Subcommand": "SelectRootGameObjectsCommand"
         },
-        "AnimatorController": {
-          "Aliases": ["animatorcontroller", "anc"],
-          "Description": "Selects an AnimatorController"
+        "AssetByName": {
+          "Aliases": ["assetbyname", "asset", "a"],
+          "Subcommand": "SelectAssetByNameCommand"
         },
-        "Font": {
-          "Aliases": ["font", "f"],
-          "Description": "Selects a Font"
+        "AssetByTypeName": {
+          "Aliases": ["assetbytypename", "byassettype", "assettype", "at"],
+          "Subcommand": "SelectAssetByTypeNameCommand"
         },
-        "Prefab": {
-          "Aliases": ["prefab", "p"],
-          "Description": "Selects a Prefab"
-        },
-        "ScriptableObject": {
-          "Aliases": ["scriptableobject", "so"],
-          "Description": "Selects a ScriptableObject"
-        },
-        "Scene": {
-          "Aliases": ["scene", "s"],
-          "Description": "Selects a Scene"
+        "AssetByTypeNameAndName": {
+          "Aliases": ["assetbytypenameandname", "byassettypeandname", "assettypename", "atn"],
+          "Subcommand": "SelectAssetByTypeNameAndNameCommand"
         },
         "None": {
           "Aliases": ["none", "n"],
-          "Description": "Deselects all objects"
+          "Subcommand": "SelectNoneCommand"
         }
       }
     },
