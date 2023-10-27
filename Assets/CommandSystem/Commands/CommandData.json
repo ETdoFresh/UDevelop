@@ -1064,4 +1064,7 @@
   },
   "AddComponentCommand": {},
   "RemoveComponentCommand": {},
+  "PackageCommand": {
+    "Aliases": ["package"]
+  }
 }
