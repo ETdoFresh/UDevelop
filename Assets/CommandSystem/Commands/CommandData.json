@@ -783,10 +783,10 @@
     "Aliases": ["clear", "cls"],
     "Description": "Clears the console and command history"
   },
-  "DestroyCommand": {
+  "DestroySelectedGameObjectsCommand": {
     "AddToHistory": true,
-    "Aliases": ["destroy", "d"],
-    "Description": "Destroys an object in scene",
+    "Aliases": ["destroyselectedgameobjects", "destroyselected", "destroy", "d"],
+    "Description": "Destroys selected objects in scene",
     "Usage": "<name>[index]",
     "Arg1": {
       "Required": true,
@@ -1060,8 +1060,12 @@
   "ReloadCommand": {
     "Aliases": ["reload"]
   },
-  "AddComponentCommand": {},
-  "RemoveComponentCommand": {},
+  "AddComponentToSelectionCommand": {
+    "Aliases": ["addcomponenttoselection", "addcomponent", "addcomp", "ac"]
+  },
+  "RemoveComponentToSelectionCommand": {
+    "Aliases": ["removecomponenttoselection", "removecomponent", "removecomp", "rc"]
+  },
   "PackageCommand": {
     "Aliases": ["package"]
   }
