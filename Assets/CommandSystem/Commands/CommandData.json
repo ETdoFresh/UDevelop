@@ -965,22 +965,26 @@
         },
         "GameObjectByTag": {
           "Aliases": ["gameobjectbytag", "bytag", "tag", "t"],
-          "Subcommand": "SelectByTagCommand"
+          "Subcommand": "SelectGameObjectByTagCommand"
         },
         "GameObjectByLayer": {
           "Aliases": ["gameobjectbylayer", "bylayer", "layer", "l"],
-          "Subcommand": "SelectByLayerCommand"
+          "Subcommand": "SelectGameObjectByLayerCommand"
         },
         "GameObjectByComponentTypeName": {
-            "Aliases": ["gameobjectbycomponenttypename", "componenttype", "bycomponent", "component", "c"],
-            "Subcommand": "SelectByComponentCommand"
-            },
-        "GameObjectByComponentTypeNameAndName": {
-          "Aliases": ["gameobjectbycomponenttypenameandname", "componenttypename", "bycomponentandname", "componentname", "ctn"],
-          "Subcommand": "SelectByComponentCommand"
+          "Aliases": ["gameobjectbycomponenttypename", "componenttype", "bycomponent", "component", "c"],
+          "Subcommand": "SelectGameObjectByComponentCommand"
+        },
+        "ParentGameObject": {
+          "Aliases": ["parentgameobject", "parent", "p"],
+          "Subcommand": "SelectParentGameObjectCommand"
+        },
+        "ChildGameObject": {
+          "Aliases": ["childgameobject", "child", "c"],
+          "Subcommand": "SelectChildGameObjectCommand"
         },
         "AllGameObjects": {
-          "Aliases": ["allgameobjects", "all", "a"],
+          "Aliases": ["allgameobjects", "all"],
           "Subcommand": "SelectAllGameObjectsCommand"
         },
         "RootGameObjects": {
@@ -1017,10 +1021,9 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.SelectCommand"
   },
-  "SelectParentCommand": {},
-  "SelectChildCommand": {},
-  "SelectSiblingCommand": {},
-  "SelectByNameCommand": {},
+  "SelectParentGameObjectCommand": {},
+  "SelectChildGameObjectCommand": {},
+  "SelectSiblingGameObjectCommand": {},
   "SelectGameObjectByNameCommand": {
     "Aliases": ["selectgameobjectbyname"]
   },
@@ -1039,16 +1042,16 @@
   "SelectAssetByTypeNameCommand": {
     "Aliases": ["selectassetbytypename"]
   },
-  "SelectByTagCommand": {},
-  "SelectByLayerCommand": {},
-  "SelectByComponentCommand": {},
-  "SelectByMaterialCommand": {},
-  "SelectByTextureCommand": {},
-  "SelectByShaderCommand": {},
-  "SelectByAudioClipCommand": {},
-  "SelectByAnimationClipCommand": {},
-  "SelectByAnimatorControllerCommand": {},
-  "SelectByReferenceCommand": {},
+  "SelectGameObjectByTagCommand": {},
+  "SelectGameObjectByLayerCommand": {},
+  "SelectGameObjectByComponentCommand": {},
+  "SelectGameObjectByMaterialCommand": {},
+  "SelectGameObjectByTextureCommand": {},
+  "SelectGameObjectByShaderCommand": {},
+  "SelectGameObjectByAudioClipCommand": {},
+  "SelectGameObjectByAnimationClipCommand": {},
+  "SelectGameObjectByAnimatorControllerCommand": {},
+  "SelectGameObjectByReferenceCommand": {},
   "SerializeSceneCommand": {},
   "DeserializeSceneCommand": {},
   "SerializeObjectCommand": {},

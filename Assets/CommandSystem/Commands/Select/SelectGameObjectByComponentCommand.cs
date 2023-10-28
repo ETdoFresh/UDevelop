@@ -6,28 +6,29 @@ using Object = UnityEngine.Object;
 namespace CommandSystem.Commands.Select
 {
     [Serializable]
-    public class SelectGameObjectByNameCommand : Command
+    public class SelectGameObjectByComponentCommand : Command
     {
         [SerializeField] private Object[] _previousSelectedObjects;
         [SerializeField] private Object[] _selectedObjects;
 
-        public SelectGameObjectByNameCommand(string commandInput) : base(commandInput) { }
+        public SelectGameObjectByComponentCommand(string commandInput) : base(commandInput) { }
 
         public override void OnRun(params string[] args)
         {
             if (args.Length < 2) throw new ArgumentException("Not enough arguments!");
-            var objectName = string.Join(" ", args[1..]);
-            var objectNameWithoutIndex = SelectionUtil.RemoveIndexFromName(objectName);
+            var component = string.Join(" ", args[1..]);
+            var componentWithoutIndex = SelectionUtil.RemoveIndexFromName(component);
+            var componentType = SelectionUtil.GetTypeByName(componentWithoutIndex);
+            if (componentType == null) throw new ArgumentException($"Component {componentWithoutIndex} not found!");
 
-            var objectsByName = Object
+            var objectsByComponent = Object
                 .FindObjectsOfType<GameObject>(true)
-                .Where(x => string.Equals(x.name, objectNameWithoutIndex,
-                    StringComparison.CurrentCultureIgnoreCase))
+                .Where(x => x.GetComponent(componentType) != null)
                 .OrderBy(SelectionUtil.GetGameObjectOrder)
                 .Cast<Object>();
 
             _previousSelectedObjects = UnityEditor.Selection.objects;
-            _selectedObjects = SelectionUtil.ParseAndSelectIndex(objectsByName, objectName);
+            _selectedObjects = SelectionUtil.ParseAndSelectIndex(objectsByComponent, component);
             UnityEditor.Selection.objects = _selectedObjects;
         }
 

@@ -8,20 +8,22 @@ namespace CommandSystem.Commands.Select
 {
     public static class SelectionUtil
     {
+        private static List<Type> _componentTypeCache;
+        
         public static int GetGameObjectOrder(GameObject gameObject)
         {
-            return gameObject.transform.root.GetSiblingIndex() * 1000000 
-                   + CountParents(gameObject.transform) * 1000 
+            return gameObject.transform.root.GetSiblingIndex() * 1000000
+                   + CountParents(gameObject.transform) * 1000
                    + gameObject.transform.GetSiblingIndex();
         }
-        
+
         public static Object[] ParseAndSelectIndex(IEnumerable<Object> objects, string objectName)
         {
             var index = -1;
             var hasIndex = objectName.EndsWith("]") && objectName.Contains("[");
             var hasValidIndex = hasIndex && int.TryParse(objectName.Split('[')[1].Split(']')[0], out index);
             var hasWildcardIndex = hasIndex && objectName.Split('[')[1].Split(']')[0] == "*";
-            
+
             if (hasWildcardIndex)
             {
                 return objects.ToArray();
@@ -36,13 +38,13 @@ namespace CommandSystem.Commands.Select
 
                 return new[] { objects.ElementAt(index) };
             }
-            
+
             else
             {
                 return new[] { objects.FirstOrDefault() };
             }
         }
-        
+
         private static int CountParents(Transform transform)
         {
             var count = 0;
@@ -61,6 +63,25 @@ namespace CommandSystem.Commands.Select
             var hasValidIndex = hasIndex && int.TryParse(objectName.Split('[')[1].Split(']')[0], out _);
             var hasWildcardIndex = hasIndex && objectName.Split('[')[1].Split(']')[0] == "*";
             return hasValidIndex || hasWildcardIndex ? objectName.Split('[')[0] : objectName;
+        }
+
+        public static Type GetTypeByName(string typeName)
+        {
+            _componentTypeCache ??= AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(x => x.GetTypes())
+                .Where(x => x.IsSubclassOf(typeof(Component)))
+                .ToList();
+            return _componentTypeCache.FirstOrDefault(x => x.FullName == typeName) ??
+                   _componentTypeCache.FirstOrDefault(x =>
+                       string.Equals(x.FullName, typeName, StringComparison.CurrentCultureIgnoreCase)) ??
+                   _componentTypeCache.FirstOrDefault(x => x.Name == typeName) ??
+                   _componentTypeCache.FirstOrDefault(x =>
+                       string.Equals(x.Name, typeName, StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        public static void Reload()
+        {
+            _componentTypeCache = null;
         }
     }
 }

@@ -15,9 +15,12 @@ namespace CommandSystem.Commands.Select
 
         public override void OnRun(params string[] args)
         {
-            var sceneGameObjects = Object.FindObjectsOfType<GameObject>(true).Where(x => x.transform.parent == null).Cast<Object>().ToArray();
+            var sceneRootGameObject = Object
+                .FindObjectsOfType<GameObject>(true)
+                .Where(x => x.transform.parent == null)
+                .Cast<Object>().ToArray();
             _previousSelectedObjects = UnityEditor.Selection.objects;
-            _selectedObjects = sceneGameObjects;
+            _selectedObjects = sceneRootGameObject;
             UnityEditor.Selection.objects = _selectedObjects;
         }
 

@@ -6,20 +6,27 @@ using Object = UnityEngine.Object;
 namespace CommandSystem.Commands.Select
 {
     [Serializable]
-    public class SelectAllGameObjectsCommand : Command
-    {
+    public class SelectGameObjectByLayerCommand : Command {
         [SerializeField] private Object[] _previousSelectedObjects;
         [SerializeField] private Object[] _selectedObjects;
 
-        public SelectAllGameObjectsCommand(string commandInput) : base(commandInput) { }
+        public SelectGameObjectByLayerCommand(string commandInput) : base(commandInput) { }
 
         public override void OnRun(params string[] args)
         {
-            var sceneGameObjects = Object
+            if (args.Length < 2) throw new ArgumentException("Not enough arguments!");
+            var layer = string.Join(" ", args[1..]);
+            var layerWithoutIndex = SelectionUtil.RemoveIndexFromName(layer);
+            
+            var objectsByLayer = Object
                 .FindObjectsOfType<GameObject>(true)
-                .Cast<Object>().ToArray();
+                .Where(x => string.Equals(LayerMask.LayerToName(x.layer), layerWithoutIndex,
+                    StringComparison.CurrentCultureIgnoreCase))
+                .OrderBy(SelectionUtil.GetGameObjectOrder)
+                .Cast<Object>();
+            
             _previousSelectedObjects = UnityEditor.Selection.objects;
-            _selectedObjects = sceneGameObjects;
+            _selectedObjects = SelectionUtil.ParseAndSelectIndex(objectsByLayer, layer);
             UnityEditor.Selection.objects = _selectedObjects;
         }
 
