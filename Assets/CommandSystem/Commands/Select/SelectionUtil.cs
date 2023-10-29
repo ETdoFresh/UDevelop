@@ -79,6 +79,59 @@ namespace CommandSystem.Commands.Select
                        string.Equals(x.Name, typeName, StringComparison.CurrentCultureIgnoreCase));
         }
 
+        public static Object[] GetGameObjectsByPath(string path)
+        {
+            var objectNameArray = path.Split('/');
+            var foundPath = "";
+            var remainingPath = path;
+            List<Transform> currentParents = null;
+
+            foreach (var objectName in objectNameArray)
+            {
+                var objectNameWithoutIndex = RemoveIndexFromName(objectName);
+                var nextParents = new List<Transform>();
+
+                if (currentParents == null)
+                {
+                    var objectsByName = Object
+                        .FindObjectsOfType<GameObject>(true)
+                        .Where(x => !x.transform.parent)
+                        .Where(x => string.Equals(x.name, objectNameWithoutIndex,
+                            StringComparison.CurrentCultureIgnoreCase))
+                        .OrderBy(GetGameObjectOrder)
+                        .Cast<Object>();
+                    if (!objectsByName.Any()) throw new ArgumentException($"No GameObjects found! {remainingPath}");
+                    nextParents.AddRange(ParseAndSelectIndex(objectsByName, objectName)
+                        .Select(x => ((GameObject)x).transform));
+                }
+                else
+                {
+                    foreach (var currentParent in currentParents)
+                    {
+                        var objectsByName = currentParent
+                            .Cast<Transform>()
+                            .Select(x => x.gameObject)
+                            .Where(x => string.Equals(x.name, objectNameWithoutIndex,
+                                StringComparison.CurrentCultureIgnoreCase))
+                            .OrderBy(GetGameObjectOrder)
+                            .Cast<Object>();
+                        if (!objectsByName.Any())
+                            throw new ArgumentException($"No GameObjects found! {foundPath} -- {remainingPath}");
+                        nextParents.AddRange(ParseAndSelectIndex(objectsByName, objectName)
+                            .Select(x => ((GameObject)x).transform).ToArray());
+                    }
+                }
+
+                currentParents = nextParents;
+                foundPath += $"{objectName}";
+                remainingPath = path[foundPath.Length..];
+            }
+            
+            if (currentParents == null) throw new ArgumentException($"No GameObjects found! {foundPath}");
+            return currentParents.Select(x => x.gameObject).Cast<Object>().ToArray();
+        }
+        
+
         public static void Reload()
         {
             _componentTypeCache = null;

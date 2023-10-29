@@ -1,3 +1,5 @@
+using CommandSystem.Commands.Select;
+
 namespace CommandSystem.Commands.EditorOnly
 {
     public class ReloadCommand : Command
@@ -8,6 +10,7 @@ namespace CommandSystem.Commands.EditorOnly
         {
             CommandJsonData.Reload();
             CommandTypes.Reload();
+            SelectionUtil.Reload();
         }
     }
 }

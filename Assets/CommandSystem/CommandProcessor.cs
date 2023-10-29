@@ -19,9 +19,9 @@ namespace CommandSystem
         {
             //possibleCommands.Add(new CommandEntry{ commandName = "create", commandType = typeof(CreateAddressableCommand) });
             possibleCommands.Add(new CommandEntry { commandName = "destroy", commandType = typeof(DestroySelectedGameObjectsCommand) });
-            possibleCommands.Add(new CommandEntry { commandName = "move", commandType = typeof(MoveCommand) });
-            possibleCommands.Add(new CommandEntry { commandName = "rotate", commandType = typeof(RotateCommand) });
-            possibleCommands.Add(new CommandEntry { commandName = "scale", commandType = typeof(ScaleCommand) });
+            possibleCommands.Add(new CommandEntry { commandName = "move", commandType = typeof(MoveSelectedTransformsCommand) });
+            possibleCommands.Add(new CommandEntry { commandName = "rotate", commandType = typeof(RotateSelectedTransformsCommand) });
+            possibleCommands.Add(new CommandEntry { commandName = "scale", commandType = typeof(ScaleSelectedTransformsCommand) });
         }
 
         private void OnEnable()

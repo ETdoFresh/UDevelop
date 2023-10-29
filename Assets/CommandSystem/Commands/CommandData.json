@@ -834,9 +834,9 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.HelpCommand"
   },
-  "MoveCommand": {
+  "MoveSelectedTransformsCommand": {
     "AddToHistory": true,
-    "Aliases": ["move", "m"],
+    "Aliases": ["moveselectedtransforms","move", "m"],
     "Description": "Moves an object in scene",
     "Usage": "<position> [name]",
     "Arg1": {
@@ -848,21 +848,12 @@
         }
       }
     },
-    "Arg2": {
-      "Required": false,
-      "PossibleValues": {
-        "Name": {
-          "Type": "string",
-          "Description": "Name or path of object to move. If no name is specified, it will move the selected object(s)."
-        }
-      }
-    },
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.MoveCommand"
   },
-  "RotateCommand": {
+  "RotateSelectedTransformsCommand": {
     "AddToHistory": true,
-    "Aliases": ["rotate", "r"],
+    "Aliases": ["rotateselectedtransforms", "rotate", "r"],
     "Description": "Rotates an object in scene",
     "Usage": "<rotation> [name]",
     "Arg1": {
@@ -874,21 +865,12 @@
         }
       }
     },
-    "Arg2": {
-      "Required": false,
-      "PossibleValues": {
-        "Name": {
-          "Type": "string",
-          "Description": "Name or path of object to rotate. If no name is specified, it will rotate the selected object(s)."
-        }
-      }
-    },
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.RotateCommand"
   },
-  "ScaleCommand": {
+  "ScaleSelectedTransformsCommand": {
     "AddToHistory": true,
-    "Aliases": ["scale", "s"],
+    "Aliases": ["scaleselectedtransforms", "scale", "s"],
     "Description": "Scales an object in scene",
     "Usage": "<scale> [name]",
     "Arg1": {
@@ -897,15 +879,6 @@
         "Scale": {
           "Type": "Vector3",
           "Description": "Scale to scale object to. If Vector2 specified, the Z value will be unchanged. If Vector1 specified, the scale will be uniform."
-        }
-      }
-    },
-    "Arg2": {
-      "Required": false,
-      "PossibleValues": {
-        "Name": {
-          "Type": "string",
-          "Description": "Name or path of object to scale. If no name is specified, it will scale the selected object(s)."
         }
       }
     },
@@ -1059,6 +1032,9 @@
   "DeserializeSceneCommand": {},
   "SerializeObjectCommand": {},
   "DeserializeObjectCommand": {},
+  "SetParentOfSelectedTransformsToPathCommand": {
+    "Aliases": ["setparentofselectedtransformstopath", "setparent", "sp"]
+  },
   "SetValueCommand": {},
   "ReloadCommand": {
     "Aliases": ["reload"]
