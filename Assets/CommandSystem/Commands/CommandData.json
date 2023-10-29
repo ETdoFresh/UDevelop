@@ -1035,7 +1035,9 @@
   "SetParentOfSelectedTransformsToPathCommand": {
     "Aliases": ["setparentofselectedtransformstopath", "setparent", "sp"]
   },
-  "SetValueCommand": {},
+  "SetValueOfSelectedGameObjectComponentCommand": {
+    "Aliases": ["setvalueofselectedgameobjectcomponent", "setvalue", "sv"]
+  },
   "ReloadCommand": {
     "Aliases": ["reload"]
   },
