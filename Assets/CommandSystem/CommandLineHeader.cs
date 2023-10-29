@@ -11,14 +11,14 @@
 
         public static string GetHeader()
         {
-            //UNITY/CLI Professional Unprotected Mode Editor  Version 0.0.1
+            //UNITY/CLI Professional Editor Mode  Version 0.0.1
             // Copyright (c) ETdoFresh, not Inc. 2023-2023
 #if UNITY_EDITOR
             const string mode = "Editor";
 #else
             const string mode = "Run-time";
 #endif
-            return $"{ShortHeaderText} Professional Unprotected Mode {mode}  Version {VersionText}\n" +
+            return $"{ShortHeaderText} Professional {mode} Mode  Version {VersionText}\n" +
                    $"Copyright (c) {CompanyText} {YearsText}\n\n";
         }
     }

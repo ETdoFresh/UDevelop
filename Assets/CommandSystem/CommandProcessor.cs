@@ -15,10 +15,6 @@ namespace CommandSystem
 
         private void Awake()
         {
-            possibleCommands.Add(
-                new CommandEntry { commandName = "prim", commandType = typeof(CreatePrimitiveCommand) });
-            possibleCommands.Add(new CommandEntry
-                { commandName = "createprim", commandType = typeof(CreatePrimitiveCommand) });
             //possibleCommands.Add(new CommandEntry{ commandName = "create", commandType = typeof(CreateAddressableCommand) });
             possibleCommands.Add(new CommandEntry { commandName = "destroy", commandType = typeof(DestroySelectedGameObjectsCommand) });
             possibleCommands.Add(new CommandEntry { commandName = "move", commandType = typeof(MoveCommand) });

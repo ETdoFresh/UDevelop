@@ -1027,6 +1027,9 @@
   "SelectGameObjectByNameCommand": {
     "Aliases": ["selectgameobjectbyname"]
   },
+  "SelectGameObjectByPathCommand": {
+    "Aliases": ["selectgameobjectbypath"]
+  },
   "SelectAllGameObjectsCommand": {
     "Aliases": ["selectallgameobjects"]
   },
