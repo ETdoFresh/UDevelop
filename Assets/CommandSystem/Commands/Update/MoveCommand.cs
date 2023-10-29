@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace CommandSystem.Commands
+namespace CommandSystem.Commands.Update
 {
     [Serializable]
     public class MoveCommand : Command

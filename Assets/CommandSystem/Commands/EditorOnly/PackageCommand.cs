@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEditor.PackageManager.Requests;
 
-namespace CommandSystem.Commands
+namespace CommandSystem.Commands.EditorOnly
 {
     [Serializable]
     public class PackageCommand : Command

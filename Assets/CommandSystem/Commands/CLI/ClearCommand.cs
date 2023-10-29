@@ -1,6 +1,6 @@
 using System;
 
-namespace CommandSystem.Commands
+namespace CommandSystem.Commands.CLI
 {
     [Serializable]
     public class ClearCommand : Command

@@ -1,4 +1,4 @@
-namespace CommandSystem.Commands
+namespace CommandSystem.Commands.EditorOnly
 {
     public class PlayCommand : Command
     {

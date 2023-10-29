@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace CommandSystem.Commands
+namespace CommandSystem.Commands.CLI
 {
     [Serializable]
     public class HelpCommand : Command

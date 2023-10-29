@@ -2,7 +2,7 @@
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace CommandSystem.Commands
+namespace CommandSystem.Commands.Destroy
 {
     [Serializable]
     public class DestroySelectedGameObjectsCommand : Command

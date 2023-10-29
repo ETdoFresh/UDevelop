@@ -3,7 +3,7 @@ using CommandSystem.Commands.Select;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace CommandSystem.Commands
+namespace CommandSystem.Commands.Components
 {
     [Serializable]
     public class RemoveComponentToSelectionCommand : Command
