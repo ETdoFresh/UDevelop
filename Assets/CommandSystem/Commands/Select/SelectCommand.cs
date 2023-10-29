@@ -32,13 +32,19 @@ namespace CommandSystem.Commands.Select
             }
             else
             {
-                var selectTypeName =
-                    CommandJsonData.Get<string>($"{TypeName}.Arg1.PossibleValues.{selectArg1Name}.Subcommand");
-                var selectType = CommandTypes.GetByName(selectTypeName);
+                var subcommand = CommandJsonData.Get<string>($"{TypeName}.Arg1.PossibleValues.{selectArg1Name}.Subcommand");
+                var extraArgs = new[] { subcommand };
+                if (subcommand.Contains(" "))
+                {
+                    extraArgs = subcommand.Split(' ').ToArray();
+                    subcommand = subcommand.Split(' ')[0];
+                }
+                var selectType = CommandTypes.GetByName(subcommand);
                 if (selectType == null)
                     throw new ArgumentException($"Invalid type of object to select: {selectTypeAlias}");
-                var subArgs = string.Join(' ', args.Skip(1));
-                _selectCommand = (Command)Activator.CreateInstance(selectType, subArgs);
+                var subArgs = extraArgs != null ?  extraArgs.Concat(args[2..]).ToArray() : args[2..];
+                var subArgsString = string.Join(' ', subArgs);
+                _selectCommand = (Command)Activator.CreateInstance(selectType, subArgsString);
                 _selectCommand.Run();
             }
         }

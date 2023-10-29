@@ -976,6 +976,10 @@
           "Aliases": ["assetbytypenameandname", "byassettypeandname", "assettypename", "atn"],
           "Subcommand": "SelectAssetByTypeNameAndNameCommand"
         },
+        "SceneAssetByName": {
+            "Aliases": ["sceneassetbyname", "sceneasset", "scene", "s"],
+            "Subcommand": "SelectAssetByTypeNameAndNameCommand sceneasset"
+        },
         "None": {
           "Aliases": ["none", "n"],
           "Subcommand": "SelectNoneCommand"
@@ -1017,6 +1021,9 @@
   },
   "SelectAssetByTypeNameCommand": {
     "Aliases": ["selectassetbytypename"]
+  },
+  "SelectAssetByTypeNameAndNameCommand": {
+    "Aliases": ["selectassetbytypenameandname"]
   },
   "SelectGameObjectByTagCommand": {},
   "SelectGameObjectByLayerCommand": {},
