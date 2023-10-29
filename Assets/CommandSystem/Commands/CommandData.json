@@ -1037,8 +1037,12 @@
   "SelectGameObjectByReferenceCommand": {},
   "SerializeSceneCommand": {},
   "DeserializeSceneCommand": {},
-  "SerializeObjectCommand": {},
-  "DeserializeObjectCommand": {},
+  "SerializeSelectedGameObjectsCommand": {
+    "Aliases": ["serializeselectedgameobjects", "serialize", "ss"]
+  },
+  "DeserializeGameObjectsCommand": {
+    "Aliases": ["deserializegameobjects", "deserialize", "ds"]
+  },
   "SetParentOfSelectedTransformsToPathCommand": {
     "Aliases": ["setparentofselectedtransformstopath", "setparent", "sp"]
   },

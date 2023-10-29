@@ -20,7 +20,8 @@ namespace CommandSystem.Editor
                     var trimmedCommand = command.Trim();
                     var commandName = trimmedCommand.Split(' ')[0];
 
-                    var commandType = CommandTypes.GetByAlias(commandName.ToLower());
+                    var commandType = CommandTypes.GetByName(commandName);
+                    commandType ??= CommandTypes.GetByAlias(commandName.ToLower());
                     
                     if (commandType == null)
                     {
