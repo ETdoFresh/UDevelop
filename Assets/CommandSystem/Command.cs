@@ -48,7 +48,7 @@ namespace CommandSystem
 
         public void Run()
         {
-            var args = commandInput.Split(' ', ',');
+            var args = commandInput.Split(' ');
             var commandTypeName = GetType().Name;
             this.args.AddRange(args);
             if (!hasRun.Contains(commandTypeName))

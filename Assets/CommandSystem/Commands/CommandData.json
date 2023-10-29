@@ -1038,6 +1038,9 @@
   "SetValueOfSelectedGameObjectComponentCommand": {
     "Aliases": ["setvalueofselectedgameobjectcomponent", "setvalue", "sv"]
   },
+  "GetValueOfSelectedGameObjectComponentCommand": {
+    "Aliases": ["getvalueofselectedgameobjectcomponent", "getvalue", "gv"]
+  },
   "ReloadCommand": {
     "Aliases": ["reload"]
   },
@@ -1049,5 +1052,11 @@
   },
   "PackageCommand": {
     "Aliases": ["package"]
+  },
+  "OpenSceneCommand": {
+    "Aliases": ["openscene", "open"]
+  },
+  "SaveSceneCommand": {
+    "Aliases": ["savescene", "save"]
   }
 }

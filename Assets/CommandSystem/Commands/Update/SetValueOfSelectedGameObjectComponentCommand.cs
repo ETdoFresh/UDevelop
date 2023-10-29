@@ -24,7 +24,7 @@ namespace CommandSystem.Commands.Update
             gameObjects = UnityEditor.Selection.gameObjects;
             componentName = args[1];
             fieldName = args[2];
-            fieldValue = args[3];
+            fieldValue = string.Join(" ", args.Skip(3));
             foreach (var gameObject in gameObjects)
             {
                 var componentType = SelectionUtil.GetTypeByName(componentName);
@@ -64,152 +64,12 @@ namespace CommandSystem.Commands.Update
 
         private void SetFieldValue(Component component, FieldInfo field, string s)
         {
-            if (field.FieldType == typeof(int))
-            {
-                field.SetValue(component, JsonConvert.DeserializeObject<int>(s));
-                return;
-            }
-            if (field.FieldType == typeof(float))
-            {
-                field.SetValue(component, JsonConvert.DeserializeObject<float>(s));
-                return;
-            }
-            if (field.FieldType == typeof(double))
-            {
-                field.SetValue(component, JsonConvert.DeserializeObject<double>(s));
-                return;
-            }
-            if (field.FieldType == typeof(string))
-            {
-                field.SetValue(component, JsonConvert.DeserializeObject<string>(s));
-                return;
-            }
-            if (field.FieldType == typeof(bool))
-            {
-                field.SetValue(component, JsonConvert.DeserializeObject<bool>(s));
-                return;
-            }
-            if (field.FieldType == typeof(Vector2))
-            {
-                field.SetValue(component, JsonConvert.DeserializeObject<Vector2>(s));
-                return;
-            }
-            if (field.FieldType == typeof(Vector3))
-            {
-                field.SetValue(component, JsonConvert.DeserializeObject<Vector3>(s));
-                return;
-            }
-            if (field.FieldType == typeof(Vector4))
-            {
-                field.SetValue(component, JsonConvert.DeserializeObject<Vector4>(s));
-                return;
-            }
-            if (field.FieldType == typeof(Quaternion))
-            {
-                field.SetValue(component, JsonConvert.DeserializeObject<Quaternion>(s));
-                return;
-            }
-            if (field.FieldType == typeof(Color))
-            {
-                field.SetValue(component, JsonConvert.DeserializeObject<Color>(s));
-                return;
-            }
-            if (field.FieldType == typeof(Color32))
-            {
-                field.SetValue(component, JsonConvert.DeserializeObject<Color32>(s));
-                return;
-            }
-            if (field.FieldType == typeof(Rect))
-            {
-                field.SetValue(component, JsonConvert.DeserializeObject<Rect>(s));
-                return;
-            }
-            if (field.FieldType == typeof(RectOffset))
-            {
-                field.SetValue(component, JsonConvert.DeserializeObject<RectOffset>(s));
-                return;
-            }
-            if (field.FieldType == typeof(AnimationCurve))
-            {
-                field.SetValue(component, JsonConvert.DeserializeObject<AnimationCurve>(s));
-                return;
-            }
-            throw new ArgumentException($"Field {fieldName} has unsupported type {field.FieldType}!");
+            field.SetValue(component, JsonConvert.DeserializeObject(s, field.FieldType));
         }
         
         private void SetPropertyValue(Component component, PropertyInfo property, string s)
         {
-            if (property.PropertyType == typeof(int))
-            {
-                property.SetValue(component, JsonConvert.DeserializeObject<int>(s));
-                return;
-            }
-            if (property.PropertyType == typeof(float))
-            {
-                property.SetValue(component, JsonConvert.DeserializeObject<float>(s));
-                return;
-            }
-            if (property.PropertyType == typeof(double))
-            {
-                property.SetValue(component, JsonConvert.DeserializeObject<double>(s));
-                return;
-            }
-            if (property.PropertyType == typeof(string))
-            {
-                property.SetValue(component, JsonConvert.DeserializeObject<string>(s));
-                return;
-            }
-            if (property.PropertyType == typeof(bool))
-            {
-                property.SetValue(component, JsonConvert.DeserializeObject<bool>(s));
-                return;
-            }
-            if (property.PropertyType == typeof(Vector2))
-            {
-                property.SetValue(component, JsonConvert.DeserializeObject<Vector2>(s));
-                return;
-            }
-            if (property.PropertyType == typeof(Vector3))
-            {
-                property.SetValue(component, JsonConvert.DeserializeObject<Vector3>(s));
-                return;
-            }
-            if (property.PropertyType == typeof(Vector4))
-            {
-                property.SetValue(component, JsonConvert.DeserializeObject<Vector4>(s));
-                return;
-            }
-            if (property.PropertyType == typeof(Quaternion))
-            {
-                property.SetValue(component, JsonConvert.DeserializeObject<Quaternion>(s));
-                return;
-            }
-            if (property.PropertyType == typeof(Color))
-            {
-                property.SetValue(component, JsonConvert.DeserializeObject<Color>(s));
-                return;
-            }
-            if (property.PropertyType == typeof(Color32))
-            {
-                property.SetValue(component, JsonConvert.DeserializeObject<Color32>(s));
-                return;
-            }
-            if (property.PropertyType == typeof(Rect))
-            {
-                property.SetValue(component, JsonConvert.DeserializeObject<Rect>(s));
-                return;
-            }
-            if (property.PropertyType == typeof(RectOffset))
-            {
-                property.SetValue(component, JsonConvert.DeserializeObject<RectOffset>(s));
-                return;
-            }
-            if (property.PropertyType == typeof(AnimationCurve))
-            {
-                property.SetValue(component, JsonConvert.DeserializeObject<AnimationCurve>(s));
-                return;
-            }
-            throw new ArgumentException($"Field {fieldName} has unsupported type {property.PropertyType}!");
+            property.SetValue(component, JsonConvert.DeserializeObject(s, property.PropertyType));
         }
     }
 }
