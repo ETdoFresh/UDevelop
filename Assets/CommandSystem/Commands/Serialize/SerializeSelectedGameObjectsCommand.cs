@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Unity.Collections;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -29,24 +30,9 @@ namespace CommandSystem.Commands.Serialize
                     if (component is Transform) continue;
                     var componentName = component.GetType().Name;
                     _serializedCommand += $"\nAddComponent {componentName}";
-                    foreach(var field in component.GetType().GetFields())
-                    {
-                        if (field.CustomAttributes.Any(x => x.AttributeType == typeof(ObsoleteAttribute))) continue;
-                        if (field.DeclaringType == typeof(Component)) continue;
-                        if (field.DeclaringType == typeof(Object)) continue;
-                        var fieldValue = field.GetValue(component);
-                        _serializedCommand += $"\nSetValue {componentName} {field.Name} {fieldValue}";
-                    }
-                    foreach(var property in component.GetType().GetProperties())
-                    {
-                        if (property.CustomAttributes.Any(x => x.AttributeType == typeof(ObsoleteAttribute))) continue;
-                        if (property.DeclaringType == typeof(Component)) continue;
-                        if (property.DeclaringType == typeof(Object)) continue;
-                        if (!property.CanWrite) continue;
-                        if (!property.CanRead) continue;
-                        var propertyValue = property.GetValue(component);
-                        _serializedCommand += $"\nSetValue {componentName} {property.Name} {propertyValue}";
-                    }
+                    if (component is MeshFilter meshFilter) _serializedCommand += SerializeMeshFilter(meshFilter);
+                    else if (component is MeshRenderer meshRenderer) _serializedCommand += SerializeMeshRenderer(meshRenderer);
+                    else _serializedCommand += SerializeGenericComponent(component);
                 }
             }
             Debug.Log(_serializedCommand);
@@ -61,6 +47,51 @@ namespace CommandSystem.Commands.Serialize
             if (component is Rigidbody) return 4;
             if (component is MonoBehaviour) return 5;
             return 6;
+        }
+        
+        private string SerializeMeshFilter(MeshFilter meshFilter)
+        {
+            var serializedCommand = "";
+            var guidsOut = new NativeArray<UnityEditor.GUID>(new UnityEditor.GUID[]{ default }, Allocator.Temp);
+            var instanceIDs = new NativeArray<int>(new[] { meshFilter.sharedMesh.GetInstanceID() }, Allocator.Temp);
+            UnityEditor.AssetDatabase.InstanceIDsToGUIDs(instanceIDs, guidsOut);
+            serializedCommand += $"\nSetValue MeshFilter SharedMesh {guidsOut[0].ToString()}";
+            return serializedCommand;
+        }
+        
+        private string SerializeMeshRenderer(MeshRenderer meshRenderer)
+        {
+            var serializedCommand = "";
+            var guidsOut = new NativeArray<UnityEditor.GUID>(new UnityEditor.GUID[]{ default }, Allocator.Temp);
+            var instanceIDs = new NativeArray<int>(new[] { meshRenderer.sharedMaterial.GetInstanceID() }, Allocator.Temp);
+            UnityEditor.AssetDatabase.InstanceIDsToGUIDs(instanceIDs, guidsOut);
+            serializedCommand += $"\nSetValue MeshRenderer SharedMaterial {guidsOut[0].ToString()}";
+            return serializedCommand;
+        }
+        
+        private string SerializeGenericComponent(Component component)
+        {
+            var serializedCommand = "";
+            var componentTypeName = component.GetType().Name;
+            foreach(var field in component.GetType().GetFields())
+            {
+                if (field.CustomAttributes.Any(x => x.AttributeType == typeof(ObsoleteAttribute))) continue;
+                if (field.DeclaringType == typeof(Component)) continue;
+                if (field.DeclaringType == typeof(Object)) continue;
+                var fieldValue = field.GetValue(component);
+                serializedCommand += $"\nSetValue {componentTypeName} {field.Name} {fieldValue}";
+            }
+            foreach(var property in component.GetType().GetProperties())
+            {
+                if (property.CustomAttributes.Any(x => x.AttributeType == typeof(ObsoleteAttribute))) continue;
+                if (property.DeclaringType == typeof(Component)) continue;
+                if (property.DeclaringType == typeof(Object)) continue;
+                if (!property.CanWrite) continue;
+                if (!property.CanRead) continue;
+                var propertyValue = property.GetValue(component);
+                serializedCommand += $"\nSetValue {componentTypeName} {property.Name} {propertyValue}";
+            }
+            return serializedCommand;
         }
     }
 }
