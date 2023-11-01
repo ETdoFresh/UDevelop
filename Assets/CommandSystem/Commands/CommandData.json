@@ -29,7 +29,7 @@
         },
         "Instance": {
           "Aliases": ["instance", "i"],
-          "Subcommand": "CreateInstanceCommand"
+          "Subcommand": "CreateInstanceFromSelectionCommand"
         },
         "GameObject": {
           "Aliases": ["gameobject", "go", "empty", "e"],
@@ -247,12 +247,12 @@
     "Output": "{_commandOutput}",
     "TypeFullName": "CommandSystem.Commands.Create.CreateFolderCommand"
   },
-  "CreateInstanceCommand": {
+  "CreateInstanceFromSelectionCommand": {
     "AddToHistory": true,
-    "Aliases": ["createinstance"],
-    "Description": "Creates an instance of an object in scene",
+    "Aliases": ["createinstancefromselection", "createinstance", "ci"],
+    "Description": "Creates an instance of the selected prefabs in scene",
     "ExcludeFromHelp": true,
-    "Usage": "<prefab> [name]",
+    "Usage": "",
     "Arg1": {
       "Required": true,
       "PossibleValues": {
