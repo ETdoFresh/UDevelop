@@ -1,0 +1,89 @@
+{
+  "TypeFullName": "CommandSystem.Commands.User.NewGameObject",
+  "Description": "Creates a new Gameobject",
+  "Aliases": ["createprimitive", "createprim"],
+  "Group": "Create",
+  "Overloads": [
+    {
+      "Arguments": [],
+      "Steps": {
+        "StepType": "New",
+        "TypeFullName": "UnityEngine.GameObject",
+        "Output": {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{New GameObject}"
+        }
+      },
+      "Output": {
+        "Type": "UnityEngine.GameObject",
+        "Name": "{New GameObject}"
+      }
+    },
+    {
+      "Arguments": [
+        {
+          "Name": "GameObject Name",
+          "Description": "The name of the new GameObject.",
+          "Type": "string",
+          "Required": true
+        }
+      ],
+      "Steps": {
+        "StepType": "New",
+        "TypeFullName": "UnityEngine.GameObject",
+        "Arguments": [
+          {
+            "Type": "System.String",
+            "Value": "{GameObject Name}"
+          }
+        ],
+        "Output": {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{New GameObject}"
+        }
+      },
+      "Output": {
+        "Type": "UnityEngine.GameObject",
+        "Name": "{New GameObject}"
+      }
+    },
+    {
+      "Arguments": [
+        {
+          "Name": "GameObject Name",
+          "Description": "The name of the new GameObject.",
+          "Type": "string",
+          "Required": true
+        },
+        {
+          "Name": "Component Types",
+          "Description": "The types of components to add to the new GameObject.",
+          "Type": "System.Type[]",
+          "Required": true
+        }
+      ],
+      "Steps": {
+        "StepType": "New",
+        "TypeFullName": "UnityEngine.GameObject",
+        "Arguments": [
+          {
+            "Type": "System.String",
+            "Value": "{GameObject Name}"
+          },
+          {
+            "Type": "System.Type[]",
+            "Value": "{Component Types}"
+          }
+        ],
+        "Output": {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{New GameObject}"
+        }
+      },
+      "Output": {
+        "Type": "UnityEngine.GameObject",
+        "Name": "{New GameObject}"
+      }
+    }
+  ]
+}

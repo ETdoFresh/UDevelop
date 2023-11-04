@@ -1,0 +1,30 @@
+{
+  "TypeFullName": "CommandSystem.Commands.User.CreatePrimitive",
+  "Description": "Creates a primitive object.",
+  "Aliases": ["createprimitive", "createprim"],
+  "Group": "Create",
+  "Arguments": [
+    {
+      "Name": "Primitive Type",
+      "Description": "The type of primitive to create.",
+      "Type": "UnityEngine.PrimitiveType",
+      "Required": true
+    }
+  ],
+  "Steps": [
+    {
+      "StepType": "FunctionCall",
+      "TypeFullName": "UnityEngine.GameObject",
+      "Function": "CreatePrimitive",
+      "Arguments": [["{Primitive Type}"]],
+      "Output": {
+        "Type": "UnityEngine.GameObject",
+        "Name": "{Primitive GameObject}"
+      }
+    }
+  ],
+  "Output": {
+    "Type": "UnityEngine.GameObject",
+    "Name": "{Primitive GameObject}"
+  }
+}
