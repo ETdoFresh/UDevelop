@@ -1,4 +1,5 @@
 {
+  "Version": 1,
   "TypeFullName": "CommandSystem.Commands.User.CreatePrimitive",
   "Description": "Creates a primitive object.",
   "Aliases": ["createprimitive", "createprim"],

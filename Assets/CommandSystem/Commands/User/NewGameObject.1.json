@@ -1,0 +1,41 @@
+{
+  "Version": 1,
+  "TypeFullName": "CommandSystem.Commands.User.NewGameObject",
+  "Description": "Creates a new GameObject",
+  "Aliases": ["newgameobject", "newgo", "ng"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "string",
+          "Name": "GameObject Name",
+          "Description": "The name of the new GameObject.",
+          "Required": false
+        },
+        {
+          "Type": "System.Type[]",
+          "Name": "Component Types",
+          "Description": "The types of components to add to the new GameObject.",
+          "Required": false
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{New GameObject}",
+          "CSharp": "new UnityEngine.GameObject({GameObject Name}, {Component Types})"
+        },
+        {
+          "Type": "string",
+          "Name": "{New GameObject ScenePath}",
+          "Command": "GetScenePath {New GameObject}"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.GameObject",
+        "Name": "{New GameObject}"
+      },
+      "CommandLineOutput": "Created GameObject: {New GameObject ScenePath}"
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "Version": 1,
+  "TypeFullName": "CommandSystem.Commands.User.NewGameObjectAsChild",
+  "Description": "Creates a new GameObject as a child of the specified GameObject",
+  "Aliases": ["newgameobjectaschild", "newgochild", "ngc"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "UnityEngine.GameObject",
+          "Name": "Parent GameObject",
+          "Description": "The GameObject to create the new GameObject as a child of.",
+          "Required": true
+        },
+        {
+          "Type": "string",
+          "Name": "GameObject Name",
+          "Description": "The name of the new GameObject.",
+          "Required": false
+        },
+        {
+          "Type": "System.Type[]",
+          "Name": "Component Types",
+          "Description": "The types of components to add to the new GameObject.",
+          "Required": false
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{New GameObject}",
+          "Command": "NewGameObject {GameObject Name} {Component Types}"
+        },
+        {
+          "Type": "void",
+          "Name": "SetParent",
+          "Command": "SetParent {New GameObject} {Parent GameObject}"
+        },
+        {
+          "Type": "string",
+          "Name": "{New GameObject ScenePath}",
+          "Command": "GetScenePath {New GameObject}"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.GameObject",
+        "Name": "{New GameObject}"
+      },
+        "CommandLineOutput": "Created GameObject: {New GameObject ScenePath}"
+    },
+    {
+      "Input": [
+        {
+          "Type": "string",
+          "Name": "Parent GameObject Name",
+          "Description": "The name of the GameObject to create the new GameObject as a child of.",
+          "Required": true
+        },
+        {
+          "Type": "string",
+          "Name": "GameObject Name",
+          "Description": "The name of the new GameObject.",
+          "Required": false
+        },
+        {
+          "Type": "System.Type[]",
+          "Name": "Component Types",
+          "Description": "The types of components to add to the new GameObject.",
+          "Required": false
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{Parent GameObject}",
+          "Command": "FindGameObjectByName {Parent GameObject Name}"
+        },
+        {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{New GameObject}",
+          "Command": "NewGameObject {GameObject Name} {Component Types}"
+        },
+        {
+          "Type": "void",
+          "Name": "SetParent",
+          "Command": "SetParent {Parent GameObject} {New GameObject}"
+        },
+        {
+          "Type": "string",
+          "Name": "{New GameObject ScenePath}",
+          "Command": "GetScenePath {New GameObject}"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.GameObject",
+        "Name": "{New GameObject}"
+      },
+      "CommandLineOutput": "Created GameObject: {New GameObject ScenePath}"
+    }
+  ]
+}
