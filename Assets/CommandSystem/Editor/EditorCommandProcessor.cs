@@ -20,6 +20,12 @@ namespace CommandSystem.Editor
                     var trimmedCommand = command.Trim();
                     var commandName = trimmedCommand.Split(' ')[0];
 
+                    if (commandName == "j")
+                    {
+                        CommandJsonRunner.ProcessCommandInputString<object>(command);
+                        continue;
+                    }
+                    
                     var commandType = CommandTypes.GetByName(commandName);
                     commandType ??= CommandTypes.GetByAlias(commandName.ToLower());
                     
