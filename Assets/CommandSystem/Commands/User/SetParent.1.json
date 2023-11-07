@@ -21,9 +21,19 @@
       ],
       "Calls": [
         {
+          "Type": "UnityEngine.Transform",
+          "Name": "{GameObject Transform}",
+          "Command": "GetValue {GameObject} transform"
+        },
+        {
+          "Type": "UnityEngine.Transform",
+          "Name": "{Parent Transform}",
+          "Command": "GetValue {Parent} transform"
+        },
+        {
           "Type": "void",
           "Name": "void",
-          "CSharp": "CommandSystem.Commands.Utility.SetParent({GameObject}, {Parent})"
+          "CSharp": "UnityEngine.Transform.SetParent(this {GameObject Transform}, {Parent Transform})"
         }
       ],
       "Output": {
@@ -50,8 +60,13 @@
       "Calls": [
         {
           "Type": "UnityEngine.GameObject",
-            "Name": "{GameObject}",
+          "Name": "{GameObject}",
           "Command": "FindGameObjectByName {GameObject Name}"
+        },
+        {
+          "Type": "UnityEngine.Transform",
+          "Name": "{GameObject Transform}",
+          "Command": "GetValue {GameObject} transform"
         },
         {
           "Type": "UnityEngine.GameObject",
@@ -59,9 +74,14 @@
           "Command": "FindGameObjectByName {Parent Name}"
         },
         {
+          "Type": "UnityEngine.Transform",
+          "Name": "{Parent Transform}",
+          "Command": "GetValue {Parent} transform"
+        },
+        {
           "Type": "void",
           "Name": "void",
-          "CSharp": "CommandSystem.Commands.Utility.SetParent({GameObject}, {Parent})"
+          "CSharp": "UnityEngine.Transform.SetParent(this {GameObject Transform}, {Parent Transform})"
         }
       ],
       "Output": {

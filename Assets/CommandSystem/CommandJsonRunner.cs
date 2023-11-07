@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+using static System.Reflection.BindingFlags;
 
 namespace CommandSystem
 {
@@ -130,9 +131,17 @@ namespace CommandSystem
                 var fullTypeName = methodSplit[..^1];
                 var fullTypeString = string.Join('.', fullTypeName);
                 var type = StringToTypeUtility.Get(fullTypeString);
-                var method = type.GetMethod(methodName);
                 var argsString = split[1][..^1];
                 var argStrings = argsString.Split(',').Select(x => x.Trim()).ToArray();
+
+                var self = (object)null;
+                if (argStrings.Length > 0 && argStrings[0].StartsWith("this"))
+                {
+                    var selfString = argStrings[0][4..].Trim();
+                    self = localRunValues[selfString];
+                    argStrings = argStrings.Skip(1).ToArray();
+                }
+                
                 var argObjects = new object[argStrings.Length];
                 for (var i = 0; i < argStrings.Length; i++)
                 {
@@ -140,7 +149,10 @@ namespace CommandSystem
                     var arg = localRunValues[argString];
                     argObjects[i] = arg;
                 }
-                output = method.Invoke(null, argObjects);
+
+                var argTypes = argObjects.Select(x => x?.GetType()).ToArray();
+                var method = type.GetMethod(methodName, Public | NonPublic | Instance | Static, null, argTypes, null);
+                output = method.Invoke(self, argObjects);
                 // Function Call Example
                 // UnityEngine.GameObject.Find({GameObject Name})
             }
@@ -156,8 +168,9 @@ namespace CommandSystem
             var alias = formattedCommandString.Split(' ')[0];
 
             // Use RegEx to get each argument between { }. Name between { } can have spaces. Include { } in RegEx.
-            var regex = new System.Text.RegularExpressions.Regex(@"\{.*?\}");
-            var argStrings = regex.Matches(formattedCommandString).Select(x => x.Value).ToArray();
+            // RegEx should also include arguments with no { } and separate by spaces.
+            var regex = new System.Text.RegularExpressions.Regex(@"[\{].+?[\}]|[^ ]+");
+            var argStrings = regex.Matches(formattedCommandString).Select(x => x.Value).Skip(1).ToArray();
 
             var args = new object[argStrings.Length];
             for (var i = 0; i < argStrings.Length; i++)
@@ -165,6 +178,8 @@ namespace CommandSystem
                 var argString = argStrings[i];
                 if (localRunValues.TryGetValue(argString, out var arg))
                     args[i] = arg;
+                else
+                    args[i] = argString;
             }
             var output = Run(alias, localRunValues, localRunTypes, args);
             p3 = output;
@@ -300,7 +315,7 @@ namespace CommandSystem
                     if (i >= argTypes.Length) throw new ArgumentException("Not enough arguments!");
                     var inputType = inputTypes[i];
                     var argType = argTypes[i];
-                    if (inputType == argType) continue;
+                    if (inputType.IsAssignableFrom(argType)) continue;
                     isMatch = false;
                     break;
                 }

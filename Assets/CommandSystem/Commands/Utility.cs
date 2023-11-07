@@ -3,6 +3,7 @@ using System.Linq;
 using CommandSystem.Commands.Select;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using static System.Reflection.BindingFlags;
 
 namespace CommandSystem.Commands
 {
@@ -39,6 +40,24 @@ namespace CommandSystem.Commands
             var childTransform = child.transform;
             var parentTransform = parent.transform;
             childTransform.SetParent(parentTransform);
+        }
+        
+        public static object GetValue(object obj, string name)
+        {
+            var type = obj.GetType();
+            var field = type.GetField(name, Public | NonPublic | Instance);
+            if (field != null)
+            {
+                return field.GetValue(obj);
+            }
+
+            var property = type.GetProperty(name, Public | NonPublic | Instance);
+            if (property != null)
+            {
+                return property.GetValue(obj);
+            }
+
+            return null;
         }
     }
 }
