@@ -1,0 +1,30 @@
+﻿{
+  "Version": 1,
+  "TypeFullName": "CommandSystem.Commands.User.GetScenePath",
+  "Description": "Gets the scene path of a GameObject",
+  "Aliases": ["getscenepath", "gsp"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{GameObject}",
+          "Description": "The GameObject to get the scene path of.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "string",
+          "Name": "{GameObject ScenePath}",
+          "CSharp": "CommandSystem.Commands.Utility.GetGameObjectScenePath({GameObject})"
+        }
+      ],
+      "Output": {
+        "Type": "string",
+        "Name": "{GameObject ScenePath}"
+      },
+      "CommandLineOutput": "{GameObject ScenePath}"
+    }
+  ]
+}

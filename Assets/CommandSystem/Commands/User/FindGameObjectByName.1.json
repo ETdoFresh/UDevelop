@@ -8,7 +8,7 @@
       "Input": [
         {
           "Type": "string",
-          "Name": "GameObject Name",
+          "Name": "{GameObject Name}",
           "Description": "The name of the GameObject to find.",
           "Required": true
         }
@@ -17,7 +17,7 @@
         {
           "Type": "UnityEngine.GameObject",
           "Name": "{GameObject}",
-          "CSharp": "CommandSystem.Commands.Search.FindGameObjectByName({GameObject Name})"
+          "CSharp": "CommandSystem.Commands.Utility.FindGameObjectByName({GameObject Name})"
         },
         {
           "Type": "string",

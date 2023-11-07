@@ -17,40 +17,23 @@ namespace CommandSystem.Editor
             {
                 try
                 {
-                    var trimmedCommand = command.Trim();
-                    var commandName = trimmedCommand.Split(' ')[0];
+                    var output = CommandJsonRunner.ProcessCommandInputString(command);
+                    CommandData.Outputs.Add(output);
+                    CommandData.Display.Add(output);
 
-                    if (commandName == "j")
-                    {
-                        CommandJsonRunner.ProcessCommandInputString<object>(command);
-                        continue;
-                    }
-                    
-                    var commandType = CommandTypes.GetByName(commandName);
-                    commandType ??= CommandTypes.GetByAlias(commandName.ToLower());
-                    
-                    if (commandType == null)
-                    {
-                        CommandData.Outputs.Add($"Command {commandName} not found!");
-                        CommandData.Display.Add($"Command {commandName} not found!");
-                        continue;
-                    }
-                    
-                    var commandInstance = (Command)Activator.CreateInstance(commandType, trimmedCommand);
-                    commandInstance.Run();
-                    
-                    if (commandInstance.AddToHistory)
-                    {
-                        CommandData.History.Insert(CommandData.HistoryIndex, commandInstance);
-                        CommandData.HistoryIndex++;
-                        CommandData.History.RemoveRange(CommandData.HistoryIndex, CommandData.History.Count - CommandData.HistoryIndex);
-                    }
-
-                    if (commandInstance.CommandOutput != null)
-                    {
-                        CommandData.Outputs.Add(commandInstance.CommandOutput);
-                        CommandData.Display.Add(commandInstance.CommandOutput);
-                    }
+                    // TODO: Will have to figure out how to reverse each command in the future
+                    // if (commandInstance.AddToHistory)
+                    // {
+                    //     CommandData.History.Insert(CommandData.HistoryIndex, commandInstance);
+                    //     CommandData.HistoryIndex++;
+                    //     CommandData.History.RemoveRange(CommandData.HistoryIndex, CommandData.History.Count - CommandData.HistoryIndex);
+                    // }
+                    //
+                    // if (commandInstance.CommandOutput != null)
+                    // {
+                    //     CommandData.Outputs.Add(commandInstance.CommandOutput);
+                    //     CommandData.Display.Add(commandInstance.CommandOutput);
+                    // }
                 }
                 catch (Exception ex)
                 {

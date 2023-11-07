@@ -1,0 +1,74 @@
+﻿{
+  "Version": 1,
+  "TypeFullName": "CommandSystem.Commands.User.SetParent",
+  "Description": "Sets the parent of a GameObject",
+  "Aliases": ["setparent", "sp"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{GameObject}",
+          "Description": "The GameObject to set the parent of.",
+          "Required": true
+        },
+        {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{Parent}",
+          "Description": "The GameObject to set as the parent.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "void",
+          "Name": "void",
+          "CSharp": "CommandSystem.Commands.Utility.SetParent({GameObject}, {Parent})"
+        }
+      ],
+      "Output": {
+        "Type": "void",
+        "Name": "void"
+      },
+      "CommandLineOutput": "Set parent of {GameObject} to {Parent}"
+    },
+    {
+      "Input": [
+        {
+          "Type": "string",
+          "Name": "{GameObject Name}",
+          "Description": "The GameObject to set the parent of.",
+          "Required": true
+        },
+        {
+          "Type": "string",
+          "Name": "{Parent Name}",
+          "Description": "The GameObject to set as the parent.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "UnityEngine.GameObject",
+            "Name": "{GameObject}",
+          "Command": "FindGameObjectByName {GameObject Name}"
+        },
+        {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{Parent}",
+          "Command": "FindGameObjectByName {Parent Name}"
+        },
+        {
+          "Type": "void",
+          "Name": "void",
+          "CSharp": "CommandSystem.Commands.Utility.SetParent({GameObject}, {Parent})"
+        }
+      ],
+      "Output": {
+        "Type": "void",
+        "Name": "void"
+      },
+      "CommandLineOutput": "Set parent of {GameObject Name} to {Parent Name}"
+    }
+  ]
+}

@@ -8,19 +8,19 @@
       "Input": [
         {
           "Type": "UnityEngine.GameObject",
-          "Name": "Parent GameObject",
+          "Name": "{Parent GameObject}",
           "Description": "The GameObject to create the new GameObject as a child of.",
           "Required": true
         },
         {
           "Type": "string",
-          "Name": "GameObject Name",
+          "Name": "{GameObject Name}",
           "Description": "The name of the new GameObject.",
           "Required": false
         },
         {
           "Type": "System.Type[]",
-          "Name": "Component Types",
+          "Name": "{Component Types}",
           "Description": "The types of components to add to the new GameObject.",
           "Required": false
         }
@@ -33,7 +33,7 @@
         },
         {
           "Type": "void",
-          "Name": "SetParent",
+          "Name": "void",
           "Command": "SetParent {New GameObject} {Parent GameObject}"
         },
         {
@@ -52,19 +52,19 @@
       "Input": [
         {
           "Type": "string",
-          "Name": "Parent GameObject Name",
+          "Name": "{Parent GameObject Name}",
           "Description": "The name of the GameObject to create the new GameObject as a child of.",
           "Required": true
         },
         {
           "Type": "string",
-          "Name": "GameObject Name",
+          "Name": "{GameObject Name}",
           "Description": "The name of the new GameObject.",
           "Required": false
         },
         {
           "Type": "System.Type[]",
-          "Name": "Component Types",
+          "Name": "{Component Types}",
           "Description": "The types of components to add to the new GameObject.",
           "Required": false
         }
@@ -82,8 +82,8 @@
         },
         {
           "Type": "void",
-          "Name": "SetParent",
-          "Command": "SetParent {Parent GameObject} {New GameObject}"
+          "Name": "void",
+          "Command": "SetParent {New GameObject} {Parent GameObject}"
         },
         {
           "Type": "string",
