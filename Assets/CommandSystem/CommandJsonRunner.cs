@@ -13,6 +13,22 @@ namespace CommandSystem
         private static float _nextUpdate;
         private static Dictionary<string, JObject> aliasMap = new();
 
+        public class ArgData
+        {
+            public string Name;
+            public Type Type;
+            public object Value;
+            public bool Required;
+
+            public ArgData(string name, Type type, object value, bool required)
+            {
+                Name = name;
+                Type = type;
+                Value = value;
+                Required = required;
+            }
+        }
+
         public static string ProcessCommandInputString(string commandString)
         {
             AttemptUpdateAliasMap();
@@ -41,16 +57,15 @@ namespace CommandSystem
             var output = overload["Output"]?.ToString();
             var commandLineOutput = overload["CommandLineOutput"]?.ToString();
 
-            var localRunValues = new Dictionary<string, object>();
-            var localRunTypes = new Dictionary<string, Type>();
+            var localArgs = new Dictionary<string, ArgData>();
             for (var i = 0; i < (input?.Count ?? 0); i++)
             {
                 var arg = i < args.Length ? args[i] : null;
                 var argName = input[i]["Name"]?.ToString();
                 var argTypeString = input[i]["Type"]?.ToString();
+                var argRequired = input[i]["Required"]?.Value<bool>() == true;
                 var argType = StringToTypeUtility.Get(argTypeString);
-                localRunValues[argName] = arg;
-                localRunTypes[argName] = argType;
+                localArgs[argName] = new ArgData(argName, argType, arg, argRequired);
             }
 
             for (var i = 0; i < (calls?.Count ?? 0); i++)
@@ -64,15 +79,13 @@ namespace CommandSystem
                 {
                     if (csharp != null)
                     {
-                        AttemptToRunCSharp(csharp, localRunValues, localRunTypes, out var callOutput);
-                        localRunValues[callName] = callOutput;
-                        localRunTypes[callName] = StringToTypeUtility.Get(callTypeString);
+                        AttemptToRunCSharp(csharp, localArgs, out var callOutput);
+                        localArgs[callName] = new ArgData(callName, StringToTypeUtility.Get(callTypeString), callOutput, false);
                     }
                     else if (command != null)
                     {
-                        AttemptToRunCommand(command, localRunValues, localRunTypes, out var callOutput);
-                        localRunValues[callName] = callOutput;
-                        localRunTypes[callName] = StringToTypeUtility.Get(callTypeString);
+                        AttemptToRunCommand(command, localArgs, out var callOutput);
+                        localArgs[callName] = new ArgData(callName, StringToTypeUtility.Get(callTypeString), callOutput, false);
                     }
                     else
                     {
@@ -82,20 +95,20 @@ namespace CommandSystem
                 else
                 {
                     if (csharp != null)
-                        AttemptToRunCSharp(csharp, localRunValues, localRunTypes, out _);
+                        AttemptToRunCSharp(csharp, localArgs, out _);
                     else if (command != null)
-                        AttemptToRunCommand(command, localRunValues, localRunTypes, out _);
+                        AttemptToRunCommand(command, localArgs, out _);
                     else
                         throw new ArgumentException("No CSharp or Command found!");
                 }
             }
 
             var outputRegEx = new System.Text.RegularExpressions.Regex(@"\{.*?\}");
-            return outputRegEx.Replace(commandLineOutput, m => localRunValues[m.Value].ToString());
+            return outputRegEx.Replace(commandLineOutput, m => localArgs[m.Value].Value.ToString());
         }
 
-        private static void AttemptToRunCSharp(string csharpCode, Dictionary<string, object> localRunValues,
-            Dictionary<string, Type> localRunTypes, out object output)
+        private static void AttemptToRunCSharp(string csharpCode, Dictionary<string, ArgData> localArgs,
+            out object output)
         {
             // New Example
             // new UnityEngine.GameObject({GameObject Name}, {Component Types})
@@ -109,14 +122,16 @@ namespace CommandSystem
                 var argsString = split[1][..^1];
                 var argStrings = argsString.Split(',').Select(x => x.Trim()).ToArray();
                 var type = StringToTypeUtility.Get(typeString);
-                var argObjects = new object[argStrings.Length];
+                var argObjects = new List<object>();
                 for (var i = 0; i < argStrings.Length; i++)
                 {
                     var argString = argStrings[i];
-                    if (localRunValues.TryGetValue(argString, out var arg))
-                        argObjects[i] = arg;
+                    if (!localArgs.TryGetValue(argString, out var arg)) continue;
+                    if (arg.Required || arg.Value != null)
+                        argObjects.Add(arg.Value);
                 }
-                output = Activator.CreateInstance(type, argObjects);
+
+                output = Activator.CreateInstance(type, argObjects.ToArray());
             }
             else
             {
@@ -138,16 +153,16 @@ namespace CommandSystem
                 if (argStrings.Length > 0 && argStrings[0].StartsWith("this"))
                 {
                     var selfString = argStrings[0][4..].Trim();
-                    self = localRunValues[selfString];
+                    self = localArgs[selfString].Value;
                     argStrings = argStrings.Skip(1).ToArray();
                 }
-                
+
                 var argObjects = new object[argStrings.Length];
                 for (var i = 0; i < argStrings.Length; i++)
                 {
                     var argString = argStrings[i];
-                    var arg = localRunValues[argString];
-                    argObjects[i] = arg;
+                    var arg = localArgs[argString];
+                    argObjects[i] = arg.Value;
                 }
 
                 var argTypes = argObjects.Select(x => x?.GetType()).ToArray();
@@ -159,7 +174,7 @@ namespace CommandSystem
         }
 
         private static void AttemptToRunCommand(string formattedCommandString,
-            Dictionary<string, object> localRunValues, Dictionary<string, Type> localRunTypes, out object p3)
+            Dictionary<string, ArgData> localArgs, out object p3)
         {
             // getscenepath {New GameObject}
             // alias = getscenepath
@@ -176,17 +191,17 @@ namespace CommandSystem
             for (var i = 0; i < argStrings.Length; i++)
             {
                 var argString = argStrings[i];
-                if (localRunValues.TryGetValue(argString, out var arg))
-                    args[i] = arg;
+                if (localArgs.TryGetValue(argString, out var arg))
+                    args[i] = arg.Value;
                 else
                     args[i] = argString;
             }
-            var output = Run(alias, localRunValues, localRunTypes, args);
+
+            var output = Run(alias, localArgs, args);
             p3 = output;
         }
 
-        private static object Run(string alias, Dictionary<string, object> localRunValues,
-            Dictionary<string, Type> localRunTypes, params object[] args)
+        private static object Run(string alias, Dictionary<string, ArgData> localArgs, params object[] args)
         {
             AttemptUpdateAliasMap();
             var argTypes = args.Select(x => x?.GetType()).ToArray();
@@ -203,16 +218,17 @@ namespace CommandSystem
             var output = overload["Output"] as JObject;
             var commandLineOutput = overload["CommandLineOutput"]?.ToString();
 
-            localRunValues = new Dictionary<string, object>(localRunValues);
-            localRunTypes = new Dictionary<string, Type>(localRunTypes);
+            localArgs = new Dictionary<string, ArgData>(localArgs);
             for (var i = 0; i < (input?.Count ?? 0); i++)
             {
                 var arg = i < args.Length ? args[i] : null;
                 var argName = input[i]["Name"]?.ToString();
+                var argRequired = input[i]["Required"]?.Value<bool>() == true;
                 var argTypeString = input[i]["Type"]?.ToString();
                 var argType = StringToTypeUtility.Get(argTypeString);
-                localRunValues[argName] = arg;
-                localRunTypes[argName] = argType;
+                if (argRequired && arg == null) throw new ArgumentException($"Argument {argName} is required!");
+                if (!argRequired && arg == null) continue;
+                localArgs[argName] = new ArgData(argName, argType, arg, argRequired);
             }
 
             for (var i = 0; i < (calls?.Count ?? 0); i++)
@@ -226,15 +242,13 @@ namespace CommandSystem
                 {
                     if (csharp != null)
                     {
-                        AttemptToRunCSharp(csharp, localRunValues, localRunTypes, out var callOutput);
-                        localRunValues[callName] = callOutput;
-                        localRunTypes[callName] = StringToTypeUtility.Get(callTypeString);
+                        AttemptToRunCSharp(csharp, localArgs, out var callOutput);
+                        localArgs[callName] = new ArgData(callName, StringToTypeUtility.Get(callTypeString), callOutput, false);
                     }
                     else if (command != null)
                     {
-                        AttemptToRunCommand(command, localRunValues, localRunTypes, out var callOutput);
-                        localRunValues[callName] = callOutput;
-                        localRunTypes[callName] = StringToTypeUtility.Get(callTypeString);
+                        AttemptToRunCommand(command, localArgs, out var callOutput);
+                        localArgs[callName] = new ArgData(callName, StringToTypeUtility.Get(callTypeString), callOutput, false);
                     }
                     else
                     {
@@ -244,16 +258,16 @@ namespace CommandSystem
                 else
                 {
                     if (csharp != null)
-                        AttemptToRunCSharp(csharp, localRunValues, localRunTypes, out _);
+                        AttemptToRunCSharp(csharp, localArgs, out _);
                     else if (command != null)
-                        AttemptToRunCommand(command, localRunValues, localRunTypes, out _);
+                        AttemptToRunCommand(command, localArgs, out _);
                     else
                         throw new ArgumentException("No CSharp or Command found!");
                 }
             }
 
             var outputName = output?["Name"]?.ToString();
-            return outputName != null && outputName != "void" ? localRunValues[outputName] : null;
+            return outputName != null && outputName != "void" ? localArgs[outputName].Value : null;
         }
 
         private static void AttemptUpdateAliasMap()
@@ -319,8 +333,10 @@ namespace CommandSystem
                     isMatch = false;
                     break;
                 }
+
                 if (isMatch) return overload as JObject;
             }
+
             return null;
         }
     }
