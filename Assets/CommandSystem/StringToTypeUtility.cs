@@ -24,6 +24,15 @@ namespace CommandSystem
                 Types.Add(typeString, typeFound);
                 return typeFound;
             }
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                foreach (var typeInAssembly in assembly.GetTypes())
+                {
+                    if (!string.Equals(typeInAssembly.Name, typeString, StringComparison.CurrentCultureIgnoreCase)) continue;
+                    Types.Add(typeString, typeInAssembly);
+                    return typeInAssembly;
+                }
+            }
             return null;
         }
 

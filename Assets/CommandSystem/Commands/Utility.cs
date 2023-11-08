@@ -59,5 +59,10 @@ namespace CommandSystem.Commands
 
             return null;
         }
+        
+        public static Type FindSystemTypeByName(string typeNameString)
+        {
+            return StringToTypeUtility.Get(typeNameString);
+        }
     }
 }
