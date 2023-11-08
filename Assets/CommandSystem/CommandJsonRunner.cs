@@ -60,11 +60,12 @@ namespace CommandSystem
             var localArgs = new Dictionary<string, ArgData>();
             for (var i = 0; i < (input?.Count ?? 0); i++)
             {
-                var arg = i < args.Length ? args[i] : null;
+                var arg = i < args.Length ? (object)args[i] : null;
                 var argName = input[i]["Name"]?.ToString();
                 var argTypeString = input[i]["Type"]?.ToString();
                 var argRequired = input[i]["Required"]?.Value<bool>() == true;
                 var argType = StringToTypeUtility.Get(argTypeString);
+                arg = argType.IsEnum ? Enum.Parse(argType, arg.ToString()) : arg;
                 localArgs[argName] = new ArgData(argName, argType, arg, argRequired);
             }
 
@@ -104,6 +105,7 @@ namespace CommandSystem
             }
 
             var outputRegEx = new System.Text.RegularExpressions.Regex(@"\{.*?\}");
+            commandLineOutput = commandLineOutput ?? output;
             return outputRegEx.Replace(commandLineOutput, m => localArgs[m.Value].Value.ToString());
         }
 
@@ -329,7 +331,8 @@ namespace CommandSystem
                     if (i >= argTypes.Length) throw new ArgumentException("Not enough arguments!");
                     var inputType = inputTypes[i];
                     var argType = argTypes[i];
-                    if (inputType.IsAssignableFrom(argType)) continue;
+                    var maybeConvertibleToEnum = inputType.IsEnum && (argType == typeof(string) || argType == typeof(int));
+                    if (inputType.IsAssignableFrom(argType) || maybeConvertibleToEnum) continue;
                     isMatch = false;
                     break;
                 }

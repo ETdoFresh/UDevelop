@@ -23,7 +23,8 @@
       "Output": {
         "Type": "UnityEngine.GameObject",
         "Name": "{Primitive GameObject}"
-      }
+      },
+      "CommandLineOutput": "Created primitive: {Primitive Type}"
     }
   ]
 }
