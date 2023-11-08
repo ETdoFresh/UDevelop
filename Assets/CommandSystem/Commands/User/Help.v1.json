@@ -1,0 +1,30 @@
+﻿{
+  "Version": 1,
+  "TypeFullName": "CommandSystem.Commands.User.Help",
+  "Description": "Displays help information about a command.",
+  "Aliases": ["help", "h", "?"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "System.String",
+          "Name": "{Command Name}",
+          "Description": "The name of the command to display help information for.",
+          "Required": false
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "System.String",
+          "Name": "{Help}",
+          "CSharp": "CommandSystem.Commands.Utility.Help({Command Name})"
+        }
+      ],
+      "Output": {
+        "Type": "System.String",
+        "Name": "{Help}"
+      },
+      "CommandLineOutput": "{Help}"
+    }
+  ]
+}

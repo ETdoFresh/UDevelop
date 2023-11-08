@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using CommandSystem.Commands.Select;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using static System.Reflection.BindingFlags;
@@ -76,6 +78,42 @@ namespace CommandSystem.Commands
         public static Type FindSystemTypeByName(string typeNameString)
         {
             return StringToTypeUtility.Get(typeNameString);
+        }
+        
+        public static string Help(string commandAlias)
+        {
+            var aliasMap = CommandJsonRunner.AliasMap;
+
+            {
+                if (string.IsNullOrEmpty(commandAlias))
+                {
+                    var seenCommandJObjects = new HashSet<JObject>();
+                    var output = "";
+                    foreach (var jObject in aliasMap.Values)
+                    {
+                        if (seenCommandJObjects.Contains(jObject))
+                        {
+                            continue;
+                        }
+
+                        var commandName = jObject["TypeFullName"]?.ToString();
+                        var commandDescription = jObject["Description"]?.ToString();
+                        output += $"{commandName}\n{commandDescription}\n\n";
+                        seenCommandJObjects.Add(jObject);
+                    }
+                    return output;
+                }
+            }
+            {
+                if (aliasMap.TryGetValue(commandAlias, out var jObject))
+                {
+                    var commandName = jObject["TypeFullName"]?.ToString();
+                    var commandDescription = jObject["Description"]?.ToString();
+                    return $"{commandName}\n{commandDescription}";
+                }
+            }
+            
+            throw new Exception($"Could not find command with alias {commandAlias}");
         }
     }
 }

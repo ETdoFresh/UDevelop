@@ -12,23 +12,9 @@ namespace CommandSystem
         private const float UpdateRate = 0;
         private static float _nextUpdate;
         private static Dictionary<string, JObject> aliasMap = new();
-
-        public class ArgData
-        {
-            public string Name;
-            public Type Type;
-            public object Value;
-            public bool Required;
-
-            public ArgData(string name, Type type, object value, bool required)
-            {
-                Name = name;
-                Type = type;
-                Value = value;
-                Required = required;
-            }
-        }
-
+        
+        public static Dictionary<string, JObject> AliasMap => aliasMap;
+        
         public static string ProcessCommandInputString(string commandString)
         {
             AttemptUpdateAliasMap();
@@ -158,16 +144,17 @@ namespace CommandSystem
                     self = localArgs[selfString].Value;
                     argStrings = argStrings.Skip(1).ToArray();
                 }
-
-                var argObjects = new object[argStrings.Length];
+                
+                var args = new ArgData[argStrings.Length];
                 for (var i = 0; i < argStrings.Length; i++)
                 {
                     var argString = argStrings[i];
                     var arg = localArgs[argString];
-                    argObjects[i] = arg.Value;
+                    args[i] = arg;
                 }
 
-                var argTypes = argObjects.Select(x => x?.GetType()).ToArray();
+                var argTypes = args.Select(x => x.Type).ToArray();
+                var argObjects = args.Select(x => x.Value).ToArray();
                 var method = type.GetMethod(methodName, Public | NonPublic | Instance | Static, null, argTypes, null);
                 output = method.Invoke(self, argObjects);
                 // Function Call Example
