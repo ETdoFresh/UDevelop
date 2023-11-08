@@ -35,7 +35,7 @@
         "Type": "System.Object",
         "Name": "{Value}"
       },
-      "CommandLineOutput": "{Value}"
+      "CommandLineOutput": "Got Value: {Value}"
     }
   ]
 }

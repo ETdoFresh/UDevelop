@@ -35,13 +35,6 @@ namespace CommandSystem.Commands
             return selectedObjects.FirstOrDefault() as GameObject;
         }
         
-        public static void SetParent(GameObject child, GameObject parent)
-        {
-            var childTransform = child.transform;
-            var parentTransform = parent.transform;
-            childTransform.SetParent(parentTransform);
-        }
-        
         public static object GetValue(object obj, string name)
         {
             var type = obj.GetType();
@@ -58,6 +51,26 @@ namespace CommandSystem.Commands
             }
 
             return null;
+        }
+        
+        public static void SetValue(object obj, string name, object value)
+        {
+            var type = obj.GetType();
+            var field = type.GetField(name, Public | NonPublic | Instance);
+            if (field != null)
+            {
+                field.SetValue(obj, value);
+                return;
+            }
+
+            var property = type.GetProperty(name, Public | NonPublic | Instance);
+            if (property != null)
+            {
+                property.SetValue(obj, value);
+                return;
+            }
+            
+            throw new Exception($"Could not find field or property {name} on type {type}");
         }
         
         public static Type FindSystemTypeByName(string typeNameString)

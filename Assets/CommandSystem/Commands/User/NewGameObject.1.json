@@ -27,15 +27,15 @@
         },
         {
           "Type": "string",
-          "Name": "{New GameObject ScenePath}",
-          "Command": "GetScenePath {New GameObject}"
+          "Name": "{New GameObject Name}",
+          "Command": "GetValue {New GameObject} name"
         }
       ],
       "Output": {
         "Type": "UnityEngine.GameObject",
         "Name": "{New GameObject}"
       },
-      "CommandLineOutput": "Created GameObject: {New GameObject ScenePath}"
+      "CommandLineOutput": "Created GameObject: {New GameObject Name}"
     }
   ]
 }
