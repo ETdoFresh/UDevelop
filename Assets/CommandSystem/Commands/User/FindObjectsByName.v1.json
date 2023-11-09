@@ -1,0 +1,68 @@
+{
+  "Version": 1,
+  "TypeFullName": "CommandSystem.Commands.User.FindObjectsByName",
+  "DisplayName": "Find Objects By Name",
+  "Aliases": ["findobjectsbyname", "findobjects"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "string",
+          "Name": "{Object Name}",
+          "Description": "The name of the Objects to find.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "UnityEngine.Object[]",
+          "Name": "{Objects}",
+          "CSharp": "CommandSystem.Commands.Utility.FindObjectsByName({Object Name})"
+        },
+        {
+          "Type": "string",
+          "Name": "{Objects ScenePath}",
+          "Command": "GetScenePath {Objects}"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.Object[]",
+        "Name": "{Objects}"
+      },
+      "CommandLineOutput": "Found Objects:\n{Objects ScenePath}"
+    },
+    {
+      "Input": [
+        {
+          "Type": "string",
+          "Name": "{Object Name}",
+          "Description": "The name of the Objects to find.",
+          "Required": true
+        },
+        {
+          "Type": "UnityEngine.Object[]",
+          "Name": "{Object Array}",
+          "Description": "The Objects to search through.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "UnityEngine.Object[]",
+          "Name": "{Objects}",
+          "CSharp": "CommandSystem.Commands.Utility.FindObjectsByName({Object Name}, {Object Array})"
+        },
+        {
+          "Type": "string",
+          "Name": "{Objects ScenePath}",
+          "Command": "GetScenePath {Objects}"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.Object[]",
+        "Name": "{Objects}"
+      },
+      "CommandLineOutput": "Found Objects:\n{Objects ScenePath}"
+    }
+  ]
+}

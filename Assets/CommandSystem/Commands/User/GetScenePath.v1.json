@@ -25,6 +25,28 @@
         "Name": "{GameObject ScenePath}"
       },
       "CommandLineOutput": "{GameObject ScenePath}"
+    },
+    {
+      "Input": [
+        {
+          "Type": "UnityEngine.Object[]",
+          "Name": "{Objects}",
+          "Description": "The Objects to get the scene path of.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "string",
+          "Name": "{Objects ScenePath}",
+          "CSharp": "CommandSystem.Commands.Utility.GetObjectsScenePath({Objects})"
+        }
+      ],
+      "Output": {
+        "Type": "string",
+        "Name": "{Objects ScenePath}"
+      },
+      "CommandLineOutput": "Found Objects:\n{Objects ScenePath}"
     }
   ]
 }

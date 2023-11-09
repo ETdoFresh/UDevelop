@@ -24,6 +24,19 @@ namespace CommandSystem.Commands
             return path; 
         }
         
+        public static string GetObjectsScenePath(Object[] objects)
+        {
+            var scenePaths = "";
+            foreach (var obj in objects)
+            {
+                if (obj is GameObject go) scenePaths += GetGameObjectScenePath(go) + "\n";
+                else if (obj is Component c) scenePaths += GetGameObjectScenePath(c.gameObject) + "\n";
+                else scenePaths += obj.name + "\n";
+            }
+            if (scenePaths.EndsWith("\n")) scenePaths = scenePaths[..^1];
+            return scenePaths;
+        }
+        
         public static GameObject FindGameObjectByName(string gameObjectName)
         {
             var objectNameWithoutIndex = SelectionUtil.RemoveIndexFromName(gameObjectName);
@@ -78,6 +91,16 @@ namespace CommandSystem.Commands
         public static Type FindSystemTypeByName(string typeNameString)
         {
             return StringToTypeUtility.Get(typeNameString);
+        }
+
+        public static Object[] FindObjectsByName(string objectName)
+        {
+            return Object.FindObjectsOfType<GameObject>().Where(x => x.name == objectName).Cast<Object>().ToArray();
+        }
+
+        public static Object[] FindObjectsByName(string objectName, Object[] objectArray)
+        {
+            return objectArray.Where(x => x.name == objectName).ToArray();
         }
         
         public static string Help(string commandAlias)

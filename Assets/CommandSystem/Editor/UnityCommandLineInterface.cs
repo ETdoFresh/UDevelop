@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 using CommandSystem.Commands;
 using UnityEditor;
 using UnityEngine;
@@ -20,10 +21,22 @@ namespace CommandSystem.Editor
         private Texture2D _backgroundTexture;
 
         // Alt/Option + Space to open the window.
-        [MenuItem("Window/Unity Command Line Interface &SPACE")]
+        // For Ctrl+Shift+Space, use #^SPACE
+        [MenuItem("Window/Unity Command Line Interface #^SPACE")]
         public static void ShowWindow()
         {
             GetWindow<UnityCommandLineInterface>("Unity CLI");
+        }
+
+        private void OnFocus()
+        {
+            _isCommandLineWindowFocused = true;
+            EditorGUI.FocusTextInControl("CommandLineInput");
+        }
+        
+        private void OnLostFocus()
+        {
+            _isCommandLineWindowFocused = false;
         }
 
         private void OnGUI()

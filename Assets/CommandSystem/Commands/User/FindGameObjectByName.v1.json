@@ -2,7 +2,7 @@
   "Version": 1,
   "TypeFullName": "CommandSystem.Commands.User.FindGameObjectByName",
   "Description": "Finds a GameObject by name",
-  "Aliases": ["findgameobjectbyname", "findgo", "fg"],
+  "Aliases": ["findgameobjectsbyname", "findgos", "fgs"],
   "Overloads": [
     {
       "Input": [
@@ -15,21 +15,26 @@
       ],
       "Calls": [
         {
-          "Type": "UnityEngine.GameObject",
-          "Name": "{GameObject}",
-          "CSharp": "CommandSystem.Commands.Utility.FindGameObjectByName({GameObject Name})"
+          "Type": "UnityEngine.Object[]",
+          "Name": "{All GameObjects}",
+          "Command": "FindObjectsOfType UnityEngine.GameObject"
+        },
+        {
+          "Type": "UnityEngine.Object[]",
+          "Name": "{GameObjects}",
+          "Command": "FindObjectsByName {GameObject Name} {All GameObjects}"
         },
         {
           "Type": "string",
-          "Name": "{GameObject ScenePath}",
-          "Command": "GetScenePath {GameObject}"
+          "Name": "{GameObjects ScenePath}",
+          "Command": "GetScenePath {GameObjects}"
         }
       ],
       "Output": {
-        "Type": "UnityEngine.GameObject",
-        "Name": "{GameObject}"
+        "Type": "UnityEngine.Object[]",
+        "Name": "{GameObjects}"
       },
-      "CommandLineOutput": "Found GameObject: {GameObject ScenePath}"
+      "CommandLineOutput": "Found GameObject:\n{GameObjects ScenePath}"
     }
   ]
 }

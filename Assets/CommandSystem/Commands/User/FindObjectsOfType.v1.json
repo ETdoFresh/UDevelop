@@ -1,0 +1,67 @@
+﻿{
+  "Version": 1,
+  "TypeFullName": "CommandSystem.Commands.User.FindObjectsOfType",
+  "Description": "Finds all UnityEngine.Objects of a given type",
+  "Aliases": ["findobjectsoftype", "findobjects", "fos"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "System.Type",
+          "Name": "{Object Type}",
+          "Description": "The type of the Objects to find.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "UnityEngine.Object[]",
+          "Name": "{Objects}",
+          "CSharp": "UnityEngine.Object.FindObjectsOfType({Object Type})"
+        },
+        {
+          "Type": "string[]",
+          "Name": "{Objects ScenePaths}",
+          "Command": "GetScenePath {Objects}"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.Object[]",
+        "Name": "{Objects}"
+      },
+      "CommandLineOutput": "Found Objects:\n{Objects ScenePaths}"
+    },
+    {
+      "Input": [
+        {
+          "Type": "string",
+          "Name": "{Object Type Name}",
+          "Description": "The type name of the Objects to find.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "System.Type",
+          "Name": "{Object Type}",
+          "Command": "FindSystemTypeByName {Object Type Name}"
+        },
+        {
+          "Type": "UnityEngine.Object[]",
+          "Name": "{Objects}",
+          "CSharp": "UnityEngine.Object.FindObjectsOfType({Object Type})"
+        },
+        {
+          "Type": "string[]",
+          "Name": "{Objects ScenePaths}",
+          "Command": "GetScenePath {Objects}"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.Object[]",
+        "Name": "{Objects}"
+      },
+      "CommandLineOutput": "Found Objects:\n{Objects ScenePaths}"
+    }
+  ]
+}
