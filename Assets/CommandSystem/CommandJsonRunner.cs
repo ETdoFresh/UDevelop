@@ -155,7 +155,14 @@ namespace CommandSystem
 
                 var argTypes = args.Select(x => x.Type).ToArray();
                 var argObjects = args.Select(x => x.Value).ToArray();
-                var method = type.GetMethod(methodName, Public | NonPublic | Instance | Static, null, argTypes, null);
+                var bindingFlags = Public | NonPublic | Instance | Static;
+                var method = type.GetMethod(methodName, bindingFlags, null, argTypes, null);
+                if (method == null)
+                {
+                    method = type.GetMethods(bindingFlags).FirstOrDefault(x => x.Name == methodName && x.GetParameters().Length == argTypes.Length && x.GetParameters().All(y => y.ParameterType.IsAssignableFrom(argTypes[y.Position]) || y.ParameterType.IsGenericType));
+                    if (method != null && method.IsGenericMethod) 
+                        method = method.MakeGenericMethod(argTypes);
+                }
                 output = method.Invoke(self, argObjects);
                 // Function Call Example
                 // UnityEngine.GameObject.Find({GameObject Name})
@@ -169,7 +176,7 @@ namespace CommandSystem
             // alias = getscenepath
             // argStrings = {New GameObject}
 
-            var alias = formattedCommandString.Split(' ')[0];
+            var alias = formattedCommandString.Split(' ')[0]; 
 
             // Use RegEx to get each argument between { }. Name between { } can have spaces. Include { } in RegEx.
             // RegEx should also include arguments with no { } and separate by spaces.

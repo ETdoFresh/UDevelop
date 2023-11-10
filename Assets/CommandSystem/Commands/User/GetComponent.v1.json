@@ -1,0 +1,201 @@
+{
+  "Version": 1,
+  "TypeFullName": "CommandSystem.Commands.User.GetComponent",
+  "Description": "Gets a component from a GameObject.",
+  "Aliases": ["getcomponent", "getcomp"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{GameObject}",
+          "Description": "The GameObject to get the component from.",
+          "Required": true
+        },
+        {
+          "Type": "System.Type",
+          "Name": "{Component Type}",
+          "Description": "The type of component to get.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "UnityEngine.Component",
+          "Name": "{Component}",
+          "CSharp": "UnityEngine.GameObject.GetComponent(this {GameObject}, {Component Type})"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.Component",
+        "Name": "{Component}"
+      },
+      "CommandLineOutput": "Got component: {Component Type}"
+    },
+    {
+      "Input": [
+        {
+          "Type": "string",
+          "Name": "{GameObject Name}",
+          "Description": "The GameObject to get the component from.",
+          "Required": true
+        },
+        {
+          "Type": "string",
+          "Name": "{Component Type Name}",
+          "Description": "The type of component to get.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{GameObject}",
+          "Command": "FindGameObjectByName {GameObject Name}"
+        },
+        {
+          "Type": "System.Type",
+          "Name": "{Component Type}",
+          "Command": "FindSystemTypeByName {Component Type Name}"
+        },
+        {
+          "Type": "UnityEngine.Component",
+          "Name": "{Component}",
+          "CSharp": "UnityEngine.GameObject.GetComponent(this {GameObject}, {Component Type})"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.Component",
+        "Name": "{Component}"
+      },
+      "CommandLineOutput": "Got component: {Component Type}"
+    },
+    {
+      "Input": [
+        {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{GameObject}",
+          "Description": "The GameObject to get the component from.",
+          "Required": true
+        },
+        {
+          "Type": "string",
+          "Name": "{Component Type Name}",
+          "Description": "The type of component to get.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "System.Type",
+          "Name": "{Component Type}",
+          "Command": "FindSystemTypeByName {Component Type Name}"
+        },
+        {
+          "Type": "UnityEngine.Component",
+          "Name": "{Component}",
+          "CSharp": "UnityEngine.GameObject.GetComponent(this {GameObject}, {Component Type})"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.Component",
+        "Name": "{Component}"
+      },
+      "CommandLineOutput": "Got component: {Component Type}"
+    },
+    {
+      "Input": [
+        {
+          "Type": "string",
+          "Name": "{GameObject Name}",
+          "Description": "The GameObject to get the component from.",
+          "Required": true
+        },
+        {
+          "Type": "System.Type",
+          "Name": "{Component Type}",
+          "Description": "The type of component to get.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{GameObject}",
+          "Command": "FindGameObjectByName {GameObject Name}"
+        },
+        {
+          "Type": "UnityEngine.Component",
+          "Name": "{Component}",
+          "CSharp": "UnityEngine.GameObject.GetComponent(this {GameObject}, {Component Type})"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.Component",
+        "Name": "{Component}"
+      },
+      "CommandLineOutput": "Got component: {Component Type}"
+    },
+    {
+      "Input": [
+        {
+          "Type": "UnityEngine.Component",
+          "Name": "{Component}",
+          "Description": "The component to get the other component from.",
+          "Required": true
+        },
+        {
+          "Type": "System.Type",
+          "Name": "{Component Type}",
+          "Description": "The type of component to get.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "UnityEngine.Component",
+          "Name": "{Component}",
+          "CSharp": "UnityEngine.Component.GetComponent(this {Component}, {Component Type})"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.Component",
+        "Name": "{Component}"
+      },
+      "CommandLineOutput": "Got component: {Component Type}"
+    },
+    {
+      "Input": [
+        {
+          "Type": "UnityEngine.Component",
+          "Name": "{Component}",
+          "Description": "The component to get the other component from.",
+          "Required": true
+        },
+        {
+          "Type": "string",
+          "Name": "{Component Type Name}",
+          "Description": "The type of component to get.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "System.Type",
+          "Name": "{Component Type}",
+          "Command": "FindSystemTypeByName {Component Type Name}"
+        },
+        {
+          "Type": "UnityEngine.Component",
+          "Name": "{Component}",
+          "CSharp": "UnityEngine.Component.GetComponent(this {Component}, {Component Type})"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.Component",
+        "Name": "{Component}"
+      },
+      "CommandLineOutput": "Got component: {Component Type}"
+    }
+  ]
+}
