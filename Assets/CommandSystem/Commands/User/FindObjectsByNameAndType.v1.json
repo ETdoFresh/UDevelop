@@ -1,46 +1,46 @@
 ﻿{
   "Version": 1,
-    "TypeFullName": "CommandSystem.Commands.User.FindObjectsByNameAndType",
-    "Description": "Finds an UnityEngine.Object by name and type",
-    "Aliases": ["findobjectsbynameandtype", "findobject", "fo"],
-    "Overloads": [
+  "Name": "FindObjectsByNameAndType",
+  "Description": "Finds an UnityEngine.Object by name and type",
+  "Aliases": ["findobjectsbynameandtype", "findobject", "fo"],
+  "Overloads": [
+    {
+      "Input": [
         {
-            "Input": [
-            {
-                "Type": "string",
-                "Name": "{Object Name}",
-                "Description": "The name of the Object to find.",
-                "Required": true
-            },
-            {
-                "Type": "string",
-                "Name": "{Object Type Name}",
-                "Description": "The type name of the Object to find.",
-                "Required": true
-            }
-            ],
-            "Calls": [
-              {
-                "Type": "UnityEngine.Object[]",
-                "Name": "{Objects of Type}",
-                "Command": "FindObjectsOfType {Object Type Name}"
-              },
-            {
-                "Type": "UnityEngine.Object[]",
-                "Name": "{Objects of Type and Name}",
-                "Command": "FindObjectsByName {Object Name} {Objects of Type}"
-            },
-            {
-                "Type": "string",
-                "Name": "{Objects ScenePath}",
-                "Command": "GetScenePath {Objects of Type and Name}"
-            }
-            ],
-            "Output": {
-            "Type": "UnityEngine.Object",
-            "Name": "{Objects of Type and Name}"
-            },
-            "CommandLineOutput": "Found Object:\n{Objects ScenePath}"
+          "Type": "string",
+          "Name": "{Object Name}",
+          "Description": "The name of the Object to find.",
+          "Required": true
+        },
+        {
+          "Type": "string",
+          "Name": "{Object Type Name}",
+          "Description": "The type name of the Object to find.",
+          "Required": true
         }
-    ]
+      ],
+      "Calls": [
+        {
+          "Type": "UnityEngine.Object[]",
+          "Name": "{Objects of Type}",
+          "Command": "FindObjectsOfType {Object Type Name}"
+        },
+        {
+          "Type": "UnityEngine.Object[]",
+          "Name": "{Objects of Type and Name}",
+          "Command": "FindObjectsByName {Object Name} {Objects of Type}"
+        },
+        {
+          "Type": "string",
+          "Name": "{Objects ScenePath}",
+          "Command": "GetScenePath {Objects of Type and Name}"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.Object",
+        "Name": "{Objects of Type and Name}"
+      },
+      "CommandLineOutput": "Found Object:\n{Objects ScenePath}"
+    }
+  ]
 }

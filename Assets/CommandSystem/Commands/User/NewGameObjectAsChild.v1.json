@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "TypeFullName": "CommandSystem.Commands.User.NewGameObjectAsChild",
+  "Name": "NewGameObjectAsChild",
   "Description": "Creates a new GameObject as a child of the specified GameObject",
   "Aliases": ["newgameobjectaschild", "newgochild", "ngc"],
   "Overloads": [
@@ -46,7 +46,7 @@
         "Type": "UnityEngine.GameObject",
         "Name": "{New GameObject}"
       },
-        "CommandLineOutput": "Created GameObject: {New GameObject ScenePath}"
+      "CommandLineOutput": "Created GameObject: {New GameObject ScenePath}"
     },
     {
       "Input": [

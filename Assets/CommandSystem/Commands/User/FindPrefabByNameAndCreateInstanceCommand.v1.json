@@ -1,9 +1,8 @@
 ﻿{
   "Version": 1,
-  "TypeFullName": "CommandSystem.Commands.User.FindPrefabByNameAndCreateInstanceCommand",
+  "Name": "FindPrefabByNameAndCreateInstanceCommand",
   "Description": "Finds a prefab by name and creates an instance of it.",
   "Aliases": ["findprefabbynameandcreateinstance", "findprefabandcreateinstance", "findandcreateinstance", "fpaci"],
-  "Group": "Create",
   "Arguments": [
     {
       "Name": "Prefab Name",

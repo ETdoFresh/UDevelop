@@ -1,6 +1,6 @@
 ﻿{
   "Version": 1,
-  "TypeFullName": "CommandSystem.Commands.User.Help",
+  "Name": "Help",
   "Description": "Displays help information about a command.",
   "Aliases": ["help", "h", "?"],
   "Overloads": [

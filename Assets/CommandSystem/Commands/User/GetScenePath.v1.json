@@ -1,6 +1,6 @@
 ﻿{
   "Version": 1,
-  "TypeFullName": "CommandSystem.Commands.User.GetScenePath",
+  "Name": "GetScenePath",
   "Description": "Gets the scene path of a GameObject",
   "Aliases": ["getscenepath", "gsp"],
   "Overloads": [

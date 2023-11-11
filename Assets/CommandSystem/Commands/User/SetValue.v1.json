@@ -1,6 +1,6 @@
 ﻿{
   "Version": 1,
-  "TypeFullName": "CommandSystem.Commands.User.SetValue",
+  "Name": "SetValue",
   "Description": "Sets the value of a field or property.",
   "Aliases": ["setvalue", "sv"],
   "Overloads": [

@@ -1,6 +1,6 @@
 ﻿{
   "Version": 1,
-  "TypeFullName": "CommandSystem.Commands.User.SetValueByGameObjectName",
+  "Name": "SetValueByGameObjectName",
   "Description": "Sets the value of a field or property.",
   "Aliases": ["setvaluebygoname", "svbg"],
   "Overloads": [

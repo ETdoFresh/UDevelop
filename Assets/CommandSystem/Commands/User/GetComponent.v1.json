@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "TypeFullName": "CommandSystem.Commands.User.GetComponent",
+  "Name": "GetComponent",
   "Description": "Gets a component from a GameObject.",
   "Aliases": ["getcomponent", "getcomp"],
   "Overloads": [

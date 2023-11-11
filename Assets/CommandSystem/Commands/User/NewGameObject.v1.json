@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "TypeFullName": "CommandSystem.Commands.User.NewGameObject",
+  "Name": "NewGameObject",
   "Description": "Creates a new GameObject",
   "Aliases": ["newgameobject", "newgo", "ng"],
   "Overloads": [

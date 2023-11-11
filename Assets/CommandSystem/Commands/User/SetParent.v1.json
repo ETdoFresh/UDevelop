@@ -1,6 +1,6 @@
 ﻿{
   "Version": 1,
-  "TypeFullName": "CommandSystem.Commands.User.SetParent",
+  "Name": "SetParent",
   "Description": "Sets the parent of a GameObject",
   "Aliases": ["setparent", "sp"],
   "Overloads": [

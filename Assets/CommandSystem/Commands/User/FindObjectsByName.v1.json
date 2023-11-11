@@ -1,7 +1,7 @@
 {
   "Version": 1,
-  "TypeFullName": "CommandSystem.Commands.User.FindObjectsByName",
-  "DisplayName": "Find Objects By Name",
+  "Name": "FindObjectsByName",
+  "Description": "Find Objects By Name",
   "Aliases": ["findobjectsbyname", "findobjects"],
   "Overloads": [
     {

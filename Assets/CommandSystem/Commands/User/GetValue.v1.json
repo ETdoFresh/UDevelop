@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "TypeFullName": "CommandSystem.Commands.User.GetValue",
+  "Name": "GetValue",
   "Description": "Gets the value of a field or property.",
   "Aliases": ["getvalue", "gv"],
   "Overloads": [

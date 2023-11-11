@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "TypeFullName": "CommandSystem.Commands.User.FindGameObjectByName",
+  "Name": "FindGameObjectByName",
   "Description": "Finds a GameObject by name",
   "Aliases": ["findgameobjectbyname", "findgo", "fg"],
   "Overloads": [

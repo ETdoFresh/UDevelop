@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "TypeFullName": "CommandSystem.Commands.User.GetValueByGameObjectName",
+  "Name": "GetValueByGameObjectName",
   "Description": "Gets the value of a field or property.",
   "Aliases": ["getvaluebygoname", "gvbg"],
   "Overloads": [

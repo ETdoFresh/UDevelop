@@ -1,6 +1,6 @@
 ﻿{
   "Version": 1,
-  "TypeFullName": "CommandSystem.Commands.User.FindObjectsOfType",
+  "Name": "FindObjectsOfType",
   "Description": "Finds all UnityEngine.Objects of a given type",
   "Aliases": ["findobjectsoftype", "findobjects", "fos"],
   "Overloads": [
