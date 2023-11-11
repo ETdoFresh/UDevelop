@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using static System.Reflection.BindingFlags;
@@ -12,9 +13,9 @@ namespace CommandSystem
         private const float UpdateRate = 0;
         private static float _nextUpdate;
         private static Dictionary<string, JObject> aliasMap = new();
-        
+
         public static Dictionary<string, JObject> AliasMap => aliasMap;
-        
+
         public static string ProcessCommandInputString(string commandString)
         {
             AttemptUpdateAliasMap();
@@ -67,12 +68,14 @@ namespace CommandSystem
                     if (csharp != null)
                     {
                         AttemptToRunCSharp(csharp, localArgs, out var callOutput);
-                        localArgs[callName] = new ArgData(callName, StringToTypeUtility.Get(callTypeString), callOutput, false);
+                        localArgs[callName] = new ArgData(callName, StringToTypeUtility.Get(callTypeString), callOutput,
+                            false);
                     }
                     else if (command != null)
                     {
                         AttemptToRunCommand(command, localArgs, out var callOutput);
-                        localArgs[callName] = new ArgData(callName, StringToTypeUtility.Get(callTypeString), callOutput, false);
+                        localArgs[callName] = new ArgData(callName, StringToTypeUtility.Get(callTypeString), callOutput,
+                            false);
                     }
                     else
                     {
@@ -144,7 +147,7 @@ namespace CommandSystem
                     self = localArgs[selfString].Value;
                     argStrings = argStrings.Skip(1).ToArray();
                 }
-                
+
                 var args = new ArgData[argStrings.Length];
                 for (var i = 0; i < argStrings.Length; i++)
                 {
@@ -156,13 +159,34 @@ namespace CommandSystem
                 var argTypes = args.Select(x => x.Type).ToArray();
                 var argObjects = args.Select(x => x.Value).ToArray();
                 var bindingFlags = Public | NonPublic | Instance | Static;
+                // The following works pretty well, but does not work very well for generics
+                // var method = type.GetMethod(methodName, bindingFlags, null, argTypes, null);
+
+                // To make generics work, we first try above method, then try MakeGenericMethod
                 var method = type.GetMethod(methodName, bindingFlags, null, argTypes, null);
                 if (method == null)
                 {
-                    method = type.GetMethods(bindingFlags).FirstOrDefault(x => x.Name == methodName && x.GetParameters().Length == argTypes.Length && x.GetParameters().All(y => y.ParameterType.IsAssignableFrom(argTypes[y.Position]) || y.ParameterType.IsGenericType));
-                    if (method != null && method.IsGenericMethod) 
-                        method = method.MakeGenericMethod(argTypes);
+                    var isLinq = type.FullName.StartsWith("System.Linq");
+                    if (isLinq)
+                    {
+                        var genericMethod = type.GetMethods(bindingFlags).FirstOrDefault(x =>
+                            x.Name == methodName && x.GetParameters().Length == argTypes.Length);
+                        var typeFromArray = (Type)null;
+                        if (self != null)
+                            typeFromArray = self.GetType().IsArray ? self.GetType().GetElementType() : self.GetType();
+                        else if (argObjects.Length > 0)
+                            typeFromArray = argTypes[0].IsArray ? argTypes[0].GetElementType() : argTypes[0];
+                        method = genericMethod?.MakeGenericMethod(typeFromArray);
+                    }
+                    else
+                    {
+                        method = type.GetMethods(bindingFlags).FirstOrDefault(x =>
+                            x.Name == methodName && x.GetParameters().Length == argTypes.Length);
+                    }
                 }
+                
+                if (method == null) throw new ArgumentException("Method not found!");
+
                 output = method.Invoke(self, argObjects);
                 // Function Call Example
                 // UnityEngine.GameObject.Find({GameObject Name})
@@ -176,7 +200,7 @@ namespace CommandSystem
             // alias = getscenepath
             // argStrings = {New GameObject}
 
-            var alias = formattedCommandString.Split(' ')[0]; 
+            var alias = formattedCommandString.Split(' ')[0];
 
             // Use RegEx to get each argument between { }. Name between { } can have spaces. Include { } in RegEx.
             // RegEx should also include arguments with no { } and separate by spaces.
@@ -239,12 +263,14 @@ namespace CommandSystem
                     if (csharp != null)
                     {
                         AttemptToRunCSharp(csharp, localArgs, out var callOutput);
-                        localArgs[callName] = new ArgData(callName, StringToTypeUtility.Get(callTypeString), callOutput, false);
+                        localArgs[callName] = new ArgData(callName, StringToTypeUtility.Get(callTypeString), callOutput,
+                            false);
                     }
                     else if (command != null)
                     {
                         AttemptToRunCommand(command, localArgs, out var callOutput);
-                        localArgs[callName] = new ArgData(callName, StringToTypeUtility.Get(callTypeString), callOutput, false);
+                        localArgs[callName] = new ArgData(callName, StringToTypeUtility.Get(callTypeString), callOutput,
+                            false);
                     }
                     else
                     {
@@ -325,7 +351,8 @@ namespace CommandSystem
                     if (i >= argTypes.Length) throw new ArgumentException("Not enough arguments!");
                     var inputType = inputTypes[i];
                     var argType = argTypes[i];
-                    var maybeConvertibleToEnum = inputType.IsEnum && (argType == typeof(string) || argType == typeof(int));
+                    var maybeConvertibleToEnum =
+                        inputType.IsEnum && (argType == typeof(string) || argType == typeof(int));
                     if (inputType.IsAssignableFrom(argType) || maybeConvertibleToEnum) continue;
                     isMatch = false;
                     break;
