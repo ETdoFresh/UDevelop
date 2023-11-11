@@ -33,7 +33,7 @@ namespace CommandSystem
             argTypes = argTypes.Select(x => typeof(string)).ToArray();
 
             var version = commandJson["Version"]?.Value<int>();
-            var typeFullName = commandJson["TypeFullName"]?.ToString();
+            var name = commandJson["Name"]?.ToString();
             var description = commandJson["Description"]?.ToString();
             var aliases = commandJson["Aliases"] as JArray;
             var overloads = commandJson["Overloads"] as JArray;
@@ -227,7 +227,7 @@ namespace CommandSystem
             var argTypes = args.Select(x => x?.GetType()).ToArray();
             var commandJson = aliasMap[alias.ToLower()];
             var version = commandJson["Version"]?.Value<int>();
-            var typeFullName = commandJson["TypeFullName"]?.ToString();
+            var name = commandJson["Name"]?.ToString();
             var description = commandJson["Description"]?.ToString();
             var aliases = commandJson["Aliases"] as JArray;
             var overloads = commandJson["Overloads"] as JArray;

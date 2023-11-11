@@ -10,7 +10,9 @@ namespace CommandSystem.Editor
         {
             if (string.IsNullOrEmpty(commandInput)) return;
             CommandData.Inputs.Add(commandInput);
-            CommandData.Display.Add(commandInput);
+
+            var commandInputWithDecorators = $"> {commandInput}".Replace("\n", "\n> ");
+            CommandData.Display.Add(commandInputWithDecorators);
             
             var commands = commandInput.Split('\n');
             foreach (var command in commands)

@@ -27,14 +27,14 @@
       ],
       "Calls": [
         {
-          "Type": "System.Void",
-          "Name": "{Value}",
+          "Type": "void",
+          "Name": "void",
           "CSharp": "CommandSystem.Commands.Utility.SetValue({Object}, {Field or Property Name}, {Value})"
         }
       ],
       "Output": {
-        "Type": "System.Void",
-        "Name": "{Value}"
+        "Type": "void",
+        "Name": "void"
       },
       "CommandLineOutput": "Set Value: {Field or Property Name} = {Value}"
     }

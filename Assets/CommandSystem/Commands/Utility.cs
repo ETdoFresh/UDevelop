@@ -119,20 +119,33 @@ namespace CommandSystem.Commands
                             continue;
                         }
 
-                        var commandName = jObject["TypeFullName"]?.ToString();
+                        var commandName = jObject["Name"]?.ToString();
                         var commandDescription = jObject["Description"]?.ToString();
                         output += $"{commandName}\n{commandDescription}\n\n";
                         seenCommandJObjects.Add(jObject);
                     }
+                    if (output.EndsWith("\n\n")) output = output[..^2];
                     return output;
                 }
             }
             {
                 if (aliasMap.TryGetValue(commandAlias, out var jObject))
                 {
-                    var commandName = jObject["TypeFullName"]?.ToString();
+                    var commandName = jObject["Name"]?.ToString();
                     var commandDescription = jObject["Description"]?.ToString();
-                    return $"{commandName}\n{commandDescription}";
+                    var commandAliases = string.Join(", ", jObject["Aliases"]?.Select(x => x.ToString()).ToArray() ?? Array.Empty<string>());
+                    var commandOverloads = jObject["Overloads"] as JArray;
+                    var usages = "";
+                    foreach (var overload in commandOverloads)
+                    {
+                        var inputs = overload["Input"] as JArray;
+                        var inputNames = inputs.Select(x => x["Name"].ToString()).ToArray();
+                        var outputName = overload["Output"]?["Name"]?.ToString();
+                        var usage = $"{commandName} {string.Join(" ", inputNames)}\nOutput: {outputName}";
+                        usages += $"{usage}\n";
+                    }
+                    if (usages.EndsWith("\n")) usages = usages[..^1];
+                    return $"\n{commandName}\n{commandDescription}\nAliases: {commandAliases}\n\n{usages}";
                 }
             }
             
