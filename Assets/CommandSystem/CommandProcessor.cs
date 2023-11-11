@@ -1,8 +1,5 @@
 using System;
 using System.Collections.Generic;
-using CommandSystem.Commands;
-using CommandSystem.Commands.Destroy;
-using CommandSystem.Commands.Update;
 using ETdoFresh.UnityPackages.EventBusSystem;
 using UnityEngine;
 
@@ -18,10 +15,10 @@ namespace CommandSystem
         private void Awake()
         {
             //possibleCommands.Add(new CommandEntry{ commandName = "create", commandType = typeof(CreateAddressableCommand) });
-            possibleCommands.Add(new CommandEntry { commandName = "destroy", commandType = typeof(DestroySelectedGameObjectsCommand) });
-            possibleCommands.Add(new CommandEntry { commandName = "move", commandType = typeof(MoveSelectedTransformsCommand) });
-            possibleCommands.Add(new CommandEntry { commandName = "rotate", commandType = typeof(RotateSelectedTransformsCommand) });
-            possibleCommands.Add(new CommandEntry { commandName = "scale", commandType = typeof(ScaleSelectedTransformsCommand) });
+            // possibleCommands.Add(new CommandEntry { commandName = "destroy", commandType = typeof(DestroySelectedGameObjectsCommand) });
+            // possibleCommands.Add(new CommandEntry { commandName = "move", commandType = typeof(MoveSelectedTransformsCommand) });
+            // possibleCommands.Add(new CommandEntry { commandName = "rotate", commandType = typeof(RotateSelectedTransformsCommand) });
+            // possibleCommands.Add(new CommandEntry { commandName = "scale", commandType = typeof(ScaleSelectedTransformsCommand) });
         }
 
         private void OnEnable()
