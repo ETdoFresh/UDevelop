@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using CommandSystem.Commands.Select;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
@@ -198,6 +199,31 @@ namespace CommandSystem.Commands
         public static object Cast(object obj, Type type)
         {
             return Convert.ChangeType(obj, type);
+        }
+
+        public static object[] FilterBy(object[] array, FieldInfo fieldInfo, object value)
+        {
+            return array.Where(x => fieldInfo.GetValue(x).Equals(value)).ToArray();
+        }
+        
+        public static object[] FilterBy(object[] array, PropertyInfo propertyInfo, object value)
+        {
+            return array.Where(x => propertyInfo.GetValue(x).Equals(value)).ToArray();
+        }
+        
+        public static object[] SortBy(object[] array, FieldInfo fieldInfo)
+        {
+            return array.OrderBy(fieldInfo.GetValue).ToArray();
+        }
+        
+        public static object[] SortBy(object[] array, PropertyInfo propertyInfo)
+        {
+            return array.OrderBy(propertyInfo.GetValue).ToArray();
+        }
+
+        public static object[] ToArray(object obj)
+        {
+            return new[] { obj };
         }
     }
 }

@@ -1,0 +1,30 @@
+﻿{
+  "Version": 1,
+  "Name": "ToArray",
+  "Description": "Converts an object to an array of one object",
+    "Aliases": ["toarray"],
+    "Overloads": [
+      {
+        "Input": [
+          {
+            "Type": "object",
+            "Name": "{Value}",
+            "Description": "The value to convert",
+            "Required": true
+          }
+        ],
+        "Calls": [
+          {
+            "Type": "object[]",
+            "Name": "{Value}",
+            "CSharp": "CommandSystem.Commands.Utility.ToArray({Value})"
+          }
+        ],
+        "Output": {
+          "Type": "object[]",
+          "Name": "{Value}"
+        },
+        "CommandLineOutput": "Value: {Value}"
+      }
+    ]
+}

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace CommandSystem.Commands.Select
 {
@@ -25,10 +24,10 @@ namespace CommandSystem.Commands.Select
 
             if (selectArg1Name == null && args.Length == 2)
             {
-                var selectType = typeof(SelectGameObjectByNameCommand);
-                var subArgs = string.Join(' ', args);
-                _selectCommand = (Command)Activator.CreateInstance(selectType, subArgs);
-                _selectCommand.Run();
+                // var selectType = typeof(SelectGameObjectByNameCommand);
+                // var subArgs = string.Join(' ', args);
+                // _selectCommand = (Command)Activator.CreateInstance(selectType, subArgs);
+                // _selectCommand.Run();
             }
             else
             {

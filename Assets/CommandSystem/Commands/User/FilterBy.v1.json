@@ -1,0 +1,42 @@
+﻿{
+  "Version": 1,
+    "Name": "FilterBy",
+    "Description": "Filters an array by a given property",
+    "Aliases": ["filterby"],
+    "Overloads": [
+      {
+        "Input": [
+          {
+            "Type": "object[]",
+            "Name": "{Array}",
+            "Description": "The array to filter",
+            "Required": true
+          },
+          {
+            "Type": "string",
+            "Name": "{Property}",
+            "Description": "The property to filter by",
+            "Required": true
+          },
+          {
+            "Type": "string",
+            "Name": "{Value}",
+            "Description": "The value to filter by",
+            "Required": true
+          }
+        ],
+        "Calls": [
+          {
+            "Type": "object[]",
+            "Name": "{Array}",
+            "CSharp": "CommandSystem.Commands.Utility.FilterBy({Array}, {Property}, {Value})"
+          }
+        ],
+        "Output": {
+          "Type": "object[]",
+          "Name": "{Array}"
+        },
+        "CommandLineOutput": "Array: {Array}"
+      }
+    ]
+}
