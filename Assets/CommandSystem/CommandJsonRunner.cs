@@ -138,7 +138,9 @@ namespace CommandSystem
                 var fullTypeString = string.Join('.', fullTypeName);
                 var type = StringToTypeUtility.Get(fullTypeString);
                 var argsString = split[1][..^1];
-                var argStrings = argsString.Split(',').Select(x => x.Trim()).ToArray();
+                var argStrings = string.IsNullOrEmpty(argsString)
+                    ? Array.Empty<string>()
+                    : argsString.Split(',').Select(x => x.Trim()).ToArray();
 
                 var self = (object)null;
                 if (argStrings.Length > 0 && argStrings[0].StartsWith("this"))
@@ -184,7 +186,7 @@ namespace CommandSystem
                             x.Name == methodName && x.GetParameters().Length == argTypes.Length);
                     }
                 }
-                
+
                 if (method == null) throw new ArgumentException("Method not found!");
 
                 output = method.Invoke(self, argObjects);

@@ -1,0 +1,23 @@
+{
+  "Version": 1,
+  "Name": "Clear",
+  "Description": "Clears the console.",
+  "Aliases": ["clear", "cls"],
+  "Overloads": [
+    {
+      "Input": [],
+      "Calls": [
+        {
+          "Type": "void",
+          "Name": "void",
+          "CSharp": "CommandSystem.CommandData.Clear()"
+        }
+      ],
+      "Output": {
+        "Type": "void",
+        "Name": "void"
+      },
+      "CommandLineOutput": ""
+    }
+  ]
+}
