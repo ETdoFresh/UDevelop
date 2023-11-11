@@ -1,7 +1,7 @@
 {
   "Version": 1,
   "Name": "FindGameObjectsByName",
-  "Description": "Finds a GameObjects by name",
+  "Description": "Find GameObjects by name",
   "Aliases": ["findgameobjectsbyname", "findgos", "fgs"],
   "Overloads": [
     {

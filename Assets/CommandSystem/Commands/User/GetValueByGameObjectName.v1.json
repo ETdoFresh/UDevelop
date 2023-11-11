@@ -28,7 +28,7 @@
         {
           "Type": "System.Object",
           "Name": "{Value}",
-          "CSharp": "CommandSystem.Commands.Utility.GetValue({GameObject}, {Field or Property Name})"
+          "Command": "GetValue {GameObject} {Field or Property Name}"
         }
       ],
       "Output": {

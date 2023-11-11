@@ -22,7 +22,7 @@
         {
           "Type": "UnityEngine.Object",
           "Name": "{GameObject}",
-          "CSharp": "System.Linq.Enumerable.FirstOrDefault({All GameObjects})"
+          "Command": "GetFirstOrDefault {All GameObjects}"
         }
       ],
       "Output": {

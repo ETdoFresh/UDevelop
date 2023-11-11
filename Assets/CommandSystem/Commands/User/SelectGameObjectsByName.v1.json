@@ -1,0 +1,45 @@
+{
+  "Version": 1,
+    "Name": "SelectGameObjectsByName",
+    "Description": "Select GameObjects by name",
+    "Aliases": ["selectgameobjectsbyname", "selectgos", "sgs"],
+    "Overloads": [
+      {
+        "Input": [
+          {
+            "Type": "string",
+            "Name": "{GameObject Name}",
+            "Description": "The name of the GameObject to select.",
+            "Required": true
+          }
+        ],
+        "Calls": [
+          {
+            "Type": "System.Reflection.PropertyInfo",
+            "Name": "{Selection Objects PropertyInfo}",
+            "Command": "GetPropertyInfo CommandSystem.Commands.Selection objects"
+          },
+          {
+            "Type": "UnityEngine.GameObject[]",
+            "Name": "{GameObjects}",
+            "Command": "FindGameObjectsByName {GameObject Name}"
+          },
+          {
+            "Type": "string",
+            "Name": "{GameObjects ScenePath}",
+            "Command": "GetScenePath {GameObjects}"
+          },
+          {
+            "Type": "void",
+            "Name": "void",
+            "Command": "SetValue {Selection Objects PropertyInfo} null {GameObjects}"
+          }
+        ],
+        "Output": {
+          "Type": "UnityEngine.GameObject[]",
+          "Name": "{GameObjects}"
+        },
+        "CommandLineOutput": "Selected GameObject:\n{GameObjects ScenePath}"
+      }
+    ]
+}

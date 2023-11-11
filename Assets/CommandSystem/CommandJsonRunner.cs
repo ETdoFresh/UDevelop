@@ -67,9 +67,9 @@ namespace CommandSystem
                 {
                     if (csharp != null)
                     {
-                        AttemptToRunCSharp(csharp, localArgs, out var callOutput);
-                        localArgs[callName] = new ArgData(callName, StringToTypeUtility.Get(callTypeString), callOutput,
-                            false);
+                        var callType = StringToTypeUtility.Get(callTypeString);
+                        AttemptToRunCSharp(csharp, localArgs, callType, out var callOutput);
+                        localArgs[callName] = new ArgData(callName, callType, callOutput, false);
                     }
                     else if (command != null)
                     {
@@ -85,7 +85,7 @@ namespace CommandSystem
                 else
                 {
                     if (csharp != null)
-                        AttemptToRunCSharp(csharp, localArgs, out _);
+                        AttemptToRunCSharp(csharp, localArgs, null, out _);
                     else if (command != null)
                         AttemptToRunCommand(command, localArgs, out _);
                     else
@@ -99,7 +99,7 @@ namespace CommandSystem
         }
 
         private static void AttemptToRunCSharp(string csharpCode, Dictionary<string, ArgData> localArgs,
-            out object output)
+            Type callType, out object output)
         {
             // New Example
             // new UnityEngine.GameObject({GameObject Name}, {Component Types})
@@ -132,11 +132,36 @@ namespace CommandSystem
                 // Function: Find
                 // Args: {GameObject Name}
                 var split = csharpCode.Split('(');
+                
+                if (split.Length == 1)
+                {
+                    if (callType.IsEnum)
+                    {
+                        var flagSplit = csharpCode.Split('|');
+                        var enumValue = 0;
+                        foreach (var flag in flagSplit)
+                        {
+                            var flagString = flag.Trim();
+                            var flagValue = (int)Enum.Parse(callType, flagString);
+                            enumValue |= flagValue;
+                        }
+                        output = enumValue;
+                        return;
+                    }
+                    // Else return c# code as string
+                    {
+                        output = csharpCode;
+                        return;
+                    }
+                }
+                
                 var methodSplit = split[0].Split('.');
                 var methodName = methodSplit[^1];
                 var fullTypeName = methodSplit[..^1];
                 var fullTypeString = string.Join('.', fullTypeName);
                 var type = StringToTypeUtility.Get(fullTypeString);
+                
+                // Else run method
                 var argsString = split[1][..^1];
                 var argStrings = string.IsNullOrEmpty(argsString)
                     ? Array.Empty<string>()
@@ -154,12 +179,12 @@ namespace CommandSystem
                 for (var i = 0; i < argStrings.Length; i++)
                 {
                     var argString = argStrings[i];
-                    var arg = localArgs[argString];
-                    args[i] = arg;
+                    if (localArgs.TryGetValue(argString, out var arg))
+                        args[i] = arg;
                 }
 
-                var argTypes = args.Select(x => x.Type).ToArray();
-                var argObjects = args.Select(x => x.Value).ToArray();
+                var argTypes = args.Select(x => x?.Type ?? typeof(object)).ToArray();
+                var argObjects = args.Select(x => x?.Value ?? null).ToArray();
                 var bindingFlags = Public | NonPublic | Instance | Static;
                 // The following works pretty well, but does not work very well for generics
                 // var method = type.GetMethod(methodName, bindingFlags, null, argTypes, null);
@@ -226,7 +251,7 @@ namespace CommandSystem
         private static object Run(string alias, Dictionary<string, ArgData> localArgs, params object[] args)
         {
             AttemptUpdateAliasMap();
-            var argTypes = args.Select(x => x?.GetType()).ToArray();
+            var argTypes = args.Select(x => x?.GetType() ?? typeof(object)).ToArray();
             var commandJson = aliasMap[alias.ToLower()];
             var version = commandJson["Version"]?.Value<int>();
             var name = commandJson["Name"]?.ToString();
@@ -264,9 +289,9 @@ namespace CommandSystem
                 {
                     if (csharp != null)
                     {
-                        AttemptToRunCSharp(csharp, localArgs, out var callOutput);
-                        localArgs[callName] = new ArgData(callName, StringToTypeUtility.Get(callTypeString), callOutput,
-                            false);
+                        var callType = StringToTypeUtility.Get(callTypeString);
+                        AttemptToRunCSharp(csharp, localArgs, callType, out var callOutput);
+                        localArgs[callName] = new ArgData(callName, callType, callOutput, false);
                     }
                     else if (command != null)
                     {
@@ -282,7 +307,7 @@ namespace CommandSystem
                 else
                 {
                     if (csharp != null)
-                        AttemptToRunCSharp(csharp, localArgs, out _);
+                        AttemptToRunCSharp(csharp, localArgs, null, out _);
                     else if (command != null)
                         AttemptToRunCommand(command, localArgs, out _);
                     else
@@ -352,7 +377,7 @@ namespace CommandSystem
                     if (inputIsRequired[i] == false) continue;
                     if (i >= argTypes.Length) throw new ArgumentException("Not enough arguments!");
                     var inputType = inputTypes[i];
-                    var argType = argTypes[i];
+                    var argType = argTypes[i] ?? typeof(object);
                     var maybeConvertibleToEnum =
                         inputType.IsEnum && (argType == typeof(string) || argType == typeof(int));
                     if (inputType.IsAssignableFrom(argType) || maybeConvertibleToEnum) continue;

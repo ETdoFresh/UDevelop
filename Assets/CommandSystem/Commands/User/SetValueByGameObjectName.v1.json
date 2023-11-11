@@ -34,7 +34,7 @@
         {
           "Type": "void",
           "Name": "void",
-          "CSharp": "CommandSystem.Commands.Utility.SetValue({GameObject}, {Field or Property Name}, {Value})"
+          "Command": "SetValue {Field or Property Name} {GameObject} {Value}"
         }
       ],
       "Output": {

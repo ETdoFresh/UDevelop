@@ -1,0 +1,30 @@
+{
+  "Version": 1,
+  "Name": "GetType",
+  "Description": "Gets the type of an object.",
+  "Aliases": ["gettype", "gt"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "System.Object",
+          "Name": "{Object}",
+          "Description": "The object to get the type of.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "System.Type",
+          "Name": "{Type}",
+          "CSharp": "System.Object.GetType(this {Object})"
+        }
+      ],
+      "Output": {
+        "Type": "System.Type",
+        "Name": "{Type}"
+      },
+      "CommandLineOutput": "Got Type: {Type}"
+    }
+  ]
+}

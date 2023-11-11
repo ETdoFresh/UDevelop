@@ -1,0 +1,89 @@
+﻿{
+  "Version": 1,
+  "Name": "GetFieldInfoOrPropertyInfo",
+  "Description": "Gets the FieldInfo or PropertyInfo from type and field name",
+  "Aliases": ["getfieldinfoorpropertyinfo", "gfiopi"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "System.Type",
+          "Name": "{Type}",
+          "Description": "The type to get the field from.",
+          "Required": true
+        },
+        {
+          "Type": "string",
+          "Name": "{Field or Property Name}",
+          "Description": "The name of the field or property to get.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "System.Reflection.FieldInfo",
+          "Name": "{FieldInfo}",
+          "Command": "GetFieldInfo {Type} {Field or Property Name}"
+        },
+        {
+          "Type": "System.Reflection.PropertyInfo",
+          "Name": "{PropertyInfo}",
+          "Command": "GetPropertyInfo {Type} {Field or Property Name}"
+        },
+        {
+          "Type": "object",
+          "Name": "{FieldInfo or PropertyInfo}",
+          "Command": "Or {FieldInfo} {PropertyInfo}"
+        }
+      ],
+      "Output": {
+        "Type": "object",
+        "Name": "{FieldInfo or PropertyInfo}"
+      },
+      "CommandLineOutput": "Found Field: {FieldInfo or PropertyInfo}"
+    },
+    {
+      "Input": [
+        {
+          "Type": "string",
+          "Name": "{Type Name}",
+          "Description": "The name of the type to get the field from.",
+          "Required": true
+        },
+        {
+          "Type": "string",
+          "Name": "{Field or Property Name}",
+          "Description": "The name of the field or property to get.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "System.Type",
+          "Name": "{Type}",
+          "Command": "FindSystemTypeByName {Type Name}"
+        },
+        {
+          "Type": "System.Reflection.FieldInfo",
+          "Name": "{FieldInfo}",
+          "Command": "GetFieldInfo {Type} {Field or Property Name}"
+        },
+        {
+          "Type": "System.Reflection.PropertyInfo",
+          "Name": "{PropertyInfo}",
+          "Command": "GetPropertyInfo {Type} {Field or Property Name}"
+        },
+        {
+          "Type": "object",
+          "Name": "{FieldInfo or PropertyInfo}",
+          "Command": "Or {FieldInfo} {PropertyInfo}"
+        }
+      ],
+      "Output": {
+        "Type": "object",
+        "Name": "{FieldInfo or PropertyInfo}"
+      },
+      "CommandLineOutput": "Found Field: {FieldInfo or PropertyInfo}"
+    }
+  ]
+}
