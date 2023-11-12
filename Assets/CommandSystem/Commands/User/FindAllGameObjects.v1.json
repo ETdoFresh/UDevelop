@@ -1,0 +1,28 @@
+{
+  "Version": 1,
+  "Name": "FindAllGameObjects",
+  "Description": "Find all GameObjects",
+  "Aliases": ["findallgameobjects", "findallgos", "fags"],
+  "Overloads": [
+    {
+      "Input": [],
+      "Calls": [
+        {
+          "Type": "UnityEngine.Object[]",
+          "Name": "{All GameObjects}",
+          "Command": "FindObjectsOfType UnityEngine.GameObject"
+        },
+        {
+          "Type": "string",
+          "Name": "{All GameObjects ScenePath}",
+          "Command": "GetScenePath {All GameObjects}"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.Object[]",
+        "Name": "{All GameObjects}"
+      },
+      "CommandLineOutput": "Found GameObject:\n{All GameObjects ScenePath}"
+    }
+  ]
+}

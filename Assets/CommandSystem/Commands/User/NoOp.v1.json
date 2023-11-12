@@ -1,0 +1,33 @@
+﻿{
+  "Version": 1,
+  "Name": "NoOp",
+  "Description": "No operation",
+  "Aliases": ["noop", "cast"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "object",
+          "Name": "{Value}",
+          "Description": "The value to cast",
+          "Required": false
+        }
+      ],
+      "Calls": [],
+      "Output": {
+        "Type": "object",
+        "Name": "{Value}"
+      },
+      "CommandLineOutput": "NoOp: {Value}"
+    },
+    {
+      "Input": [],
+      "Calls": [],
+      "Output": {
+        "Type": "void",
+        "Name": "void"
+      },
+      "CommandLineOutput": "NoOp"
+    }
+  ]
+}
