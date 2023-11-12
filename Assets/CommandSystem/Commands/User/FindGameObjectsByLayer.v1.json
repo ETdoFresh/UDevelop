@@ -1,0 +1,45 @@
+{
+  "Version": 1,
+  "Name": "FindGameObjectsByLayer",
+  "Description": "Find GameObjects by layer.",
+  "Aliases": ["findgameobjectsbylayer", "fgobl"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "string",
+          "Name": "{Layer Name}",
+          "Description": "The name of the layer to search for.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "int",
+          "Name": "{Layer Int}",
+          "Command": "GetLayer {Layer Name}"
+        },
+        {
+          "Type": "UnityEngine.Object[]",
+          "Name": "{All GameObjects}",
+          "Command": "FindObjectsOfType UnityEngine.GameObject"
+        },
+        {
+          "Type": "UnityEngine.Object[]",
+          "Name": "{GameObjects}",
+          "Command": "FilterBy layer {Layer Int} {All GameObjects}"
+        },
+        {
+          "Type": "string",
+          "Name": "{GameObjects ScenePath}",
+          "Command": "GetScenePath {GameObjects}"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.Object[]",
+        "Name": "{GameObjects}"
+      },
+      "CommandLineOutput": "Found GameObject:\n{GameObjects ScenePath}"
+    }
+  ]
+}

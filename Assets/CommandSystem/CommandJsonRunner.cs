@@ -28,15 +28,16 @@ namespace CommandSystem
             var args = argMatches.Select(x => x.Value).Skip(1).ToArray();
             args = args.Select(x => x.StartsWith("\"") && x.EndsWith("\"") ? x[1..^1] : x).ToArray();
 
-            var argTypes = new Type[args.Length];
-            argTypes = argTypes.Select(x => typeof(string)).ToArray();
+            var stringArgs = new ArgData[args.Length];
+            for (var i = 0; i < args.Length; i++)
+                stringArgs[i] = new ArgData(args[i], typeof(string), args[i], false);
 
             var version = commandJson["Version"]?.Value<int>();
             var name = commandJson["Name"]?.ToString();
             var description = commandJson["Description"]?.ToString();
             var aliases = commandJson["Aliases"] as JArray;
             var overloads = commandJson["Overloads"] as JArray;
-            var overload = FindBestOverload(overloads, argTypes);
+            var overload = FindBestOverload(overloads, stringArgs);
             if (overload == null) throw new ArgumentException("No overload found!");
             var input = overload["Input"] as JArray;
             var calls = overload["Calls"] as JArray;
@@ -51,7 +52,7 @@ namespace CommandSystem
                 var argTypeString = input[i]["Type"]?.ToString();
                 var argRequired = input[i]["Required"]?.Value<bool>() == true;
                 var argType = StringToTypeUtility.Get(argTypeString);
-                arg = argType.IsEnum ? Enum.Parse(argType, arg.ToString()) : arg;
+                arg = ConvertType(arg, argType);
                 localArgs[argName] = new ArgData(argName, argType, arg, argRequired);
             }
 
@@ -364,15 +365,7 @@ namespace CommandSystem
 
         private static JObject FindBestOverload(JArray overloads, ArgData[] args)
         {
-            var overload = FindBestOverload(overloads, args.Select(x => x.Type).ToArray());
-            if (overload != null) return overload;
-            var argTypesAttempt2 = args.Select(x => x.Value.GetType()).ToArray();
-            return FindBestOverload(overloads, argTypesAttempt2);
-        }
-        
-        private static JObject FindBestOverload(JArray overloads, Type[] argTypes)
-        {
-            var argLength = argTypes.Length;
+            var argLength = args.Length;
             foreach (var overload in overloads)
             {
                 var inputMinLength = overload["Input"]?.Where(x => x["Required"]?.Value<bool>() == true).Count() ?? 0;
@@ -385,12 +378,9 @@ namespace CommandSystem
                 for (var i = 0; i < inputTypes.Length; i++)
                 {
                     if (inputIsRequired[i] == false) continue;
-                    if (i >= argTypes.Length) throw new ArgumentException("Not enough arguments!");
+                    if (i >= args.Length) throw new ArgumentException("Not enough arguments!");
                     var inputType = inputTypes[i];
-                    var argType = argTypes[i] ?? typeof(object);
-                    var maybeConvertibleToEnum =
-                        inputType.IsEnum && (argType == typeof(string) || argType == typeof(int));
-                    if (inputType.IsAssignableFrom(argType) || maybeConvertibleToEnum) continue;
+                    if (IsConvertible(args[i], inputType)) continue;
                     isMatch = false;
                     break;
                 }
@@ -401,16 +391,54 @@ namespace CommandSystem
             return null;
         }
 
+        private static bool IsConvertible(ArgData argData, Type inputType)
+        {
+            if (argData == null) return false;
+            if (argData.Type == inputType) return true;
+            if (inputType.IsAssignableFrom(argData.Type)) return true;
+            var argTypeAttempt2 = argData.Value?.GetType();
+            if (argTypeAttempt2 != null && inputType.IsAssignableFrom(argTypeAttempt2)) return true;
+            if (inputType.IsEnum && argData.Type == typeof(int)) return true;
+            if (argData.Type == typeof(string) && inputType.IsEnum)
+                return Enum.TryParse(inputType, argData.Value.ToString(), out _);
+            if (argData.Type == typeof(string) && inputType == typeof(int))
+                return int.TryParse(argData.Value.ToString(), out _);
+            if (argData.Type == typeof(string) && inputType == typeof(float))
+                return float.TryParse(argData.Value.ToString(), out _);
+            if (argData.Type == typeof(string) && inputType == typeof(double))
+                return double.TryParse(argData.Value.ToString(), out _);
+            if (argData.Type == typeof(string) && inputType == typeof(bool))
+                return bool.TryParse(argData.Value.ToString(), out _);
+            if (inputType.IsArray && argData.Type.IsArray)
+            {
+                var inputElementType = inputType.GetElementType();
+                var argElementType = argData.Type.GetElementType();
+                foreach(var argElement in (Array)argData.Value)
+                    if (!IsConvertible(new ArgData(argData.Name, argElementType, argElement, argData.Required), inputElementType))
+                        return false;
+                return true;
+            }
+            return false;
+        }
+
         private static object ConvertType(object obj, Type toType)
         {
             if (obj == null || toType == null) return obj;
             var fromType = obj.GetType();
             if (fromType == toType) return obj;
             if (toType.IsAssignableFrom(fromType)) return obj;
-            if (toType.IsEnum && fromType == typeof(string))
-                return Enum.Parse(toType, obj.ToString());
             if (toType.IsEnum && fromType == typeof(int))
                 return obj;
+            if (toType.IsEnum && fromType == typeof(string))
+                return Enum.Parse(toType, obj.ToString());
+            if (toType == typeof(int) && fromType == typeof(string))
+                return int.Parse(obj.ToString());
+            if (toType == typeof(float) && fromType == typeof(string))
+                return float.Parse(obj.ToString());
+            if (toType == typeof(double) && fromType == typeof(string))
+                return double.Parse(obj.ToString());
+            if (toType == typeof(bool) && fromType == typeof(string))
+                return bool.Parse(obj.ToString());
 
             if (toType.IsArray && fromType.IsArray)
             {

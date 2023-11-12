@@ -1,0 +1,46 @@
+﻿{
+  "Version": 1,
+  "Name": "GetLayer",
+  "Description": "Gets the layer int value by int or name.",
+  "Aliases": ["getlayer"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "int",
+          "Name": "{Layer Int}",
+          "Description": "The layer int to get.",
+          "Required": true
+        }
+      ],
+      "Calls": [],
+      "Output": {
+        "Type": "int",
+        "Name": "{Layer Int}"
+      },
+      "CommandLineOutput": "Layer int: {Layer Int}"
+    },
+    {
+      "Input": [
+        {
+          "Type": "string",
+          "Name": "{Layer Name}",
+          "Description": "The name of the layer to get.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "int",
+          "Name": "{Layer Int}",
+          "CSharp": "UnityEngine.LayerMask.NameToLayer({Layer Name})"
+        }
+      ],
+      "Output": {
+        "Type": "int",
+        "Name": "{Layer Int}"
+      },
+      "CommandLineOutput": "Layer int: {Layer Int}"
+    }
+  ]
+}
