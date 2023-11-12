@@ -201,22 +201,22 @@ namespace CommandSystem.Commands
             return Convert.ChangeType(obj, type);
         }
 
-        public static object[] FilterBy(object[] array, FieldInfo fieldInfo, object value)
+        public static object[] FilterBy(FieldInfo fieldInfo, object value, object[] array)
         {
             return array.Where(x => fieldInfo.GetValue(x).Equals(value)).ToArray();
         }
-        
-        public static object[] FilterBy(object[] array, PropertyInfo propertyInfo, object value)
+
+        public static object[] FilterBy(PropertyInfo propertyInfo, object value, object[] array)
         {
             return array.Where(x => propertyInfo.GetValue(x).Equals(value)).ToArray();
         }
-        
-        public static object[] SortBy(object[] array, FieldInfo fieldInfo)
+
+        public static object[] SortBy(FieldInfo fieldInfo, object[] array)
         {
             return array.OrderBy(fieldInfo.GetValue).ToArray();
         }
         
-        public static object[] SortBy(object[] array, PropertyInfo propertyInfo)
+        public static object[] SortBy(PropertyInfo propertyInfo, object[] array)
         {
             return array.OrderBy(propertyInfo.GetValue).ToArray();
         }

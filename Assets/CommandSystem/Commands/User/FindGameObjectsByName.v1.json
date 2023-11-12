@@ -22,7 +22,7 @@
         {
           "Type": "UnityEngine.Object[]",
           "Name": "{GameObjects}",
-          "Command": "FindObjectsByName {GameObject Name} {All GameObjects}"
+          "Command": "FilterBy name {GameObject Name} {All GameObjects}"
         },
         {
           "Type": "string",

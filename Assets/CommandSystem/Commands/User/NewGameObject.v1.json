@@ -28,7 +28,7 @@
         {
           "Type": "string",
           "Name": "{New GameObject Name}",
-          "Command": "GetValue {New GameObject} name"
+          "Command": "GetValue name {New GameObject}"
         }
       ],
       "Output": {

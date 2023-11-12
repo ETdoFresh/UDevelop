@@ -1,42 +1,120 @@
 ﻿{
   "Version": 1,
-    "Name": "FilterBy",
-    "Description": "Filters an array by a given property",
-    "Aliases": ["filterby"],
-    "Overloads": [
-      {
-        "Input": [
-          {
-            "Type": "object[]",
-            "Name": "{Array}",
-            "Description": "The array to filter",
-            "Required": true
-          },
-          {
-            "Type": "string",
-            "Name": "{Property}",
-            "Description": "The property to filter by",
-            "Required": true
-          },
-          {
-            "Type": "string",
-            "Name": "{Value}",
-            "Description": "The value to filter by",
-            "Required": true
-          }
-        ],
-        "Calls": [
-          {
-            "Type": "object[]",
-            "Name": "{Array}",
-            "CSharp": "CommandSystem.Commands.Utility.FilterBy({Array}, {Property}, {Value})"
-          }
-        ],
-        "Output": {
-          "Type": "object[]",
-          "Name": "{Array}"
+  "Name": "FilterBy",
+  "Description": "Filters an array by a given field/property",
+  "Aliases": ["filterby"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "System.Reflection.FieldInfo",
+          "Name": "{Field}",
+          "Description": "The field to filter by",
+          "Required": true
         },
-        "CommandLineOutput": "Array: {Array}"
-      }
-    ]
+        {
+          "Type": "object",
+          "Name": "{Value}",
+          "Description": "The value to filter by",
+          "Required": true
+        },
+        {
+          "Type": "object[]",
+          "Name": "{Array}",
+          "Description": "The array to filter",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "object[]",
+          "Name": "{Array}",
+          "CSharp": "CommandSystem.Commands.Utility.FilterBy({Field}, {Value}, {Array})"
+        }
+      ],
+      "Output": {
+        "Type": "object[]",
+        "Name": "{Array}"
+      },
+      "CommandLineOutput": "Array: {Array}"
+    },
+    {
+      "Input": [
+        {
+          "Type": "System.Reflection.PropertyInfo",
+          "Name": "{Property}",
+          "Description": "The property to filter by",
+          "Required": true
+        },
+        {
+          "Type": "object",
+          "Name": "{Value}",
+          "Description": "The value to filter by",
+          "Required": true
+        },
+        {
+          "Type": "object[]",
+          "Name": "{Array}",
+          "Description": "The array to filter",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "object[]",
+          "Name": "{Array}",
+          "CSharp": "CommandSystem.Commands.Utility.FilterBy({Property}, {Value}, {Array})"
+        }
+      ],
+      "Output": {
+        "Type": "object[]",
+        "Name": "{Array}"
+      },
+      "CommandLineOutput": "Array: {Array}"
+    },
+    {
+      "Input": [
+        {
+          "Type": "string",
+          "Name": "{Field or Property Name}",
+          "Description": "The name of the field or property to filter by",
+          "Required": true
+        },
+        {
+          "Type": "object",
+          "Name": "{Value}",
+          "Description": "The value to filter by",
+          "Required": true
+        },
+        {
+          "Type": "object[]",
+          "Name": "{Array}",
+          "Description": "The array to filter",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "System.Type",
+          "Name": "{Type}",
+          "Command": "GetElementType {Array}"
+        },
+        {
+          "Type": "object",
+          "Name": "{Field or Property}",
+          "Command": "GetFieldInfoOrPropertyInfo {Type} {Field or Property Name}"
+        },
+        {
+          "Type": "object[]",
+          "Name": "{Array}",
+          "Command": "FilterBy {Field or Property} {Value} {Array}"
+        }
+      ],
+      "Output": {
+        "Type": "object[]",
+        "Name": "{Array}"
+      },
+      "CommandLineOutput": "Array: {Array}"
+    }
+  ]
 }

@@ -28,7 +28,7 @@
         {
           "Type": "System.Object",
           "Name": "{Value}",
-          "Command": "GetValue {GameObject} {Field or Property Name}"
+          "Command": "GetValue {Field or Property Name} {GameObject}"
         }
       ],
       "Output": {

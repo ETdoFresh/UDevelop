@@ -52,7 +52,7 @@
           "CSharp": "UnityEngine.Object.FindObjectsOfType({Object Type})"
         },
         {
-          "Type": "string[]",
+          "Type": "string",
           "Name": "{Objects ScenePaths}",
           "Command": "GetScenePath {Objects}"
         }

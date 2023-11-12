@@ -53,6 +53,23 @@ namespace CommandSystem
             Types.Add("short", typeof(short));
             Types.Add("ushort", typeof(ushort));
             Types.Add("string", typeof(string));
+            
+            Types.Add("bool[]", typeof(bool[]));
+            Types.Add("byte[]", typeof(byte[]));
+            Types.Add("sbyte[]", typeof(sbyte[]));
+            Types.Add("char[]", typeof(char[]));
+            Types.Add("decimal[]", typeof(decimal[]));
+            Types.Add("double[]", typeof(double[]));
+            Types.Add("float[]", typeof(float[]));
+            Types.Add("int[]", typeof(int[]));
+            Types.Add("uint[]", typeof(uint[]));
+            Types.Add("long[]", typeof(long[]));
+            Types.Add("ulong[]", typeof(ulong[]));
+            Types.Add("object[]", typeof(object[]));
+            Types.Add("short[]", typeof(short[]));
+            Types.Add("ushort[]", typeof(ushort[]));
+            Types.Add("string[]", typeof(string[]));
+            
         }
     }
 }

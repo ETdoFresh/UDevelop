@@ -7,15 +7,15 @@
     {
       "Input": [
         {
-          "Type": "System.Object",
-          "Name": "{Object}",
-          "Description": "The object to get the value from.",
-          "Required": true
-        },
-        {
           "Type": "System.String",
           "Name": "{Field or Property Name}",
           "Description": "The name of the field or property to get the value of.",
+          "Required": true
+        },
+        {
+          "Type": "System.Object",
+          "Name": "{Object}",
+          "Description": "The object to get the value from.",
           "Required": true
         }
       ],
@@ -33,7 +33,7 @@
         {
           "Type": "System.Object",
           "Name": "{Value}",
-          "Command": "GetValue {Object} {Field or Property}"
+          "Command": "GetValue {Field or Property} {Object}"
         }
       ],
       "Output": {

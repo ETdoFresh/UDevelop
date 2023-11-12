@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using static System.Reflection.BindingFlags;
@@ -37,7 +36,7 @@ namespace CommandSystem
             var description = commandJson["Description"]?.ToString();
             var aliases = commandJson["Aliases"] as JArray;
             var overloads = commandJson["Overloads"] as JArray;
-            var overload = FindBestOverload(overloads, args, argTypes);
+            var overload = FindBestOverload(overloads, argTypes);
             if (overload == null) throw new ArgumentException("No overload found!");
             var input = overload["Input"] as JArray;
             var calls = overload["Calls"] as JArray;
@@ -65,17 +64,18 @@ namespace CommandSystem
                 var command = call["Command"]?.ToString();
                 if (callTypeString != "void")
                 {
+                    var callType = StringToTypeUtility.Get(callTypeString);
                     if (csharp != null)
                     {
-                        var callType = StringToTypeUtility.Get(callTypeString);
                         AttemptToRunCSharp(csharp, localArgs, callType, out var callOutput);
+                        callOutput = ConvertType(callOutput, callType);
                         localArgs[callName] = new ArgData(callName, callType, callOutput, false);
                     }
                     else if (command != null)
                     {
                         AttemptToRunCommand(command, localArgs, out var callOutput);
-                        localArgs[callName] = new ArgData(callName, StringToTypeUtility.Get(callTypeString), callOutput,
-                            false);
+                        callOutput = ConvertType(callOutput, callType);
+                        localArgs[callName] = new ArgData(callName, callType, callOutput, false);
                     }
                     else
                     {
@@ -132,7 +132,7 @@ namespace CommandSystem
                 // Function: Find
                 // Args: {GameObject Name}
                 var split = csharpCode.Split('(');
-                
+
                 if (split.Length == 1)
                 {
                     if (callType.IsEnum)
@@ -145,22 +145,24 @@ namespace CommandSystem
                             var flagValue = (int)Enum.Parse(callType, flagString);
                             enumValue |= flagValue;
                         }
+
                         output = enumValue;
                         return;
                     }
+
                     // Else return c# code as string
                     {
                         output = csharpCode;
                         return;
                     }
                 }
-                
+
                 var methodSplit = split[0].Split('.');
                 var methodName = methodSplit[^1];
                 var fullTypeName = methodSplit[..^1];
                 var fullTypeString = string.Join('.', fullTypeName);
                 var type = StringToTypeUtility.Get(fullTypeString);
-                
+
                 // Else run method
                 var argsString = split[1][..^1];
                 var argStrings = string.IsNullOrEmpty(argsString)
@@ -221,7 +223,7 @@ namespace CommandSystem
         }
 
         private static void AttemptToRunCommand(string formattedCommandString,
-            Dictionary<string, ArgData> localArgs, out object p3)
+            Dictionary<string, ArgData> localArgs, out object output)
         {
             // getscenepath {New GameObject}
             // alias = getscenepath
@@ -234,31 +236,30 @@ namespace CommandSystem
             var regex = new System.Text.RegularExpressions.Regex(@"[\{].+?[\}]|[^ ]+");
             var argStrings = regex.Matches(formattedCommandString).Select(x => x.Value).Skip(1).ToArray();
 
-            var args = new object[argStrings.Length];
+            var args = new ArgData[argStrings.Length];
             for (var i = 0; i < argStrings.Length; i++)
             {
                 var argString = argStrings[i];
                 if (localArgs.TryGetValue(argString, out var arg))
-                    args[i] = arg.Value;
+                    args[i] = arg;
                 else
-                    args[i] = argString;
+                    args[i] = new ArgData(argString, typeof(string), argString, false);
             }
 
-            var output = Run(alias, localArgs, args);
-            p3 = output;
+            output = Run(alias, localArgs, args);
         }
 
-        private static object Run(string alias, Dictionary<string, ArgData> localArgs, params object[] args)
+        private static object Run(string alias, Dictionary<string, ArgData> localArgs, params ArgData[] args)
         {
             AttemptUpdateAliasMap();
-            var argTypes = args.Select(x => x?.GetType() ?? typeof(object)).ToArray();
+            var argTypes = args.Select(x => x.Type).ToArray();
             var commandJson = aliasMap[alias.ToLower()];
             var version = commandJson["Version"]?.Value<int>();
             var name = commandJson["Name"]?.ToString();
             var description = commandJson["Description"]?.ToString();
             var aliases = commandJson["Aliases"] as JArray;
             var overloads = commandJson["Overloads"] as JArray;
-            var overload = FindBestOverload(overloads, args, argTypes);
+            var overload = FindBestOverload(overloads, args);
             if (overload == null) throw new ArgumentException("No overload found!");
             var input = overload["Input"] as JArray;
             var calls = overload["Calls"] as JArray;
@@ -268,14 +269,14 @@ namespace CommandSystem
             localArgs = new Dictionary<string, ArgData>(localArgs);
             for (var i = 0; i < (input?.Count ?? 0); i++)
             {
-                var arg = i < args.Length ? args[i] : null;
+                var argValue = i < args.Length ? args[i].Value : null;
                 var argName = input[i]["Name"]?.ToString();
                 var argRequired = input[i]["Required"]?.Value<bool>() == true;
                 var argTypeString = input[i]["Type"]?.ToString();
                 var argType = StringToTypeUtility.Get(argTypeString);
-                if (argRequired && arg == null) throw new ArgumentException($"Argument {argName} is required!");
-                if (!argRequired && arg == null) continue;
-                localArgs[argName] = new ArgData(argName, argType, arg, argRequired);
+                if (argRequired && argValue == null) throw new ArgumentException($"Argument {argName} is required!");
+                if (!argRequired && argValue == null) continue;
+                localArgs[argName] = new ArgData(argName, argType, argValue, argRequired);
             }
 
             for (var i = 0; i < (calls?.Count ?? 0); i++)
@@ -287,17 +288,18 @@ namespace CommandSystem
                 var command = call["Command"]?.ToString();
                 if (callTypeString != "void")
                 {
+                    var callType = StringToTypeUtility.Get(callTypeString);
                     if (csharp != null)
                     {
-                        var callType = StringToTypeUtility.Get(callTypeString);
                         AttemptToRunCSharp(csharp, localArgs, callType, out var callOutput);
+                        callOutput = ConvertType(callOutput, callType);
                         localArgs[callName] = new ArgData(callName, callType, callOutput, false);
                     }
                     else if (command != null)
                     {
                         AttemptToRunCommand(command, localArgs, out var callOutput);
-                        localArgs[callName] = new ArgData(callName, StringToTypeUtility.Get(callTypeString), callOutput,
-                            false);
+                        callOutput = ConvertType(callOutput, callType);
+                        localArgs[callName] = new ArgData(callName, callType, callOutput, false);
                     }
                     else
                     {
@@ -360,9 +362,17 @@ namespace CommandSystem
 #endif
         }
 
-        private static JObject FindBestOverload(JArray overloads, object[] args, Type[] argTypes)
+        private static JObject FindBestOverload(JArray overloads, ArgData[] args)
         {
-            var argLength = args.Length;
+            var overload = FindBestOverload(overloads, args.Select(x => x.Type).ToArray());
+            if (overload != null) return overload;
+            var argTypesAttempt2 = args.Select(x => x.Value.GetType()).ToArray();
+            return FindBestOverload(overloads, argTypesAttempt2);
+        }
+        
+        private static JObject FindBestOverload(JArray overloads, Type[] argTypes)
+        {
+            var argLength = argTypes.Length;
             foreach (var overload in overloads)
             {
                 var inputMinLength = overload["Input"]?.Where(x => x["Required"]?.Value<bool>() == true).Count() ?? 0;
@@ -389,6 +399,37 @@ namespace CommandSystem
             }
 
             return null;
+        }
+
+        private static object ConvertType(object obj, Type toType)
+        {
+            if (obj == null || toType == null) return obj;
+            var fromType = obj.GetType();
+            if (fromType == toType) return obj;
+            if (toType.IsAssignableFrom(fromType)) return obj;
+            if (toType.IsEnum && fromType == typeof(string))
+                return Enum.Parse(toType, obj.ToString());
+            if (toType.IsEnum && fromType == typeof(int))
+                return obj;
+
+            if (toType.IsArray && fromType.IsArray)
+            {
+                // Convert array types
+                var fromElementType = fromType.GetElementType();
+                var toElementType = toType.GetElementType();
+                if (fromElementType == toElementType) return obj;
+                var fromArray = (Array)obj;
+                var toArray = Array.CreateInstance(toElementType, fromArray.Length);
+                for (var i = 0; i < fromArray.Length; i++)
+                {
+                    var fromElement = fromArray.GetValue(i);
+                    var toElement = ConvertType(fromElement, toElementType);
+                    toArray.SetValue(toElement, i);
+                }
+                return toArray;
+            }
+            
+            return obj is IConvertible ? Convert.ChangeType(obj, toType) : obj;
         }
     }
 }
