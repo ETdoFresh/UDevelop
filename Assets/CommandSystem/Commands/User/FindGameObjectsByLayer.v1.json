@@ -7,8 +7,8 @@
     {
       "Input": [
         {
-          "Type": "string",
-          "Name": "{Layer Name}",
+          "Type": "object",
+          "Name": "{Layer}",
           "Description": "The name of the layer to search for.",
           "Required": true
         }
@@ -17,7 +17,7 @@
         {
           "Type": "int",
           "Name": "{Layer Int}",
-          "Command": "GetLayer {Layer Name}"
+          "Command": "GetLayer {Layer}"
         },
         {
           "Type": "UnityEngine.Object[]",

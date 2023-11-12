@@ -2,7 +2,7 @@
   "Version": 1,
     "Name": "SelectGameObjectsByName",
     "Description": "Select GameObjects by name",
-    "Aliases": ["selectgameobjectsbyname", "selectgos", "sgs"],
+    "Aliases": ["selectgameobjectsbyname", "selectgos", "sgn"],
     "Overloads": [
       {
         "Input": [

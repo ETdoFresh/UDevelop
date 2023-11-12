@@ -1,0 +1,50 @@
+{
+  "Version": 1,
+  "Name": "SelectGameObjectsByLayer",
+  "Description": "Select GameObjects by layer",
+  "Aliases": ["selectgameobjectsbylayer", "selectgol", "sgl"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "string",
+          "Name": "{Layer}",
+          "Description": "The layer to select GameObjects from.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "System.Reflection.PropertyInfo",
+          "Name": "{Selection Objects PropertyInfo}",
+          "Command": "GetPropertyInfo CommandSystem.Commands.Selection objects"
+        },
+        {
+          "Type": "int",
+          "Name": "{Layer Int}",
+          "Command": "GetLayer {Layer}"
+        },
+        {
+          "Type": "UnityEngine.GameObject[]",
+          "Name": "{GameObjects}",
+          "Command": "FindGameObjectsByLayer {Layer Int}"
+        },
+        {
+          "Type": "string",
+          "Name": "{GameObjects ScenePath}",
+          "Command": "GetScenePath {GameObjects}"
+        },
+        {
+          "Type": "void",
+          "Name": "void",
+          "Command": "SetValue {Selection Objects PropertyInfo} null {GameObjects}"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.GameObject[]",
+        "Name": "{GameObjects}"
+      },
+      "CommandLineOutput": "Selected GameObject:\n{GameObjects ScenePath}"
+    }
+  ]
+}
