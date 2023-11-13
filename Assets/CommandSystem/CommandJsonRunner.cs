@@ -41,7 +41,7 @@ namespace CommandSystem
             if (overload == null) throw new ArgumentException("No overload found!");
             var input = overload["Input"] as JArray;
             var calls = overload["Calls"] as JArray;
-            var output = overload["Output"]?.ToString();
+            var output = overload["Output"] as JObject;
             var commandLineOutput = overload["CommandLineOutput"]?.ToString();
 
             var localArgs = new Dictionary<string, ArgData>();
@@ -70,13 +70,13 @@ namespace CommandSystem
                     {
                         var callOutput = AttemptToRunCSharp(csharp, localArgs, callType);
                         callOutput = ConvertType(callOutput, callType);
-                        localArgs[callName] = new ArgData(callName, callType, callOutput, false);
+                        localArgs[callName] = new ArgData(callName, callType, callOutput?.Value, false);
                     }
                     else if (command != null)
                     {
                         var callOutput = AttemptToRunCommand(command, localArgs);
                         callOutput = ConvertType(callOutput, callType);
-                        localArgs[callName] = new ArgData(callName, callType, callOutput, false);
+                        localArgs[callName] = new ArgData(callName, callType, callOutput?.Value, false);
                     }
                     else
                     {
@@ -94,10 +94,11 @@ namespace CommandSystem
                 }
             }
 
+            var outputName = output?["Name"]?.ToString();
             var outputRegEx = new System.Text.RegularExpressions.Regex(@"\{.*?\}");
-            var outputValue = output != null ? localArgs[output].Value : null;
-            commandLineOutput ??= output;
-            commandLineOutput = outputRegEx.Replace(commandLineOutput, m => outputValue?.ToString() ?? "");
+            var outputValue = outputName != null && outputName != "void" ? localArgs[outputName].Value : null;
+            commandLineOutput ??= outputName;
+            commandLineOutput = outputRegEx.Replace(commandLineOutput, m => localArgs.TryGetValue(m.Value, out var arg) ? arg.Value?.ToString() ?? "" : "");
             return new OutputData { Value = outputValue, CommandLineOutput = commandLineOutput };
         }
 
@@ -173,11 +174,11 @@ namespace CommandSystem
                     ? Array.Empty<string>()
                     : argsString.Split(',').Select(x => x.Trim()).ToArray();
 
-                var self = (object)null;
+                var self = (ArgData)null;
                 if (argStrings.Length > 0 && argStrings[0].StartsWith("this"))
                 {
                     var selfString = argStrings[0][4..].Trim();
-                    self = localArgs[selfString].Value;
+                    self = localArgs[selfString];
                     argStrings = argStrings.Skip(1).ToArray();
                 }
 
@@ -220,7 +221,7 @@ namespace CommandSystem
 
                 if (method == null) throw new ArgumentException("Method not found!");
 
-                var outputValue2 = method.Invoke(self, argObjects);
+                var outputValue2 = method.Invoke(self?.Value, argObjects);
                 return new OutputData { Value = outputValue2, CommandLineOutput = csharpCode };
             }
         }
@@ -250,22 +251,6 @@ namespace CommandSystem
             }
 
             return Run(alias, localArgs, args);
-        }
-        
-        public static OutputData AttemptToRunCommand(string alias, object[] args, Dictionary<string, ArgData> localArgs)
-        {
-            var argStrings = args.Select(x => x.ToString()).ToArray();
-            var argDatas = new ArgData[argStrings.Length];
-            for (var i = 0; i < argStrings.Length; i++)
-            {
-                var argString = argStrings[i];
-                if (localArgs.TryGetValue(argString, out var arg))
-                    argDatas[i] = arg;
-                else
-                    argDatas[i] = new ArgData(argString, typeof(string), argString, false);
-            }
-
-            return Run(alias, localArgs, argDatas);
         }
 
         private static OutputData Run(string alias, Dictionary<string, ArgData> localArgs, params ArgData[] args)
@@ -312,13 +297,13 @@ namespace CommandSystem
                     {
                         var callOutput = AttemptToRunCSharp(csharp, localArgs, callType);
                         callOutput = ConvertType(callOutput, callType);
-                        localArgs[callName] = new ArgData(callName, callType, callOutput, false);
+                        localArgs[callName] = new ArgData(callName, callType, callOutput?.Value, false);
                     }
                     else if (command != null)
                     {
                         var callOutput = AttemptToRunCommand(command, localArgs);
                         callOutput = ConvertType(callOutput, callType);
-                        localArgs[callName] = new ArgData(callName, callType, callOutput, false);
+                        localArgs[callName] = new ArgData(callName, callType, callOutput?.Value, false);
                     }
                     else
                     {
@@ -477,7 +462,7 @@ namespace CommandSystem
                     var fromElement = fromArray.GetValue(i);
                     var fromElementOutput = new OutputData { Value = fromElement };
                     var toElement = ConvertType(fromElementOutput, toElementType);
-                    toArray.SetValue(toElement, i);
+                    toArray.SetValue(toElement.Value, i);
                 }
 
                 return outputData.Replace(toArray);

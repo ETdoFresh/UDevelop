@@ -2,7 +2,7 @@
   "Version": 1,
   "Name": "FindGameObjectsByLayer",
   "Description": "Find GameObjects by layer.",
-  "Aliases": ["findgameobjectsbylayer", "fgobl"],
+  "Aliases": ["findgameobjectsbylayer", "fgosbl"],
   "Overloads": [
     {
       "Input": [
