@@ -2,12 +2,12 @@
   "Version": 1,
   "Name": "SelectGameObjectsByLayer",
   "Description": "Select GameObjects by layer",
-  "Aliases": ["selectgameobjectsbylayer", "selectgol", "sgl"],
+  "Aliases": ["selectgameobjectsbylayer", "selectgosl", "sgosbl"],
   "Overloads": [
     {
       "Input": [
         {
-          "Type": "string",
+          "Type": "object",
           "Name": "{Layer}",
           "Description": "The layer to select GameObjects from.",
           "Required": true

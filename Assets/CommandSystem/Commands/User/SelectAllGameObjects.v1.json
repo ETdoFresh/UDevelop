@@ -2,7 +2,7 @@
   "Version": 1,
   "Name": "SeledtAllGameObjects",
     "Description": "Select all GameObjects",
-    "Aliases": ["selectallgameobjects", "selectallgos", "sags"],
+    "Aliases": ["selectallgameobjects", "selectallgos", "sagos"],
     "Overloads": [
       {
         "Input": [],

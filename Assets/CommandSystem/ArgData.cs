@@ -16,5 +16,11 @@ namespace CommandSystem
             Value = value;
             Required = required;
         }
+
+        public override string ToString()
+        {
+            var required = Required ? "*" : "";
+            return $"{Name}{required} ({Type}) = {Value}";
+        }
     }
 }

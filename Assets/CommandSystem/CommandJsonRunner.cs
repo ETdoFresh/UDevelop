@@ -21,24 +21,35 @@ namespace CommandSystem
             var split = commandString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
             if (!aliasMap.TryGetValue(split[0].ToLower(), out var commandJson))
-                throw new ArgumentException($"Command {split[0]} not found!");
+                ThrowException("Command not found!", commandString);
 
             var argRegEx = new System.Text.RegularExpressions.Regex(@"[\""].+?[\""]|[^ ]+");
             var argMatches = argRegEx.Matches(commandString);
             var args = argMatches.Select(x => x.Value).Skip(1).ToArray();
             args = args.Select(x => x.StartsWith("\"") && x.EndsWith("\"") ? x[1..^1] : x).ToArray();
 
-            var stringArgs = new ArgData[args.Length];
+            var typedArgs = new ArgData[args.Length];
             for (var i = 0; i < args.Length; i++)
-                stringArgs[i] = new ArgData(args[i], typeof(string), args[i], false);
+            {
+                if (bool.TryParse(args[i], out var boolValue))
+                    typedArgs[i] = new ArgData(args[i], typeof(bool), boolValue, false);
+                else if (int.TryParse(args[i], out var intValue))
+                    typedArgs[i] = new ArgData(args[i], typeof(int), intValue, false);
+                else if (float.TryParse(args[i], out var floatValue))
+                    typedArgs[i] = new ArgData(args[i], typeof(float), floatValue, false);
+                else if (double.TryParse(args[i], out var doubleValue))
+                    typedArgs[i] = new ArgData(args[i], typeof(double), doubleValue, false);
+                else
+                    typedArgs[i] = new ArgData(args[i], typeof(string), args[i], false);
+            }
 
             var version = commandJson["Version"]?.Value<int>();
             var name = commandJson["Name"]?.ToString();
             var description = commandJson["Description"]?.ToString();
             var aliases = commandJson["Aliases"] as JArray;
             var overloads = commandJson["Overloads"] as JArray;
-            var overload = FindBestOverload(overloads, stringArgs);
-            if (overload == null) throw new ArgumentException("No overload found!");
+            var overload = FindBestOverload(overloads, typedArgs);
+            if (overload == null) ThrowException("No overload found!", commandString);
             var input = overload["Input"] as JArray;
             var calls = overload["Calls"] as JArray;
             var output = overload["Output"] as JObject;
@@ -47,7 +58,7 @@ namespace CommandSystem
             var localArgs = new Dictionary<string, ArgData>();
             for (var i = 0; i < (input?.Count ?? 0); i++)
             {
-                var arg = i < args.Length ? (object)args[i] : null;
+                var arg = i < typedArgs.Length ? (object)typedArgs[i].Value : null;
                 var argName = input[i]["Name"]?.ToString();
                 var argTypeString = input[i]["Type"]?.ToString();
                 var argRequired = input[i]["Required"]?.Value<bool>() == true;
@@ -80,7 +91,7 @@ namespace CommandSystem
                     }
                     else
                     {
-                        throw new ArgumentException("No CSharp or Command found!");
+                        ThrowException("No CSharp or Command found!", commandString, localArgs);
                     }
                 }
                 else
@@ -90,7 +101,7 @@ namespace CommandSystem
                     else if (command != null)
                         AttemptToRunCommand(command, localArgs);
                     else
-                        throw new ArgumentException("No CSharp or Command found!");
+                        ThrowException("No CSharp or Command found!", commandString, localArgs);
                 }
             }
 
@@ -98,7 +109,8 @@ namespace CommandSystem
             var outputRegEx = new System.Text.RegularExpressions.Regex(@"\{.*?\}");
             var outputValue = outputName != null && outputName != "void" ? localArgs[outputName].Value : null;
             commandLineOutput ??= outputName;
-            commandLineOutput = outputRegEx.Replace(commandLineOutput, m => localArgs.TryGetValue(m.Value, out var arg) ? arg.Value?.ToString() ?? "" : "");
+            commandLineOutput = outputRegEx.Replace(commandLineOutput,
+                m => localArgs.TryGetValue(m.Value, out var arg) ? arg.Value?.ToString() ?? "" : "");
             return new OutputData { Value = outputValue, CommandLineOutput = commandLineOutput };
         }
 
@@ -219,10 +231,18 @@ namespace CommandSystem
                     }
                 }
 
-                if (method == null) throw new ArgumentException("Method not found!");
+                if (method == null) ThrowException("Method not found!", csharpCode, localArgs);
 
-                var outputValue2 = method.Invoke(self?.Value, argObjects);
-                return new OutputData { Value = outputValue2, CommandLineOutput = csharpCode };
+                try
+                {
+                    var outputValue2 = method.Invoke(self?.Value, argObjects);
+                    return new OutputData { Value = outputValue2, CommandLineOutput = csharpCode };
+                }
+                catch (Exception ex)
+                {
+                    ThrowException(ex, csharpCode, localArgs);
+                    return null;
+                }
             }
         }
 
@@ -264,7 +284,7 @@ namespace CommandSystem
             var aliases = commandJson["Aliases"] as JArray;
             var overloads = commandJson["Overloads"] as JArray;
             var overload = FindBestOverload(overloads, args);
-            if (overload == null) throw new ArgumentException("No overload found!");
+            if (overload == null) ThrowException("No overload found!", alias, localArgs, args);
             var input = overload["Input"] as JArray;
             var calls = overload["Calls"] as JArray;
             var output = overload["Output"] as JObject;
@@ -278,7 +298,8 @@ namespace CommandSystem
                 var argRequired = input[i]["Required"]?.Value<bool>() == true;
                 var argTypeString = input[i]["Type"]?.ToString();
                 var argType = StringToTypeUtility.Get(argTypeString);
-                if (argRequired && argValue == null) throw new ArgumentException($"Argument {argName} is required!");
+                if (argRequired && argValue == null)
+                    ThrowException($"Argument {argName} is required!", alias, localArgs, args);
                 if (!argRequired && argValue == null) continue;
                 localArgs[argName] = new ArgData(argName, argType, argValue, argRequired);
             }
@@ -307,7 +328,7 @@ namespace CommandSystem
                     }
                     else
                     {
-                        throw new ArgumentException("No CSharp or Command found!");
+                        ThrowException("No CSharp or Command found!", alias, localArgs, args);
                     }
                 }
                 else
@@ -317,7 +338,7 @@ namespace CommandSystem
                     else if (command != null)
                         AttemptToRunCommand(command, localArgs);
                     else
-                        throw new ArgumentException("No CSharp or Command found!");
+                        ThrowException("No CSharp or Command found!", alias, localArgs, args);
                 }
             }
 
@@ -385,7 +406,7 @@ namespace CommandSystem
                 for (var i = 0; i < inputTypes.Length; i++)
                 {
                     if (inputIsRequired[i] == false) continue;
-                    if (i >= args.Length) throw new ArgumentException("Not enough arguments!");
+                    if (i >= args.Length) ThrowException("Not enough arguments!");
                     var inputType = inputTypes[i];
                     if (IsConvertible(args[i], inputType)) continue;
                     isMatch = false;
@@ -469,6 +490,35 @@ namespace CommandSystem
             }
 
             return obj is IConvertible ? outputData.Replace(Convert.ChangeType(obj, toType)) : outputData;
+        }
+
+        private static void ThrowException(Exception ex, string commandString = null,
+            Dictionary<string, ArgData> localArgs = null, ArgData[] args = null)
+        {
+            var message = ex.ToString();
+            if (commandString != null) message += $"\nCommand: {commandString}";
+
+            if (localArgs != null)
+            {
+                message += "\nLocal Args:";
+                foreach (var localArg in localArgs)
+                    message += $"\n{localArg.Value}";
+            }
+
+            if (args != null)
+            {
+                message += "\nArgs:";
+                foreach (var arg in args)
+                    message += $"\n{arg}";
+            }
+
+            throw new ArgumentException(message);
+        }
+        
+        private static void ThrowException(string message, string commandString = null,
+            Dictionary<string, ArgData> localArgs = null, ArgData[] args = null)
+        {
+            ThrowException(new ArgumentException(message), commandString, localArgs, args);
         }
     }
 }
