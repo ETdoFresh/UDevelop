@@ -6,12 +6,12 @@ using Object = UnityEngine.Object;
 namespace CommandSystem.Commands.Select
 {
     [Serializable]
-    public class SelectAssetByTypeNameAndNameCommand : Command
+    public class SelectAssetByTypeNameAndNameCommandCSharp : CommandCSharp
     {
         [SerializeField] private Object[] _previousSelectedObjects;
         [SerializeField] private Object[] _selectedObjects;
         
-        public SelectAssetByTypeNameAndNameCommand(string commandInput) : base(commandInput) { }
+        public SelectAssetByTypeNameAndNameCommandCSharp(string commandInput) : base(commandInput) { }
 
         public override void OnRun(params string[] args)
         {

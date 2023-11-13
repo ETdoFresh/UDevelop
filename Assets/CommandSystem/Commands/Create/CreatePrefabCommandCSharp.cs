@@ -4,12 +4,12 @@ using UnityEngine;
 namespace CommandSystem.Commands.Create
 {
     [Serializable]
-    public class CreatePrefabCommand : Command
+    public class CreatePrefabCommandCSharp : CommandCSharp
     {
         private string _prefabName;
         private string _prefabPath;
 
-        public CreatePrefabCommand(string commandInput) : base(commandInput) { }
+        public CreatePrefabCommandCSharp(string commandInput) : base(commandInput) { }
 
         public override void OnRun(params string[] args)
         {

@@ -1,10 +1,10 @@
 namespace CommandSystem.Commands.EditorOnly
 {
-    public class StopCommand : Command
+    public class StopCommandCSharp : CommandCSharp
     {
         public override bool AddToHistory => false;
 
-        public StopCommand(string commandInput) : base(commandInput) { }
+        public StopCommandCSharp(string commandInput) : base(commandInput) { }
 
         public override void OnRun(params string[] args)
         {
@@ -14,11 +14,11 @@ namespace CommandSystem.Commands.EditorOnly
         }
     }
 
-    public class PauseCommand : Command
+    public class PauseCommandCSharp : CommandCSharp
     {
         public override bool AddToHistory => false;
 
-        public PauseCommand(string commandInput) : base(commandInput) { }
+        public PauseCommandCSharp(string commandInput) : base(commandInput) { }
 
         public override void OnRun(params string[] args)
         {

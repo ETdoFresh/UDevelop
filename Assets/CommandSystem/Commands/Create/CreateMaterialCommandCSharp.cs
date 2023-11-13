@@ -3,12 +3,12 @@
 namespace CommandSystem.Commands.Create
 {
     [Serializable]
-    public class CreateMaterialCommand : Command
+    public class CreateMaterialCommandCSharp : CommandCSharp
     {
         private string _materialName;
         private string _materialPath;
 
-        public CreateMaterialCommand(string commandInput) : base(commandInput) { }
+        public CreateMaterialCommandCSharp(string commandInput) : base(commandInput) { }
 
         public override bool AddToHistory => true;
         public override string CommandOutput => $"Created Material {_materialName}";

@@ -4,9 +4,9 @@ using System.Linq;
 namespace CommandSystem.Commands.EditorOnly
 {
     [Serializable]
-    public class OpenSceneCommand : Command
+    public class OpenSceneCommandCSharp : CommandCSharp
     {
-        public OpenSceneCommand(string commandInput) : base(commandInput) { }
+        public OpenSceneCommandCSharp(string commandInput) : base(commandInput) { }
 
         public override void OnRun(params string[] args)
         {

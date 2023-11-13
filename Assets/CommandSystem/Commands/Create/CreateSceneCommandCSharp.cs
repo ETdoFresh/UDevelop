@@ -3,12 +3,12 @@
 namespace CommandSystem.Commands.Create
 {
     [Serializable]
-    public class CreateSceneCommand : Command
+    public class CreateSceneCommandCSharp : CommandCSharp
     {
         private string _sceneName;
         private string _scenePath;
 
-        public CreateSceneCommand(string commandInput) : base(commandInput) { }
+        public CreateSceneCommandCSharp(string commandInput) : base(commandInput) { }
 
         public override bool AddToHistory => true;
         public override string CommandOutput => $"Created Scene {_sceneName}";

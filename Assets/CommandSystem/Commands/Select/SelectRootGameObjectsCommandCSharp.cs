@@ -6,27 +6,21 @@ using Object = UnityEngine.Object;
 namespace CommandSystem.Commands.Select
 {
     [Serializable]
-    public class SelectGameObjectByTagCommand : Command {
+    public class SelectRootGameObjectsCommandCSharp : CommandCSharp
+    {
         [SerializeField] private Object[] _previousSelectedObjects;
         [SerializeField] private Object[] _selectedObjects;
 
-        public SelectGameObjectByTagCommand(string commandInput) : base(commandInput) { }
+        public SelectRootGameObjectsCommandCSharp(string commandInput) : base(commandInput) { }
 
         public override void OnRun(params string[] args)
         {
-            if (args.Length < 2) throw new ArgumentException("Not enough arguments!");
-            var tag = string.Join(" ", args[1..]);
-            var tagWithoutIndex = SelectionUtil.RemoveIndexFromName(tag);
-            
-            var objectsByTag = Object
+            var sceneRootGameObject = Object
                 .FindObjectsOfType<GameObject>(true)
-                .Where(x => string.Equals(x.tag, tagWithoutIndex,
-                    StringComparison.CurrentCultureIgnoreCase))
-                .OrderBy(SelectionUtil.GetGameObjectOrder)
-                .Cast<Object>();
-            
+                .Where(x => x.transform.parent == null)
+                .Cast<Object>().ToArray();
             _previousSelectedObjects = UnityEditor.Selection.objects;
-            _selectedObjects = SelectionUtil.ParseAndSelectIndex(objectsByTag, tag);
+            _selectedObjects = sceneRootGameObject;
             UnityEditor.Selection.objects = _selectedObjects;
         }
 

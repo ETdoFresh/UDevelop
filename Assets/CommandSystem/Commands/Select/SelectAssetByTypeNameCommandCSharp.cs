@@ -6,28 +6,28 @@ using Object = UnityEngine.Object;
 namespace CommandSystem.Commands.Select
 {
     [Serializable]
-    public class SelectAssetByNameCommand : Command
+    public class SelectAssetByTypeNameCommandCSharp : CommandCSharp
     {
         [SerializeField] private Object[] _previousSelectedObjects;
         [SerializeField] private Object[] _selectedObjects;
 
-        public SelectAssetByNameCommand(string commandInput) : base(commandInput) { }
+        public SelectAssetByTypeNameCommandCSharp(string commandInput) : base(commandInput) { }
 
         public override void OnRun(params string[] args)
         {
             if (args.Length < 2) throw new ArgumentException("Not enough arguments!");
-            var objectName = string.Join(" ", args[1..]);
-            var objectNameWithoutIndex = SelectionUtil.RemoveIndexFromName(objectName);
+            var typeName = string.Join(" ", args[1..]);
+            var typeNameWithoutIndex = SelectionUtil.RemoveIndexFromName(typeName);
 
-            var projectAssets = UnityEditor.AssetDatabase.FindAssets(objectNameWithoutIndex)
+            var projectAssets = UnityEditor.AssetDatabase.FindAssets($"t:{typeNameWithoutIndex}")
                 .Select(UnityEditor.AssetDatabase.GUIDToAssetPath)
                 .OrderBy(path => path)
                 .Select(UnityEditor.AssetDatabase.LoadAssetAtPath<Object>)
-                .Where(x => string.Equals(x.name, objectNameWithoutIndex,
+                .Where(x => string.Equals(x.GetType().Name, typeNameWithoutIndex,
                     StringComparison.CurrentCultureIgnoreCase));
-
+            
             _previousSelectedObjects = UnityEditor.Selection.objects;
-            _selectedObjects = SelectionUtil.ParseAndSelectIndex(projectAssets, objectName);
+            _selectedObjects = SelectionUtil.ParseAndSelectIndex(projectAssets, typeName);
             UnityEditor.Selection.objects = _selectedObjects;
         }
     }

@@ -4,12 +4,12 @@ using UnityEngine;
 namespace CommandSystem.Commands.Create
 {
     [Serializable]
-    public class CreateCapsuleCommand : Command
+    public class CreateCapsuleCommandCSharp : CommandCSharp
     {
         private GameObject _gameObject;
         private string _gameObjectName;
 
-        public CreateCapsuleCommand(string commandInput) : base(commandInput) { }
+        public CreateCapsuleCommandCSharp(string commandInput) : base(commandInput) { }
 
         public override bool AddToHistory => true;
         public override string CommandOutput => $"Created Capsule {_gameObjectName}";

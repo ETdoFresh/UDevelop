@@ -9,7 +9,7 @@ namespace CommandSystem
     {
         [SerializeField, TextArea(3, 10)] private string runCommandsOnStart;
         [SerializeField] private List<CommandEntry> possibleCommands = new();
-        [SerializeField] private List<Command> commandHistory = new();
+        [SerializeField] private List<CommandCSharp> commandHistory = new();
         [SerializeField] private int commandHistoryIndex;
 
         private void Awake()
@@ -70,7 +70,7 @@ namespace CommandSystem
 
                 var commandType = commandEntry.commandType;
                 var commandInstance = Activator.CreateInstance(commandType, trimmedCommand);
-                commandHistory.Insert(commandHistoryIndex, (Command)commandInstance);
+                commandHistory.Insert(commandHistoryIndex, (CommandCSharp)commandInstance);
                 commandHistoryIndex++;
                 commandHistory.RemoveRange(commandHistoryIndex, commandHistory.Count - commandHistoryIndex);
             }

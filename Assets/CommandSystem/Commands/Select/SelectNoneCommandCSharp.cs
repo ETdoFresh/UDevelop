@@ -5,12 +5,12 @@ using Object = UnityEngine.Object;
 namespace CommandSystem.Commands.Select
 {
     [Serializable]
-    public class SelectNoneCommand : Command
+    public class SelectNoneCommandCSharp : CommandCSharp
     {
         [SerializeField] private Object[] _previousSelectedObjects;
         [SerializeField] private Object[] _selectedObjects;
 
-        public SelectNoneCommand(string commandInput) : base(commandInput) { }
+        public SelectNoneCommandCSharp(string commandInput) : base(commandInput) { }
         
         public override void OnRun(params string[] args)
         {

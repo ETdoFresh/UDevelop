@@ -3,9 +3,9 @@ using System;
 namespace CommandSystem.Commands.EditorOnly
 {
     [Serializable]
-    public class SaveSceneCommand : Command
+    public class SaveSceneCommandCSharp : CommandCSharp
     {
-        public SaveSceneCommand(string commandInput) : base(commandInput) { }
+        public SaveSceneCommandCSharp(string commandInput) : base(commandInput) { }
 
         public override void OnRun(params string[] args)
         {

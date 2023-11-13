@@ -3,9 +3,9 @@ using System;
 namespace CommandSystem.Commands.EditorOnly
 {
     [Serializable]
-    public class PlayCommand : Command
+    public class PlayCommandCSharp : CommandCSharp
     {
-        public PlayCommand(string commandInput) : base(commandInput) { }
+        public PlayCommandCSharp(string commandInput) : base(commandInput) { }
 
         public override void OnRun(params string[] args)
         {

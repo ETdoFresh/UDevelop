@@ -5,12 +5,12 @@ using UnityEngine;
 namespace CommandSystem.Commands.Create
 {
     [Serializable]
-    public class CreateInstanceFromSelectionCommand : Command
+    public class CreateInstanceFromSelectionCommandCSharp : CommandCSharp
     {
         private GameObject[] _prefabs;
         private GameObject[] _instances;
 
-        public CreateInstanceFromSelectionCommand(string commandInput) : base(commandInput) { }
+        public CreateInstanceFromSelectionCommandCSharp(string commandInput) : base(commandInput) { }
 
         public override void OnRun(params string[] args)
         {

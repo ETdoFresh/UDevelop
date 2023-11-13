@@ -6,12 +6,12 @@ using Object = UnityEngine.Object;
 namespace CommandSystem.Commands.Select
 {
     [Serializable]
-    public class SelectParentGameObjectCommand : Command
+    public class SelectParentGameObjectCommandCSharp : CommandCSharp
     {
         [SerializeField] private Object[] _previousSelectedObjects;
         [SerializeField] private Object[] _selectedObjects;
         
-        public SelectParentGameObjectCommand(string commandInput) : base(commandInput) { }
+        public SelectParentGameObjectCommandCSharp(string commandInput) : base(commandInput) { }
         
         public override void OnRun(params string[] args)
         {

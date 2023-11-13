@@ -4,7 +4,7 @@ using UnityEditor.PackageManager.Requests;
 namespace CommandSystem.Commands.EditorOnly
 {
     [Serializable]
-    public class PackageCommand : Command
+    public class PackageCommandCSharp : CommandCSharp
     {
         private static ListRequest _packageListRequest;
 
@@ -12,7 +12,7 @@ namespace CommandSystem.Commands.EditorOnly
 
         public override string CommandOutput => _commandOutput;
 
-        public PackageCommand(string commandInput) : base(commandInput) { }
+        public PackageCommandCSharp(string commandInput) : base(commandInput) { }
 
         public override void OnRun(params string[] args)
         {

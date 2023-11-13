@@ -30,13 +30,13 @@ namespace CommandSystem
 
         public static List<string> Inputs => Instance._inputs;
         public static List<string> Outputs => Instance._outputs;
-        public static List<Command> History => Instance._history;
+        public static List<CommandCSharp> History => Instance._history;
         public static List<string> Display => Instance._display;
         public static int HistoryIndex { get => Instance._historyIndex; set => Instance._historyIndex = value; }
 
         [SerializeField] private List<string> _inputs = new();
         [SerializeField] private List<string> _outputs = new();
-        [SerializeField] private List<Command> _history = new();
+        [SerializeField] private List<CommandCSharp> _history = new();
         [SerializeField] private List<string> _display = new();
         [SerializeField] private int _historyIndex;
 

@@ -44,8 +44,8 @@ namespace CommandSystem.Commands
                 var types = assembly.GetTypes();
                 foreach (var type in types)
                 {
-                    if (!typeof(Command).IsAssignableFrom(type)) continue;
-                    if (type == typeof(Command)) continue;
+                    if (!typeof(CommandCSharp).IsAssignableFrom(type)) continue;
+                    if (type == typeof(CommandCSharp)) continue;
                     if (type.FullName == null) continue;
                     CommandTypeFullNameDictionary.Add(type.FullName, type);
                     CommandTypeNameDictionary.Add(type.Name, type);

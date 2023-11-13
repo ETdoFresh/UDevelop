@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace CommandSystem.Commands.Create
 {
     [Serializable]
-    public class CreateCommand : Command
+    public class CreateCommandCSharp : CommandCSharp
     {
-        [SerializeField] private Command _createCommand;
+        [FormerlySerializedAs("_createCommand")] [SerializeField] private CommandCSharp createCommandCSharp;
         
-        public CreateCommand(string commandInput) : base(commandInput) { }
+        public CreateCommandCSharp(string commandInput) : base(commandInput) { }
 
         public override void OnRun(params string[] args)
         {
@@ -24,18 +25,18 @@ namespace CommandSystem.Commands.Create
             var arg1SubcommandType = CommandTypes.GetByName(arg1SubcommandTypeName);
             if (arg1SubcommandType == null) throw new ArgumentException($"Invalid type of object to create: {arg1}");
             var subArgs = string.Join(' ', args.Skip(1));
-            _createCommand = (Command)Activator.CreateInstance(arg1SubcommandType, subArgs);
-            _createCommand.Run();
+            createCommandCSharp = (CommandCSharp)Activator.CreateInstance(arg1SubcommandType, subArgs);
+            createCommandCSharp.Run();
         }
         
         public override void OnUndo()
         {
-            _createCommand.OnUndo();
+            createCommandCSharp.OnUndo();
         }
         
         public override void OnRedo()
         {
-            _createCommand.OnRedo();
+            createCommandCSharp.OnRedo();
         }
     }
 }
