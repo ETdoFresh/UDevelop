@@ -31,7 +31,9 @@ namespace CommandSystem
             var typedArgs = new ArgData[args.Length];
             for (var i = 0; i < args.Length; i++)
             {
-                if (bool.TryParse(args[i], out var boolValue))
+                if (args[i] == "null")
+                    typedArgs[i] = new ArgData(args[i], typeof(object), null, false);
+                else if (bool.TryParse(args[i], out var boolValue))
                     typedArgs[i] = new ArgData(args[i], typeof(bool), boolValue, false);
                 else if (int.TryParse(args[i], out var intValue))
                     typedArgs[i] = new ArgData(args[i], typeof(int), intValue, false);
@@ -267,7 +269,20 @@ namespace CommandSystem
                 if (localArgs.TryGetValue(argString, out var arg))
                     args[i] = arg;
                 else
-                    args[i] = new ArgData(argString, typeof(string), argString, false);
+                {
+                    if (argString == "null")
+                        args[i] = new ArgData(argString, typeof(object), null, false);
+                    else if (bool.TryParse(argString, out var boolValue))
+                        args[i] = new ArgData(argString, typeof(bool), boolValue, false);
+                    else if (int.TryParse(argString, out var intValue))
+                        args[i] = new ArgData(argString, typeof(int), intValue, false);
+                    else if (float.TryParse(argString, out var floatValue))
+                        args[i] = new ArgData(argString, typeof(float), floatValue, false);
+                    else if (double.TryParse(argString, out var doubleValue))
+                        args[i] = new ArgData(argString, typeof(double), doubleValue, false);
+                    else
+                        args[i] = new ArgData(argString, typeof(string), argString, false);
+                }
             }
 
             return Run(alias, localArgs, args);
@@ -298,9 +313,6 @@ namespace CommandSystem
                 var argRequired = input[i]["Required"]?.Value<bool>() == true;
                 var argTypeString = input[i]["Type"]?.ToString();
                 var argType = StringToTypeUtility.Get(argTypeString);
-                if (argRequired && argValue == null)
-                    ThrowException($"Argument {argName} is required!", alias, localArgs, args);
-                if (!argRequired && argValue == null) continue;
                 localArgs[argName] = new ArgData(argName, argType, argValue, argRequired);
             }
 

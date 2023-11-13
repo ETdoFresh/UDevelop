@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Name": "SeledtAllGameObjects",
+  "Name": "SelectAllGameObjects",
     "Description": "Select all GameObjects",
     "Aliases": ["selectallgameobjects", "selectallgos", "sagos"],
     "Overloads": [
