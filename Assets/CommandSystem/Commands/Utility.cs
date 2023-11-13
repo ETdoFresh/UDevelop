@@ -213,7 +213,7 @@ namespace CommandSystem.Commands
         
         public static object[] FilterBy(CommandReference commandReference, object value, object[] array)
         {
-            return array.Where(x => commandReference.Run(new ArgData("FilterByArg", x.GetType(), x, true)).Value.Equals(value)).ToArray();
+            return array.Where(x => commandReference.Run(new ArgData("{FilterByArg}", x.GetType(), x, true)).Value.Equals(value)).ToArray();
         }
 
         public static object[] SortBy(FieldInfo fieldInfo, object[] array)

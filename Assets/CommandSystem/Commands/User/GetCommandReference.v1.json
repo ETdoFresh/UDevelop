@@ -1,0 +1,30 @@
+﻿{
+  "Version": 1,
+  "Name": "GetCommandReference",
+    "Description": "Gets a reference to a command",
+    "Aliases": ["getcommandreference", "getcommand", "getcmd", "gcr"],
+    "Overloads": [
+      {
+        "Input": [
+          {
+            "Type": "string",
+            "Name": "{Command Name}",
+            "Description": "The name of the command to get a reference to.",
+            "Required": true
+          }
+        ],
+        "Calls": [
+          {
+            "Type": "CommandSystem.CommandReference",
+            "Name": "{Command Reference}",
+            "CSharp": "new CommandSystem.CommandReference({Command Name})"
+          }
+        ],
+        "Output": {
+          "Type": "CommandSystem.CommandReference",
+          "Name": "{Command Reference}"
+        },
+        "CommandLineOutput": "Command Reference: {Command Reference}"
+      }
+    ]
+}

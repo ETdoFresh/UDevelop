@@ -2,7 +2,7 @@
   "Version": 1,
   "Name": "FindGameObjectByScenePath",
   "Description": "Finds a GameObject by scene path",
-  "Aliases": ["findgameobjectbyscenepath", "findgosp", "fgsp"],
+  "Aliases": ["findgameobjectbyscenepath", "findgobsp", "fgobsp"],
   "Overloads": [
     {
       "Input": [
@@ -26,8 +26,13 @@
         },
         {
           "Type": "UnityEngine.GameObject[]",
-          "Name": "{GameObject}",
+          "Name": "{GameObjects}",
           "Command": "FilterBy {GetScenePath Command} {Scene Path} {All GameObjects}"
+        },
+        {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{GameObject}",
+          "Command": "GetFirstOrDefault {GameObjects}"
         }
       ],
       "Output": {

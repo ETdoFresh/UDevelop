@@ -110,7 +110,7 @@ namespace CommandSystem
             var outputValue = outputName != null && outputName != "void" ? localArgs[outputName].Value : null;
             commandLineOutput ??= outputName;
             commandLineOutput = outputRegEx.Replace(commandLineOutput,
-                m => localArgs.TryGetValue(m.Value, out var arg) ? arg.Value?.ToString() ?? "" : "");
+                m => localArgs.TryGetValue(m.Value, out var arg) ? arg.Value?.ToString() ?? "null" : "not found");
             return new OutputData { Value = outputValue, CommandLineOutput = commandLineOutput };
         }
 
@@ -346,7 +346,7 @@ namespace CommandSystem
             var outputValue = outputName != null && outputName != "void" ? localArgs[outputName].Value : null;
             commandLineOutput ??= outputName;
             var outputRegEx = new System.Text.RegularExpressions.Regex(@"\{.*?\}");
-            commandLineOutput = outputRegEx.Replace(commandLineOutput, m => outputValue?.ToString() ?? "");
+            commandLineOutput = outputRegEx.Replace(commandLineOutput, m => outputValue?.ToString() ?? "null");
             return new OutputData { Value = outputValue, CommandLineOutput = commandLineOutput };
         }
 

@@ -75,6 +75,40 @@
     {
       "Input": [
         {
+          "Type": "CommandSystem.CommandReference",
+          "Name": "{Command}",
+          "Description": "The command to filter by",
+          "Required": true
+        },
+        {
+          "Type": "object",
+          "Name": "{Value}",
+          "Description": "The value to filter by",
+          "Required": true
+        },
+        {
+          "Type": "object[]",
+          "Name": "{Array}",
+          "Description": "The array to filter",
+          "Required": true
+        }
+      ],
+        "Calls": [
+            {
+            "Type": "object[]",
+            "Name": "{Array}",
+            "CSharp": "CommandSystem.Commands.Utility.FilterBy({Command}, {Value}, {Array})"
+            }
+        ],
+        "Output": {
+            "Type": "object[]",
+            "Name": "{Array}"
+        },
+        "CommandLineOutput": "Array: {Array}"
+    },
+    {
+      "Input": [
+        {
           "Type": "string",
           "Name": "{Field or Property Name}",
           "Description": "The name of the field or property to filter by",
