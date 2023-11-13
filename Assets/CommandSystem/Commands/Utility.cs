@@ -210,6 +210,11 @@ namespace CommandSystem.Commands
         {
             return array.Where(x => propertyInfo.GetValue(x).Equals(value)).ToArray();
         }
+        
+        public static object[] FilterBy(CommandReference commandReference, object value, object[] array)
+        {
+            return array.Where(x => commandReference.Run(new ArgData("FilterByArg", x.GetType(), x, true)).Value.Equals(value)).ToArray();
+        }
 
         public static object[] SortBy(FieldInfo fieldInfo, object[] array)
         {

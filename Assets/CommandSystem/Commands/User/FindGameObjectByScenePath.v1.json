@@ -1,0 +1,40 @@
+{
+  "Version": 1,
+  "Name": "FindGameObjectByScenePath",
+  "Description": "Finds a GameObject by scene path",
+  "Aliases": ["findgameobjectbyscenepath", "findgosp", "fgsp"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "string",
+          "Name": "{Scene Path}",
+          "Description": "The scene path of the GameObject to find.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "UnityEngine.GameObject[]",
+          "Name": "{All GameObjects}",
+          "Command": "FindObjectsOfType UnityEngine.GameObject"
+        },
+        {
+          "Type": "CommandSystem.CommandReference",
+          "Name": "{GetScenePath Command}",
+          "Command": "GetCommandReference GetScenePath"
+        },
+        {
+          "Type": "UnityEngine.GameObject[]",
+          "Name": "{GameObject}",
+          "Command": "FilterBy {GetScenePath Command} {Scene Path} {All GameObjects}"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.Object",
+        "Name": "{GameObject}"
+      },
+      "CommandLineOutput": "Found GameObject: {GameObject}"
+    }
+  ]
+}

@@ -20,8 +20,8 @@ namespace CommandSystem.Editor
                 try
                 {
                     var output = CommandJsonRunner.ProcessCommandInputString(command);
-                    CommandData.Outputs.Add(output);
-                    CommandData.Display.Add(output);
+                    CommandData.Outputs.Add(output.CommandLineOutput);
+                    CommandData.Display.Add(output.CommandLineOutput);
 
                     // TODO: Will have to figure out how to reverse each command in the future
                     // if (commandInstance.AddToHistory)

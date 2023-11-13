@@ -15,7 +15,7 @@ namespace CommandSystem
 
         public static Dictionary<string, JObject> AliasMap => aliasMap;
 
-        public static string ProcessCommandInputString(string commandString)
+        public static OutputData ProcessCommandInputString(string commandString)
         {
             AttemptUpdateAliasMap();
             var split = commandString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
@@ -52,7 +52,7 @@ namespace CommandSystem
                 var argTypeString = input[i]["Type"]?.ToString();
                 var argRequired = input[i]["Required"]?.Value<bool>() == true;
                 var argType = StringToTypeUtility.Get(argTypeString);
-                arg = ConvertType(arg, argType);
+                arg = ConvertType(new OutputData { Value = arg }, argType).Value;
                 localArgs[argName] = new ArgData(argName, argType, arg, argRequired);
             }
 
@@ -68,13 +68,13 @@ namespace CommandSystem
                     var callType = StringToTypeUtility.Get(callTypeString);
                     if (csharp != null)
                     {
-                        AttemptToRunCSharp(csharp, localArgs, callType, out var callOutput);
+                        var callOutput = AttemptToRunCSharp(csharp, localArgs, callType);
                         callOutput = ConvertType(callOutput, callType);
                         localArgs[callName] = new ArgData(callName, callType, callOutput, false);
                     }
                     else if (command != null)
                     {
-                        AttemptToRunCommand(command, localArgs, out var callOutput);
+                        var callOutput = AttemptToRunCommand(command, localArgs);
                         callOutput = ConvertType(callOutput, callType);
                         localArgs[callName] = new ArgData(callName, callType, callOutput, false);
                     }
@@ -86,21 +86,23 @@ namespace CommandSystem
                 else
                 {
                     if (csharp != null)
-                        AttemptToRunCSharp(csharp, localArgs, null, out _);
+                        AttemptToRunCSharp(csharp, localArgs, null);
                     else if (command != null)
-                        AttemptToRunCommand(command, localArgs, out _);
+                        AttemptToRunCommand(command, localArgs);
                     else
                         throw new ArgumentException("No CSharp or Command found!");
                 }
             }
 
             var outputRegEx = new System.Text.RegularExpressions.Regex(@"\{.*?\}");
-            commandLineOutput = commandLineOutput ?? output;
-            return outputRegEx.Replace(commandLineOutput, m => localArgs[m.Value].Value.ToString());
+            var outputValue = output != null ? localArgs[output].Value : null;
+            commandLineOutput ??= output;
+            commandLineOutput = outputRegEx.Replace(commandLineOutput, m => outputValue?.ToString() ?? "");
+            return new OutputData { Value = outputValue, CommandLineOutput = commandLineOutput };
         }
 
-        private static void AttemptToRunCSharp(string csharpCode, Dictionary<string, ArgData> localArgs,
-            Type callType, out object output)
+        private static OutputData AttemptToRunCSharp(string csharpCode, Dictionary<string, ArgData> localArgs,
+            Type callType)
         {
             // New Example
             // new UnityEngine.GameObject({GameObject Name}, {Component Types})
@@ -123,7 +125,8 @@ namespace CommandSystem
                         argObjects.Add(arg.Value);
                 }
 
-                output = Activator.CreateInstance(type, argObjects.ToArray());
+                var outputValue = Activator.CreateInstance(type, argObjects.ToArray());
+                return new OutputData { Value = outputValue, CommandLineOutput = csharpCode };
             }
             else
             {
@@ -147,14 +150,14 @@ namespace CommandSystem
                             enumValue |= flagValue;
                         }
 
-                        output = enumValue;
-                        return;
+                        var outputValue = enumValue;
+                        return new OutputData { Value = outputValue, CommandLineOutput = csharpCode };
                     }
 
                     // Else return c# code as string
                     {
-                        output = csharpCode;
-                        return;
+                        var outputValue = csharpCode;
+                        return new OutputData { Value = outputValue, CommandLineOutput = csharpCode };
                     }
                 }
 
@@ -217,14 +220,13 @@ namespace CommandSystem
 
                 if (method == null) throw new ArgumentException("Method not found!");
 
-                output = method.Invoke(self, argObjects);
-                // Function Call Example
-                // UnityEngine.GameObject.Find({GameObject Name})
+                var outputValue2 = method.Invoke(self, argObjects);
+                return new OutputData { Value = outputValue2, CommandLineOutput = csharpCode };
             }
         }
 
-        private static void AttemptToRunCommand(string formattedCommandString,
-            Dictionary<string, ArgData> localArgs, out object output)
+        public static OutputData AttemptToRunCommand(string formattedCommandString,
+            Dictionary<string, ArgData> localArgs)
         {
             // getscenepath {New GameObject}
             // alias = getscenepath
@@ -247,10 +249,26 @@ namespace CommandSystem
                     args[i] = new ArgData(argString, typeof(string), argString, false);
             }
 
-            output = Run(alias, localArgs, args);
+            return Run(alias, localArgs, args);
+        }
+        
+        public static OutputData AttemptToRunCommand(string alias, object[] args, Dictionary<string, ArgData> localArgs)
+        {
+            var argStrings = args.Select(x => x.ToString()).ToArray();
+            var argDatas = new ArgData[argStrings.Length];
+            for (var i = 0; i < argStrings.Length; i++)
+            {
+                var argString = argStrings[i];
+                if (localArgs.TryGetValue(argString, out var arg))
+                    argDatas[i] = arg;
+                else
+                    argDatas[i] = new ArgData(argString, typeof(string), argString, false);
+            }
+
+            return Run(alias, localArgs, argDatas);
         }
 
-        private static object Run(string alias, Dictionary<string, ArgData> localArgs, params ArgData[] args)
+        private static OutputData Run(string alias, Dictionary<string, ArgData> localArgs, params ArgData[] args)
         {
             AttemptUpdateAliasMap();
             var argTypes = args.Select(x => x.Type).ToArray();
@@ -292,13 +310,13 @@ namespace CommandSystem
                     var callType = StringToTypeUtility.Get(callTypeString);
                     if (csharp != null)
                     {
-                        AttemptToRunCSharp(csharp, localArgs, callType, out var callOutput);
+                        var callOutput = AttemptToRunCSharp(csharp, localArgs, callType);
                         callOutput = ConvertType(callOutput, callType);
                         localArgs[callName] = new ArgData(callName, callType, callOutput, false);
                     }
                     else if (command != null)
                     {
-                        AttemptToRunCommand(command, localArgs, out var callOutput);
+                        var callOutput = AttemptToRunCommand(command, localArgs);
                         callOutput = ConvertType(callOutput, callType);
                         localArgs[callName] = new ArgData(callName, callType, callOutput, false);
                     }
@@ -310,16 +328,20 @@ namespace CommandSystem
                 else
                 {
                     if (csharp != null)
-                        AttemptToRunCSharp(csharp, localArgs, null, out _);
+                        AttemptToRunCSharp(csharp, localArgs, null);
                     else if (command != null)
-                        AttemptToRunCommand(command, localArgs, out _);
+                        AttemptToRunCommand(command, localArgs);
                     else
                         throw new ArgumentException("No CSharp or Command found!");
                 }
             }
 
             var outputName = output?["Name"]?.ToString();
-            return outputName != null && outputName != "void" ? localArgs[outputName].Value : null;
+            var outputValue = outputName != null && outputName != "void" ? localArgs[outputName].Value : null;
+            commandLineOutput ??= outputName;
+            var outputRegEx = new System.Text.RegularExpressions.Regex(@"\{.*?\}");
+            commandLineOutput = outputRegEx.Replace(commandLineOutput, m => outputValue?.ToString() ?? "");
+            return new OutputData { Value = outputValue, CommandLineOutput = commandLineOutput };
         }
 
         private static void AttemptUpdateAliasMap()
@@ -413,51 +435,55 @@ namespace CommandSystem
             {
                 var inputElementType = inputType.GetElementType();
                 var argElementType = argData.Type.GetElementType();
-                foreach(var argElement in (Array)argData.Value)
-                    if (!IsConvertible(new ArgData(argData.Name, argElementType, argElement, argData.Required), inputElementType))
+                foreach (var argElement in (Array)argData.Value)
+                    if (!IsConvertible(new ArgData(argData.Name, argElementType, argElement, argData.Required),
+                            inputElementType))
                         return false;
                 return true;
             }
+
             return false;
         }
 
-        private static object ConvertType(object obj, Type toType)
+        private static OutputData ConvertType(OutputData outputData, Type toType)
         {
-            if (obj == null || toType == null) return obj;
+            var obj = outputData.Value;
+            if (obj == null || toType == null) return outputData;
             var fromType = obj.GetType();
-            if (fromType == toType) return obj;
-            if (toType.IsAssignableFrom(fromType)) return obj;
-            if (toType.IsEnum && fromType == typeof(int))
-                return obj;
+            if (fromType == toType) return outputData;
+            if (toType.IsAssignableFrom(fromType)) return outputData;
+            if (toType.IsEnum && fromType == typeof(int)) return outputData;
             if (toType.IsEnum && fromType == typeof(string))
-                return Enum.Parse(toType, obj.ToString());
+                return outputData.Replace(Enum.Parse(toType, obj.ToString()));
             if (toType == typeof(int) && fromType == typeof(string))
-                return int.Parse(obj.ToString());
+                return outputData.Replace(int.Parse(obj.ToString()));
             if (toType == typeof(float) && fromType == typeof(string))
-                return float.Parse(obj.ToString());
+                return outputData.Replace(float.Parse(obj.ToString()));
             if (toType == typeof(double) && fromType == typeof(string))
-                return double.Parse(obj.ToString());
+                return outputData.Replace(double.Parse(obj.ToString()));
             if (toType == typeof(bool) && fromType == typeof(string))
-                return bool.Parse(obj.ToString());
+                return outputData.Replace(bool.Parse(obj.ToString()));
 
             if (toType.IsArray && fromType.IsArray)
             {
                 // Convert array types
                 var fromElementType = fromType.GetElementType();
                 var toElementType = toType.GetElementType();
-                if (fromElementType == toElementType) return obj;
+                if (fromElementType == toElementType) return outputData;
                 var fromArray = (Array)obj;
                 var toArray = Array.CreateInstance(toElementType, fromArray.Length);
                 for (var i = 0; i < fromArray.Length; i++)
                 {
                     var fromElement = fromArray.GetValue(i);
-                    var toElement = ConvertType(fromElement, toElementType);
+                    var fromElementOutput = new OutputData { Value = fromElement };
+                    var toElement = ConvertType(fromElementOutput, toElementType);
                     toArray.SetValue(toElement, i);
                 }
-                return toArray;
+
+                return outputData.Replace(toArray);
             }
-            
-            return obj is IConvertible ? Convert.ChangeType(obj, toType) : obj;
+
+            return obj is IConvertible ? outputData.Replace(Convert.ChangeType(obj, toType)) : outputData;
         }
     }
 }
