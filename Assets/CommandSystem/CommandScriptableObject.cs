@@ -6,7 +6,7 @@ namespace CommandSystem
     {
         public void Run(string commandString)
         {
-            CommandJsonRunner.ProcessCommandInputString(commandString);
+            CommandRunner.Run(commandString);
         }
     }
 }

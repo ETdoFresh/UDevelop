@@ -4,7 +4,7 @@ namespace CommandSystem
     {
         public static OutputData Run(string commandString)
         {
-            return CommandJsonRunner.ProcessCommandInputString(commandString);
+            return CommandRunner.Run(commandString);
         }
     }
 }

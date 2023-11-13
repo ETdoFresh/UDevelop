@@ -19,7 +19,7 @@ namespace CommandSystem.Editor
             {
                 try
                 {
-                    var output = CommandJsonRunner.ProcessCommandInputString(command);
+                    var output = CommandRunner.Run(command);
                     CommandData.Outputs.Add(output.CommandLineOutput);
                     CommandData.Display.Add(output.CommandLineOutput);
 

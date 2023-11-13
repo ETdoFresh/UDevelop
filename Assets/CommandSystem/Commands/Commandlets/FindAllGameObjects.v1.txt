@@ -1,0 +1,10 @@
+// Name: FindAllGameObjects
+// Version: 1
+// Description: Find all GameObjects
+// Author: ETdoFresh
+// Aliases: findallgameobjects, findallgos, fags
+// Output: {All GameObjects}
+// CommandLineOutput: Found GameObjects:\n{All GameObject ScenePaths}
+
+FindObjectsOfType UnityEngine.GameObject // Alias: {All GameObjects}
+GetScenePath {All GameObjects} // Alias: {All GameObject ScenePaths}

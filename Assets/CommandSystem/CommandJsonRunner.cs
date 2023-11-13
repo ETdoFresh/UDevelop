@@ -2,25 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using UnityEngine;
 using static System.Reflection.BindingFlags;
 
 namespace CommandSystem
 {
     public static class CommandJsonRunner
     {
-        private const float UpdateRate = 0;
-        private static float _nextUpdate;
-        private static Dictionary<string, JObject> aliasMap = new();
-
-        public static Dictionary<string, JObject> AliasMap => aliasMap;
-
+        private static Dictionary<string, JObject> AliasMap = CommandRunner.AliasMap;
+        
+        
+        public static bool TryRun(string commandString, out OutputData outputData)
+        {
+            outputData = ProcessCommandInputString(commandString);
+            return true;
+        }
+        
+        
+        public static bool TryRun(string commandString, Dictionary<string, ArgData> args, out OutputData outputData)
+        {
+            throw new NotImplementedException();
+        }
+        
         public static OutputData ProcessCommandInputString(string commandString)
         {
-            AttemptUpdateAliasMap();
             var split = commandString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-            if (!aliasMap.TryGetValue(split[0].ToLower(), out var commandJson))
+            if (!AliasMap.TryGetValue(split[0].ToLower(), out var commandJson))
                 ThrowException("Command not found!", commandString);
 
             var argRegEx = new System.Text.RegularExpressions.Regex(@"[\""].+?[\""]|[^ ]+");
@@ -290,9 +297,8 @@ namespace CommandSystem
 
         private static OutputData Run(string alias, Dictionary<string, ArgData> localArgs, params ArgData[] args)
         {
-            AttemptUpdateAliasMap();
             var argTypes = args.Select(x => x.Type).ToArray();
-            var commandJson = aliasMap[alias.ToLower()];
+            var commandJson = AliasMap[alias.ToLower()];
             var version = commandJson["Version"]?.Value<int>();
             var name = commandJson["Name"]?.ToString();
             var description = commandJson["Description"]?.ToString();
@@ -360,47 +366,6 @@ namespace CommandSystem
             var outputRegEx = new System.Text.RegularExpressions.Regex(@"\{.*?\}");
             commandLineOutput = outputRegEx.Replace(commandLineOutput, m => outputValue?.ToString() ?? "null");
             return new OutputData { Value = outputValue, CommandLineOutput = commandLineOutput };
-        }
-
-        private static void AttemptUpdateAliasMap()
-        {
-            if (Application.isPlaying)
-            {
-                if (Time.time > _nextUpdate)
-                {
-                    _nextUpdate = Time.time + UpdateRate;
-                    UpdateAliasMap();
-                }
-            }
-            else
-            {
-#if UNITY_EDITOR
-                if (UnityEditor.EditorApplication.timeSinceStartup > _nextUpdate)
-                {
-                    _nextUpdate = (float)UnityEditor.EditorApplication.timeSinceStartup + UpdateRate;
-                    UpdateAliasMap();
-                }
-#endif
-            }
-        }
-
-        private static void UpdateAliasMap()
-        {
-            aliasMap.Clear();
-#if UNITY_EDITOR
-            var jsonFiles =
-                UnityEditor.AssetDatabase.FindAssets("t:TextAsset", new[] { "Assets/CommandSystem/Commands/User" });
-            foreach (var jsonFile in jsonFiles)
-            {
-                var jsonFilePath = UnityEditor.AssetDatabase.GUIDToAssetPath(jsonFile);
-                var jsonFileText = UnityEditor.AssetDatabase.LoadAssetAtPath<TextAsset>(jsonFilePath).text;
-                var jsonFileJObject = JObject.Parse(jsonFileText);
-                var jsonFileAlias = jsonFileJObject["Aliases"];
-                if (jsonFileAlias == null) continue;
-                foreach (var alias in jsonFileAlias)
-                    aliasMap[alias.ToString().ToLower()] = jsonFileJObject;
-            }
-#endif
         }
 
         private static JObject FindBestOverload(JArray overloads, ArgData[] args)

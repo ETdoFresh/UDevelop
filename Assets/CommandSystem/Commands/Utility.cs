@@ -106,7 +106,7 @@ namespace CommandSystem.Commands
 
         public static string Help(string commandAlias)
         {
-            var aliasMap = CommandJsonRunner.AliasMap;
+            var aliasMap = CommandRunner.AliasMap;
 
             {
                 if (string.IsNullOrEmpty(commandAlias))

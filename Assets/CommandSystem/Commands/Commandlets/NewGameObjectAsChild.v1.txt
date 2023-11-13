@@ -1,0 +1,42 @@
+// Name: NewGameObjectAsChild
+// Version: 1
+// Description: Creates a new GameObject as a child of the specified GameObject
+// Author: ETdoFresh
+// Aliases: newgameobjectaschild,ngoc,ngc
+// Arg1: UnityEngine.GameObject {Parent GameObject}
+// Arg2: System.String {GameObject Name}
+// Arg3: System.Type[] {Component Types}
+// Output: {New GameObject}
+// CommandLineOutput: Created GameObject: {New GameObject ScenePath}
+
+NewGameObject {GameObject Name} {Component Types} // Alias: {New GameObject}
+SetParent {New GameObject} {Parent GameObject}
+GetScenePath {New GameObject} // Alias: {New GameObject ScenePath}
+
+
+// ---------------- Overload 1 ----------------
+// Arg1: System.String {Parent GameObject ScenePath}
+// Arg2: System.String {GameObject Name}
+// Arg3: System.Type[] {Component Types}
+// Output: {New GameObject}
+// CommandLineOutput: Created GameObject: {New GameObject ScenePath}
+
+FindGameObjectByScenePath {Parent GameObject ScenePath} // Alias: {Parent GameObject}
+NewGameObject {GameObject Name} {Component Types} // Alias: {New GameObject}
+SetParent {New GameObject} {Parent GameObject}
+GetScenePath {New GameObject} // Alias: {New GameObject ScenePath}
+
+// // ---------------- Non-Labeled Example of Above ----------------
+// // Name: NewGameObjectAsChild
+// // Version: 1
+// // Description: Creates a new GameObject as a child of the specified GameObject
+// // Aliases: newgameobjectaschild,ngoc,ngc
+// // Arg1: System.String
+// // Arg2: System.String
+// // Arg3: System.Type[]
+// // Output: {Step2}
+// // CommandLineOutput: Created GameObject: {Step4}
+// FindGameObjectByScenePath {Arg1}
+// NewGameObject {Arg2} {Arg3}
+// SetParent {Step2} {Arg1}
+// GetScenePath {Step2}
