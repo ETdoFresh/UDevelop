@@ -52,8 +52,8 @@
       "Input": [
         {
           "Type": "string",
-          "Name": "{Parent GameObject Name}",
-          "Description": "The name of the GameObject to create the new GameObject as a child of.",
+          "Name": "{Parent GameObject ScenePath}",
+          "Description": "The scene path of the GameObject to create the new GameObject as a child of.",
           "Required": true
         },
         {
@@ -73,7 +73,7 @@
         {
           "Type": "UnityEngine.GameObject",
           "Name": "{Parent GameObject}",
-          "Command": "FindGameObjectByName {Parent GameObject Name}"
+          "Command": "FindGameObjectByScenePath {Parent GameObject ScenePath}"
         },
         {
           "Type": "UnityEngine.GameObject",
