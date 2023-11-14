@@ -9,6 +9,7 @@ namespace CommandSystem.Commands
         
         public static string Get(string command)
         {
+            return "";
             if (string.IsNullOrEmpty(command)) return "";
             if (command == lastCommand) return lastAutoComplete;
             

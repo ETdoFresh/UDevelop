@@ -17,7 +17,6 @@ namespace CommandSystem
             return true;
         }
         
-        
         public static bool TryRun(string commandString, Dictionary<string, ArgData> args, out OutputData outputData)
         {
             throw new NotImplementedException();

@@ -26,7 +26,9 @@ namespace CommandSystem
             if (args.Length > 0) commandStringWithArgs += " " + string.Join(" ", args.Select(x => x.Name));
             var localArgsWithArgs = new Dictionary<string, ArgData>(_localArgs);
             foreach (var arg in args) localArgsWithArgs[arg.Name] = arg;
-            return CommandJsonRunner.AttemptToRunCommand(commandStringWithArgs, localArgsWithArgs);
+            return CommandObject.TryRun(commandStringWithArgs, null, localArgsWithArgs, out var outputData)
+                ? outputData
+                : throw new System.Exception($"Command not found\n{commandStringWithArgs}");
         }
     }
 }

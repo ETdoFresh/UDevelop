@@ -13,20 +13,20 @@ namespace CommandSystem
 
         public static Dictionary<string, JObject> AliasMap => aliasMap;
         public static Dictionary<string, List<CommandObject>> CommandMap => commandMap;
-        
+
         public static OutputData Run(string commandString)
         {
             AttemptUpdateAliasMap();
-            
-            if (CommandletRunner.TryRun(commandString, out var outputData))
+
+            if (CommandObject.TryRun(commandString, out var outputData))
                 return outputData;
-            
+
             if (CommandJsonRunner.TryRun(commandString, out outputData))
                 return outputData;
-            
+
             throw new System.Exception($"Command not found\n{commandString}");
         }
-        
+
         private static void AttemptUpdateAliasMap()
         {
             if (Application.isPlaying)
@@ -51,10 +51,10 @@ namespace CommandSystem
 
         private static void UpdateAliasMap()
         {
-            aliasMap.Clear();
+            commandMap.Clear();
 #if UNITY_EDITOR
             var jsonFiles =
-                UnityEditor.AssetDatabase.FindAssets("t:TextAsset", new[] { "Assets/CommandSystem/Commands/User" });
+                UnityEditor.AssetDatabase.FindAssets("t:TextAsset", new[] { "Assets/CommandSystem/Json" });
             foreach (var jsonFile in jsonFiles)
             {
                 var jsonFilePath = UnityEditor.AssetDatabase.GUIDToAssetPath(jsonFile);
@@ -62,17 +62,26 @@ namespace CommandSystem
                 var jsonFileJObject = JObject.Parse(jsonFileText);
                 var jsonFileAlias = jsonFileJObject["Aliases"];
                 if (jsonFileAlias == null) continue;
-                foreach (var alias in jsonFileAlias)
-                    aliasMap[alias.ToString().ToLower()] = jsonFileJObject;
+                var commandObjects = CommandObject.FromJsonString(jsonFileText);
+                if (commandObjects == null) continue;
+                foreach (var commandObject in commandObjects)
+                foreach (var commandAliasToken in jsonFileAlias)
+                {
+                    var commandAlias = commandAliasToken.ToString();
+                    if (!commandMap.ContainsKey(commandAlias))
+                        commandMap[commandAlias] = new List<CommandObject>();
+                    commandMap[commandAlias].Add(commandObject);
+                }
             }
             
-            commandMap.Clear();
             var commandletFiles =
-                UnityEditor.AssetDatabase.FindAssets("t:TextAsset", new[] { "Assets/CommandSystem/Commands/Commandlets" });
+                UnityEditor.AssetDatabase.FindAssets("t:TextAsset", new[] { "Assets/CommandSystem/Commandlets" });
             foreach (var commandletFile in commandletFiles)
             {
                 var commandletFilePath = UnityEditor.AssetDatabase.GUIDToAssetPath(commandletFile);
+                var commandletFilename = System.IO.Path.GetFileNameWithoutExtension(commandletFilePath);
                 var commandletFileText = UnityEditor.AssetDatabase.LoadAssetAtPath<TextAsset>(commandletFilePath).text;
+                commandletFileText = $"// Filename: {commandletFilename}\n" + commandletFileText;
                 var commandObjects = CommandObject.FromCommandletString(commandletFileText);
                 if (commandObjects == null) continue;
                 foreach (var commandObject in commandObjects)
