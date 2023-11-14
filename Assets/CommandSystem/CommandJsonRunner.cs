@@ -8,8 +8,6 @@ namespace CommandSystem
 {
     public static class CommandJsonRunner
     {
-        private static Dictionary<string, JObject> AliasMap = CommandRunner.AliasMap;
-        
         
         public static bool TryRun(string commandString, out OutputData outputData)
         {
@@ -26,8 +24,9 @@ namespace CommandSystem
         {
             var split = commandString.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 
-            if (!AliasMap.TryGetValue(split[0].ToLower(), out var commandJson))
-                ThrowException("Command not found!", commandString);
+            var commandJson = new JObject(); // TODO: Delete this class
+            // if (!AliasMap.TryGetValue(split[0].ToLower(), out var commandJson))
+            //     ThrowException("Command not found!", commandString);
 
             var argRegEx = new System.Text.RegularExpressions.Regex(@"[\""].+?[\""]|[^ ]+");
             var argMatches = argRegEx.Matches(commandString);
@@ -297,7 +296,7 @@ namespace CommandSystem
         private static OutputData Run(string alias, Dictionary<string, ArgData> localArgs, params ArgData[] args)
         {
             var argTypes = args.Select(x => x.Type).ToArray();
-            var commandJson = AliasMap[alias.ToLower()];
+            var commandJson = new JObject(); // TODO: Delete this class
             var version = commandJson["Version"]?.Value<int>();
             var name = commandJson["Name"]?.ToString();
             var description = commandJson["Description"]?.ToString();

@@ -106,48 +106,50 @@ namespace CommandSystem.Commands
 
         public static string Help(string commandAlias)
         {
-            var aliasMap = CommandRunner.AliasMap;
+            var commandMap = CommandRunner.CommandMap;
+            var helpCommand = commandMap["help"][0];
 
             {
                 if (string.IsNullOrEmpty(commandAlias))
                 {
-                    var seenCommandJObjects = new HashSet<JObject>();
-                    var output = "";
-                    foreach (var jObject in aliasMap.Values)
+                    var seenCommandObjects = new HashSet<CommandObject[]>();
+                    var output = $"----------------------------\n";
+                    output += $"{helpCommand.Name} v{helpCommand.Version} - List of Commands\n";
+                    output += "----------------------------\n";
+                    foreach (var commandObjects in commandMap.Values)
                     {
-                        if (seenCommandJObjects.Contains(jObject))
-                        {
-                            continue;
-                        }
-
-                        var commandName = jObject["Name"]?.ToString();
-                        var commandDescription = jObject["Description"]?.ToString();
-                        output += $"{commandName}\n{commandDescription}\n\n";
-                        seenCommandJObjects.Add(jObject);
+                        if (seenCommandObjects.Contains(commandObjects)) continue;
+                        var commandName = commandObjects[0].Name;
+                        var commandVersion = commandObjects[0].Version;
+                        var aliases = string.Join(", ", commandObjects[0].Aliases);
+                        var commandDescription = commandObjects[0].Description;
+                        output += $"{commandName} v{commandVersion} \n{commandDescription}\nAliases: {aliases}\n\n";
+                        seenCommandObjects.Add(commandObjects);
                     }
                     if (output.EndsWith("\n\n")) output = output[..^2];
                     return output;
                 }
             }
             {
-                if (aliasMap.TryGetValue(commandAlias, out var jObject))
+                if (commandMap.TryGetValue(commandAlias, out var commandObjects))
                 {
-                    var commandName = jObject["Name"]?.ToString();
-                    var commandDescription = jObject["Description"]?.ToString();
-                    var commandAliases = string.Join(", ",
-                        jObject["Aliases"]?.Select(x => x.ToString()).ToArray() ?? Array.Empty<string>());
-                    var commandOverloads = jObject["Overloads"] as JArray;
+                    var commandName = commandObjects[0].Name;
+                    var dashes = new string('-', (int)(commandName.Length * 1.6f)) + "\n";
+                    var commandVersion = commandObjects[0].Version;
+                    var commandDescription = commandObjects[0].Description;
+                    var commandAliases = string.Join(", ", commandObjects[0].Aliases);
                     var usages = "";
-                    foreach (var overload in commandOverloads)
+                    foreach (var overload in commandObjects)
                     {
-                        var inputs = overload["Input"] as JArray;
-                        var inputNames = inputs.Select(x => x["Name"].ToString()).ToArray();
-                        var outputName = overload["Output"]?["Name"]?.ToString();
-                        var usage = $"{commandName} {string.Join(" ", inputNames)}\nOutput: {outputName}";
+                        var inputs = overload.Input;
+                        var inputNames = inputs.Select(x => x.Name).ToArray();
+                        var outputName = overload.Output.Name;
+                        var usage = $"\n{commandName} {string.Join(" ", inputNames)}\nOutput: {outputName}";
                         usages += $"{usage}\n";
                     }
                     if (usages.EndsWith("\n")) usages = usages[..^1];
-                    return $"\n{commandName}\n{commandDescription}\nAliases: {commandAliases}\n\n{usages}";
+                    return
+                        $"{dashes}{commandName} v{commandVersion}\n{dashes}{commandDescription}\nAliases: {commandAliases}\n\nUsages:{usages}";
                 }
             }
 
@@ -195,7 +197,7 @@ namespace CommandSystem.Commands
         {
             return obj == null;
         }
-        
+
         public static object Cast(object obj, Type type)
         {
             return Convert.ChangeType(obj, type);
@@ -210,17 +212,18 @@ namespace CommandSystem.Commands
         {
             return array.Where(x => propertyInfo.GetValue(x).Equals(value)).ToArray();
         }
-        
+
         public static object[] FilterBy(CommandReference commandReference, object value, object[] array)
         {
-            return array.Where(x => commandReference.Run(new ArgData("{FilterByArg}", x.GetType(), x, true)).Value.Equals(value)).ToArray();
+            return array.Where(x =>
+                commandReference.Run(new ArgData("{FilterByArg}", x.GetType(), x, true)).Value.Equals(value)).ToArray();
         }
 
         public static object[] SortBy(FieldInfo fieldInfo, object[] array)
         {
             return array.OrderBy(fieldInfo.GetValue).ToArray();
         }
-        
+
         public static object[] SortBy(PropertyInfo propertyInfo, object[] array)
         {
             return array.OrderBy(propertyInfo.GetValue).ToArray();

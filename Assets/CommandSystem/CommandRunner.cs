@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
@@ -8,11 +9,9 @@ namespace CommandSystem
     {
         private const float UpdateRate = 0;
         private static float _nextUpdate;
-        private static Dictionary<string, JObject> aliasMap = new();
-        private static Dictionary<string, List<CommandObject>> commandMap = new();
-
-        public static Dictionary<string, JObject> AliasMap => aliasMap;
-        public static Dictionary<string, List<CommandObject>> CommandMap => commandMap;
+        private static Dictionary<string, CommandObject[]> commandMap = new();
+        
+        public static Dictionary<string, CommandObject[]> CommandMap => commandMap;
 
         public static OutputData Run(string commandString)
         {
@@ -64,13 +63,20 @@ namespace CommandSystem
                 if (jsonFileAlias == null) continue;
                 var commandObjects = CommandObject.FromJsonString(jsonFileText);
                 if (commandObjects == null) continue;
+                var groupedCommandObjects = new Dictionary<string, List<CommandObject>>();
                 foreach (var commandObject in commandObjects)
-                foreach (var commandAliasToken in jsonFileAlias)
                 {
-                    var commandAlias = commandAliasToken.ToString();
-                    if (!commandMap.ContainsKey(commandAlias))
-                        commandMap[commandAlias] = new List<CommandObject>();
-                    commandMap[commandAlias].Add(commandObject);
+                    var commandObjectNameAndVersion = $"{commandObject.Name} {commandObject.Version}";
+                    if (!groupedCommandObjects.ContainsKey(commandObjectNameAndVersion))
+                        groupedCommandObjects[commandObjectNameAndVersion] = new List<CommandObject>();
+                    groupedCommandObjects[commandObjectNameAndVersion].Add(commandObject);
+                }
+                foreach (var groupedCommandObject in groupedCommandObjects)
+                {
+                    var aliases = groupedCommandObject.Value.SelectMany(x => x.Aliases);
+                    var commandObjectsForAlias = groupedCommandObject.Value.ToArray();
+                    foreach (var alias in aliases) 
+                        commandMap[alias] = commandObjectsForAlias;
                 }
             }
             
@@ -84,12 +90,20 @@ namespace CommandSystem
                 commandletFileText = $"// Filename: {commandletFilename}\n" + commandletFileText;
                 var commandObjects = CommandObject.FromCommandletString(commandletFileText);
                 if (commandObjects == null) continue;
+                var groupedCommandObjects = new Dictionary<string, List<CommandObject>>();
                 foreach (var commandObject in commandObjects)
-                foreach (var commandAlias in commandObject.Aliases)
                 {
-                    if (!commandMap.ContainsKey(commandAlias))
-                        commandMap[commandAlias] = new List<CommandObject>();
-                    commandMap[commandAlias].Add(commandObject);
+                    var commandObjectNameAndVersion = $"{commandObject.Name} {commandObject.Version}";
+                    if (!groupedCommandObjects.ContainsKey(commandObjectNameAndVersion))
+                        groupedCommandObjects[commandObjectNameAndVersion] = new List<CommandObject>();
+                    groupedCommandObjects[commandObjectNameAndVersion].Add(commandObject);
+                }
+                foreach (var groupedCommandObject in groupedCommandObjects)
+                {
+                    var aliases = groupedCommandObject.Value.SelectMany(x => x.Aliases);
+                    var commandObjectsForAlias = groupedCommandObject.Value.ToArray();
+                    foreach (var alias in aliases) 
+                        commandMap[alias] = commandObjectsForAlias;
                 }
             }
 #endif

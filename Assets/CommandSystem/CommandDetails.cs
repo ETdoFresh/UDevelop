@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Newtonsoft.Json.Linq;
 using static System.Reflection.BindingFlags;
 
@@ -97,6 +98,7 @@ namespace CommandSystem
             if (previousCommandObject != null)
             {
                 commandDetail.Name = previousCommandObject.Name;
+                commandDetail.Version = previousCommandObject.Version;
                 commandDetail.Description = previousCommandObject.Description;
                 commandDetail.Author = previousCommandObject.Author;
                 commandDetail.Aliases = previousCommandObject.Aliases;
@@ -473,12 +475,16 @@ namespace CommandSystem
                     outputData = new OutputData { Value = outputValue2, CommandLineOutput = cSharpCode };
                     return true;
                 }
+                catch (TargetInvocationException ex)
+                {
+                    ThrowException(ex.InnerException, cSharpCode, argMemory);
+                }
                 catch (Exception ex)
                 {
                     ThrowException(ex, cSharpCode, argMemory);
-                    outputData = null;
-                    return false;
                 }
+                outputData = null;
+                return false;
             }
         }
 
@@ -498,7 +504,7 @@ namespace CommandSystem
                 var inputType = StringToTypeUtility.Get(input.Type);
                 if (isInputRequired && !commandArg.IsConvertible(inputType)) return false;
             }
-
+            
             return true;
         }
         
@@ -553,7 +559,7 @@ namespace CommandSystem
         private static void ThrowException(Exception ex, string commandString = null,
             Dictionary<string, ArgData> localArgs = null, ArgData[] args = null)
         {
-            var message = ex.ToString();
+            var message = ex.Message; //ex.ToString();
             if (commandString != null) message += $"\nCommand: {commandString}";
 
             if (localArgs != null)

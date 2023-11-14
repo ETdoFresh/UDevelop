@@ -26,17 +26,17 @@ NewGameObject {GameObject Name} {Component Types} // Alias: {New GameObject}
 SetParent {New GameObject} {Parent GameObject}
 GetScenePath {New GameObject} // Alias: {New GameObject ScenePath}
 
-// ---------------- Non-Labeled Example of Above ----------------
-// Name: NewGameObjectAsChild
-// Version: 1
-// Description: Creates a new GameObject as a child of the specified GameObject
-// Aliases: newgameobjectaschild,ngoc,ngc
-// Arg1: System.String
-// Arg2: System.String
-// Arg3: System.Type[]
-// Output: {Step2}
-// CommandLineOutput: Created GameObject: {Step4}
-FindGameObjectByScenePath {Arg1}
-NewGameObject {Arg2} {Arg3}
-SetParent {Step2} {Arg1}
-GetScenePath {Step2}
+// // ---------------- Non-Labeled Example of Above ----------------
+// // Name: NewGameObjectAsChild
+// // Version: 1
+// // Description: Creates a new GameObject as a child of the specified GameObject
+// // Aliases: newgameobjectaschild,ngoc,ngc
+// // Arg1: System.String
+// // Arg2: System.String
+// // Arg3: System.Type[]
+// // Output: {Step2}
+// // CommandLineOutput: Created GameObject: {Step4}
+// FindGameObjectByScenePath {Arg1}
+// NewGameObject {Arg2} {Arg3}
+// SetParent {Step2} {Arg1}
+// GetScenePath {Step2}
