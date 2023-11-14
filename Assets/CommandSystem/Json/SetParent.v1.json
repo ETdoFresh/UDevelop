@@ -1,7 +1,8 @@
 ﻿{
-  "Version": 1,
   "Name": "SetParent",
+  "Version": 1,
   "Description": "Sets the parent of a GameObject",
+  "Author": "ETdoFresh",
   "Aliases": ["setparent", "sp"],
   "Overloads": [
     {

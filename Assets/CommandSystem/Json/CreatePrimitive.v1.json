@@ -1,7 +1,8 @@
 {
-  "Version": 1,
   "Name": "CreatePrimitive",
+  "Version": 1,
   "Description": "Creates a primitive object.",
+  "Author": "ETdoFresh",
   "Aliases": ["createprimitive", "createprim"],
   "Overloads": [
     {

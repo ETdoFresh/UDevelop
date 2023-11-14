@@ -1,38 +1,39 @@
 {
-  "Version": 1,
   "Name": "SelectAllGameObjects",
-    "Description": "Select all GameObjects",
-    "Aliases": ["selectallgameobjects", "selectallgos", "sagos"],
-    "Overloads": [
-      {
-        "Input": [],
-        "Calls": [
-          {
-            "Type": "System.Reflection.PropertyInfo",
-            "Name": "{Selection Objects PropertyInfo}",
-            "Command": "GetPropertyInfo CommandSystem.Commands.Selection objects"
-          },
-          {
-            "Type": "UnityEngine.GameObject[]",
-            "Name": "{GameObjects}",
-            "Command": "FindAllGameObjects"
-          },
-          {
-            "Type": "string",
-            "Name": "{GameObjects ScenePath}",
-            "Command": "GetScenePath {GameObjects}"
-          },
-          {
-            "Type": "void",
-            "Name": "void",
-            "Command": "SetValue {Selection Objects PropertyInfo} null {GameObjects}"
-          }
-        ],
-        "Output": {
-          "Type": "UnityEngine.GameObject[]",
-          "Name": "{GameObjects}"
+  "Version": 1,
+  "Description": "Select all GameObjects",
+  "Author": "ETdoFresh",
+  "Aliases": ["selectallgameobjects", "selectallgos", "sagos"],
+  "Overloads": [
+    {
+      "Input": [],
+      "Calls": [
+        {
+          "Type": "System.Reflection.PropertyInfo",
+          "Name": "{Selection Objects PropertyInfo}",
+          "Command": "GetPropertyInfo CommandSystem.Commands.Selection objects"
         },
-        "CommandLineOutput": "Selected GameObjects:\n{GameObjects ScenePath}"
-      }
-    ]
+        {
+          "Type": "UnityEngine.GameObject[]",
+          "Name": "{GameObjects}",
+          "Command": "FindAllGameObjects"
+        },
+        {
+          "Type": "string",
+          "Name": "{GameObjects ScenePath}",
+          "Command": "GetScenePath {GameObjects}"
+        },
+        {
+          "Type": "void",
+          "Name": "void",
+          "Command": "SetValue {Selection Objects PropertyInfo} null {GameObjects}"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.GameObject[]",
+        "Name": "{GameObjects}"
+      },
+      "CommandLineOutput": "Selected GameObjects:\n{GameObjects ScenePath}"
+    }
+  ]
 }

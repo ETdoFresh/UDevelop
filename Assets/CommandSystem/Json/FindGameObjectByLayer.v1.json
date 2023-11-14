@@ -2,6 +2,7 @@
   "Version": 1,
   "Name": "FindGameObjectByLayer",
   "Description": "Find GameObject by layer.",
+  "Author": "ETdoFresh",
   "Aliases": ["findgameobjectbylayer", "fgobl"],
   "Overloads": [
     {

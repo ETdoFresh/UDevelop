@@ -1,7 +1,8 @@
 ﻿{
-  "Version": 1,
   "Name": "SetValueByGameObjectName",
+  "Version": 1,
   "Description": "Sets the value of a field or property.",
+  "Author": "ETdoFresh",
   "Aliases": ["setvaluebygoname", "svbg"],
   "Overloads": [
     {

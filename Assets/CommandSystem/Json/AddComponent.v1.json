@@ -1,7 +1,8 @@
 {
-  "Version": 1,
   "Name": "AddComponent",
+  "Version": 1,
   "Description": "Adds a component to a GameObject.",
+  "Author": "ETdoFresh",
   "Aliases": ["addcomponent", "addcomp"],
   "Overloads": [
     {

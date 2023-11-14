@@ -1,7 +1,8 @@
 {
-  "Version": 1,
   "Name": "GetElementType",
+  "Version": 1,
   "Description": "Gets the element type of an array.",
+  "Author": "ETdoFresh",
   "Aliases": ["getelementtype"],
   "Overloads": [
     {

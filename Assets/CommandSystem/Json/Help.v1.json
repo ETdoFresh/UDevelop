@@ -1,7 +1,8 @@
 ﻿{
-  "Version": 1,
   "Name": "Help",
+  "Version": 1,
   "Description": "Displays help information about a command.",
+  "Author": "ETdoFresh",
   "Aliases": ["help", "h", "?"],
   "Overloads": [
     {

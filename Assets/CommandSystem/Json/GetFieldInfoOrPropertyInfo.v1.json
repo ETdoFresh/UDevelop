@@ -2,6 +2,7 @@
   "Version": 1,
   "Name": "GetFieldInfoOrPropertyInfo",
   "Description": "Gets the FieldInfo or PropertyInfo from type and field name",
+  "Author": "ETdoFresh",
   "Aliases": ["getfieldinfoorpropertyinfo", "gfiopi"],
   "Overloads": [
     {

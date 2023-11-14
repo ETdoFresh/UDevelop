@@ -1,7 +1,8 @@
 {
-  "Version": 1,
   "Name": "GetComponent",
+  "Version": 1,
   "Description": "Gets a component from a GameObject.",
+  "Author": "ETdoFresh",
   "Aliases": ["getcomponent", "getcomp"],
   "Overloads": [
     {

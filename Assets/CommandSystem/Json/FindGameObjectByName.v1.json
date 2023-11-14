@@ -2,6 +2,7 @@
   "Version": 1,
   "Name": "FindGameObjectByName",
   "Description": "Finds a GameObject by name",
+  "Author": "ETdoFresh",
   "Aliases": ["findgameobjectbyname", "findgo", "fg"],
   "Overloads": [
     {

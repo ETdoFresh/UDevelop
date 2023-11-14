@@ -2,6 +2,7 @@
   "Version": 1,
   "Name": "FindPrefabByNameAndCreateInstanceCommand",
   "Description": "Finds a prefab by name and creates an instance of it.",
+  "Author": "ETdoFresh",
   "Aliases": ["findprefabbynameandcreateinstance", "findprefabandcreateinstance", "findandcreateinstance", "fpaci"],
   "Arguments": [
     {

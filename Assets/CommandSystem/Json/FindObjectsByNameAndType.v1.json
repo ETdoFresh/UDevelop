@@ -2,6 +2,7 @@
   "Version": 1,
   "Name": "FindObjectsByNameAndType",
   "Description": "Finds an UnityEngine.Object by name and type",
+  "Author": "ETdoFresh",
   "Aliases": ["findobjectsbynameandtype", "findobject", "fo"],
   "Overloads": [
     {

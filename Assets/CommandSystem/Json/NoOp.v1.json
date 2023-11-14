@@ -1,7 +1,8 @@
 ﻿{
-  "Version": 1,
   "Name": "NoOp",
+  "Version": 1,
   "Description": "No operation",
+  "Author": "ETdoFresh",
   "Aliases": ["noop", "cast"],
   "Overloads": [
     {

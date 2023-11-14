@@ -1,7 +1,8 @@
 ﻿{
-  "Version": 1,
   "Name": "GetFieldInfo",
+  "Version": 1,
   "Description": "Gets the FieldInfo from type and field name",
+  "Author": "ETdoFresh",
   "Aliases": ["getfieldinfo", "gfi"],
   "Overloads": [
     {

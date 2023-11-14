@@ -1,7 +1,8 @@
 ﻿{
-  "Version": 1,
   "Name": "GetPropertyInfo",
+  "Version": 1,
   "Description": "Gets the PropertyInfo from type and property name",
+  "Author": "ETdoFresh",
   "Aliases": ["getpropertyinfo", "gpi"],
   "Overloads": [
     {

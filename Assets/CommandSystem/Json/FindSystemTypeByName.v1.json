@@ -2,6 +2,7 @@
   "Version": 1,
   "Name": "FindSystemTypeByName",
   "Description": "Finds a System.Type by name",
+  "Author": "ETdoFresh",
   "Aliases": ["findsystemtypebyname", "findtype", "ft"],
   "Overloads": [
     {

@@ -1,7 +1,8 @@
 {
-  "Version": 1,
   "Name": "Destroy",
+  "Version": 1,
   "Description": "Destroys an Object.",
+  "Author": "ETdoFresh",
   "Aliases": ["destroy"],
   "Overloads": [
     {

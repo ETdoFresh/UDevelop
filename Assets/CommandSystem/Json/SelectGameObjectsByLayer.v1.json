@@ -1,7 +1,8 @@
 {
-  "Version": 1,
   "Name": "SelectGameObjectsByLayer",
+  "Version": 1,
   "Description": "Select GameObjects by layer",
+  "Author": "ETdoFresh",
   "Aliases": ["selectgameobjectsbylayer", "selectgosl", "sgosbl"],
   "Overloads": [
     {

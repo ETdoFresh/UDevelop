@@ -1,7 +1,8 @@
 {
-  "Version": 1,
   "Name": "RemoveComponent",
+  "Version": 1,
   "Description": "Removes a component from a GameObject.",
+  "Author": "ETdoFresh",
   "Aliases": ["removecomponent", "removecomp"],
   "Overloads": [
     {

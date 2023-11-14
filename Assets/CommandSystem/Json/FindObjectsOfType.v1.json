@@ -2,6 +2,7 @@
   "Version": 1,
   "Name": "FindObjectsOfType",
   "Description": "Finds all UnityEngine.Objects of a given type",
+  "Author": "ETdoFresh",
   "Aliases": ["findobjectsoftype", "findobjects", "fos"],
   "Overloads": [
     {

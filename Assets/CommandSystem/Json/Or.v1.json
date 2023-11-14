@@ -1,36 +1,37 @@
 ﻿{
-  "Version": 1,
   "Name": "Or",
-    "Description": "Returns first non-null value",
-    "Aliases": ["or"],
-    "Overloads": [
-      {
-        "Input": [
-          {
-            "Type": "object",
-            "Name": "{Value 1}",
-            "Description": "The first value to check",
-            "Required": false
-          },
-          {
-            "Type": "object",
-            "Name": "{Value 2}",
-            "Description": "The second value to check",
-            "Required": false
-          }
-        ],
-        "Calls": [
-          {
-            "Type": "object",
-            "Name": "{Value}",
-            "CSharp": "CommandSystem.Commands.Utility.Or({Value 1}, {Value 2})"
-          }
-        ],
-        "Output": {
+  "Version": 1,
+  "Description": "Returns first non-null value",
+  "Author": "ETdoFresh",
+  "Aliases": ["or"],
+  "Overloads": [
+    {
+      "Input": [
+        {
           "Type": "object",
-          "Name": "{Value}"
+          "Name": "{Value 1}",
+          "Description": "The first value to check",
+          "Required": false
         },
-        "CommandLineOutput": "Value: {Value}"
-      }
-    ]
+        {
+          "Type": "object",
+          "Name": "{Value 2}",
+          "Description": "The second value to check",
+          "Required": false
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "object",
+          "Name": "{Value}",
+          "CSharp": "CommandSystem.Commands.Utility.Or({Value 1}, {Value 2})"
+        }
+      ],
+      "Output": {
+        "Type": "object",
+        "Name": "{Value}"
+      },
+      "CommandLineOutput": "Value: {Value}"
+    }
+  ]
 }

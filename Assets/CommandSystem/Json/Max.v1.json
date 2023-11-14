@@ -1,7 +1,8 @@
 ﻿{
-  "Version": 1,
   "Name": "Max",
+  "Version": 1,
   "Description": "Returns the maximum value",
+  "Author": "ETdoFresh",
   "Aliases": ["max"],
   "Overloads": [
     {

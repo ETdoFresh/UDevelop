@@ -1,7 +1,8 @@
 {
-  "Version": 1,
   "Name": "GetType",
+  "Version": 1,
   "Description": "Gets the type of an object.",
+  "Author": "ETdoFresh",
   "Aliases": ["gettype", "gt"],
   "Overloads": [
     {

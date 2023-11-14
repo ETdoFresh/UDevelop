@@ -2,6 +2,7 @@
   "Version": 1,
   "Name": "FindGameObjectByScenePath",
   "Description": "Finds a GameObject by scene path",
+  "Author": "ETdoFresh",
   "Aliases": ["findgameobjectbyscenepath", "findgobsp", "fgobsp"],
   "Overloads": [
     {

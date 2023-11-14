@@ -2,6 +2,7 @@
   "Version": 1,
   "Name": "FindObjectsByName",
   "Description": "Find Objects By Name",
+  "Author": "ETdoFresh",
   "Aliases": ["findobjectsbyname", "findobjects"],
   "Overloads": [
     {

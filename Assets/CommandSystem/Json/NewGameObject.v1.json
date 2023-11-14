@@ -1,7 +1,8 @@
 {
-  "Version": 1,
   "Name": "NewGameObject",
+  "Version": 1,
   "Description": "Creates a new GameObject",
+  "Author": "ETdoFresh",
   "Aliases": ["newgameobject", "newgo", "ng"],
   "Overloads": [
     {

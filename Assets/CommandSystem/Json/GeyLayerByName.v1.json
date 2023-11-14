@@ -1,7 +1,8 @@
 ﻿{
-  "Version": 1,
   "Name": "GetLayer",
+  "Version": 1,
   "Description": "Gets the layer int value by int or name.",
+  "Author": "ETdoFresh",
   "Aliases": ["getlayer"],
   "Overloads": [
     {

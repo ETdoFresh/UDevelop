@@ -1,7 +1,8 @@
 ﻿{
-  "Version": 1,
   "Name": "GetScenePath",
+  "Version": 1,
   "Description": "Gets the scene path of a GameObject",
+  "Author": "ETdoFresh",
   "Aliases": ["getscenepath", "gsp"],
   "Overloads": [
     {

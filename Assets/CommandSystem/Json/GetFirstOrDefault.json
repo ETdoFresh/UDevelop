@@ -1,8 +1,9 @@
 ﻿{
-  "Version": 1,
   "Name": "GetFirstOrDefault",
-    "Description": "Gets the first element of a sequence, or a default value if no element is found.",
-    "Aliases": ["getfirstordefault", "gfd"],
+  "Version": 1,
+  "Description": "Gets the first element of a sequence, or a default value if no element is found.",
+  "Author": "ETdoFresh",
+  "Aliases": ["getfirstordefault", "gfd"],
   "Overloads": [
     {
       "Input": [

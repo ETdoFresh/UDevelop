@@ -1,7 +1,8 @@
 ﻿{
-  "Version": 1,
   "Name": "FilterBy",
+  "Version": 1,
   "Description": "Filters an array by a given field/property",
+  "Author": "ETdoFresh",
   "Aliases": ["filterby"],
   "Overloads": [
     {
