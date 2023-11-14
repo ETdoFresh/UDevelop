@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace CommandSystem
 {
@@ -40,15 +41,11 @@ namespace CommandSystem
                 return double.TryParse(Value?.ToString(), out _);
             if (Type == typeof(string) && inputType == typeof(bool))
                 return bool.TryParse(Value?.ToString(), out _);
-            if (inputType.IsArray && Type.IsArray)
+            if (inputType.IsArray && (Type.IsArray || Value?.GetType().IsArray == true))
             {
                 var inputElementType = inputType.GetElementType();
-                var argElementType = Type.GetElementType();
-                var array = (Array)Value ?? Array.CreateInstance(argElementType ?? typeof(object), 0);
-                foreach (var argElement in array)
-                    if (!new ArgData(Name, argElementType, argElement, Required).IsConvertible(inputElementType))
-                        return false;
-                return true;
+                if (inputElementType == null) return false;
+                return ((Array)Value).Cast<object>().All(item => inputElementType.IsInstanceOfType(item));
             }
 
             return false;

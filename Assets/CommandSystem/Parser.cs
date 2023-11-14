@@ -32,17 +32,21 @@ namespace CommandSystem
             {
                 var arg = matches[i].Value;
                 if (arg == "null")
-                    args[i] = new ArgData(arg, typeof(object), null, false);
+                    args[i] = new ArgData(arg, typeof(object), null);
                 else if (bool.TryParse(arg, out var boolValue))
-                    args[i] = new ArgData(arg, typeof(bool), boolValue, false);
+                    args[i] = new ArgData(arg, typeof(bool), boolValue);
                 else if (int.TryParse(arg, out var intValue))
-                    args[i] = new ArgData(arg, typeof(int), intValue, false);
+                    args[i] = new ArgData(arg, typeof(int), intValue);
                 else if (float.TryParse(arg, out var floatValue))
-                    args[i] = new ArgData(arg, typeof(float), floatValue, false);
+                    args[i] = new ArgData(arg, typeof(float), floatValue);
                 else if (double.TryParse(arg, out var doubleValue))
-                    args[i] = new ArgData(arg, typeof(double), doubleValue, false);
+                    args[i] = new ArgData(arg, typeof(double), doubleValue);
                 else
-                    args[i] = new ArgData(arg, typeof(string), arg, false);
+                {
+                    while ((arg.StartsWith("\"") && arg.EndsWith("\"")) || (arg.StartsWith("'") && arg.EndsWith("'")))
+                        arg = arg[1..^1];
+                    args[i] = new ArgData(arg, typeof(string), arg);
+                }
             }
 
             return args;

@@ -1,0 +1,86 @@
+﻿// Name: FindGameObjectByLayer
+// Version: 1
+// Description: Find GameObject by Layer
+// Author: ETdoFresh
+// Aliases: findgameobjectbylayer, fgobl
+// Arg1: object {Layer}
+// Output: {GameObject}
+// CommandLineOutput: Found GameObject:\n{GameObject ScenePath}
+
+FindGameObjectsByLayer {Layer} // Alias: {GameObjects}
+GetFirstOrDefault {GameObjects} // Alias: {GameObject}
+GetScenePath {GameObject} // Alias: {GameObject ScenePath}
+
+// ------------------------------
+
+// Name: FindGameObjectsByLayer
+// Version: 1
+// Description: Find GameObjects by Layer
+// Author: ETdoFresh
+// Aliases: findgameobjectsbylayer, fgosbl
+// Arg1: object {Layer}
+// Output: {GameObjects}
+// CommandLineOutput: Found GameObjects:\n{GameObjects ScenePath}
+
+GetLayer {Layer} // Alias: {Layer Int}
+FindObjectsOfType UnityEngine.GameObject // Alias: {All GameObjects}
+FilterBy layer {Layer Int} {All GameObjects} // Alias: {GameObjects}
+GetScenePath {GameObjects} // Alias: {GameObjects ScenePath}
+
+// ------------------------------
+
+// Name: FindGameObjectByName
+// Version: 1
+// Description: Finds a GameObject by name
+// Author: ETdoFresh
+// Aliases: findgameobjectbyname, findgo, fg
+// Arg1: string {GameObject Name}
+// Output: {GameObject}
+// CommandLineOutput: Found GameObject: {GameObject}
+
+FindGameObjectsByName {GameObject Name} // Alias: {All GameObjects}
+GetFirstOrDefault {All GameObjects} // Alias: {GameObject}
+
+// ------------------------------
+
+// Name: FindGameObjectsByName
+// Version: 1
+// Description: Finds GameObjects by name
+// Author: ETdoFresh
+// Aliases: findgameobjectsbyname, findgos, fgs
+// Arg1: string {GameObject Name}
+// Output: {GameObjects}
+// CommandLineOutput: Found GameObjects:\n{GameObjects ScenePath}
+
+FindObjectsOfType UnityEngine.GameObject // Alias: {All GameObjects}
+FilterBy name {GameObject Name} {All GameObjects} // Alias: {GameObjects}
+GetScenePath {GameObjects} // Alias: {GameObjects ScenePath}
+
+// ------------------------------
+
+// Name: FindGameObjectByTag
+// Version: 1
+// Description: Finds a GameObject by tag
+// Author: ETdoFresh
+// Aliases: findgameobjectbytag, findgot, fgt
+// Arg1: string {GameObject Tag}
+// Output: {GameObject}
+// CommandLineOutput: Found GameObject: {GameObject}
+
+FindGameObjectsByTag {GameObject Tag} // Alias: {All GameObjects}
+GetFirstOrDefault {All GameObjects} // Alias: {GameObject}
+
+// ------------------------------
+
+// Name: FindGameObjectsByTag
+// Version: 1
+// Description: Finds GameObjects by tag
+// Author: ETdoFresh
+// Aliases: findgameobjectsbytag, findgots, fgts
+// Arg1: string {GameObject Tag}
+// Output: {GameObjects}
+// CommandLineOutput: Found GameObjects:\n{GameObjects ScenePath}
+
+FindObjectsOfType UnityEngine.GameObject // Alias: {All GameObjects}
+FilterBy tag {GameObject Tag} {All GameObjects} // Alias: {GameObjects}
+GetScenePath {GameObjects} // Alias: {GameObjects ScenePath}
