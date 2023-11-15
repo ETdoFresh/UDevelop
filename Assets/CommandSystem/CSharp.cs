@@ -20,8 +20,9 @@ namespace CommandSystem
             {
                 var withoutNew = cSharpCode[3..];
                 var split = withoutNew.Split('(');
+                var splitClosingIndex = split[1].LastIndexOf(')');
                 var typeString = split[0];
-                var argsString = split[1][..^1];
+                var argsString = split[1][..splitClosingIndex];
                 var argStrings = argsString.Split(',').Select(x => x.Trim()).ToArray();
                 var type = StringToTypeUtility.Get(typeString);
                 var argObjects = new List<object>();
@@ -43,6 +44,7 @@ namespace CommandSystem
                 // Function: Find
                 // Args: {GameObject Name}
                 var split = cSharpCode.Split('(');
+                var splitClosingIndex = split[1].LastIndexOf(')');
 
                 if (split.Length == 1)
                     return cSharpCode;
@@ -54,7 +56,7 @@ namespace CommandSystem
                 var type = StringToTypeUtility.Get(fullTypeString);
 
                 // Else run method
-                var argsString = split[1][..^1];
+                var argsString = split[1][..splitClosingIndex];
                 var argStrings = string.IsNullOrEmpty(argsString)
                     ? Array.Empty<string>()
                     : argsString.Split(',').Select(x => x.Trim()).ToArray();

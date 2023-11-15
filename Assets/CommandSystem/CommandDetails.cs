@@ -159,7 +159,11 @@ namespace CommandSystem
                 }
                 else if (line.StartsWith("// Output: "))
                 {
-                    commandDetail.Output = new CommandOutputDetail { Name = line["// Output: ".Length..] };
+                    var outputString = line["// Output: ".Length..];
+                    var args = Parser.GetArgData(outputString);
+                    commandDetail.Output = new CommandOutputDetail();
+                    commandDetail.Output.Type = args.Length > 1 ? args[0].Value?.ToString() ?? "object" : "object";
+                    commandDetail.Output.Name = args.Length > 1 ? args[1].Value?.ToString() ?? "void" : args[0].Value?.ToString() ?? "void";
                 }
                 else if (line.StartsWith("// CommandLineOutput: "))
                 {
@@ -259,7 +263,7 @@ namespace CommandSystem
                 var argTypeString = Input[i].Type;
                 var argType = StringToTypeUtility.Get(argTypeString);
                 argMemory[argName] = new ArgData(argName, argType, argValue, argRequired);
-                argMemory[$"Arg{i + 1}"] = new ArgData($"Arg{i + 1}", argType, argValue, argRequired);
+                argMemory[$"{{Arg{i + 1}}}"] = new ArgData($"{{Arg{i + 1}}}", argType, argValue, argRequired);
             }
 
             for (var i = 0; i < (Calls?.Length ?? 0); i++)
@@ -274,13 +278,13 @@ namespace CommandSystem
                         {
                             if (call != null && call.Name != null)
                                 argMemory[call.Name] = new ArgData(call.Name, callType, callOutput?.Value);
-                            argMemory[$"Step{i + 1}"] = new ArgData($"Step{i + 1}", callType, callOutput?.Value);
+                            argMemory[$"{{Step{i + 1}}}"] = new ArgData($"{{Step{i + 1}}}", callType, callOutput?.Value);
                         }
                         else if (TryRun(call?.Command, callType, argMemory, out callOutput))
                         {
                             if (call != null && call.Name != null)
                                 argMemory[call.Name] = new ArgData(call.Name, callType, callOutput?.Value);
-                            argMemory[$"Step{i + 1}"] = new ArgData($"Step{i + 1}", callType, callOutput?.Value);
+                            argMemory[$"{{Step{i + 1}}}"] = new ArgData($"{{Step{i + 1}}}", callType, callOutput?.Value);
                         }
                         else
                         {
@@ -306,7 +310,7 @@ namespace CommandSystem
 
             var outputName = Output?.Name;
             var outputValue = outputName != null && outputName != "void" ? argMemory[outputName].Value : null;
-            var commandLineOutput = CommandLineOutput ?? outputName;
+            var commandLineOutput = CommandLineOutput ?? outputName ?? "";
             commandLineOutput = commandLineOutput?.Replace("\\n", "\n");
             var outputRegEx = new System.Text.RegularExpressions.Regex(@"\{.*?\}");
             commandLineOutput = outputRegEx.Replace(commandLineOutput, m => argMemory[m.Value].Value?.ToString() ?? m.Value);
@@ -466,7 +470,17 @@ namespace CommandSystem
                 }
 
                 var argTypes = args.Select(x => x?.Type ?? typeof(object)).ToArray();
-                var argObjects = args.Select(x => x?.Value ?? null).ToArray();
+                
+                var argObjects = new object[argTypes.Length];
+                for (var i = 0; i < argTypes.Length; i++)
+                {
+                    var argType = argTypes[i];
+                    var argOutputData = new OutputData{ Value = args[i].Value };
+                    if (args[i].IsConvertible(argType))
+                        ConvertType(argOutputData, argType);
+                    argObjects[i] = argOutputData.Value;
+                }
+                
                 var bindingFlags = Public | NonPublic | Instance | Static;
                 // The following works pretty well, but does not work very well for generics
                 // var method = type.GetMethod(methodName, bindingFlags, null, argTypes, null);
@@ -498,6 +512,7 @@ namespace CommandSystem
 
                 try
                 {
+                    
                     var outputValue2 = method.Invoke(self?.Value, argObjects);
                     outputData = new OutputData { Value = outputValue2, CommandLineOutput = cSharpCode };
                     return true;
