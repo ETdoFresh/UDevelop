@@ -1,0 +1,13 @@
+﻿// Name: FindGameObjectsByLayer
+// Version: 1
+// Description: Find GameObjects by Layer
+// Author: ETdoFresh
+// Aliases: findgameobjectsbylayer, fgosbl
+// Arg1: object {Layer}
+// Output: {GameObjects}
+// CommandLineOutput: Found GameObjects:\n{GameObjects ScenePath}
+
+GetLayer {Layer} // Alias: {Layer Int}
+FindObjectsOfType UnityEngine.GameObject // Alias: {All GameObjects}
+FilterBy layer {Layer Int} {All GameObjects} // Alias: {GameObjects}
+GetScenePath {GameObjects} // Alias: {GameObjects ScenePath}

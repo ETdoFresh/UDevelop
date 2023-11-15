@@ -74,7 +74,7 @@ namespace CommandSystem
                 {
                     var argString = argStrings[i];
                     if (argMemory.TryGetValue(argString, out var arg))
-                        args[i] = arg;
+                        args[i] = new ArgData(arg.Name, arg.Value?.GetType() ?? arg.Type ?? typeof(object), arg.Value);
                     else if (argString.StartsWith("\"") && argString.EndsWith("\""))
                         args[i] = new ArgData(argString[1..^1], typeof(string), argString[1..^1]);
                     else if (argString.StartsWith("'") && argString.EndsWith("'"))

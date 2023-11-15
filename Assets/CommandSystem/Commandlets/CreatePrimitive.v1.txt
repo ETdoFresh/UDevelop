@@ -1,0 +1,10 @@
+﻿// Name: CreatePrimitive
+// Version: 1
+// Description: Creates a primitive object.
+// Author: ETdoFresh
+// Aliases: createprimitive, createprim
+// Arg1: UnityEngine.PrimitiveType {Primitive Type}
+// Output: UnityEngine.GameObject {Primitive GameObject}
+// CommandLineOutput: Created primitive: {Primitive Type}
+
+CSharp UnityEngine.GameObject.CreatePrimitive({Primitive Type}) // Alias: {Primitive GameObject}

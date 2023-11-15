@@ -1,0 +1,20 @@
+﻿// Name: FindObjectsOfType
+// Version: 1
+// Description: Finds all objects of a certain type.
+// Author: ETdoFresh
+// Alias: findobjectsoftype, foot
+// Arg1: System.Type {Component Type}
+// Output: UnityEngine.Object[] {Objects}
+// CommandLineOutput: Found objects of type {Component Type}\n{Object ScenePaths}
+
+CSharp UnityEngine.Object.FindObjectsOfType({Component Type}) // Alias: {Objects}
+GetScenePath {Objects} // Alias: {Object ScenePaths}
+
+// ------------------------------
+// Arg1: string {Component Type Name}
+// Output: UnityEngine.Object[] {Objects}
+// CommandLineOutput: Found objects of type {Component Type}\n{Object ScenePaths}
+
+FindSystemTypeByName {Component Type Name} // Alias: {Component Type}
+CSharp UnityEngine.Object.FindObjectsOfType({Component Type}) // Alias: {Objects}
+GetScenePath {Objects} // Alias: {Object ScenePaths}

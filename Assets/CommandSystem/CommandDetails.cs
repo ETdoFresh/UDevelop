@@ -313,7 +313,7 @@ namespace CommandSystem
             var commandLineOutput = CommandLineOutput ?? outputName ?? "";
             commandLineOutput = commandLineOutput?.Replace("\\n", "\n");
             var outputRegEx = new System.Text.RegularExpressions.Regex(@"\{.*?\}");
-            commandLineOutput = outputRegEx.Replace(commandLineOutput, m => argMemory[m.Value].Value?.ToString() ?? m.Value);
+            commandLineOutput = outputRegEx.Replace(commandLineOutput, m => argMemory[m.Value].Value?.ToString() ?? "null");
             return new OutputData { Value = outputValue, CommandLineOutput = commandLineOutput };
         }
 

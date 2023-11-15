@@ -1,0 +1,10 @@
+﻿// Name: GetCommandReference
+// Version: 1
+// Description: Gets a reference to a command
+// Author: ETdoFresh
+// Aliases: getcommandreference, getcommand, getcmd, gcr
+// Arg1: string {Command Name}
+// Output: CommandSystem.CommandReference {Command Reference}
+// CommandLineOutput: Command Reference: {Command Reference}
+
+CSharp CommandSystem.CommandReference({Command Name}) // Alias: {Command Reference}

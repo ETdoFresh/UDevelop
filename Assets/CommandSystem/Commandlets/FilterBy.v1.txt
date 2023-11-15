@@ -1,0 +1,41 @@
+﻿// Name: FilterBy
+// Version: 1
+// Description: Filters an array by a given field/property
+// Author: ETdoFresh
+// Aliases: filterby
+// Arg1: System.Reflection.FieldInfo {Field}
+// Arg2: object {Value}
+// Arg3: object[] {Array}
+// Output: object[] {Filtered Array}
+// CommandLineOutput: Filtered Array: {Filtered Array}
+
+CSharp CommandSystem.Commands.Utility.FilterBy({Field}, {Value}, {Array}) // Alias: {Filtered Array}
+
+// ------------------------------
+// Arg1: System.Reflection.PropertyInfo {Property}
+// Arg2: object {Value}
+// Arg3: object[] {Array}
+// Output: object[] {Filtered Array}
+// CommandLineOutput: Filtered Array: {Filtered Array}
+
+CSharp CommandSystem.Commands.Utility.FilterBy({Property}, {Value}, {Array}) // Alias: {Filtered Array}
+
+// ------------------------------
+// Arg1: CommandSystem.CommandReference {Command}
+// Arg2: object {Value}
+// Arg3: object[] {Array}
+// Output: object[] {Filtered Array}
+// CommandLineOutput: Filtered Array: {Filtered Array}
+
+CSharp CommandSystem.Commands.Utility.FilterBy({Command}, {Value}, {Array}) // Alias: {Filtered Array}
+
+// ------------------------------
+// Arg1: string {Field or Property Name}
+// Arg2: object {Value}
+// Arg3: object[] {Array}
+// Output: object[] {Filtered Array}
+// CommandLineOutput: Filtered Array: {Filtered Array}
+
+GetElementType {Array} // Alias: {Type}
+GetFieldInfoOrPropertyInfo {Type} {Field or Property Name} // Alias: {Field or Property}
+CSharp CommandSystem.Commands.Utility.FilterBy({Field or Property}, {Value}, {Array}) // Alias: {Filtered Array}

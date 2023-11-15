@@ -1,0 +1,39 @@
+﻿// Name: GetComponent
+// Version: 1
+// Description: Gets a component from a GameObject.
+// Author: ETdoFresh
+// Alias: getcomponent, getcomp
+// Arg1: UnityEngine.GameObject {GameObject}
+// Arg2: System.Type {Component Type}
+// Output: UnityEngine.Component {Component}
+// CommandLineOutput: Got component: {Component Type}
+
+CSharp UnityEngine.GameObject.GetComponent(this {GameObject}, {Component Type}) // Alias: {Component}
+
+// ------------------------------
+// Arg1: string {GameObject Name}
+// Arg2: string {Component Type Name}
+// Output: UnityEngine.Component {Component}
+// CommandLineOutput: Got component: {Component Type}
+
+FindGameObjectByName {GameObject Name} // Alias: {GameObject}
+FindSystemTypeByName {Component Type Name} // Alias: {Component Type}
+CSharp UnityEngine.GameObject.GetComponent(this {GameObject}, {Component Type}) // Alias: {Component}
+
+// ------------------------------
+// Arg1: UnityEngine.GameObject {GameObject}
+// Arg2: string {Component Type Name}
+// Output: UnityEngine.Component {Component}
+// CommandLineOutput: Got component: {Component Type}
+
+FindSystemTypeByName {Component Type Name} // Alias: {Component Type}
+CSharp UnityEngine.GameObject.GetComponent(this {GameObject}, {Component Type}) // Alias: {Component}
+
+// ------------------------------
+// Arg1: string {GameObject Name}
+// Arg2: System.Type {Component Type}
+// Output: UnityEngine.Component {Component}
+// CommandLineOutput: Got component: {Component Type}
+
+FindGameObjectByName {GameObject Name} // Alias: {GameObject}
+CSharp UnityEngine.GameObject.GetComponent(this {GameObject}, {Component Type}) // Alias: {Component}

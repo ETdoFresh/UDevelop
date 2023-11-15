@@ -1,0 +1,18 @@
+﻿// Name: GetElementType
+// Version: 1
+// Description: Gets the element type of an array.
+// Author: ETdoFresh
+// Aliases: getelementtype
+// Arg1: System.Array {Array}
+// Output: System.Type {Element Type}
+// CommandLineOutput: Got Type: {Element Type}
+
+GetType {Array} // Alias: {Array Type}
+CSharp System.Type.GetElementType(this {Array Type}) // Alias: {Element Type}
+
+// ------------------------------
+// Arg1: System.Type {Array Type}
+// Output: System.Type {Element Type}
+// CommandLineOutput: Got Type: {Element Type}
+
+CSharp System.Type.GetElementType(this {Array Type}) // Alias: {Element Type}

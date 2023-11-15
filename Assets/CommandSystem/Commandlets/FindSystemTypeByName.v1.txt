@@ -1,0 +1,10 @@
+﻿// Name: FindSystemTypeByName
+// Version: 1
+// Description: Finds a System.Type by name
+// Author: ETdoFresh
+// Alias: findsystemtypebyname, findtype, ft
+// Arg1: string {Type Name}
+// Output: System.Type {Type}
+// CommandLineOutput: Found Type: {Type}
+
+CSharp CommandSystem.Commands.Utility.FindSystemTypeByName({Type Name}) // Alias: {Type}

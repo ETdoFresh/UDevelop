@@ -1,0 +1,11 @@
+﻿// Name: FindGameObjectByTag
+// Version: 1
+// Description: Finds a GameObject by tag
+// Author: ETdoFresh
+// Aliases: findgameobjectbytag, findgot, fgt
+// Arg1: string {GameObject Tag}
+// Output: {GameObject}
+// CommandLineOutput: Found GameObject: {GameObject}
+
+FindGameObjectsByTag {GameObject Tag} // Alias: {All GameObjects}
+GetFirstOrDefault {All GameObjects} // Alias: {GameObject}

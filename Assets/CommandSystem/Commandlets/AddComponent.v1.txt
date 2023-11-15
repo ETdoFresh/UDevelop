@@ -10,7 +10,6 @@
 
 CSharp UnityEngine.GameObject.AddComponent(this {GameObject}, {Component Type}) // Alias: {Component}
 
-
 // ------------------------------
 // Arg1: string {GameObject Name}
 // Arg2: string {Component Type Name}
