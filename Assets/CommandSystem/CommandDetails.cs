@@ -191,7 +191,7 @@ namespace CommandSystem
             jObject["Input"] = new JArray(Input.Select(x =>
             {
                 var jObject2 = new JObject();
-                jObject2["TypeName"] = x.Type;
+                jObject2["Type"] = x.Type;
                 jObject2["Name"] = x.Name;
                 jObject2["Required"] = x.Required;
                 return jObject2;
@@ -199,15 +199,15 @@ namespace CommandSystem
             jObject["Calls"] = new JArray(Calls.Select(x =>
             {
                 var jObject2 = new JObject();
-                jObject2["OutputTypeName"] = x.Type;
-                jObject2["OutputAlias"] = x.Name;
+                jObject2["Type"] = x.Type;
+                jObject2["Name"] = x.Name;
                 jObject2["CSharp"] = x.CSharp;
                 jObject2["Command"] = x.Command;
                 return jObject2;
             }));
             jObject["Output"] = new JObject
             {
-                ["TypeName"] = Output.TypeName,
+                ["Type"] = Output.Type,
                 ["Name"] = Output.Name
             };
             jObject["CommandLineOutput"] = CommandLineOutput;
@@ -263,6 +263,7 @@ namespace CommandSystem
                 var argTypeString = Input[i].Type;
                 var argType = StringToTypeUtility.Get(argTypeString);
                 argMemory[argName] = new ArgData(argName, argType, argValue, argRequired);
+                argMemory[$"Arg{i + 1}"] = new ArgData($"Arg{i + 1}", argType, argValue, argRequired);
             }
 
             for (var i = 0; i < (Calls?.Length ?? 0); i++)
@@ -273,11 +274,15 @@ namespace CommandSystem
                     var callType = StringToTypeUtility.Get(call?.Type);
                     if (TryRunCSharp(call?.CSharp, callType, argMemory, out var callOutput))
                     {
-                        argMemory[call.Name] = new ArgData(call.Name, callType, callOutput?.Value);
+                        if (call != null && call.Name != null)
+                            argMemory[call.Name] = new ArgData(call.Name, callType, callOutput?.Value);
+                        argMemory[$"Step{i + 1}"] = new ArgData($"Step{i + 1}", callType, callOutput?.Value);
                     }
                     else if (TryRun(call?.Command, callType, argMemory, out callOutput))
                     {
-                        argMemory[call.Name] = new ArgData(call.Name, callType, callOutput?.Value);
+                        if (call != null && call.Name != null)
+                            argMemory[call.Name] = new ArgData(call.Name, callType, callOutput?.Value);
+                        argMemory[$"Step{i + 1}"] = new ArgData($"Step{i + 1}", callType, callOutput?.Value);
                     }
                     else
                     {
@@ -502,7 +507,7 @@ namespace CommandSystem
                 if (!isInputRequired && i >= commandArgs.Length) continue;
                 var commandArg = commandArgs[i];
                 var inputType = StringToTypeUtility.Get(input.Type);
-                if (isInputRequired && !commandArg.IsConvertible(inputType)) return false;
+                if (!commandArg.IsConvertible(inputType)) return false;
             }
             
             return true;
@@ -596,7 +601,7 @@ namespace CommandSystem
 
         public class CommandOutputDetail
         {
-            public string TypeName { get; set; } = "object";
+            public string Type { get; set; } = "object";
             public string Name { get; set; }
         }
     }

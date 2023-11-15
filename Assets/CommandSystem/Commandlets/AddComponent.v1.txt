@@ -1,0 +1,21 @@
+// Name: AddComponent
+// Version: 1
+// Description: Adds a component to a GameObject.
+// Author: ETdoFresh
+// Aliases: addcomponent, addcomp
+// Arg1: UnityEngine.GameObject {GameObject}
+// Arg2: System.Type {Component Type}
+// Output: UnityEngine.Component {Component}
+// CommandLineOutput: Added component: {Component Type}
+
+CSharp UnityEngine.GameObject.AddComponent(this {GameObject}, {Component Type})
+
+// ------------------------------
+// Arg1: string {GameObject Name}
+// Arg2: string {Component Type Name}
+// Output: UnityEngine.Component {Component}
+// CommandLineOutput: Added component: {Component Type}
+
+FindGameObjectByName {GameObject Name} // Alias: {GameObject}
+FindSystemTypeByName {Component Type Name} // Alias: {Component Type}
+CSharp UnityEngine.GameObject.AddComponent(this {GameObject}, {Component Type})
