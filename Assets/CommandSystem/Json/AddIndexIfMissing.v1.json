@@ -1,0 +1,58 @@
+﻿{
+  "Name": "AddIndexIfMissing",
+  "Version": 1,
+  "Description": "Add an index to the end of a path name if it doesn't already have one.",
+  "Author": "ETdoFresh",
+  "Aliases": ["addindexifmissing", "aiim"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "string",
+          "Name": "{Path}",
+          "Description": "The path to add an index to.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "string",
+          "Name": "{Path}",
+          "CSharp": "CommandSystem.Commands.Utility.AddIndexIfMissing({Path})"
+        }
+      ],
+      "Output": {
+        "Type": "string",
+        "Name": "{Path}"
+      },
+      "CommandLineOutput": "{Path}"
+    },
+    {
+      "Input": [
+        {
+          "Type": "string[]",
+          "Name": "{Paths}",
+          "Description": "The paths to add an index to.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "string[]",
+          "Name": "{Paths}",
+          "Command": "Cast {Paths}"
+        },
+        {
+          "Type": "string[]",
+          "Name": "{Paths}",
+          "CSharp": "CommandSystem.Commands.Utility.AddIndexIfMissing({Paths})"
+        }
+      ],
+      "Output": {
+        "Type": "string[]",
+        "Name": "{Paths}"
+      },
+      "CommandLineOutput": "Found Paths:\n{Paths}"
+    }
+  ]
+}

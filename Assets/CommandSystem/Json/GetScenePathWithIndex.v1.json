@@ -1,9 +1,9 @@
 ﻿{
-  "Name": "GetScenePath",
+  "Name": "GetScenePathWithIndex",
   "Version": 1,
-  "Description": "Gets the scene path of a GameObject",
+  "Description": "Get the scene path of a GameObject with the same name sibling index [not hierarchy sibling index]",
   "Author": "ETdoFresh",
-  "Aliases": ["getscenepath", "gsp"],
+  "Aliases": ["getscenepathwithindex", "gspi"],
   "Overloads": [
     {
       "Input": [
@@ -18,7 +18,7 @@
         {
           "Type": "string",
           "Name": "{GameObject ScenePath}",
-          "CSharp": "CommandSystem.Commands.Utility.GetGameObjectScenePath({GameObject})"
+          "CSharp": "CommandSystem.Commands.Utility.GetGameObjectScenePathWithIndex({GameObject})"
         }
       ],
       "Output": {
@@ -31,16 +31,21 @@
       "Input": [
         {
           "Type": "UnityEngine.Object[]",
-          "Name": "{Objects}",
-          "Description": "The Objects to get the scene path of.",
+          "Name": "{GameObjects}",
+          "Description": "The GameObjects to get the scene path of.",
           "Required": true
         }
       ],
       "Calls": [
         {
+          "Type": "UnityEngine.Object[]",
+          "Name": "{Objects}",
+          "Command": "Cast {GameObjects}"
+        },
+        {
           "Type": "string",
           "Name": "{Objects ScenePath}",
-          "CSharp": "CommandSystem.Commands.Utility.GetObjectsScenePath({Objects})"
+          "CSharp": "CommandSystem.Commands.Utility.GetObjectsScenePathWithIndex({Objects})"
         }
       ],
       "Output": {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
+using UnityEngine;
 using static System.Reflection.BindingFlags;
 
 namespace CommandSystem
@@ -247,11 +248,6 @@ namespace CommandSystem
             return commandDetails;
         }
 
-        private OutputData Run(ArgData[] args)
-        {
-            return Run(args, new Dictionary<string, ArgData>());
-        }
-
         private OutputData Run(ArgData[] args, Dictionary<string, ArgData> argMemory)
         {
             argMemory = new Dictionary<string, ArgData>(argMemory);
@@ -268,32 +264,43 @@ namespace CommandSystem
 
             for (var i = 0; i < (Calls?.Length ?? 0); i++)
             {
-                var call = Calls?[i];
-                if (call?.Type != "void")
+                try
                 {
-                    var callType = StringToTypeUtility.Get(call?.Type);
-                    if (TryRunCSharp(call?.CSharp, callType, argMemory, out var callOutput))
+                    var call = Calls?[i];
+                    if (call?.Type != "void")
                     {
-                        if (call != null && call.Name != null)
-                            argMemory[call.Name] = new ArgData(call.Name, callType, callOutput?.Value);
-                        argMemory[$"Step{i + 1}"] = new ArgData($"Step{i + 1}", callType, callOutput?.Value);
-                    }
-                    else if (TryRun(call?.Command, callType, argMemory, out callOutput))
-                    {
-                        if (call != null && call.Name != null)
-                            argMemory[call.Name] = new ArgData(call.Name, callType, callOutput?.Value);
-                        argMemory[$"Step{i + 1}"] = new ArgData($"Step{i + 1}", callType, callOutput?.Value);
+                        var callType = StringToTypeUtility.Get(call?.Type);
+                        if (TryRunCSharp(call?.CSharp, callType, argMemory, out var callOutput))
+                        {
+                            if (call != null && call.Name != null)
+                                argMemory[call.Name] = new ArgData(call.Name, callType, callOutput?.Value);
+                            argMemory[$"Step{i + 1}"] = new ArgData($"Step{i + 1}", callType, callOutput?.Value);
+                        }
+                        else if (TryRun(call?.Command, callType, argMemory, out callOutput))
+                        {
+                            if (call != null && call.Name != null)
+                                argMemory[call.Name] = new ArgData(call.Name, callType, callOutput?.Value);
+                            argMemory[$"Step{i + 1}"] = new ArgData($"Step{i + 1}", callType, callOutput?.Value);
+                        }
+                        else
+                        {
+                            ThrowException("No CSharp or Command found!", Name, argMemory, args);
+                        }
                     }
                     else
                     {
-                        ThrowException("No CSharp or Command found!", Name, argMemory, args);
+                        if (TryRunCSharp(call?.CSharp, null, argMemory, out _)) { }
+                        else if (TryRun(call?.Command, null, argMemory, out _)) { }
+                        else ThrowException("No CSharp or Command found!", Name, argMemory, args);
                     }
                 }
-                else
+                catch (Exception ex)
                 {
-                    if (TryRunCSharp(call?.CSharp, null, argMemory, out _)) { }
-                    else if (TryRun(call?.Command, null, argMemory, out _)) { }
-                    else ThrowException("No CSharp or Command found!", Name, argMemory, args);
+                    var message = ex.Message;
+                    var call = Calls?[i];
+                    var callString = call?.CSharp ?? call?.Command;
+                    message += $"\nCall[{i}]: {callString}";
+                    throw new Exception(message, ex);
                 }
             }
 
@@ -319,6 +326,16 @@ namespace CommandSystem
                 outputData = null;
                 return false;
             }
+            
+            if (commandString.Equals("CommandSystem.CSharp.Execute({CommandInput})"))
+            {
+                var commandInput = argMemory["CommandInput"].Value?.ToString();
+                var spaceIndex = commandInput.IndexOf(' ');
+                var commandInputWithoutCommand = spaceIndex > 0 ? commandInput[(spaceIndex + 1)..] : "";
+                var outputValue = CSharp.Execute(commandInputWithoutCommand, argMemory);
+                outputData = new OutputData { Value = outputValue, CommandLineOutput = commandString };
+                return true;
+            }
 
             var firstSpaceIndex = commandString.IndexOf(' ');
             var commandAlias = firstSpaceIndex > 0 ? commandString[..firstSpaceIndex] : commandString;
@@ -330,18 +347,23 @@ namespace CommandSystem
                 var argString = commandArgs[i].Value?.ToString();
                 if (argString == null) continue;
                 if (!argMemory.TryGetValue(argString, out var arg)) continue;
-                commandArgs[i] = argMemory[argString];
+                commandArgs[i] = arg;
             }
             if (CommandRunner.CommandMap.TryGetValue(commandAlias.ToLower(), out var commandObjects))
             {
                 foreach (var commandObject in commandObjects)
                 {
                     if (!IsValidOverload(commandObject, commandArgs)) continue;
+                    argMemory = new Dictionary<string, ArgData>(argMemory);
+                    argMemory["CommandInput"] = new ArgData("CommandInput", typeof(string), commandString);
                     outputData = commandObject.Run(commandArgs, argMemory);
                     outputData = ConvertType(outputData, outputType);
                     return true;
                 }
+                
+                ThrowException("No valid overload found!", commandString, argMemory, commandArgs);
             }
+            ThrowException($"Command {commandAlias} not found!", commandString, argMemory, commandArgs);
             outputData = null;
             return false;
         }
@@ -569,19 +591,21 @@ namespace CommandSystem
 
             if (localArgs != null)
             {
-                message += "\nArg Memory:";
+                message += "\n\nArg Memory:";
                 foreach (var localArg in localArgs)
                     message += $"\n{localArg.Value}";
             }
 
             if (args != null)
             {
-                message += "\nArgs:";
+                message += "\n\nArgs:";
                 foreach (var arg in args)
                     message += $"\n{arg}";
             }
+
+            message += "\n\nCommand Call Trace:";
             
-            throw new ArgumentException(message);
+            throw new ArgumentException(message, ex);
         }
 
         public class CommandInputDetail

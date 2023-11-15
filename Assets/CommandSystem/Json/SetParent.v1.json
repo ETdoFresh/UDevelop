@@ -22,6 +22,11 @@
       ],
       "Calls": [
         {
+          "Type": "string",
+          "Name": "{Previous GameObject ScenePath}",
+          "Command": "GetScenePath {GameObject}"
+        },
+        {
           "Type": "UnityEngine.Transform",
           "Name": "{GameObject Transform}",
           "Command": "GetValue transform {GameObject}"
@@ -35,13 +40,18 @@
           "Type": "void",
           "Name": "void",
           "CSharp": "UnityEngine.Transform.SetParent(this {GameObject Transform}, {Parent Transform})"
+        },
+        {
+          "Type": "string",
+          "Name": "{Current GameObject ScenePath}",
+          "Command": "GetScenePath {GameObject}"
         }
       ],
       "Output": {
         "Type": "void",
         "Name": "void"
       },
-      "CommandLineOutput": "Set parent of {GameObject} to {Parent}"
+      "CommandLineOutput": "Moved from {Previous GameObject ScenePath} to {Current GameObject ScenePath}"
     },
     {
       "Input": [
@@ -53,7 +63,7 @@
         },
         {
           "Type": "string",
-          "Name": "{Parent Name}",
+          "Name": "{Parent ScenePath}",
           "Description": "The GameObject to set as the parent.",
           "Required": true
         }
@@ -62,7 +72,12 @@
         {
           "Type": "UnityEngine.GameObject",
           "Name": "{GameObject}",
-          "Command": "FindGameObjectByName {GameObject Name}"
+          "Command": "FindGameObjectByScenePath {GameObject Name}"
+        },
+        {
+          "Type": "string",
+          "Name": "{Previous GameObject ScenePath}",
+          "Command": "GetScenePath {GameObject}"
         },
         {
           "Type": "UnityEngine.Transform",
@@ -72,7 +87,7 @@
         {
           "Type": "UnityEngine.GameObject",
           "Name": "{Parent}",
-          "Command": "FindGameObjectByName {Parent Name}"
+          "Command": "FindGameObjectByScenePath {Parent ScenePath}"
         },
         {
           "Type": "UnityEngine.Transform",
@@ -83,13 +98,18 @@
           "Type": "void",
           "Name": "void",
           "CSharp": "UnityEngine.Transform.SetParent(this {GameObject Transform}, {Parent Transform})"
+        },
+        {
+            "Type": "string",
+            "Name": "{Current GameObject ScenePath}",
+            "Command": "GetScenePath {GameObject}"
         }
       ],
       "Output": {
         "Type": "void",
         "Name": "void"
       },
-      "CommandLineOutput": "Set parent of {GameObject Name} to {Parent Name}"
+      "CommandLineOutput": "Moved from {Previous GameObject ScenePath} to {Current GameObject ScenePath}"
     }
   ]
 }

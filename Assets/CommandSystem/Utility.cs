@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using CommandSystem.Commands.Select;
-using Newtonsoft.Json.Linq;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using static System.Reflection.BindingFlags;
@@ -23,6 +22,52 @@ namespace CommandSystem.Commands
             }
 
             return path;
+        }
+
+        public static string GetGameObjectScenePathWithIndex(GameObject gameObject)
+        {
+            var path = gameObject.name;
+            var parent = gameObject.transform.parent;
+            while (parent != null)
+            {
+                path = parent.name + "/" + path;
+                parent = parent.parent;
+            }
+
+            return $"{path}[{GetPathIndex(gameObject)}]";
+        }
+
+        private static int GetPathIndex(Object obj)
+        {
+            Transform transform;
+
+            if (obj is GameObject gameObject) transform = gameObject.transform;
+            else if (obj is Component component) transform = component.transform;
+            else return -1;
+
+            var parent = transform.parent;
+            if (parent != null)
+            {
+                var pathIndex = 0;
+                for (var i = 0; i < parent.childCount; i++)
+                {
+                    var child = parent.GetChild(i);
+                    if (child == transform) return pathIndex;
+                    if (child.name == transform.name) pathIndex++;
+                }
+            }
+            else
+            {
+                var rootSceneObjects = Object.FindObjectsOfType<GameObject>().Where(x => !x.transform.parent)
+                    .Select(x => x.transform);
+                var pathIndex = 0;
+                foreach (var rootSceneObject in rootSceneObjects)
+                {
+                    if (rootSceneObject == transform) return pathIndex;
+                    if (rootSceneObject.name == transform.name) pathIndex++;
+                }
+            }
+            return -1;
         }
 
         public static string GetObjectsScenePath(Object[] objects)
@@ -232,6 +277,16 @@ namespace CommandSystem.Commands
         public static object[] ToArray(object obj)
         {
             return new[] { obj };
+        }
+
+        public static string AddIndexIfMissing(string path)
+        {
+            return path.Contains("[") && path.Contains("]") ? path : $"{path.TrimEnd()}[0]";
+        }
+
+        public static string[] AddIndexIfMissing(string[] paths)
+        {
+            return paths.Select(AddIndexIfMissing).ToArray();
         }
     }
 }

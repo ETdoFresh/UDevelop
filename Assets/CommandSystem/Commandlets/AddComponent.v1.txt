@@ -6,16 +6,17 @@
 // Arg1: UnityEngine.GameObject {GameObject}
 // Arg2: System.Type {Component Type}
 // Output: UnityEngine.Component {Component}
-// CommandLineOutput: Added component: {Component Type}
+// CommandLineOutput: Added component: {Component}
 
-CSharp UnityEngine.GameObject.AddComponent(this {GameObject}, {Component Type})
+CSharp UnityEngine.GameObject.AddComponent(this {GameObject}, {Component Type}) // Alias: {Component}
+
 
 // ------------------------------
 // Arg1: string {GameObject Name}
 // Arg2: string {Component Type Name}
 // Output: UnityEngine.Component {Component}
-// CommandLineOutput: Added component: {Component Type}
+// CommandLineOutput: Added component: {Component}
 
 FindGameObjectByName {GameObject Name} // Alias: {GameObject}
 FindSystemTypeByName {Component Type Name} // Alias: {Component Type}
-CSharp UnityEngine.GameObject.AddComponent(this {GameObject}, {Component Type})
+CSharp UnityEngine.GameObject.AddComponent(this {GameObject}, {Component Type}) // Alias: {Component}

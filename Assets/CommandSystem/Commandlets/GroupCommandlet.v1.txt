@@ -84,3 +84,97 @@ GetFirstOrDefault {All GameObjects} // Alias: {GameObject}
 FindObjectsOfType UnityEngine.GameObject // Alias: {All GameObjects}
 FilterBy tag {GameObject Tag} {All GameObjects} // Alias: {GameObjects}
 GetScenePath {GameObjects} // Alias: {GameObjects ScenePath}
+
+// ------------------------------
+
+// Name: FindGameObjectByScenePath
+// Version: 1
+// Description: Finds a GameObject by scene path
+// Author: ETdoFresh
+// Aliases: findgameobjectbyscenepath, findgobsp, fgobsp
+// Arg1: string {Scene Path}
+// Output: {GameObject}
+// CommandLineOutput: Found GameObject: {GameObject ScenePath}
+
+AddIndexIfMissing {Scene Path} // Alias: {Scene Path With Index}
+FindObjectsOfType UnityEngine.GameObject // Alias: {All GameObjects}
+GetCommandReference GetScenePathWithIndex // Alias: {GetScenePathWithIndex Command}
+FilterBy {GetScenePathWithIndex Command} {Scene Path With Index} {All GameObjects} // Alias: {GameObjects}
+GetFirstOrDefault {GameObjects} // Alias: {GameObject}
+GetScenePathWithIndex {GameObject} // Alias: {GameObject ScenePath}
+
+{
+  "Name": "AddComponent",
+  "Version": 1,
+  "Description": "Adds a component to a GameObject.",
+  "Author": "ETdoFresh",
+  "Aliases": ["addcomponent", "addcomp"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{GameObject}",
+          "Description": "The GameObject to add the component to.",
+          "Required": true
+        },
+        {
+          "Type": "System.Type",
+          "Name": "{Component Type}",
+          "Description": "The type of component to add.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "UnityEngine.Component",
+          "Name": "{Component}",
+          "CSharp": "UnityEngine.GameObject.AddComponent(this {GameObject}, {Component Type})"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.Component",
+        "Name": "{Component}"
+      },
+      "CommandLineOutput": "Added component: {Component Type}"
+    },
+    {
+      "Input": [
+        {
+          "Type": "string",
+          "Name": "{GameObject Name}",
+          "Description": "The GameObject to add the component to.",
+          "Required": true
+        },
+        {
+          "Type": "string",
+          "Name": "{Component Type Name}",
+          "Description": "The type of component to add.",
+          "Required": true
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "UnityEngine.GameObject",
+          "Name": "{GameObject}",
+          "Command": "FindGameObjectByName {GameObject Name}"
+        },
+        {
+          "Type": "System.Type",
+          "Name": "{Component Type}",
+          "Command": "FindSystemTypeByName {Component Type Name}"
+        },
+        {
+          "Type": "UnityEngine.Component",
+          "Name": "{Component}",
+          "CSharp": "UnityEngine.GameObject.AddComponent(this {GameObject}, {Component Type})"
+        }
+      ],
+      "Output": {
+        "Type": "UnityEngine.Component",
+        "Name": "{Component}"
+      },
+      "CommandLineOutput": "Added component: {Component Type}"
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+﻿{
+  "Name": "CSharp",
+  "Version": 1,
+  "Description": "Runs a line of C# code.",
+  "Author": "ETdoFresh",
+  "Aliases": ["csharp", "cs"],
+  "Overloads": [
+    {
+      "Input": [
+        {
+          "Name": "{Ignore1}"
+        },
+        {
+          "Name": "{Ignore2}"
+        },
+        {
+          "Name": "{Ignore3}"
+        },
+        {
+          "Name": "{Ignore4}"
+        },
+        {
+          "Name": "{Ignore5}"
+        },
+        {
+          "Name": "{Ignore6}"
+        },
+        {
+          "Name": "{Ignore7}"
+        },
+        {
+          "Name": "{Ignore8}"
+        }
+      ],
+      "Calls": [
+        {
+          "Type": "System.Object",
+          "Name": "{C# Output}",
+          "Command": "CommandSystem.CSharp.Execute({CommandInput})"
+        }
+      ],
+      "Output": {
+        "Type": "System.Object",
+        "Name": "{C# Output}"
+      },
+      "CommandLineOutput": "{C# Output}"
+    }
+  ]
+}
