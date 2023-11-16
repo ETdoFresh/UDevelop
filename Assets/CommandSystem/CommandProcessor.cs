@@ -23,58 +23,58 @@ namespace CommandSystem
 
         private void OnEnable()
         {
-            EventBus.AddListener<CommandEvent>(OnCommandEvent);
+            // EventBus.AddListener<CommandEvent>(OnCommandEvent);
         }
 
         private void OnDisable()
         {
-            EventBus.RemoveListener<CommandEvent>(OnCommandEvent);
+            // EventBus.RemoveListener<CommandEvent>(OnCommandEvent);
         }
 
         private void Start()
         {
-            EventBus.Invoke(new CommandEvent { Command = runCommandsOnStart });
+            // EventBus.Invoke(new CommandEvent { Command = runCommandsOnStart });
         }
 
-        private void OnCommandEvent(CommandEvent e)
-        {
-            var commands = e.Command.Split('\n');
-            foreach (var command in commands)
-            {
-                var trimmedCommand = command.Trim();
-                var commandName = trimmedCommand.Split(' ')[0];
-
-                if (string.Equals(commandName, "undo", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (commandHistoryIndex <= 0) continue;
-                    commandHistoryIndex--;
-                    commandHistory[commandHistoryIndex].OnUndo();
-                    continue;
-                }
-
-                if (string.Equals(commandName, "redo", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    if (commandHistoryIndex >= commandHistory.Count) continue;
-                    commandHistory[commandHistoryIndex].OnRedo();
-                    commandHistoryIndex++;
-                    continue;
-                }
-
-                var commandEntry = possibleCommands.Find(entry =>
-                    string.Equals(entry.commandName, commandName, StringComparison.CurrentCultureIgnoreCase));
-                if (commandEntry == null)
-                {
-                    Debug.LogError($"Command {commandName} not found!");
-                    continue;
-                }
-
-                var commandType = commandEntry.commandType;
-                var commandInstance = Activator.CreateInstance(commandType, trimmedCommand);
-                commandHistory.Insert(commandHistoryIndex, (CommandCSharp)commandInstance);
-                commandHistoryIndex++;
-                commandHistory.RemoveRange(commandHistoryIndex, commandHistory.Count - commandHistoryIndex);
-            }
-        }
+        // private void OnCommandEvent(CommandEvent e)
+        // {
+        //     var commands = e.Command.Split('\n');
+        //     foreach (var command in commands)
+        //     {
+        //         var trimmedCommand = command.Trim();
+        //         var commandName = trimmedCommand.Split(' ')[0];
+        //
+        //         if (string.Equals(commandName, "undo", StringComparison.CurrentCultureIgnoreCase))
+        //         {
+        //             if (commandHistoryIndex <= 0) continue;
+        //             commandHistoryIndex--;
+        //             commandHistory[commandHistoryIndex].OnUndo();
+        //             continue;
+        //         }
+        //
+        //         if (string.Equals(commandName, "redo", StringComparison.CurrentCultureIgnoreCase))
+        //         {
+        //             if (commandHistoryIndex >= commandHistory.Count) continue;
+        //             commandHistory[commandHistoryIndex].OnRedo();
+        //             commandHistoryIndex++;
+        //             continue;
+        //         }
+        //
+        //         var commandEntry = possibleCommands.Find(entry =>
+        //             string.Equals(entry.commandName, commandName, StringComparison.CurrentCultureIgnoreCase));
+        //         if (commandEntry == null)
+        //         {
+        //             Debug.LogError($"Command {commandName} not found!");
+        //             continue;
+        //         }
+        //
+        //         var commandType = commandEntry.commandType;
+        //         var commandInstance = Activator.CreateInstance(commandType, trimmedCommand);
+        //         commandHistory.Insert(commandHistoryIndex, (CommandCSharp)commandInstance);
+        //         commandHistoryIndex++;
+        //         commandHistory.RemoveRange(commandHistoryIndex, commandHistory.Count - commandHistoryIndex);
+        //     }
+        // }
 
         [ContextMenu("Debug Log Command History")]
         private void DebugLogCommandHistory()

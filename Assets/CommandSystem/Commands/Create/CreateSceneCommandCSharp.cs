@@ -10,19 +10,19 @@ namespace CommandSystem.Commands.Create
 
         public CreateSceneCommandCSharp(string commandInput) : base(commandInput) { }
 
-        public override bool AddToHistory => true;
-        public override string CommandOutput => $"Created Scene {_sceneName}";
-
-        public override string[] CommandAliases => new[] { "create-scene", "createscene", "c-s" };
-        public override string CommandUsage => $"{CommandAliases[0]} [SCENE_NAME/PATH]";
-        public override string CommandDescription => "Creates an empty .unity object in project.";
+        // public override bool AddToHistory => true;
+        // public override string CommandOutput => $"Created Scene {_sceneName}";
+        //
+        // public override string[] CommandAliases => new[] { "create-scene", "createscene", "c-s" };
+        // public override string CommandUsage => $"{CommandAliases[0]} [SCENE_NAME/PATH]";
+        // public override string CommandDescription => "Creates an empty .unity object in project.";
 
         public override void OnRun(params string[] args)
         {
 #if UNITY_EDITOR
             var sceneNameOrPath =  args.Length < 2 ? null : string.Join("_", args[1..]);
-            _scenePath = CommandAsset.ResolvePath(sceneNameOrPath, "Scene", ".unity");
-            _sceneName = CommandAsset.GetNameFromPath(_scenePath);
+            // _scenePath = CommandAsset.ResolvePath(sceneNameOrPath, "Scene", ".unity");
+            // _sceneName = CommandAsset.GetNameFromPath(_scenePath);
             var scene = UnityEditor.SceneManagement.EditorSceneManager.NewScene(
                 UnityEditor.SceneManagement.NewSceneSetup.EmptyScene, UnityEditor.SceneManagement.NewSceneMode.Additive);
             UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene, _scenePath);

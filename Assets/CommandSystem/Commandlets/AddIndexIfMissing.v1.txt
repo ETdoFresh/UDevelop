@@ -7,11 +7,11 @@
 // Output: string {Path}
 // CommandLineOutput: {Path}
 
-CSharp CommandSystem.Commands.Utility.AddIndexIfMissing({Path}) // Alias: {Path}
+CSharp CommandSystem.Utility.AddIndexIfMissing({Path}) // Alias: {Path}
 
 // ------------------------------
 // Arg1: string[] {Paths}
 // Output: string[] {Paths}
 // CommandLineOutput: Found Paths:\n{Paths}
 
-CSharp CommandSystem.Commands.Utility.AddIndexIfMissing({Paths}) // Alias: {Paths} 
+CSharp CommandSystem.Utility.AddIndexIfMissing({Paths}) // Alias: {Paths} 

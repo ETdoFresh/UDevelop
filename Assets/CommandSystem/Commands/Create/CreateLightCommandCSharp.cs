@@ -11,12 +11,12 @@ namespace CommandSystem.Commands.Create
 
         public CreateLightCommandCSharp(string commandInput) : base(commandInput) { }
 
-        public override bool AddToHistory => true;
-        public override string CommandOutput => $"Created Light {_gameObjectName}";
-
-        public override string[] CommandAliases => new[] { "create-light", "createlight", "c-l" };
-        public override string CommandUsage => $"{CommandAliases[0]} [LIGHT_NAME/PATH]";
-        public override string CommandDescription => "Creates an empty .prefab object in project.";
+        // public override bool AddToHistory => true;
+        // public override string CommandOutput => $"Created Light {_gameObjectName}";
+        //
+        // public override string[] CommandAliases => new[] { "create-light", "createlight", "c-l" };
+        // public override string CommandUsage => $"{CommandAliases[0]} [LIGHT_NAME/PATH]";
+        // public override string CommandDescription => "Creates an empty .prefab object in project.";
 
         public override void OnRun(params string[] args)
         {

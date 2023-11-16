@@ -4,25 +4,25 @@ using UnityEngine;
 
 namespace CommandSystem
 {
-    public class CommandData : ScriptableObject
+    public class CommandHandlerScriptableObject : ScriptableObject
     {
-        private static CommandData _instance;
+        private static CommandHandlerScriptableObject _instance;
 
-        private static CommandData Instance
+        private static CommandHandlerScriptableObject Instance
         {
             get
             {
                 if (_instance != null) return _instance;
-                _instance = Resources.Load<CommandData>("CommandData");
+                _instance = Resources.Load<CommandHandlerScriptableObject>("CommandData");
                 if (_instance != null) return _instance;
 #if UNITY_EDITOR
-                _instance = UnityEditor.AssetDatabase.FindAssets("t:CommandData")
+                _instance = UnityEditor.AssetDatabase.FindAssets($"t:{nameof(CommandHandlerScriptableObject)}")
                     .Select(UnityEditor.AssetDatabase.GUIDToAssetPath)
-                    .Select(UnityEditor.AssetDatabase.LoadAssetAtPath<CommandData>)
+                    .Select(UnityEditor.AssetDatabase.LoadAssetAtPath<CommandHandlerScriptableObject>)
                     .FirstOrDefault();
                 if (_instance != null) return _instance;
 #endif
-                _instance = CreateInstance<CommandData>();
+                _instance = CreateInstance<CommandHandlerScriptableObject>();
                 _instance.hideFlags = HideFlags.HideAndDontSave;
                 return _instance;
             }

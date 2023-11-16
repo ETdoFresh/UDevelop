@@ -7,7 +7,7 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 using static System.Reflection.BindingFlags;
 
-namespace CommandSystem.Commands
+namespace CommandSystem
 {
     public static class Utility
     {

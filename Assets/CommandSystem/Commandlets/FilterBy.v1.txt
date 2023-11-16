@@ -9,7 +9,7 @@
 // Output: object[] {Filtered Array}
 // CommandLineOutput: Filtered Array: {Filtered Array}
 
-CSharp CommandSystem.Commands.Utility.FilterBy({Field}, {Value}, {Array}) // Alias: {Filtered Array}
+CSharp CommandSystem.Utility.FilterBy({Field}, {Value}, {Array}) // Alias: {Filtered Array}
 
 // ------------------------------
 // Arg1: System.Reflection.PropertyInfo {Property}
@@ -18,7 +18,7 @@ CSharp CommandSystem.Commands.Utility.FilterBy({Field}, {Value}, {Array}) // Ali
 // Output: object[] {Filtered Array}
 // CommandLineOutput: Filtered Array: {Filtered Array}
 
-CSharp CommandSystem.Commands.Utility.FilterBy({Property}, {Value}, {Array}) // Alias: {Filtered Array}
+CSharp CommandSystem.Utility.FilterBy({Property}, {Value}, {Array}) // Alias: {Filtered Array}
 
 // ------------------------------
 // Arg1: CommandSystem.CommandReference {Command}
@@ -27,7 +27,7 @@ CSharp CommandSystem.Commands.Utility.FilterBy({Property}, {Value}, {Array}) // 
 // Output: object[] {Filtered Array}
 // CommandLineOutput: Filtered Array: {Filtered Array}
 
-CSharp CommandSystem.Commands.Utility.FilterBy({Command}, {Value}, {Array}) // Alias: {Filtered Array}
+CSharp CommandSystem.Utility.FilterBy({Command}, {Value}, {Array}) // Alias: {Filtered Array}
 
 // ------------------------------
 // Arg1: string {Field or Property Name}
@@ -38,4 +38,4 @@ CSharp CommandSystem.Commands.Utility.FilterBy({Command}, {Value}, {Array}) // A
 
 GetElementType {Array} // Alias: {Type}
 GetFieldInfoOrPropertyInfo {Type} {Field or Property Name} // Alias: {Field or Property}
-CSharp CommandSystem.Commands.Utility.FilterBy({Field or Property}, {Value}, {Array}) // Alias: {Filtered Array}
+CSharp CommandSystem.Utility.FilterBy({Field or Property}, {Value}, {Array}) // Alias: {Filtered Array}

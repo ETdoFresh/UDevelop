@@ -20,9 +20,6 @@ namespace CommandSystem
             if (CommandObject.TryRun(commandString, out var outputData))
                 return outputData;
 
-            if (CommandJsonRunner.TryRun(commandString, out outputData))
-                return outputData;
-
             throw new System.Exception($"Command not found\n{commandString}");
         }
 

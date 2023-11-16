@@ -22,13 +22,13 @@ namespace CommandSystem.Commands.EditorOnly
                     throw new ArgumentException("No Scene selected!");
             }
             var sceneName = string.Join("_", args[1..]);
-            var sceneAsset = CommandAsset.FindAsset<UnityEditor.SceneAsset>(sceneName);
-            if (sceneAsset) scenePath = UnityEditor.AssetDatabase.GetAssetPath(sceneAsset);
-
-            if (scenePath == null)
-                throw new ArgumentException($"Scene not found! {sceneName}");
-            
-            UnityEditor.SceneManagement.EditorSceneManager.OpenScene(scenePath);
+            // var sceneAsset = CommandAsset.FindAsset<UnityEditor.SceneAsset>(sceneName);
+            // if (sceneAsset) scenePath = UnityEditor.AssetDatabase.GetAssetPath(sceneAsset);
+            //
+            // if (scenePath == null)
+            //     throw new ArgumentException($"Scene not found! {sceneName}");
+            //
+            // UnityEditor.SceneManagement.EditorSceneManager.OpenScene(scenePath);
 #endif
         }
     }

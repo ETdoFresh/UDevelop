@@ -7,4 +7,4 @@
 // Output: System.String {Help}
 // CommandLineOutput: {Help}
 
-CSharp CommandSystem.Commands.Utility.Help({Command Name}) // Alias: {Help}
+CSharp CommandSystem.Utility.Help({Command Name}) // Alias: {Help}

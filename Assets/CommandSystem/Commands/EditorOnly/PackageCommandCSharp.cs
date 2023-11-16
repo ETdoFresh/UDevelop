@@ -10,7 +10,7 @@ namespace CommandSystem.Commands.EditorOnly
 
         private string _commandOutput;
 
-        public override string CommandOutput => _commandOutput;
+        // public override string CommandOutput => _commandOutput;
 
         public PackageCommandCSharp(string commandInput) : base(commandInput) { }
 

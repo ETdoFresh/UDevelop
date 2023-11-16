@@ -7,7 +7,7 @@
 // Output: string {GameObject ScenePath}
 // CommandLineOutput: {GameObject ScenePath}
 
-CSharp CommandSystem.Commands.Utility.GetGameObjectScenePathWithIndex({GameObject}) // Alias: {GameObject ScenePath}
+CSharp CommandSystem.Utility.GetGameObjectScenePathWithIndex({GameObject}) // Alias: {GameObject ScenePath}
 
 // ------------------------------
 // Arg1: UnityEngine.Object[] {GameObjects}
@@ -15,4 +15,4 @@ CSharp CommandSystem.Commands.Utility.GetGameObjectScenePathWithIndex({GameObjec
 // CommandLineOutput: Found Objects: {Objects ScenePath}
 
 Cast {GameObjects} // Alias: {Objects}
-CSharp CommandSystem.Commands.Utility.GetObjectsScenePathWithIndex({Objects}) // Alias: {Objects ScenePath}
+CSharp CommandSystem.Utility.GetObjectsScenePathWithIndex({Objects}) // Alias: {Objects ScenePath}

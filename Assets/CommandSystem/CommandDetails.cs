@@ -283,7 +283,7 @@ namespace CommandSystem
                             argMemory[$"{{Step{i + 1}}}"] = new ArgData($"{{Step{i + 1}}}", callType, callOutput?.Value);
 
                             if (showIntermediateCommandLineOutput)
-                                CommandData.Display.Add(GetCommandLineOutput(call.Name, callOutput.CommandLineOutput, argMemory));
+                                CommandHandlerScriptableObject.Display.Add(GetCommandLineOutput(call.Name, callOutput.CommandLineOutput, argMemory));
                         }
                         else if (TryRun(call?.Command, callType, argMemory, out callOutput))
                         {
@@ -292,7 +292,7 @@ namespace CommandSystem
                             argMemory[$"{{Step{i + 1}}}"] = new ArgData($"{{Step{i + 1}}}", callType, callOutput?.Value);
                             
                             if (showIntermediateCommandLineOutput)
-                                CommandData.Display.Add(GetCommandLineOutput(call.Name, callOutput.CommandLineOutput, argMemory));
+                                CommandHandlerScriptableObject.Display.Add(GetCommandLineOutput(call.Name, callOutput.CommandLineOutput, argMemory));
                         }
                         else
                         {
@@ -304,12 +304,12 @@ namespace CommandSystem
                         if (TryRunCSharp(call?.CSharp, null, argMemory, out var callOutput))
                         {
                             if (showIntermediateCommandLineOutput)
-                                CommandData.Display.Add(GetCommandLineOutput(call.Name, callOutput.CommandLineOutput, argMemory));
+                                CommandHandlerScriptableObject.Display.Add(GetCommandLineOutput(call.Name, callOutput.CommandLineOutput, argMemory));
                         }
                         else if (TryRun(call?.Command, null, argMemory, out callOutput))
                         {
                             if (showIntermediateCommandLineOutput)
-                                CommandData.Display.Add(GetCommandLineOutput(call.Name, callOutput.CommandLineOutput, argMemory));
+                                CommandHandlerScriptableObject.Display.Add(GetCommandLineOutput(call.Name, callOutput.CommandLineOutput, argMemory));
                         }
                         else ThrowException("No CSharp or Command found!", Name, argMemory, args);
                     }

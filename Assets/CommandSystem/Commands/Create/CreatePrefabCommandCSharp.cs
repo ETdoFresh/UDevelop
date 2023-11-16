@@ -15,8 +15,8 @@ namespace CommandSystem.Commands.Create
         {
 #if UNITY_EDITOR
             var prefabNameOrPath = args.Length < 2 ? null : string.Join("_", args[1..]);
-            _prefabPath = CommandAsset.ResolvePath(prefabNameOrPath, "Prefab", ".prefab");
-            _prefabName = CommandAsset.GetNameFromPath(_prefabPath);
+            // _prefabPath = CommandAsset.ResolvePath(prefabNameOrPath, "Prefab", ".prefab");
+            // _prefabName = CommandAsset.GetNameFromPath(_prefabPath);
             var emptyGameObject = new GameObject(_prefabName);
             var prefab = UnityEditor.PrefabUtility.SaveAsPrefabAsset(emptyGameObject, _prefabPath);
             UnityEngine.Object.DestroyImmediate(emptyGameObject);

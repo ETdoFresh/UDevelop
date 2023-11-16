@@ -7,4 +7,4 @@
 // Output: object[] {Value}
 // CommandLineOutput: Value: {Value}
 
-CSharp CommandSystem.Commands.Utility.ToArray({Value}) // Alias: {Value}
+CSharp CommandSystem.Utility.ToArray({Value}) // Alias: {Value}

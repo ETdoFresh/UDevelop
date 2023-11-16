@@ -7,4 +7,4 @@
 // Output: System.Type {Type}
 // CommandLineOutput: Found Type: {Type}
 
-CSharp CommandSystem.Commands.Utility.FindSystemTypeByName({Type Name}) // Alias: {Type}
+CSharp CommandSystem.Utility.FindSystemTypeByName({Type Name}) // Alias: {Type}

@@ -5,10 +5,10 @@ namespace CommandSystem
 {
     public class ArgData
     {
-        public string Name;
-        public Type Type;
-        public object Value;
-        public bool Required;
+        public string Name { get; }
+        public Type Type { get; }
+        public object Value { get; }
+        public bool Required { get; }
 
         public ArgData(string name, Type type, object value, bool required = false)
         {

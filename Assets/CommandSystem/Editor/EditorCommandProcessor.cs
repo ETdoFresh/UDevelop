@@ -1,5 +1,4 @@
 ﻿using System;
-using CommandSystem.Commands;
 using UnityEngine;
 
 namespace CommandSystem.Editor
@@ -9,10 +8,10 @@ namespace CommandSystem.Editor
         public static void ExecuteCommand(string commandInput)
         {
             if (string.IsNullOrEmpty(commandInput)) return;
-            CommandData.Inputs.Add(commandInput);
+            CommandHandlerScriptableObject.Inputs.Add(commandInput);
 
             var commandInputWithDecorators = $"> {commandInput}".Replace("\n", "\n> ");
-            CommandData.Display.Add(commandInputWithDecorators);
+            CommandHandlerScriptableObject.Display.Add(commandInputWithDecorators);
             
             var commands = commandInput.Split('\n');
             foreach (var command in commands)
@@ -20,8 +19,8 @@ namespace CommandSystem.Editor
                 try
                 {
                     var output = CommandRunner.Run(command);
-                    CommandData.Outputs.Add(output.CommandLineOutput);
-                    CommandData.Display.Add(output.CommandLineOutput);
+                    CommandHandlerScriptableObject.Outputs.Add(output.CommandLineOutput);
+                    CommandHandlerScriptableObject.Display.Add(output.CommandLineOutput);
 
                     // TODO: Will have to figure out how to reverse each command in the future
                     // if (commandInstance.AddToHistory)
@@ -39,37 +38,37 @@ namespace CommandSystem.Editor
                 }
                 catch (Exception ex)
                 {
-                    CommandData.Outputs.Add($"Error: {ex.Message}");
-                    CommandData.Display.Add($"Error: {ex.Message}");
+                    CommandHandlerScriptableObject.Outputs.Add($"Error: {ex.Message}");
+                    CommandHandlerScriptableObject.Display.Add($"Error: {ex.Message}");
                     Debug.LogException(ex);
                 }
             }
-            CommandData.Display.Add("");
+            CommandHandlerScriptableObject.Display.Add("");
         }
 
         public static string GetCommandOutput()
         {
-            return string.Join("\n", CommandData.Display);
+            return string.Join("\n", CommandHandlerScriptableObject.Display);
         }
 
         public static int SelectPreviousCommand(int selectedCommandIndex)
         {
-            if (selectedCommandIndex <= -1) return CommandData.Inputs.Count - 1;
+            if (selectedCommandIndex <= -1) return CommandHandlerScriptableObject.Inputs.Count - 1;
             if (selectedCommandIndex == 0) return 0;
             return selectedCommandIndex - 1;
         }
 
         public static int SelectNextCommand(int selectedCommandIndex)
         {
-            if (selectedCommandIndex + 1 <= 0 || selectedCommandIndex + 1 >= CommandData.Inputs.Count) return -1;
-            if (selectedCommandIndex == CommandData.Inputs.Count - 1) return CommandData.Inputs.Count - 1;
+            if (selectedCommandIndex + 1 <= 0 || selectedCommandIndex + 1 >= CommandHandlerScriptableObject.Inputs.Count) return -1;
+            if (selectedCommandIndex == CommandHandlerScriptableObject.Inputs.Count - 1) return CommandHandlerScriptableObject.Inputs.Count - 1;
             return selectedCommandIndex + 1;
         }
 
         public static string GetCommandHistory(int selectedCommandIndex)
         {
             if (selectedCommandIndex <= -1) return "";
-            return CommandData.Inputs[selectedCommandIndex];
+            return CommandHandlerScriptableObject.Inputs[selectedCommandIndex];
         }
     }
 }

@@ -8,7 +8,7 @@
 // Output: object {Value}
 // CommandLineOutput: Value: {Value}
 
-CSharp CommandSystem.Commands.Utility.CastArray({Enumerable}, {Type}) // Alias: {Value}
+CSharp CommandSystem.Utility.CastArray({Enumerable}, {Type}) // Alias: {Value}
 
 // ------------------------------
 // Arg1: object {Enumerable}

@@ -11,12 +11,12 @@ namespace CommandSystem.Commands.Create
 
         public CreateCameraCommandCSharp(string commandInput) : base(commandInput) { }
 
-        public override bool AddToHistory => true;
-        public override string CommandOutput => $"Created Camera {_gameObjectName}";
-
-        public override string[] CommandAliases => new[] { "create-camera", "createcamera", "c-c" };
-        public override string CommandUsage => $"{CommandAliases[0]} [CAMERA_NAME/PATH]";
-        public override string CommandDescription => "Creates an empty .prefab object in project.";
+        // public override bool AddToHistory => true;
+        // public override string CommandOutput => $"Created Camera {_gameObjectName}";
+        //
+        // public override string[] CommandAliases => new[] { "create-camera", "createcamera", "c-c" };
+        // public override string CommandUsage => $"{CommandAliases[0]} [CAMERA_NAME/PATH]";
+        // public override string CommandDescription => "Creates an empty .prefab object in project.";
 
         public override void OnRun(params string[] args)
         {

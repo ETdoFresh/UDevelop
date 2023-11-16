@@ -2,7 +2,7 @@ namespace CommandSystem.Commands.EditorOnly
 {
     public class StopCommandCSharp : CommandCSharp
     {
-        public override bool AddToHistory => false;
+        // public override bool AddToHistory => false;
 
         public StopCommandCSharp(string commandInput) : base(commandInput) { }
 
@@ -16,7 +16,7 @@ namespace CommandSystem.Commands.EditorOnly
 
     public class PauseCommandCSharp : CommandCSharp
     {
-        public override bool AddToHistory => false;
+        // public override bool AddToHistory => false;
 
         public PauseCommandCSharp(string commandInput) : base(commandInput) { }
 

@@ -8,7 +8,7 @@
 // Output: object {Enum Value}
 // CommandLineOutput: Parsed Enum: {Enum Value}
 
-CSharp CommandSystem.Commands.Utility.ParseEnum({Enum Type}, {Enum String Value}) // Alias: {Enum Value}
+CSharp CommandSystem.Utility.ParseEnum({Enum Type}, {Enum String Value}) // Alias: {Enum Value}
 
 // ------------------------------
 // Arg1: string {Enum Type Name}
