@@ -1,0 +1,36 @@
+﻿// Name: Select
+// Version: 1
+// Description: Select Object(s)
+// Author: ETdoFresh
+// Aliases: select, s
+// Arg1: UnityEngine.Object[] {Objects}
+// Output: void {void}
+// CommandLineOutput: Selected Objects:\n{Objects}
+
+GetPropertyInfo CommandSystem.Commands.Selection objects // Alias: {Selection Objects PropertyInfo}
+SetValue {Selection Objects PropertyInfo} null {Objects}
+
+// ------------------------------
+// Arg1: UnityEngine.Object {Object}
+// Output: void {void}
+// CommandLineOutput: Selected Object:\n{Object}
+
+ToArray {Object} // Alias: {Objects}
+Select {Objects}
+
+// ------------------------------
+// Arg1: object[] {Objects}
+// Output: void {void}
+// CommandLineOutput: Selected Object:\n{object}
+
+CastArray {Objects} UnityEngine.Object[] // Alias: {ConvertedObjects}
+Select {ConvertedObjects}
+
+// ------------------------------
+// Arg1: object {Object}
+// Output: void {void}
+// CommandLineOutput: Selected Object:\n{Object}
+
+ToArray {Object} // Alias: {Objects}
+CastArray {Objects} UnityEngine.Object[] // Alias: {ConvertedObjects}
+Select {ConvertedObjects}

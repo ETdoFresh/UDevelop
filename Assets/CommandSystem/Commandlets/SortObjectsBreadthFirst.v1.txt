@@ -1,0 +1,12 @@
+// Name: SortObjectsBreadthFirst
+// Version: 1
+// Description: Sorts objects by their position in scene hierarchy, breadth first.
+// Author: ETdoFresh
+// Aliases: sortobjectsbreadthfirst
+// Arg1: GameObject[] {Objects}
+// Output: GameObject[] {Sorted Objects}
+// CommandLineOutput: Sorted Objects: {Sorted Objects ScenePaths}
+
+GetScenePath {Objects} // Alias: {Objects ScenePaths}
+SortBy {Objects ScenePaths} // Alias: {Sorted Objects ScenePaths}
+GetGameObjectByScenePath {Sorted Objects ScenePaths} // Alias: {Sorted Objects}

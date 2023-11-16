@@ -18,7 +18,7 @@ CSharp UnityEngine.GameObject.GetComponent(this {GameObject}, {Component Type}) 
 
 FindGameObjectByName {GameObject Name} // Alias: {GameObject}
 FindSystemTypeByName {Component Type Name} // Alias: {Component Type}
-CSharp UnityEngine.GameObject.GetComponent(this {GameObject}, {Component Type}) // Alias: {Component}
+GetComponent {GameObject} {Component Type} // Alias: {Component}
 
 // ------------------------------
 // Arg1: UnityEngine.GameObject {GameObject}
@@ -27,7 +27,7 @@ CSharp UnityEngine.GameObject.GetComponent(this {GameObject}, {Component Type}) 
 // CommandLineOutput: Got component: {Component Type}
 
 FindSystemTypeByName {Component Type Name} // Alias: {Component Type}
-CSharp UnityEngine.GameObject.GetComponent(this {GameObject}, {Component Type}) // Alias: {Component}
+GetComponent {GameObject} {Component Type} // Alias: {Component}
 
 // ------------------------------
 // Arg1: string {GameObject Name}
@@ -36,4 +36,4 @@ CSharp UnityEngine.GameObject.GetComponent(this {GameObject}, {Component Type}) 
 // CommandLineOutput: Got component: {Component Type}
 
 FindGameObjectByName {GameObject Name} // Alias: {GameObject}
-CSharp UnityEngine.GameObject.GetComponent(this {GameObject}, {Component Type}) // Alias: {Component}
+GetComponent {GameObject} {Component Type} // Alias: {Component}

@@ -1,0 +1,13 @@
+// Name: SetValueByGameObjectName
+// Version: 1
+// Description: Sets the value of a field or property.
+// Author: ETdoFresh
+// Aliases: setvaluebygoname, svbg
+// Arg1: System.String {GameObject Name}
+// Arg2: System.String {Field or Property Name}
+// Arg3: System.Object {Value}
+// Output: void {void}
+// CommandLineOutput: Set Value: {Field or Property Name} = {Value}
+
+FindGameObjectByName {GameObject Name} // Alias: {GameObject}
+SetValue {Field or Property Name} {GameObject} {Value}

@@ -1,0 +1,11 @@
+// Name: SelectAllGameObjects
+// Version: 1
+// Description: Select all GameObjects
+// Author: ETdoFresh
+// Aliases: selectallgameobjects, selectallgos, sagos, selectall
+// Output: UnityEngine.GameObject[] {GameObjects}
+// CommandLineOutput: Selected GameObjects:\n{GameObjects ScenePath}
+
+FindAllGameObjects // Alias: {GameObjects}
+GetScenePath {GameObjects} // Alias: {GameObjects ScenePath}
+Select {GameObjects}

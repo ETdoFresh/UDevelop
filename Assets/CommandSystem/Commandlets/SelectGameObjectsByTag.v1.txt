@@ -1,0 +1,12 @@
+﻿// Name: SelectGameObjectsByTag
+// Version: 1
+// Description: Select GameObjects by tag
+// Author: ETdoFresh
+// Aliases: selectgameobjectsbytag, selectgosbt, sgosbt
+// Arg1: string {Tag}
+// Output: UnityEngine.GameObject[] {GameObjects}
+// CommandLineOutput: Selected GameObject:\n{GameObjects ScenePath}
+
+FindGameObjectsByTag {Tag} // Alias: {GameObjects}
+GetScenePath {GameObjects} // Alias: {GameObjects ScenePath}
+Select {GameObjects}

@@ -1,0 +1,11 @@
+// Name: Or
+// Version: 1
+// Description: Returns first non-null value
+// Author: ETdoFresh
+// Aliases: or
+// Arg1: object {Value 1}
+// Arg2: object {Value 2}
+// Output: object {Value}
+// CommandLineOutput: Value: {Value}
+
+CSharp CommandSystem.Commands.Utility.Or({Value 1}, {Value 2}) // Alias: {Value}

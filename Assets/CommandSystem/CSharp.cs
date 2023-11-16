@@ -44,11 +44,11 @@ namespace CommandSystem
                 // Function: Find
                 // Args: {GameObject Name}
                 var split = cSharpCode.Split('(');
-                var splitClosingIndex = split[1].LastIndexOf(')');
-
-                if (split.Length == 1)
+                
+                if (split.Length <= 1)
                     return cSharpCode;
 
+                var splitClosingIndex = split[1].LastIndexOf(')');
                 var methodSplit = split[0].Split('.');
                 var methodName = methodSplit[^1];
                 var fullTypeName = methodSplit[..^1];
@@ -94,11 +94,9 @@ namespace CommandSystem
                 var argTypes = args.Select(x => x?.Type ?? typeof(object)).ToArray();
                 var argObjects = args.Select(x => x?.Value).ToArray();
                 var bindingFlags = Public | NonPublic | Instance | Static;
-                // The following works pretty well, but does not work very well for generics
-                // var method = type.GetMethod(methodName, bindingFlags, null, argTypes, null);
-
-                // To make generics work, we first try above method, then try MakeGenericMethod
                 var method = type.GetMethod(methodName, bindingFlags, null, argTypes, null);
+                
+                // To make generics work, we first try above method, then try MakeGenericMethod
                 if (method == null)
                 {
                     var isLinq = type.FullName.StartsWith("System.Linq");
@@ -124,6 +122,16 @@ namespace CommandSystem
 
                 try
                 {
+                    var methodParameters = method.GetParameters();
+                    for (var i = 0; i < methodParameters.Length; i++)
+                    {
+                        var methodParameter = methodParameters[i];
+                        var arg = args[i];
+                        if (arg?.Value == null) continue;
+                        if (methodParameter.ParameterType.IsInstanceOfType(arg.Value)) continue;
+                        if (arg.IsConvertible(methodParameter.ParameterType))
+                            args[i] = arg.ConvertType(methodParameter.ParameterType);
+                    }
                     return method.Invoke(self?.Value, argObjects);
                 }
                 catch (TargetInvocationException ex)

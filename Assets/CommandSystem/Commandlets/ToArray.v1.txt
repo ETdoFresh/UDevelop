@@ -1,0 +1,10 @@
+// Name: ToArray
+// Version: 1
+// Description: Converts an object to an array of one object
+// Author: ETdoFresh
+// Aliases: toarray
+// Arg1: object {Value}
+// Output: object[] {Value}
+// CommandLineOutput: Value: {Value}
+
+CSharp CommandSystem.Commands.Utility.ToArray({Value}) // Alias: {Value}

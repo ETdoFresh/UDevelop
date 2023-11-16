@@ -1,0 +1,22 @@
+﻿// Name: GetFieldInfoOrPropertyInfo
+// Version: 1
+// Description: Gets the FieldInfo or PropertyInfo from type and field name
+// Author: ETdoFresh
+// Aliases: getfieldinfoorpropertyinfo, gfiopi
+// Arg1: System.Type {Type}
+// Arg2: string {Field or Property Name}
+// Output: object {FieldInfo or PropertyInfo}
+// CommandLineOutput: Found Field: {FieldInfo or PropertyInfo}
+
+GetFieldInfo {Type} {Field or Property Name} // Alias: {FieldInfo}
+GetPropertyInfo {Type} {Field or Property Name} // Alias: {PropertyInfo}
+Or {FieldInfo} {PropertyInfo} // Alias: {FieldInfo or PropertyInfo}
+
+// ------------------------------
+// Arg1: string {Type Name}
+// Arg2: string {Field or Property Name}
+// Output: object {FieldInfo or PropertyInfo}
+// CommandLineOutput: Found Field: {FieldInfo or PropertyInfo}
+
+FindSystemTypeByName {Type Name} // Alias: {Type}
+GetFieldInfoOrPropertyInfo {Type} {Field or Property Name} // Alias: {FieldInfo or PropertyInfo}

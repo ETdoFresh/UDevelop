@@ -92,6 +92,7 @@ namespace CommandSystem
             List<string> lines)
         {
             var callCount = lines.Count(line => !line.Trim().StartsWith("//") && !string.IsNullOrWhiteSpace(line));
+            callCount += lines.Count(line => line.StartsWith("// Name: NoOp"));
             if (callCount == 0) return null;
 
             var commandDetail = new CommandObject();
@@ -325,6 +326,9 @@ namespace CommandSystem
         public static bool TryRun(string commandString, Type outputType, Dictionary<string, ArgData> argMemory,
             out OutputData outputData)
         {
+            if (!argMemory.ContainsKey("{void}")) 
+                argMemory["{void}"] = new ArgData("{void}", typeof(void), null);
+            
             if (string.IsNullOrWhiteSpace(commandString))
             {
                 outputData = null;
@@ -554,7 +558,7 @@ namespace CommandSystem
         {
             if (toType == null) return outputData;
             var obj = outputData.Value;
-            if (obj == null || toType == null) return outputData;
+            if (obj == null) return outputData;
             var fromType = obj.GetType();
             if (fromType == toType) return outputData;
             if (toType.IsAssignableFrom(fromType)) return outputData;

@@ -9,5 +9,6 @@
 
 GetLayer {Layer} // Alias: {Layer Int}
 FindObjectsOfType UnityEngine.GameObject // Alias: {All GameObjects}
-FilterBy layer {Layer Int} {All GameObjects} // Alias: {GameObjects}
+FilterBy layer {Layer Int} {All GameObjects} // Alias: {Objects}
+CastArray {Objects} UnityEngine.GameObject[] // Alias: {GameObjects}
 GetScenePath {GameObjects} // Alias: {GameObjects ScenePath}

@@ -8,3 +8,11 @@
 // CommandLineOutput: Created primitive: {Primitive Type}
 
 CSharp UnityEngine.GameObject.CreatePrimitive({Primitive Type}) // Alias: {Primitive GameObject}
+
+// ------------------------------
+// Arg1: string {Primitive Type Name}
+// Output: UnityEngine.GameObject {Primitive GameObject}
+// CommandLineOutput: Created primitive: {Primitive Type}
+
+ParseEnum UnityEngine.PrimitiveType {Primitive Type Name} // Alias: {Primitive Type}
+CreatePrimitive {Primitive Type}

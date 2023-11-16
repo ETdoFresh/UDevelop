@@ -1,0 +1,32 @@
+// Name: SetValue
+// Version: 1
+// Description: Sets the value of a field or property.
+// Author: ETdoFresh
+// Aliases: setvalue, sv
+// Arg1: System.String {Field or Property Name}
+// Arg2: System.Object {Object}
+// Arg3: System.Object {Value}
+// Output: void {void}
+// CommandLineOutput: Set Value: {Value}
+
+GetType {Object} // Alias: {Object Type}
+GetFieldInfoOrPropertyInfo {Object Type} {Field or Property Name} // Alias: {Field or Property}
+SetValue {Field or Property} {Object} {Value}
+
+// ------------------------------
+// Arg1: System.Reflection.FieldInfo {Field}
+// Arg2: System.Object {Object}
+// Arg3: System.Object {Value}
+// Output: void {void}
+// CommandLineOutput: Set Value: {Value}
+
+CSharp System.Reflection.FieldInfo.SetValue(this {Field}, {Object}, {Value})
+
+// ------------------------------
+// Arg1: System.Reflection.PropertyInfo {Property}
+// Arg2: System.Object {Object}
+// Arg3: System.Object {Value}
+// Output: void {void}
+// CommandLineOutput: Set Value: {Value}
+
+CSharp System.Reflection.PropertyInfo.SetValue(this {Property}, {Object}, {Value})

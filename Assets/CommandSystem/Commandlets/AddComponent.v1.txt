@@ -18,4 +18,4 @@ CSharp UnityEngine.GameObject.AddComponent(this {GameObject}, {Component Type}) 
 
 FindGameObjectByName {GameObject Name} // Alias: {GameObject}
 FindSystemTypeByName {Component Type Name} // Alias: {Component Type}
-CSharp UnityEngine.GameObject.AddComponent(this {GameObject}, {Component Type}) // Alias: {Component}
+AddComponent {GameObject} {Component Type} // Alias: {Component}

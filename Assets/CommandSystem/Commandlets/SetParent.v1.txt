@@ -1,0 +1,40 @@
+// Name: SetParent
+// Version: 1
+// Description: Sets the parent of a GameObject
+// Author: ETdoFresh
+// Aliases: setparent, sp
+// Arg1: UnityEngine.Transform {GameObject Transform}
+// Arg2: UnityEngine.Transform {Parent Transform}
+// Output: void {void}
+// CommandLineOutput: Moved from {Previous GameObject ScenePath} to {Current GameObject ScenePath}
+
+GetValue gameObject {GameObject Transform} // Alias: {GameObject}
+GetScenePath {GameObject} // Alias: {Previous GameObject ScenePath}
+CSharp UnityEngine.Transform.SetParent(this {GameObject Transform}, {Parent Transform})
+GetScenePath {GameObject} // Alias: {Current GameObject ScenePath}
+
+// ------------------------------
+// Arg1: UnityEngine.GameObject {GameObject}
+// Arg2: UnityEngine.GameObject {Parent}
+// Output: void {void}
+// CommandLineOutput: Moved from {Previous GameObject ScenePath} to {Current GameObject ScenePath}
+
+GetScenePath {GameObject} // Alias: {Previous GameObject ScenePath}
+GetValue transform {GameObject} // Alias: {GameObject Transform}
+GetValue transform {Parent} // Alias: {Parent Transform}
+SetParent {GameObject Transform} {Parent Transform}
+GetScenePath {GameObject} // Alias: {Current GameObject ScenePath}
+
+// ------------------------------
+// Arg1: string {GameObject Name}
+// Arg2: string {Parent ScenePath}
+// Output: void {void}
+// CommandLineOutput: Moved from {Previous GameObject ScenePath} to {Current GameObject ScenePath}
+
+FindGameObjectByScenePath {GameObject Name} // Alias: {GameObject}
+GetScenePath {GameObject} // Alias: {Previous GameObject ScenePath}
+GetValue transform {GameObject} // Alias: {GameObject Transform}
+FindGameObjectByScenePath {Parent ScenePath} // Alias: {Parent}
+GetValue transform {Parent} // Alias: {Parent Transform}
+SetParent {GameObject Transform} {Parent Transform}
+GetScenePath {GameObject} // Alias: {Current GameObject ScenePath}

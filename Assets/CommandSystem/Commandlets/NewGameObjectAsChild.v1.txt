@@ -21,6 +21,5 @@ GetScenePath {New GameObject} // Alias: {New GameObject ScenePath}
 // CommandLineOutput: Created GameObject: {New GameObject ScenePath}
 
 FindGameObjectByScenePath {Parent GameObject ScenePath} // Alias: {Parent GameObject}
-NewGameObject {GameObject Name} {Component Types} // Alias: {New GameObject}
-SetParent {New GameObject} {Parent GameObject}
+NewGameObjectAsChild {Parent GameObject} {GameObject Name} {Component Types} // Alias: {New GameObject}
 GetScenePath {New GameObject} // Alias: {New GameObject ScenePath}

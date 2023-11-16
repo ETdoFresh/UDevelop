@@ -1,0 +1,9 @@
+// Name: SelectNone
+// Version: 1
+// Description: Select none
+// Author: ETdoFresh
+// Aliases: selectnone, selectn, sn, deselect
+// Output: void {void}
+// CommandLineOutput: Selected none
+
+Select null

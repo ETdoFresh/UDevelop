@@ -1,0 +1,10 @@
+﻿// Name: GetFirstOrDefault
+// Version: 1
+// Description: Gets the first element of a sequence, or a default value if no element is found.
+// Author: ETdoFresh
+// Aliases: getfirstordefault, gfd
+// Arg1: object {Enumerable}
+// Output: object {Object}
+// CommandLineOutput: Got Object: {Object}
+
+CSharp System.Linq.Enumerable.FirstOrDefault({Enumerable}) // Alias: {Object}

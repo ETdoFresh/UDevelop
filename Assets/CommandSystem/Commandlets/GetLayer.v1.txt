@@ -1,0 +1,17 @@
+// Name: GetLayer
+// Version: 1
+// Description: Gets the layer int value by int or name.
+// Author: ETdoFresh
+// Aliases: getlayer
+// Arg1: int {Layer Int}
+// Output: int {Layer Int}
+// CommandLineOutput: Layer int: {Layer Int}
+        
+NoOp {Layer Int}
+        
+// ------------------------------
+// Arg1: string {Layer Name}
+// Output: int {Layer Int}
+// CommandLineOutput: Layer int: {Layer Int}
+        
+CSharp UnityEngine.LayerMask.NameToLayer({Layer Name}) // Alias: {Layer Int}

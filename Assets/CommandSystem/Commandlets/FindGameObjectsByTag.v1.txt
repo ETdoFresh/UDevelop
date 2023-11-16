@@ -8,5 +8,6 @@
 // CommandLineOutput: Found GameObjects:\n{GameObjects ScenePath}
 
 FindObjectsOfType UnityEngine.GameObject // Alias: {All GameObjects}
-FilterBy tag {GameObject Tag} {All GameObjects} // Alias: {GameObjects}
+FilterBy tag {GameObject Tag} {All GameObjects} // Alias: {Objects}
+CastArray {Objects} UnityEngine.GameObject[] // Alias: {GameObjects}
 GetScenePath {GameObjects} // Alias: {GameObjects ScenePath}

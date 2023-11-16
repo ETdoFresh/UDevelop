@@ -53,6 +53,7 @@ namespace CommandSystem
             Types.Add("short", typeof(short));
             Types.Add("ushort", typeof(ushort));
             Types.Add("string", typeof(string));
+            Types.Add("void", typeof(void));
             
             Types.Add("bool[]", typeof(bool[]));
             Types.Add("byte[]", typeof(byte[]));

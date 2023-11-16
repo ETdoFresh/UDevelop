@@ -1,0 +1,12 @@
+// Name: GetValueByGameObjectName
+// Version: 1
+// Description: Gets the value of a field or property.
+// Author: ETdoFresh
+// Aliases: getvaluebygoname, gvbg
+// Arg1: System.String {GameObject Name}
+// Arg2: System.String {Field or Property Name}
+// Output: System.Object {Value}
+// CommandLineOutput: Got Value: {Value}
+        
+FindGameObjectByName {GameObject Name} // Alias: {GameObject}
+GetValue {Field or Property Name} {GameObject} // Alias: {Value}

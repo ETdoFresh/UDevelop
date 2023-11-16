@@ -16,5 +16,5 @@ GetScenePath {Objects} // Alias: {Object ScenePaths}
 // CommandLineOutput: Found objects of type {Component Type}\n{Object ScenePaths}
 
 FindSystemTypeByName {Component Type Name} // Alias: {Component Type}
-CSharp UnityEngine.Object.FindObjectsOfType({Component Type}) // Alias: {Objects}
+FindObjectsOfType {Component Type} // Alias: {Objects}
 GetScenePath {Objects} // Alias: {Object ScenePaths}

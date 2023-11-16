@@ -1,0 +1,39 @@
+// Name: RemoveComponent
+// Version: 1
+// Description: Removes a component from a GameObject.
+// Author: ETdoFresh
+// Aliases: removecomponent, removecomp
+// Arg1: UnityEngine.Component {Component}
+// Output: void {void}
+// CommandLineOutput: Removed component: {Component}
+
+CSharp UnityEngine.Object.DestroyImmediate({Component}) // Alias: {void}
+
+// ------------------------------
+// Arg1: string {GameObject Name}
+// Arg2: string {Component Name}
+// Output: void {void}
+// CommandLineOutput: Removed component: {Component}
+
+FindGameObjectByName {GameObject Name} // Alias: {GameObject}
+GetComponent {GameObject} {Component Name} // Alias: {Component}
+RemoveComponent {Component}
+
+// ------------------------------
+// Arg1: UnityEngine.GameObject {GameObject}
+// Arg2: string {Component Name}
+// Output: void {void}
+// CommandLineOutput: Removed component: {Component}
+
+GetComponent {GameObject} {Component Name} // Alias: {Component}
+RemoveComponent {Component}
+
+// ------------------------------
+// Arg1: string {GameObject Name}
+// Arg2: System.Type {Component Type}
+// Output: void {void}
+// CommandLineOutput: Removed component: {Component Type}
+
+FindGameObjectByName {GameObject Name} // Alias: {GameObject}
+GetComponent {GameObject} {Component Type} // Alias: {Component}
+RemoveComponent {Component}

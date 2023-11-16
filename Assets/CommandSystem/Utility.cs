@@ -70,14 +70,15 @@ namespace CommandSystem.Commands
             return -1;
         }
 
-        public static string GetObjectsScenePath(Object[] objects)
+        public static string GetObjectsScenePath(object[] objects)
         {
             var scenePaths = "";
             foreach (var obj in objects)
             {
                 if (obj is GameObject go) scenePaths += GetGameObjectScenePath(go) + "\n";
                 else if (obj is Component c) scenePaths += GetGameObjectScenePath(c.gameObject) + "\n";
-                else scenePaths += obj.name + "\n";
+                else if (obj is Object o) scenePaths += o.name + "\n";
+                else scenePaths += obj + "\n";
             }
             if (scenePaths.EndsWith("\n")) scenePaths = scenePaths[..^1];
             return scenePaths;
@@ -287,6 +288,36 @@ namespace CommandSystem.Commands
         public static string[] AddIndexIfMissing(string[] paths)
         {
             return paths.Select(AddIndexIfMissing).ToArray();
+        }
+        
+        public static object ParseEnum(Type enumType, string enumString)
+        {
+            if (enumType == null) throw new ArgumentNullException(nameof(enumType));
+            if (enumString == null) throw new ArgumentNullException(nameof(enumString));
+            if (!enumType.IsEnum) throw new ArgumentException("Type provided must be an Enum.", nameof(enumType));
+            if (!enumString.Contains("|")) return Enum.Parse(enumType, enumString);
+            var enumStrings = enumString.Split('|');
+            var enumValues = enumStrings.Select(x => Enum.Parse(enumType, x)).ToArray();
+            var enumValue = enumValues.Aggregate(0, (current, value) => current | (int)value);
+            return Enum.ToObject(enumType, enumValue);
+        }
+
+        public static object CastArray(object arrayObject, Type newArrayType)
+        {
+            if (!newArrayType.IsArray) throw new ArgumentException("Type provided must be an array.", nameof(newArrayType));
+            var arrayType = arrayObject.GetType();
+            if (!arrayType.IsArray) throw new ArgumentException("Object provided must be an array.", nameof(arrayObject));
+            var newElementType = newArrayType.GetElementType();
+            if (newElementType == null) throw new ArgumentException("Type provided must be an array.", nameof(newArrayType));
+            var array = (Array)arrayObject;
+            var newArray = Array.CreateInstance(newElementType, array.Length);
+            for (var i = 0; i < array.Length; i++)
+            {
+                var element = array.GetValue(i);
+                var castedElement = Convert.ChangeType(element, newElementType);
+                newArray.SetValue(castedElement, i);
+            }
+            return newArray;
         }
     }
 }
