@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Newtonsoft.Json.Linq;
-using UnityEngine;
 using static System.Reflection.BindingFlags;
 
 namespace CommandSystem
 {
     public class CommandObject
     {
+        private static bool showIntermediateCommandLineOutput = false;
+        
         public string Name { get; set; }
         public int Version { get; set; } = -1;
         public string Description { get; set; }
@@ -280,12 +281,18 @@ namespace CommandSystem
                             if (call != null && call.Name != null)
                                 argMemory[call.Name] = new ArgData(call.Name, callType, callOutput?.Value);
                             argMemory[$"{{Step{i + 1}}}"] = new ArgData($"{{Step{i + 1}}}", callType, callOutput?.Value);
+
+                            if (showIntermediateCommandLineOutput)
+                                CommandData.Display.Add(GetCommandLineOutput(call.Name, callOutput.CommandLineOutput, argMemory));
                         }
                         else if (TryRun(call?.Command, callType, argMemory, out callOutput))
                         {
                             if (call != null && call.Name != null)
                                 argMemory[call.Name] = new ArgData(call.Name, callType, callOutput?.Value);
                             argMemory[$"{{Step{i + 1}}}"] = new ArgData($"{{Step{i + 1}}}", callType, callOutput?.Value);
+                            
+                            if (showIntermediateCommandLineOutput)
+                                CommandData.Display.Add(GetCommandLineOutput(call.Name, callOutput.CommandLineOutput, argMemory));
                         }
                         else
                         {
@@ -294,8 +301,16 @@ namespace CommandSystem
                     }
                     else
                     {
-                        if (TryRunCSharp(call?.CSharp, null, argMemory, out _)) { }
-                        else if (TryRun(call?.Command, null, argMemory, out _)) { }
+                        if (TryRunCSharp(call?.CSharp, null, argMemory, out var callOutput))
+                        {
+                            if (showIntermediateCommandLineOutput)
+                                CommandData.Display.Add(GetCommandLineOutput(call.Name, callOutput.CommandLineOutput, argMemory));
+                        }
+                        else if (TryRun(call?.Command, null, argMemory, out callOutput))
+                        {
+                            if (showIntermediateCommandLineOutput)
+                                CommandData.Display.Add(GetCommandLineOutput(call.Name, callOutput.CommandLineOutput, argMemory));
+                        }
                         else ThrowException("No CSharp or Command found!", Name, argMemory, args);
                     }
                 }
@@ -311,11 +326,17 @@ namespace CommandSystem
 
             var outputName = Output?.Name;
             var outputValue = outputName != null && outputName != "void" ? argMemory[outputName].Value : null;
-            var commandLineOutput = CommandLineOutput ?? outputName ?? "";
+            var commandLineOutput = GetCommandLineOutput(outputName, CommandLineOutput, argMemory);
+            return new OutputData { Value = outputValue, CommandLineOutput = commandLineOutput };
+        }
+
+        private string GetCommandLineOutput(string outputName, string lineOutput, Dictionary<string, ArgData> argMemory)
+        {
+            var commandLineOutput = lineOutput ?? outputName ?? "";
             commandLineOutput = commandLineOutput?.Replace("\\n", "\n");
             var outputRegEx = new System.Text.RegularExpressions.Regex(@"\{.*?\}");
             commandLineOutput = outputRegEx.Replace(commandLineOutput, m => argMemory[m.Value].Value?.ToString() ?? "null");
-            return new OutputData { Value = outputValue, CommandLineOutput = commandLineOutput };
+            return commandLineOutput;
         }
 
         public static bool TryRun(string commandString, out OutputData outputData)
@@ -337,7 +358,7 @@ namespace CommandSystem
             
             if (commandString.Equals("CommandSystem.CSharp.Execute({CommandInput})"))
             {
-                var commandInput = argMemory["CommandInput"].Value?.ToString();
+                var commandInput = argMemory["{CommandInput}"].Value?.ToString();
                 var spaceIndex = commandInput.IndexOf(' ');
                 var commandInputWithoutCommand = spaceIndex > 0 ? commandInput[(spaceIndex + 1)..] : "";
                 var outputValue = CSharp.Execute(commandInputWithoutCommand, argMemory);
@@ -363,7 +384,7 @@ namespace CommandSystem
                 {
                     if (!IsValidOverload(commandObject, commandArgs)) continue;
                     argMemory = new Dictionary<string, ArgData>(argMemory);
-                    argMemory["CommandInput"] = new ArgData("CommandInput", typeof(string), commandString);
+                    argMemory["{CommandInput}"] = new ArgData("{CommandInput}", typeof(string), commandString);
                     outputData = commandObject.Run(commandArgs, argMemory);
                     outputData = ConvertType(outputData, outputType);
                     return true;
