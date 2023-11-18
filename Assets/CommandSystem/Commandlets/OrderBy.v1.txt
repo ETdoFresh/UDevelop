@@ -1,0 +1,60 @@
+// Name: OrderBy
+// Version: 1
+// Description: Order a list of strings
+// Author: ETdoFresh
+// Aliases: orderby
+// Arg1: string[] {Strings}
+// Output: string[] {Ordered String Array}
+// CommandLineOutput: {Ordered Strings}
+
+CSharp CommandSystem.Utility.OrderBy({Strings}) // Alias: {Ordered String Array}
+StringJoin \n {Ordered String Array} // Alias: {Ordered Strings}
+
+// ------------------------------
+// Arg1: object {Array}
+// Arg2: System.Type {Type}
+// Output: object {Ordered Typed Array}
+// CommandLineOutput: Array: {Ordered Typed Array}
+
+CSharp CommandSystem.Utility.OrderBy({Array}) // Alias: {Ordered Array}
+CastArray {Ordered Array} {Type} // Alias: {Ordered Typed Array}
+
+// ------------------------------
+// Arg1: object {Array}
+// Arg2: string {Type Name}
+// Output: object {Ordered Typed Array}
+// CommandLineOutput: Array: {Ordered Typed Array}
+
+FindSystemTypeByName {Type Name} // Alias: {Type}
+OrderBy {Array} {Type} // Alias: {Ordered Typed Array}
+
+// ------------------------------
+// Name: OrderByDescending
+// Version: 1
+// Description: Order a list of strings in descending order
+// Author: ETdoFresh
+// Aliases: orderbydescending
+// Arg1: string[] {Strings}
+// Output: string[] {Ordered String Array}
+// CommandLineOutput: {Ordered Strings}
+
+CSharp CommandSystem.Utility.OrderByDescending({Strings}) // Alias: {Ordered String Array}
+StringJoin \n {Ordered String Array} // Alias: {Ordered Strings}
+
+// ------------------------------
+// Arg1: object {Array}
+// Arg2: System.Type {Type}
+// Output: object {Ordered Typed Array}
+// CommandLineOutput: Array: {Ordered Typed Array}
+
+CSharp CommandSystem.Utility.OrderByDescending({Array}) // Alias: {Ordered Array}
+CastArray {Ordered Array} {Type} // Alias: {Ordered Typed Array}
+
+// ------------------------------
+// Arg1: object {Array}
+// Arg2: string {Type Name}
+// Output: object {Ordered Typed Array}
+// CommandLineOutput: Array: {Ordered Typed Array}
+
+FindSystemTypeByName {Type Name} // Alias: {Type}
+OrderByDescending {Array} {Type} // Alias: {Ordered Typed Array}

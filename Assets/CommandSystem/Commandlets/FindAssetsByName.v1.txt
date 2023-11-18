@@ -1,0 +1,17 @@
+// Name: FindAssetsByName
+// Version: 1
+// Description: Find assets by name
+// Author: ETdoFresh
+// Aliases: findassetsbyname
+// Arg1: string {Name}
+// Output: Object[] {Filtered Assets}
+// CommandLineOutput: {Filtered Asset Paths}
+
+AssetDatabaseFindAssets {Name} // Alias: {GUIDs}
+AssetDatabaseGUIDToAssetPath {GUIDs} // Alias: {Asset Paths}
+OrderBy {Asset Paths} string[] // Alias: {Ordered Asset Paths}
+AssetDatabaseLoadAssetAtPath {Ordered Asset Paths} // Alias: {Assets}
+FilterBy name {Name} {Assets} // Alias: {Filtered Assets}
+CastArray {Filtered Assets} UnityEngine.Object[] // Alias: {Filtered Assets}
+AssetDatabaseGetAssetPath {Filtered Assets} // Alias: {Filtered Asset Paths}
+StringJoin \n {Filtered Asset Paths} // Alias: {Filtered Asset Paths}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -283,11 +284,14 @@ namespace CommandSystem
         {
             if (obj == null) return Array.Empty<object>();
             if (obj is Array array) return array;
+            if (obj is IEnumerable enumerable) return enumerable.Cast<object>().ToArray();
             return new[] { obj };
         }
 
         public static string AddIndexIfMissing(string path)
         {
+            string[] paths = Array.Empty<string>();
+            System.Linq.Enumerable.OrderBy(paths, x => x);
             return path.Contains("[") && path.Contains("]") ? path : $"{path.TrimEnd()}[0]";
         }
 
@@ -323,8 +327,21 @@ namespace CommandSystem
             for (var i = 0; i < array.Length; i++)
             {
                 var element = array.GetValue(i);
-                var castedElement = Convert.ChangeType(element, newElementType);
-                newArray.SetValue(castedElement, i);
+                if (newElementType.IsInstanceOfType(element))
+                {
+                    newArray.SetValue(element, i);
+                }
+                else
+                {
+                    try
+                    {
+                        newArray.SetValue(Convert.ChangeType(element, newElementType), i);
+                    }
+                    catch (Exception e)
+                    {
+                        throw new Exception($"Could not cast element {i} of array {arrayObject} to type {newElementType}", e);
+                    }
+                }
             }
 
             return newArray;
@@ -375,6 +392,16 @@ namespace CommandSystem
         public static string[] AssetDatabaseGetAssetPath(Object[] objects)
         {
             return objects.Select(AssetDatabaseGetAssetPath).ToArray();
+        }
+
+        public static object[] OrderBy(object[] array)
+        {
+            return array.OrderBy(x => x).ToArray();
+        }
+
+        public static object[] OrderByDescending(object[] array)
+        {
+            return array.OrderByDescending(x => x).ToArray();
         }
     }
 }

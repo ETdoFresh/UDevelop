@@ -9,3 +9,12 @@
 FindAllGameObjects // Alias: {GameObjects}
 GetScenePath {GameObjects} // Alias: {GameObjects ScenePath}
 Select {GameObjects}
+
+// Name: SelectRootGameObjects
+// Version: 1
+// Description: Select all root GameObjects
+// Author: ETdoFresh
+// Aliases: selectrootgameobjects, selectrootgos, srgos, selectroot
+// Output: UnityEngine.GameObject[] {GameObjects}
+// CommandLineOutput: Selected Root GameObjects:\n{GameObjects ScenePath}
+
