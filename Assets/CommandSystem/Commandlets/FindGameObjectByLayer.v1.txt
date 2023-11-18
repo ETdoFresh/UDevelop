@@ -1,12 +1,12 @@
-﻿// Name: FindGameObjectByLayer
-// Version: 1
-// Description: Find GameObject by Layer
-// Author: ETdoFresh
-// Aliases: findgameobjectbylayer, fgobl
-// Arg1: object {Layer}
-// Output: {GameObject}
-// CommandLineOutput: Found GameObject:\n{GameObject ScenePath}
+﻿Name: FindGameObjectByLayer
+Version: 1
+Description: Find GameObject by Layer
+Author: ETdoFresh
+Aliases: findgameobjectbylayer, fgobl
+Arg1: object {Layer}
+Output0: Found GameObject:\n{GameObject ScenePath}
+Output1: {GameObject}
 
-FindGameObjectsByLayer {Layer} // Alias: {GameObjects}
-GetFirstOrDefault {GameObjects} // Alias: {GameObject}
-GetScenePath {GameObject} // Alias: {GameObject ScenePath}
+FindGameObjectsByLayer {Layer} >> {GameObjects}
+GetFirstOrDefault {GameObjects} >> {GameObject}
+GetScenePath {GameObject} >> {GameObject ScenePath}

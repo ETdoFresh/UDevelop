@@ -1,15 +1,15 @@
-﻿// Name: FindGameObjectByScenePath
-// Version: 1
-// Description: Finds a GameObject by scene path
-// Author: ETdoFresh
-// Aliases: findgameobjectbyscenepath, findgobsp, fgobsp
-// Arg1: string {Scene Path}
-// Output: {GameObject}
-// CommandLineOutput: Found GameObject: {GameObject ScenePath}
+﻿Name: FindGameObjectByScenePath
+Version: 1
+Description: Finds a GameObject by scene path
+Author: ETdoFresh
+Aliases: findgameobjectbyscenepath, findgobsp, fgobsp
+Arg1: string {Scene Path}
+Output0: Found GameObject: {GameObject ScenePath}
+Output1: {GameObject}
 
-AddIndexIfMissing {Scene Path} // Alias: {Scene Path With Index}
-FindObjectsOfType UnityEngine.GameObject // Alias: {All GameObjects}
-GetCommandReference "GetScenePathWithIndex" // Alias: {GetScenePathWithIndex Command}
-Filter {GetScenePathWithIndex Command} {Scene Path With Index} {All GameObjects} // Alias: {GameObjects}
-GetFirstOrDefault {GameObjects} // Alias: {GameObject}
-GetScenePathWithIndex {GameObject} // Alias: {GameObject ScenePath}
+AddIndexIfMissing {Scene Path} >> {Scene Path With Index}
+FindObjectsOfType UnityEngine.GameObject >> {All GameObjects}
+GetCommandReference "GetScenePathWithIndex" >> {GetScenePathWithIndex Command}
+Filter {GetScenePathWithIndex Command} {Scene Path With Index} {All GameObjects} >> {GameObjects}
+GetFirstOrDefault {GameObjects} >> {GameObject}
+GetScenePathWithIndex {GameObject} >> {GameObject ScenePath}

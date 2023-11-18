@@ -1,18 +1,18 @@
-﻿// Name: DestroyImmediate
-// Version: 1
-// Description: Destroys an Object.
-// Author: ETdoFresh
-// Aliases: destroyimmediate, destroy
-// Arg1: UnityEngine.Object {Object}
-// CommandLineOutput: Destroyed Object: {Object ScenePath}
+﻿Name: DestroyImmediate
+Version: 1
+Description: Destroys an Object.
+Author: ETdoFresh
+Aliases: destroyimmediate, destroy
+Arg1: UnityEngine.Object {Object}
+Output0: Destroyed Object: {Object ScenePath}
 
-GetScenePath {Object} // Alias: {Object ScenePath}
+GetScenePath {Object} >> {Object ScenePath}
 CSharp UnityEngine.Object.DestroyImmediate({Object})
 
-// ------------------------------
-// Arg1: string {GameObject Name}
-// CommandLineOutput: Destroyed GameObject: {GameObject ScenePath}
+------------------------------
+Arg1: string {GameObject Name}
+Output0: Destroyed GameObject: {GameObject ScenePath}
 
-FindGameObjectByName {GameObject Name} // Alias: {GameObject}
-GetScenePath {GameObject} // Alias: {GameObject ScenePath}
+FindGameObjectByName {GameObject Name} >> {GameObject}
+GetScenePath {GameObject} >> {GameObject ScenePath}
 DestroyImmediate {GameObject}

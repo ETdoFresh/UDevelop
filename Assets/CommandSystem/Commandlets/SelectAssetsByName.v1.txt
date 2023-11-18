@@ -1,13 +1,13 @@
-// Name: SelectAssetsByName
-// Version: 1
-// Description: Select assets by name
-// Author: ETdoFresh
-// Aliases: selectassetsbyname
-// Arg1: string {name}
-// Output: UnityEngine.Object[] {Assets}
-// CommandLineOutput: Selecting:\n{AssetPath Strings}
+Name: SelectAssetsByName
+Version: 1
+Description: Select assets by name
+Author: ETdoFresh
+Aliases: selectassetsbyname
+Arg1: string {name}
+Output0: Selecting:\n{AssetPath Strings}
+Output1: UnityEngine.Object[] {Assets}
 
-FindAssetsByName {name} // Alias: {Assets}
-AssetDatabaseGetAssetPath {Assets} // Alias: {Asset Paths}
+FindAssetsByName {name} >> {Assets}
+AssetDatabaseGetAssetPath {Assets} >> {Asset Paths}
 Select {Assets}
-StringJoin \n {Asset Paths} // Alias: {AssetPath Strings}
+StringJoin \n {Asset Paths} >> {AssetPath Strings}

@@ -1,20 +1,20 @@
-// Name: SelectAllGameObjects
-// Version: 1
-// Description: Select all GameObjects
-// Author: ETdoFresh
-// Aliases: selectallgameobjects, selectallgos, sagos, selectall
-// Output: UnityEngine.GameObject[] {GameObjects}
-// CommandLineOutput: Selected GameObjects:\n{GameObjects ScenePath}
+Name: SelectAllGameObjects
+Version: 1
+Description: Select all GameObjects
+Author: ETdoFresh
+Aliases: selectallgameobjects, selectallgos, sagos, selectall
+Output0: Selected GameObjects:\n{GameObjects ScenePath}
+Output1: UnityEngine.GameObject[] {GameObjects}
 
-FindAllGameObjects // Alias: {GameObjects}
-GetScenePath {GameObjects} // Alias: {GameObjects ScenePath}
+FindAllGameObjects >> {GameObjects}
+GetScenePath {GameObjects} >> {GameObjects ScenePath}
 Select {GameObjects}
 
-// Name: SelectRootGameObjects
-// Version: 1
-// Description: Select all root GameObjects
-// Author: ETdoFresh
-// Aliases: selectrootgameobjects, selectrootgos, srgos, selectroot
-// Output: UnityEngine.GameObject[] {GameObjects}
-// CommandLineOutput: Selected Root GameObjects:\n{GameObjects ScenePath}
+Name: SelectRootGameObjects
+Version: 1
+Description: Select all root GameObjects
+Author: ETdoFresh
+Aliases: selectrootgameobjects, selectrootgos, srgos, selectroot
+Output0: Selected Root GameObjects:\n{GameObjects ScenePath}
+Output1: UnityEngine.GameObject[] {GameObjects}
 

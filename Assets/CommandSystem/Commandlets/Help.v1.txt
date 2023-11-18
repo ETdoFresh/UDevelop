@@ -1,10 +1,10 @@
-﻿// Name: Help
-// Version: 1
-// Description: Displays help information about a command.
-// Author: ETdoFresh
-// Aliases: help, h, ?
-// Arg1: System.String {Command Name}
-// Output: System.String {Help}
-// CommandLineOutput: {Help}
+﻿Name: Help
+Version: 1
+Description: Displays help information about a command.
+Author: ETdoFresh
+Aliases: help, h, ?
+Arg1: System.String {Command Name}
+Output0: {Help}
+Output1: System.String {Help}
 
-CSharp CommandSystem.Utility.Help({Command Name}) // Alias: {Help}
+CSharp CommandSystem.Utility.Help({Command Name}) >> {Help}

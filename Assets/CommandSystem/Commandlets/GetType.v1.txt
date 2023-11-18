@@ -1,10 +1,10 @@
-// Name: GetType
-// Version: 1
-// Description: Gets the type of an object.
-// Author: ETdoFresh
-// Aliases: gettype, gt
-// Arg1: System.Object {Object}
-// Output: System.Type {Type}
-// CommandLineOutput: Got Type: {Type}
+Name: GetType
+Version: 1
+Description: Gets the type of an object.
+Author: ETdoFresh
+Aliases: gettype, gt
+Arg1: System.Object {Object}
+Output0: Got Type: {Type}
+Output1: System.Type {Type}
 
-CSharp System.Object.GetType(this {Object}) // Alias: {Type}
+CSharp System.Object.GetType(this {Object}) >> {Type}

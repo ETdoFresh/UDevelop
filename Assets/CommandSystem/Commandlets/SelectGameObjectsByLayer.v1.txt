@@ -1,13 +1,13 @@
-// Name: SelectGameObjectsByLayer
-// Version: 1
-// Description: Select GameObjects by layer
-// Author: ETdoFresh
-// Aliases: selectgameobjectsbylayer, selectgosl, sgosbl
-// Arg1: object {Layer}
-// Output: UnityEngine.GameObject[] {GameObjects}
-// CommandLineOutput: Selected GameObject:\n{GameObjects ScenePath}
+Name: SelectGameObjectsByLayer
+Version: 1
+Description: Select GameObjects by layer
+Author: ETdoFresh
+Aliases: selectgameobjectsbylayer, selectgosl, sgosbl
+Arg1: object {Layer}
+Output0: Selected GameObject:\n{GameObjects ScenePath}
+Output1: UnityEngine.GameObject[] {GameObjects}
 
-GetLayer {Layer} // Alias: {Layer Int}
-FindGameObjectsByLayer {Layer Int} // Alias: {GameObjects}
-GetScenePath {GameObjects} // Alias: {GameObjects ScenePath}
+GetLayer {Layer} >> {Layer Int}
+FindGameObjectsByLayer {Layer Int} >> {GameObjects}
+GetScenePath {GameObjects} >> {GameObjects ScenePath}
 Select {GameObjects}

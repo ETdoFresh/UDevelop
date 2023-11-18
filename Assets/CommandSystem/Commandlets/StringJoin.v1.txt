@@ -1,11 +1,11 @@
-// Name: StringJoin
-// Version: 1
-// Description: Joins an array of strings into a single string
-// Author: ETdoFresh
-// Aliases: stringjoin
-// Arg1: string {Separator}
-// Arg2: object[] {Array}
-// Output: string {Joined String}
-// CommandLineOutput: Joined: {Joined String}
+Name: StringJoin
+Version: 1
+Description: Joins an array of strings into a single string
+Author: ETdoFresh
+Aliases: stringjoin
+Arg1: string {Separator}
+Arg2: object[] {Array}
+Output0: Joined: {Joined String}
+Output1: string {Joined String}
 
-CSharp System.String.Join({Separator}, {Array}) // Alias: {Joined String}
+CSharp System.String.Join({Separator}, {Array}) >> {Joined String}

@@ -1,20 +1,20 @@
-﻿// Name: CastArray
-// Version: 1
-// Description: Cast array to another type
-// Author: ETdoFresh
-// Aliases: castarray
-// Arg1: object {Enumerable}
-// Arg2: System.Type {Type}
-// Output: object {Value}
-// CommandLineOutput: Value: {Value}
+﻿Name: CastArray
+Version: 1
+Description: Cast array to another type
+Author: ETdoFresh
+Aliases: castarray
+Arg1: object {Enumerable}
+Arg2: System.Type {Type}
+Output0: Value: {Value}
+Output1: object {Value}
 
-CSharp CommandSystem.Utility.CastArray({Enumerable}, {Type}) // Alias: {Value}
+CSharp CommandSystem.Utility.CastArray({Enumerable}, {Type}) >> {Value}
 
-// ------------------------------
-// Arg1: object {Enumerable}
-// Arg2: string {Type Name}
-// Output: object {Value}
-// CommandLineOutput: Value: {Value}
+------------------------------
+Arg1: object {Enumerable}
+Arg2: string {Type Name}
+Output0: Value: {Value}
+Output1: object {Value}
 
-FindSystemTypeByName {Type Name} // Alias: {Type}
-CastArray {Enumerable} {Type} // Alias: {Value}
+FindSystemTypeByName {Type Name} >> {Type}
+CastArray {Enumerable} {Type} >> {Value}

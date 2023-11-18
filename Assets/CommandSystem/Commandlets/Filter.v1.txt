@@ -1,57 +1,58 @@
-﻿// Name: Filter
-// Version: 1
-// Description: Filters an array by a given field/property
-// Author: ETdoFresh
-// Aliases: filter, where
-// Arg1: System.Reflection.FieldInfo {Field}
-// Arg2: object {Value}
-// Arg3: object[] {Array}
-// Output: object[] {Filtered Array}
-// CommandLineOutput: Filtered Array: {Filtered Array}
+﻿Name: Filter
+Version: 1
+Description: Filters an array by a given field/property
+Author: ETdoFresh
+Aliases: filter, where
+Arg1: System.Reflection.FieldInfo {Field}
+Arg2: object {Value}
+Arg3: object[] {Array}
+Output0: Filtered Array: {Filtered Array}
+Output1: object[] {Filtered Array}
 
-CSharp CommandSystem.Utility.Filter({Field}, {Value}, {Array}) // Alias: {Filtered Array}
+CSharp CommandSystem.Utility.Filter({Field}, {Value}, {Array}) >> {Filtered Array}
 
-// ------------------------------
-// Arg1: System.Reflection.PropertyInfo {Property}
-// Arg2: object {Value}
-// Arg3: object[] {Array}
-// Output: object[] {Filtered Array}
-// CommandLineOutput: Filtered Array: {Filtered Array}
+------------------------------
+Arg1: System.Reflection.PropertyInfo {Property}
+Arg2: object {Value}
+Arg3: object[] {Array}
+Output0: Filtered Array: {Filtered Array}
+Output1: object[] {Filtered Array}
 
-CSharp CommandSystem.Utility.Filter({Property}, {Value}, {Array}) // Alias: {Filtered Array}
+CSharp CommandSystem.Utility.Filter({Property}, {Value}, {Array}) >> {Filtered Array}
 
-// ------------------------------
-// Arg1: System.Reflection.MethodInfo {Function}
-// Arg2: object {Value}
-// Arg3: object[] {Array}
-// Output: object[] {Filtered Array}
-// CommandLineOutput: Filtered Array: {Filtered Array}
+------------------------------
+Arg1: System.Reflection.MethodInfo {Function}
+Arg2: object {Value}
+Arg3: object[] {Array}
+Output0: Filtered Array: {Filtered Array}
+Output1: object[] {Filtered Array}
 
-CSharp CommandSystem.Utility.Filter({Function}, {Value}, {Array}) // Alias: {Filtered Array}
+CSharp CommandSystem.Utility.Filter({Function}, {Value}, {Array}) >> {Filtered Array}
 
-// ------------------------------
-// Arg1: CommandSystem.CommandReference {Command}
-// Arg2: object {Value}
-// Arg3: object[] {Array}
-// Output: object[] {Filtered Array}
-// CommandLineOutput: Filtered Array: {Filtered Array}
+------------------------------
+Arg1: CommandSystem.CommandReference {Command}
+Arg2: object {Value}
+Arg3: object[] {Array}
+Output0: Filtered Array: {Filtered Array}
+Output1: object[] {Filtered Array}
 
-CSharp CommandSystem.Utility.Filter({Command}, {Value}, {Array}) // Alias: {Filtered Array}
+CSharp CommandSystem.Utility.Filter({Command}, {Value}, {Array}) >> {Filtered Array}
 
-// ------------------------------
-// Arg1: string {Field or Property Name}
-// Arg2: object {Value}
-// Arg3: object[] {Array}
-// Output: object[] {Filtered Array}
-// CommandLineOutput: Filtered Array: {Filtered Array}
+------------------------------
+Arg1: string {Field or Property Name}
+Arg2: object {Value}
+Arg3: object[] {Array}
+Output0: Filtered Array: {Filtered Array}
+Output1: object[] {Filtered Array}
 
-GetElementType {Array} // Alias: {Type}
-GetFieldInfoOrPropertyInfo {Type} {Field or Property Name} // Alias: {Field or Property}
-CSharp CommandSystem.Utility.Filter({Field or Property}, {Value}, {Array}) // Alias: {Filtered Array}
+GetElementType {Array} >> {Type}
+GetFieldInfoOrPropertyInfo {Type} {Field or Property Name} >> {Field or Property}
+CSharp CommandSystem.Utility.Filter({Field or Property}, {Value}, {Array}) >> {Filtered Array}
 
-// ------------------------------
-// Arg1: bool[] {Keep Array}
-// Arg2: object[] {Array}
-// Output: object[] {Filtered Array}
+------------------------------
+Arg1: bool[] {Keep Array}
+Arg2: object[] {Array}
+Output0: Filtered Array: {Filtered Array}
+Output1: object[] {Filtered Array}
 
-CSharp CommandSystem.Utility.Filter({Keep Array}, {Array}) // Alias: {Filtered Array}
+CSharp CommandSystem.Utility.Filter({Keep Array}, {Array}) >> {Filtered Array}

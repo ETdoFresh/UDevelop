@@ -1,18 +1,18 @@
-﻿// Name: CreatePrimitive
-// Version: 1
-// Description: Creates a primitive object.
-// Author: ETdoFresh
-// Aliases: createprimitive, createprim
-// Arg1: UnityEngine.PrimitiveType {Primitive Type}
-// Output: UnityEngine.GameObject {Primitive GameObject}
-// CommandLineOutput: Created primitive: {Primitive Type}
+﻿Name: CreatePrimitive
+Version: 1
+Description: Creates a primitive object.
+Author: ETdoFresh
+Aliases: createprimitive, createprim
+Arg1: UnityEngine.PrimitiveType {Primitive Type}
+Output0: Created primitive: {Primitive Type}
+Output1: UnityEngine.GameObject {Primitive GameObject}
 
-CSharp UnityEngine.GameObject.CreatePrimitive({Primitive Type}) // Alias: {Primitive GameObject}
+CSharp UnityEngine.GameObject.CreatePrimitive({Primitive Type}) >> {Primitive GameObject}
 
-// ------------------------------
-// Arg1: string {Primitive Type Name}
-// Output: UnityEngine.GameObject {Primitive GameObject}
-// CommandLineOutput: Created primitive: {Primitive Type}
+------------------------------
+Arg1: string {Primitive Type Name}
+Output1: UnityEngine.GameObject {Primitive GameObject}
+Output0: Created primitive: {Primitive Type}
 
-ParseEnum UnityEngine.PrimitiveType {Primitive Type Name} // Alias: {Primitive Type}
+ParseEnum UnityEngine.PrimitiveType {Primitive Type Name} >> {Primitive Type}
 CreatePrimitive {Primitive Type}

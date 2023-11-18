@@ -31,11 +31,11 @@
           "Command": "CommandSystem.CSharp.Execute({CommandInput})"
         }
       ],
-      "Output": {
+      "Output0": "{C# Output}",
+      "Output1": {
         "Type": "System.Object",
         "Name": "{C# Output}"
-      },
-      "CommandLineOutput": "{C# Output}"
+      }
     }
   ]
 }

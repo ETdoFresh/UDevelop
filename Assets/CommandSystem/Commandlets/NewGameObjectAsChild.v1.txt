@@ -1,25 +1,25 @@
-// Name: NewGameObjectAsChild
-// Version: 1
-// Description: Creates a new GameObject as a child of the specified GameObject
-// Author: ETdoFresh
-// Aliases: newgameobjectaschild, ngoc, ngc
-// Arg1: UnityEngine.GameObject {Parent GameObject}
-// Arg2: System.String {GameObject Name}
-// Arg3: System.Type[] {Component Types}
-// Output: {New GameObject}
-// CommandLineOutput: Created GameObject: {New GameObject ScenePath}
+Name: NewGameObjectAsChild
+Version: 1
+Description: Creates a new GameObject as a child of the specified GameObject
+Author: ETdoFresh
+Aliases: newgameobjectaschild, ngoc, ngc
+Arg1: UnityEngine.GameObject {Parent GameObject}
+Arg2: System.String {GameObject Name}
+Arg3: System.Type[] {Component Types}
+Output0: Created GameObject: {New GameObject ScenePath}
+Output1: {New GameObject}
 
-NewGameObject {GameObject Name} {Component Types} // Alias: {New GameObject}
+NewGameObject {GameObject Name} {Component Types} >> {New GameObject}
 SetParent {New GameObject} {Parent GameObject}
-GetScenePath {New GameObject} // Alias: {New GameObject ScenePath}
+GetScenePath {New GameObject} >> {New GameObject ScenePath}
 
-// ------------------------------
-// Arg1: System.String {Parent GameObject ScenePath}
-// Arg2: System.String {GameObject Name}
-// Arg3: System.Type[] {Component Types}
-// Output: {New GameObject}
-// CommandLineOutput: Created GameObject: {New GameObject ScenePath}
+------------------------------
+Arg1: System.String {Parent GameObject ScenePath}
+Arg2: System.String {GameObject Name}
+Arg3: System.Type[] {Component Types}
+Output0: Created GameObject: {New GameObject ScenePath}
+Output1: {New GameObject}
 
-FindGameObjectByScenePath {Parent GameObject ScenePath} // Alias: {Parent GameObject}
-NewGameObjectAsChild {Parent GameObject} {GameObject Name} {Component Types} // Alias: {New GameObject}
-GetScenePath {New GameObject} // Alias: {New GameObject ScenePath}
+FindGameObjectByScenePath {Parent GameObject ScenePath} >> {Parent GameObject}
+NewGameObjectAsChild {Parent GameObject} {GameObject Name} {Component Types} >> {New GameObject}
+GetScenePath {New GameObject} >> {New GameObject ScenePath}

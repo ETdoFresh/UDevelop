@@ -1,21 +1,21 @@
-// Name: Reduce
-// Version: 1
-// Description: Reduces an array to a single value
-// Author: ETdoFresh
-// Aliases: reduce, aggregate
-// Arg1: System.Reflection.MethodInfo {Function}
-// Arg2: object {Initial Value}
-// Arg3: object[] {Array}
-// Output: object {Reduced Value}
-// CommandLineOutput: Reduced Value: {Reduced Value}
+Name: Reduce
+Version: 1
+Description: Reduces an array to a single value
+Author: ETdoFresh
+Aliases: reduce, aggregate
+Arg1: System.Reflection.MethodInfo {Function}
+Arg2: object {Initial Value}
+Arg3: object[] {Array}
+Output0: Reduced Value: {Reduced Value}
+Output1: object {Reduced Value}
 
-CSharp CommandSystem.Utility.Reduce({Function}, {Initial Value}, {Array}) // Alias: {Reduced Value}
+CSharp CommandSystem.Utility.Reduce({Function}, {Initial Value}, {Array}) >> {Reduced Value}
 
-// ------------------------------
-// Arg1: CommandSystem.CommandReference {Command}
-// Arg2: object {Initial Value}
-// Arg3: object[] {Array}
-// Output: object {Reduced Value}
-// CommandLineOutput: Reduced Value: {Reduced Value}
+------------------------------
+Arg1: CommandSystem.CommandReference {Command}
+Arg2: object {Initial Value}
+Arg3: object[] {Array}
+Output0: Reduced Value: {Reduced Value}
+Output1: object {Reduced Value}
 
-CSharp CommandSystem.Utility.Reduce({Command}, {Initial Value}, {Array}) // Alias: {Reduced Value}
+CSharp CommandSystem.Utility.Reduce({Command}, {Initial Value}, {Array}) >> {Reduced Value}

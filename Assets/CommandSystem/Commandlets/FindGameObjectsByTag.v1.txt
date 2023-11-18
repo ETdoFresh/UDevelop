@@ -1,13 +1,13 @@
-﻿// Name: FindGameObjectsByTag
-// Version: 1
-// Description: Finds GameObjects by tag
-// Author: ETdoFresh
-// Aliases: findgameobjectsbytag, findgots, fgts
-// Arg1: string {GameObject Tag}
-// Output: {GameObjects}
-// CommandLineOutput: Found GameObjects:\n{GameObjects ScenePath}
+﻿Name: FindGameObjectsByTag
+Version: 1
+Description: Finds GameObjects by tag
+Author: ETdoFresh
+Aliases: findgameobjectsbytag, findgots, fgts
+Arg1: string {GameObject Tag}
+Output0: Found GameObjects:\n{GameObjects ScenePath}
+Output1: {GameObjects}
 
-FindObjectsOfType UnityEngine.GameObject // Alias: {All GameObjects}
-Filter tag {GameObject Tag} {All GameObjects} // Alias: {Objects}
-CastArray {Objects} UnityEngine.GameObject[] // Alias: {GameObjects}
-GetScenePath {GameObjects} // Alias: {GameObjects ScenePath}
+FindObjectsOfType UnityEngine.GameObject >> {All GameObjects}
+Filter tag {GameObject Tag} {All GameObjects} >> {Objects}
+CastArray {Objects} UnityEngine.GameObject[] >> {GameObjects}
+GetScenePath {GameObjects} >> {GameObjects ScenePath}

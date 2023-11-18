@@ -1,11 +1,11 @@
-// Name: AssetDatabaseLoadAssetAtPath
-// Version: 1
-// Description: Load asset at path
-// Author: ETdoFresh
-// Aliases: assetdatabaseloadassetatpath
-// Arg1: string[] {AssetPaths}
-// Output: UnityEngine.Object[] {Assets}
-// CommandLineOutput: Loaded Objects:\n{Assets String}
+Name: AssetDatabaseLoadAssetAtPath
+Version: 1
+Description: Load asset at path
+Author: ETdoFresh
+Aliases: assetdatabaseloadassetatpath
+Arg1: string[] {AssetPaths}
+Output0: Loaded Objects:\n{Assets String}
+Output1: UnityEngine.Object[] {Assets}
 
-CSharp CommandSystem.Utility.AssetDatabaseLoadAssetAtPath({AssetPaths}) // Alias: {Assets}
-StringJoin \n {Assets} // Alias: {Assets String}
+CSharp CommandSystem.Utility.AssetDatabaseLoadAssetAtPath({AssetPaths}) >> {Assets}
+StringJoin \n {Assets} >> {Assets String}

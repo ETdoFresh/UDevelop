@@ -84,7 +84,7 @@ namespace CommandSystem
                 var commandletFilePath = UnityEditor.AssetDatabase.GUIDToAssetPath(commandletFile);
                 var commandletFilename = System.IO.Path.GetFileNameWithoutExtension(commandletFilePath);
                 var commandletFileText = UnityEditor.AssetDatabase.LoadAssetAtPath<TextAsset>(commandletFilePath).text;
-                commandletFileText = $"// Filename: {commandletFilename}\n" + commandletFileText;
+                commandletFileText = $"Filename: {commandletFilename}\n" + commandletFileText;
                 var commandObjects = CommandObject.FromCommandletString(commandletFileText);
                 if (commandObjects == null) continue;
                 var groupedCommandObjects = new Dictionary<string, List<CommandObject>>();

@@ -1,9 +1,9 @@
-﻿// Name: GetDefaultBindingFlags
-// Version: 1
-// Description: Gets Instance | Static | Public | NonPublic binding flags
-// Author: ETdoFresh
-// Aliases: getdefaultbindingflags, gdbf
-// Output: System.Reflection.BindingFlags {Binding Flags}
-// CommandLineOutput: Binding Flags: {Binding Flags}
+﻿Name: GetDefaultBindingFlags
+Version: 1
+Description: Gets Instance | Static | Public | NonPublic binding flags
+Author: ETdoFresh
+Aliases: getdefaultbindingflags, gdbf
+Output0: Binding Flags: {Binding Flags}
+Output1: System.Reflection.BindingFlags {Binding Flags}
 
-ParseEnum System.Reflection.BindingFlags "Instance | Static | Public | NonPublic" // Alias: {Binding Flags}
+ParseEnum System.Reflection.BindingFlags "Instance | Static | Public | NonPublic" >> {Binding Flags}

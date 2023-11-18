@@ -1,13 +1,13 @@
-// Name: FindAssets
-// Version: 1
-// Description: Find assets by filter
-// Author: ETdoFresh
-// Aliases: findassets
-// Arg1: string {filter}
-// Output: Object[] {Assets}
-// CommandLineOutput: Found Objects:\n{Asset Paths}
+Name: FindAssets
+Version: 1
+Description: Find assets by filter
+Author: ETdoFresh
+Aliases: findassets
+Arg1: string {filter}
+Output0: Found Objects:\n{Asset Paths}
+Output1: Object[] {Assets}
 
-AssetDatabaseFindAssets {filter} // Alias: {GUIDs}
-AssetDatabaseGUIDToAssetPath {GUIDs} // Alias: {Asset Paths}
-AssetDatabaseLoadAssetAtPath {Asset Paths} // Alias: {Assets}
-StringJoin \n {Asset Paths} // Alias: {Asset Paths}
+AssetDatabaseFindAssets {filter} >> {GUIDs}
+AssetDatabaseGUIDToAssetPath {GUIDs} >> {Asset Paths}
+AssetDatabaseLoadAssetAtPath {Asset Paths} >> {Assets}
+StringJoin \n {Asset Paths} >> {Asset Paths}

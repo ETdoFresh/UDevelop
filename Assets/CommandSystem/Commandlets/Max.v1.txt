@@ -1,19 +1,19 @@
-// Name: Max
-// Version: 1
-// Description: Returns the maximum value
-// Author: ETdoFresh
-// Aliases: max
-// Arg1: int {Value 1}
-// Arg2: int {Value 2}
-// Output: int {Value}
-// CommandLineOutput: Value: {Value}
+Name: Max
+Version: 1
+Description: Returns the maximum value
+Author: ETdoFresh
+Aliases: max
+Arg1: int {Value 1}
+Arg2: int {Value 2}
+Output0: Value: {Value}
+Output1: int {Value}
 
-CSharp System.Math.Max({Value 1}, {Value 2}) // Alias: {Value}
+CSharp System.Math.Max({Value 1}, {Value 2}) >> {Value}
 
-// ------------------------------
-// Arg1: float {Value 1}
-// Arg2: float {Value 2}
-// Output: float {Value}
-// CommandLineOutput: Value: {Value}
+------------------------------
+Arg1: float {Value 1}
+Arg2: float {Value 2}
+Output0: Value: {Value}
+Output1: float {Value}
 
-CSharp System.Math.Max({Value 1}, {Value 2}) // Alias: {Value}
+CSharp System.Math.Max({Value 1}, {Value 2}) >> {Value}

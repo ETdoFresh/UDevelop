@@ -1,39 +1,39 @@
-// Name: RemoveComponent
-// Version: 1
-// Description: Removes a component from a GameObject.
-// Author: ETdoFresh
-// Aliases: removecomponent, removecomp
-// Arg1: UnityEngine.Component {Component}
-// Output: void {void}
-// CommandLineOutput: Removed component: {Component}
+Name: RemoveComponent
+Version: 1
+Description: Removes a component from a GameObject.
+Author: ETdoFresh
+Aliases: removecomponent, removecomp
+Arg1: UnityEngine.Component {Component}
+Output0: Removed component: {Component}
+Output1: void {void}
 
-CSharp UnityEngine.Object.DestroyImmediate({Component}) // Alias: {void}
+CSharp UnityEngine.Object.DestroyImmediate({Component}) >> {void}
 
-// ------------------------------
-// Arg1: string {GameObject Name}
-// Arg2: string {Component Name}
-// Output: void {void}
-// CommandLineOutput: Removed component: {Component}
+------------------------------
+Arg1: string {GameObject Name}
+Arg2: string {Component Name}
+Output0: Removed component: {Component}
+Output1: void {void}
 
-FindGameObjectByName {GameObject Name} // Alias: {GameObject}
-GetComponent {GameObject} {Component Name} // Alias: {Component}
+FindGameObjectByName {GameObject Name} >> {GameObject}
+GetComponent {GameObject} {Component Name} >> {Component}
 RemoveComponent {Component}
 
-// ------------------------------
-// Arg1: UnityEngine.GameObject {GameObject}
-// Arg2: string {Component Name}
-// Output: void {void}
-// CommandLineOutput: Removed component: {Component}
+------------------------------
+Arg1: UnityEngine.GameObject {GameObject}
+Arg2: string {Component Name}
+Output0: Removed component: {Component}
+Output1: void {void}
 
-GetComponent {GameObject} {Component Name} // Alias: {Component}
+GetComponent {GameObject} {Component Name} >> {Component}
 RemoveComponent {Component}
 
-// ------------------------------
-// Arg1: string {GameObject Name}
-// Arg2: System.Type {Component Type}
-// Output: void {void}
-// CommandLineOutput: Removed component: {Component Type}
+------------------------------
+Arg1: string {GameObject Name}
+Arg2: System.Type {Component Type}
+Output0: Removed component: {Component Type}
+Output1: void {void}
 
-FindGameObjectByName {GameObject Name} // Alias: {GameObject}
-GetComponent {GameObject} {Component Type} // Alias: {Component}
+FindGameObjectByName {GameObject Name} >> {GameObject}
+GetComponent {GameObject} {Component Type} >> {Component}
 RemoveComponent {Component}

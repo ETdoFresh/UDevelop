@@ -1,19 +1,20 @@
-﻿// Name: ParseEnum
-// Version: 1
-// Description: Parses an enum from a string or int
-// Author: ETdoFresh
-// Aliases: parseenum, pe
-// Arg1: System.Type {Enum Type}
-// Arg2: string {Enum String Value}
-// Output: object {Enum Value}
-// CommandLineOutput: Parsed Enum: {Enum Value}
+﻿Name: ParseEnum
+Version: 1
+Description: Parses an enum from a string or int
+Author: ETdoFresh
+Aliases: parseenum, pe
+Arg1: System.Type {Enum Type}
+Arg2: string {Enum String Value}
+Output0: Parsed Enum: {Enum Value}
+Output1: object {Enum Value}
 
-CSharp CommandSystem.Utility.ParseEnum({Enum Type}, {Enum String Value}) // Alias: {Enum Value}
+CSharp CommandSystem.Utility.ParseEnum({Enum Type}, {Enum String Value}) >> {Enum Value}
 
-// ------------------------------
-// Arg1: string {Enum Type Name}
-// Arg2: string {Enum String Value}
-// Output: object {Enum Value}
+------------------------------
+Arg1: string {Enum Type Name}
+Arg2: string {Enum String Value}
+Output0: Parsed Enum: {Enum Value}
+Output1: object {Enum Value}
 
-FindSystemTypeByName {Enum Type Name} // Alias: {Enum Type}
-ParseEnum {Enum Type} {Enum String Value} // Alias: {Enum Value}
+FindSystemTypeByName {Enum Type Name} >> {Enum Type}
+ParseEnum {Enum Type} {Enum String Value} >> {Enum Value}

@@ -1,28 +1,28 @@
-// Name: ToArray
-// Version: 1
-// Description: Converts an object to an array of one object
-// Author: ETdoFresh
-// Aliases: toarray
-// Arg1: object {Object}
-// Output: object[] {Array}
-// CommandLineOutput: Value: {Array}
+Name: ToArray
+Version: 1
+Description: Converts an object to an array of one object
+Author: ETdoFresh
+Aliases: toarray
+Arg1: object {Object}
+Output0: Value: {Array}
+Output1: object[] {Array}
 
-CSharp CommandSystem.Utility.ToArray({Object}) // Alias: {Array}
+CSharp CommandSystem.Utility.ToArray({Object}) >> {Array}
 
-// ------------------------------
-// Arg1: object {Object}
-// Arg2: System.Type {Type}
-// Output: object {Casted Array}
-// CommandLineOutput: Value: {Casted Array}
+------------------------------
+Arg1: object {Object}
+Arg2: System.Type {Type}
+Output0: Value: {Casted Array}
+Output1: object {Casted Array}
 
-ToArray {Object} // Alias: {Array}
-CSharp CommandSystem.Utility.CastArray({Array}, {Type}) // Alias: {Casted Array}
+ToArray {Object} >> {Array}
+CSharp CommandSystem.Utility.CastArray({Array}, {Type}) >> {Casted Array}
 
-// ------------------------------
-// Arg1: object {Object}
-// Arg2: string {Type Name}
-// Output: object {Casted Array}
-// CommandLineOutput: Value: {Casted Array}
+------------------------------
+Arg1: object {Object}
+Arg2: string {Type Name}
+Output0: Value: {Casted Array}
+Output1: object {Casted Array}
 
-FindSystemTypeByName {Type Name} // Alias: {Type}
-ToArray {Object} {Type} // Alias: {Casted Array}
+FindSystemTypeByName {Type Name} >> {Type}
+ToArray {Object} {Type} >> {Casted Array}

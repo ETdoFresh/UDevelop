@@ -1,29 +1,29 @@
-// Name: GetValue
-// Version: 1
-// Description: Gets the value of a field or property.
-// Author: ETdoFresh
-// Aliases: getvalue, gv
-// Arg1: System.String {Field or Property Name}
-// Arg2: System.Object {Object}
-// Output: System.Object {Value}
-// CommandLineOutput: Got Value: {Value}
+Name: GetValue
+Version: 1
+Description: Gets the value of a field or property.
+Author: ETdoFresh
+Aliases: getvalue, gv
+Arg1: System.String {Field or Property Name}
+Arg2: System.Object {Object}
+Output0: Got Value: {Value}
+Output1: System.Object {Value}
 
-GetType {Object} // Alias: {Object Type}
-GetFieldInfoOrPropertyInfo {Object Type} {Field or Property Name} // Alias: {Field or Property}
-GetValue {Field or Property} {Object} // Alias: {Value}
+GetType {Object} >> {Object Type}
+GetFieldInfoOrPropertyInfo {Object Type} {Field or Property Name} >> {Field or Property}
+GetValue {Field or Property} {Object} >> {Value}
 
-// ------------------------------
-// Arg1: System.Reflection.FieldInfo {Field}
-// Arg2: System.Object {Object}
-// Output: System.Object {Value}
-// CommandLineOutput: Got Value: {Value}
+------------------------------
+Arg1: System.Reflection.FieldInfo {Field}
+Arg2: System.Object {Object}
+Output0: Got Value: {Value}
+Output1: System.Object {Value}
 
-CSharp System.Reflection.FieldInfo.GetValue(this {Field}, {Object}) // Alias: {Value}
+CSharp System.Reflection.FieldInfo.GetValue(this {Field}, {Object}) >> {Value}
         
-// ------------------------------
-// Arg1: System.Reflection.PropertyInfo {Property}
-// Arg2: System.Object {Object}
-// Output: System.Object {Value}
-// CommandLineOutput: Got Value: {Value}
+------------------------------
+Arg1: System.Reflection.PropertyInfo {Property}
+Arg2: System.Object {Object}
+Output0: Got Value: {Value}
+Output1: System.Object {Value}
         
-CSharp System.Reflection.PropertyInfo.GetValue(this {Property}, {Object}) // Alias: {Value}
+CSharp System.Reflection.PropertyInfo.GetValue(this {Property}, {Object}) >> {Value}

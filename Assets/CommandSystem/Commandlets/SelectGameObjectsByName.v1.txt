@@ -1,12 +1,12 @@
-// Name: SelectGameObjectsByName
-// Version: 1
-// Description: Select GameObjects by name
-// Author: ETdoFresh
-// Aliases: selectgameobjectsbyname, selectgos, sgn
-// Arg1: string {GameObject Name}
-// Output: UnityEngine.GameObject[] {GameObjects}
-// CommandLineOutput: Selected GameObject:\n{GameObjects ScenePath}
+Name: SelectGameObjectsByName
+Version: 1
+Description: Select GameObjects by name
+Author: ETdoFresh
+Aliases: selectgameobjectsbyname, selectgos, sgn
+Arg1: string {GameObject Name}
+Output0: Selected GameObject:\n{GameObjects ScenePath}
+Output1: UnityEngine.GameObject[] {GameObjects}
 
-FindGameObjectsByName {GameObject Name} // Alias: {GameObjects}
-GetScenePath {GameObjects} // Alias: {GameObjects ScenePath}
+FindGameObjectsByName {GameObject Name} >> {GameObjects}
+GetScenePath {GameObjects} >> {GameObjects ScenePath}
 Select {GameObjects}

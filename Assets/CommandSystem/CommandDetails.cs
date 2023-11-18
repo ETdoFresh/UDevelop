@@ -26,25 +26,25 @@ namespace CommandSystem
         private string ToCommandletString()
         {
             var o = "";
-            o += $"// Name: {Name}\n";
-            o += $"// Description: {Description}\n";
-            o += $"// Author: {Author}\n";
-            o += $"// Aliases: {string.Join(",", Aliases)}\n";
+            o += $"Name: {Name}\n";
+            o += $"Description: {Description}\n";
+            o += $"Author: {Author}\n";
+            o += $"Aliases: {string.Join(",", Aliases)}\n";
             for (var i = 0; i < Input.Length; i++)
             {
                 var input = Input[i];
-                o += $"// Arg{i + 1}: {input.Type} {input.Name} {(input.Required ? "*" : "")}\n";
+                o += $"Arg{i + 1}: {input.Type} {input.Name} {(input.Required ? "*" : "")}\n";
             }
 
-            o += $"// Output: {Output.Name}\n";
-            o += $"// CommandLineOutput: {CommandLineOutput}\n";
+            o += $"Output: {Output.Name}\n";
+            o += $"CommandLineOutput: {CommandLineOutput}\n";
 
             for (var i = 0; i < Calls.Length; i++)
             {
                 var call = Calls[i];
                 o += "\n";
                 o += string.IsNullOrEmpty(call.Command) ? call.CSharp : call.Command;
-                o += string.IsNullOrEmpty(call.Name) ? "" : $" // Alias: {call.Name}";
+                o += string.IsNullOrEmpty(call.Name) ? "" : $" >> {call.Name}";
             }
 
             return o;
@@ -54,13 +54,13 @@ namespace CommandSystem
         {
             if (string.IsNullOrWhiteSpace(commandletString)) return Array.Empty<CommandObject>();
 
-            // Get lines and split into sections separated by lines starting with // ----- [exclude this line]
+            // Get lines and split into sections separated by lines starting with ---- [exclude this line]
             var lines = commandletString.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
             var sections = new List<List<string>>();
             var currentSection = new List<string>();
             foreach (var line in lines)
             {
-                if (line.StartsWith("// -----"))
+                if (line.StartsWith("----"))
                 {
                     sections.Add(currentSection);
                     currentSection = new List<string>();
@@ -93,7 +93,7 @@ namespace CommandSystem
             List<string> lines)
         {
             var callCount = lines.Count(line => !line.Trim().StartsWith("//") && !string.IsNullOrWhiteSpace(line));
-            callCount += lines.Count(line => line.StartsWith("// Name: NoOp"));
+            callCount += lines.Count(line => line.StartsWith("Name: NoOp"));
             if (callCount == 0) return null;
 
             var commandDetail = new CommandObject();
@@ -109,9 +109,9 @@ namespace CommandSystem
 
             foreach (var line in lines)
             {
-                if (line.StartsWith("// Filename: "))
+                if (line.StartsWith("Filename: "))
                 {
-                    var filename = line.Substring("// Filename: ".Length);
+                    var filename = line.Substring("Filename: ".Length);
                     var indexOfLastPeriod = filename.LastIndexOf('.');
                     var name = indexOfLastPeriod > -1 ? filename[..indexOfLastPeriod] : filename;
                     var versionString = indexOfLastPeriod > -1 ? filename[(indexOfLastPeriod + 1)..] : null;
@@ -123,32 +123,32 @@ namespace CommandSystem
                     commandDetail.Author = "Unknown";
                     commandDetail.Aliases = new[] { name.ToLower() };
                 }
-                else if (line.StartsWith("// Name: "))
+                else if (line.StartsWith("Name: "))
                 {
-                    commandDetail.Name = line["// Name: ".Length..];
+                    commandDetail.Name = line["Name: ".Length..];
                 }
-                else if (line.StartsWith("// Version: "))
+                else if (line.StartsWith("Version: "))
                 {
-                    var versionString = line["// Version: ".Length..];
+                    var versionString = line["Version: ".Length..];
                     commandDetail.Version = int.TryParse(versionString, out var version) ? version : 0;
                 }
-                else if (line.StartsWith("// Description: "))
+                else if (line.StartsWith("Description: "))
                 {
-                    commandDetail.Description = line["// Description: ".Length..];
+                    commandDetail.Description = line["Description: ".Length..];
                 }
-                else if (line.StartsWith("// Author: "))
+                else if (line.StartsWith("Author: "))
                 {
-                    commandDetail.Author = line["// Author: ".Length..];
+                    commandDetail.Author = line["Author: ".Length..];
                 }
-                else if (line.StartsWith("// Aliases: "))
+                else if (line.StartsWith("Aliases: "))
                 {
-                    commandDetail.Aliases = line["// Aliases: ".Length..].Split(',').Select(x => x.Trim())
+                    commandDetail.Aliases = line["Aliases: ".Length..].Split(',').Select(x => x.Trim())
                         .ToArray();
                 }
-                else if (line.StartsWith("// Arg"))
+                else if (line.StartsWith("Arg"))
                 {
                     var arg = new CommandInputDetail();
-                    var argString = line["// Arg".Length..];
+                    var argString = line["Arg".Length..];
                     var colonIndex = argString.IndexOf(':');
                     argString = argString[(colonIndex + 1)..];
                     var argData = Parser.GetArgData(argString);
@@ -159,25 +159,25 @@ namespace CommandSystem
                     commandDetail.Input ??= Array.Empty<CommandInputDetail>();
                     commandDetail.Input = commandDetail.Input.Append(arg).ToArray();
                 }
-                else if (line.StartsWith("// Output: "))
+                else if (line.StartsWith("Output1: "))
                 {
-                    var outputString = line["// Output: ".Length..];
+                    var outputString = line["Output1: ".Length..];
                     var args = Parser.GetArgData(outputString);
                     commandDetail.Output = new CommandOutputDetail();
                     commandDetail.Output.Type = args.Length > 1 ? args[0].Value?.ToString() ?? "object" : "object";
                     commandDetail.Output.Name = args.Length > 1 ? args[1].Value?.ToString() ?? "void" : args[0].Value?.ToString() ?? "void";
                 }
-                else if (line.StartsWith("// CommandLineOutput: "))
+                else if (line.StartsWith("Output0: "))
                 {
-                    commandDetail.CommandLineOutput = line["// CommandLineOutput: ".Length..];
+                    commandDetail.CommandLineOutput = line["Output0: ".Length..];
                 }
                 else if (!line.Trim().StartsWith("//") && !string.IsNullOrWhiteSpace(line))
                 {
                     var call = new CommandCallDetail();
                     var callString = line;
-                    var aliasSplit = callString.Split("// Alias: ");
+                    var aliasSplit = callString.Split(">> ");
                     call.Name = aliasSplit.Length > 1 ? aliasSplit[1] : null;
-                    var commentSplit = callString.Split("//");
+                    var commentSplit = callString.Split(new [] {"//", ">>"}, StringSplitOptions.RemoveEmptyEntries);
                     call.Command = commentSplit[0];
                     commandDetail.Calls ??= Array.Empty<CommandCallDetail>();
                     commandDetail.Calls = commandDetail.Calls.Append(call).ToArray();
@@ -212,12 +212,12 @@ namespace CommandSystem
                 jObject2["Command"] = x.Command;
                 return jObject2;
             }));
-            jObject["Output"] = new JObject
+            jObject["Output1"] = new JObject
             {
                 ["Type"] = Output.Type,
                 ["Name"] = Output.Name
             };
-            jObject["CommandLineOutput"] = CommandLineOutput;
+            jObject["Output0"] = CommandLineOutput;
             return jObject.ToString();
         }
         
@@ -246,8 +246,8 @@ namespace CommandSystem
                 commandDetail.Aliases = jObject["Aliases"]?.ToObject<string[]>() ?? commandDetail.Aliases;
                 commandDetail.Input = overload["Input"]?.ToObject<CommandInputDetail[]>();
                 commandDetail.Calls = overload["Calls"]?.ToObject<CommandCallDetail[]>();
-                commandDetail.Output = overload["Output"]?.ToObject<CommandOutputDetail>();
-                commandDetail.CommandLineOutput = overload["CommandLineOutput"]?.ToString();
+                commandDetail.Output = overload["Output1"]?.ToObject<CommandOutputDetail>();
+                commandDetail.CommandLineOutput = overload["Output0"]?.ToString();
                 commandDetails[i] = commandDetail;
                 previousCommandDetail = commandDetail;
             }

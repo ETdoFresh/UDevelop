@@ -1,7 +1,7 @@
-﻿// Name: Clear
-// Version: 1
-// Description: Clears the console.
-// Author: ETdoFresh
-// Aliases: clear, cls
+﻿Name: Clear
+Version: 1
+Description: Clears the console.
+Author: ETdoFresh
+Aliases: clear, cls
 
 CSharp CommandSystem.CommandData.Clear()

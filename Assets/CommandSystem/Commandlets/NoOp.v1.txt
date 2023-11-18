@@ -1,10 +1,10 @@
-// Name: NoOp
-// Version: 1
-// Description: No operation
-// Author: ETdoFresh
-// Aliases: noop, cast
-// Arg1: object {Value}
-// Output: object {Value}
-// CommandLineOutput: NoOp: {Value}
+Name: NoOp
+Version: 1
+Description: No operation
+Author: ETdoFresh
+Aliases: noop, cast
+Arg1: object {Value}
+Output0: NoOp: {Value}
+Output1: object {Value}
 
 // Do nothing

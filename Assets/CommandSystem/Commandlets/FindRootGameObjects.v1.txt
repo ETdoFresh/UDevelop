@@ -1,14 +1,14 @@
-// Name: FindRootGameObjects
-// Version: 1
-// Description: Find root GameObjects
-// Author: ETdoFresh
-// Aliases: findrootgameobjects, findrootgos, frgs
-// Output: {Root GameObjects}
-// CommandLineOutput: Found Root GameObjects:\n{Root GameObjects}
+Name: FindRootGameObjects
+Version: 1
+Description: Find root GameObjects
+Author: ETdoFresh
+Aliases: findrootgameobjects, findrootgos, frgs
+Output0: Found Root GameObjects:\n{Root GameObjects}
+Output1: {Root GameObjects}
 
-FindObjectsOfType UnityEngine.GameObject // Alias: {All GameObjects}
+FindObjectsOfType UnityEngine.GameObject >> {All GameObjects}
 // TODO: Implement GetValues
-GetValues transform {All GameObjects} // Alias: {All Transforms}
-Filter parent null {All Transforms} // Alias: {Root Transforms}
-GetValues gameObject {Root Transforms} // Alias: {Root GameObjects}
-GetScenePath {All GameObjects} // Alias: {All GameObject ScenePaths}
+GetValues transform {All GameObjects} >> {All Transforms}
+Filter parent null {All Transforms} >> {Root Transforms}
+GetValues gameObject {Root Transforms} >> {Root GameObjects}
+GetScenePath {All GameObjects} >> {All GameObject ScenePaths}

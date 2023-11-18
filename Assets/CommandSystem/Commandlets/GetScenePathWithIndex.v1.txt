@@ -1,18 +1,18 @@
-// Name: GetScenePathWithIndex
-// Version: 1
-// Description: Get the scene path of a GameObject with the same name sibling index [not hierarchy sibling index]
-// Author: ETdoFresh
-// Aliases: getscenepathwithindex, gspi
-// Arg1: UnityEngine.GameObject {GameObject}
-// Output: string {GameObject ScenePath}
-// CommandLineOutput: {GameObject ScenePath}
+Name: GetScenePathWithIndex
+Version: 1
+Description: Get the scene path of a GameObject with the same name sibling index [not hierarchy sibling index]
+Author: ETdoFresh
+Aliases: getscenepathwithindex, gspi
+Arg1: UnityEngine.GameObject {GameObject}
+Output0: {GameObject ScenePath}
+Output1: string {GameObject ScenePath}
 
-CSharp CommandSystem.Utility.GetGameObjectScenePathWithIndex({GameObject}) // Alias: {GameObject ScenePath}
+CSharp CommandSystem.Utility.GetGameObjectScenePathWithIndex({GameObject}) >> {GameObject ScenePath}
 
-// ------------------------------
-// Arg1: UnityEngine.Object[] {GameObjects}
-// Output: string {Objects ScenePath}
-// CommandLineOutput: Found Objects: {Objects ScenePath}
+------------------------------
+Arg1: UnityEngine.Object[] {GameObjects}
+Output0: Found Objects: {Objects ScenePath}
+Output1: string {Objects ScenePath}
 
-Cast {GameObjects} // Alias: {Objects}
-CSharp CommandSystem.Utility.GetObjectsScenePathWithIndex({Objects}) // Alias: {Objects ScenePath}
+Cast {GameObjects} >> {Objects}
+CSharp CommandSystem.Utility.GetObjectsScenePathWithIndex({Objects}) >> {Objects ScenePath}

@@ -1,36 +1,36 @@
-﻿// Name: Select
-// Version: 1
-// Description: Select Object(s)
-// Author: ETdoFresh
-// Aliases: select, s
-// Arg1: UnityEngine.Object[] {Objects}
-// Output: void {void}
-// CommandLineOutput: Selected Objects:\n{Objects}
+﻿Name: Select
+Version: 1
+Description: Select Object(s)
+Author: ETdoFresh
+Aliases: select, s
+Arg1: UnityEngine.Object[] {Objects}
+Output0: Selected Objects:\n{Objects}
+Output1: void {void}
 
-GetPropertyInfo CommandSystem.Commands.Selection objects // Alias: {Selection Objects PropertyInfo}
+GetPropertyInfo CommandSystem.Commands.Selection objects >> {Selection Objects PropertyInfo}
 SetValue {Selection Objects PropertyInfo} null {Objects}
 
-// ------------------------------
-// Arg1: UnityEngine.Object {Object}
-// Output: void {void}
-// CommandLineOutput: Selected Object:\n{Object}
+------------------------------
+Arg1: UnityEngine.Object {Object}
+Output0: Selected Object:\n{Object}
+Output1: void {void}
 
-ToArray {Object} // Alias: {Objects}
+ToArray {Object} >> {Objects}
 Select {Objects}
 
-// ------------------------------
-// Arg1: object[] {Objects}
-// Output: void {void}
-// CommandLineOutput: Selected Object:\n{object}
+------------------------------
+Arg1: object[] {Objects}
+Output0: Selected Object:\n{object}
+Output1: void {void}
 
-CastArray {Objects} UnityEngine.Object[] // Alias: {ConvertedObjects}
+CastArray {Objects} UnityEngine.Object[] >> {ConvertedObjects}
 Select {ConvertedObjects}
 
-// ------------------------------
-// Arg1: object {Object}
-// Output: void {void}
-// CommandLineOutput: Selected Object:\n{Object}
+------------------------------
+Arg1: object {Object}
+Output0: Selected Object:\n{Object}
+Output1: void {void}
 
-ToArray {Object} // Alias: {Objects}
-CastArray {Objects} UnityEngine.Object[] // Alias: {ConvertedObjects}
+ToArray {Object} >> {Objects}
+CastArray {Objects} UnityEngine.Object[] >> {ConvertedObjects}
 Select {ConvertedObjects}

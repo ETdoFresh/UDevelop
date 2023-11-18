@@ -1,21 +1,21 @@
-// Name: AddComponent
-// Version: 1
-// Description: Adds a component to a GameObject.
-// Author: ETdoFresh
-// Aliases: addcomponent, addcomp
-// Arg1: UnityEngine.GameObject {GameObject}
-// Arg2: System.Type {Component Type}
-// Output: UnityEngine.Component {Component}
-// CommandLineOutput: Added component: {Component}
+Name: AddComponent
+Version: 1
+Description: Adds a component to a GameObject.
+Author: ETdoFresh
+Aliases: addcomponent, addcomp
+Arg1: UnityEngine.GameObject {GameObject}
+Arg2: System.Type {Component Type}
+Output0: Added component: {Component}
+Output1: UnityEngine.Component {Component}
 
-CSharp UnityEngine.GameObject.AddComponent(this {GameObject}, {Component Type}) // Alias: {Component}
+CSharp UnityEngine.GameObject.AddComponent(this {GameObject}, {Component Type}) >> {Component}
 
-// ------------------------------
-// Arg1: string {GameObject Name}
-// Arg2: string {Component Type Name}
-// Output: UnityEngine.Component {Component}
-// CommandLineOutput: Added component: {Component}
+------------------------------
+Arg1: string {GameObject Name}
+Arg2: string {Component Type Name}
+Output0: Added component: {Component}
+Output1: UnityEngine.Component {Component}
 
-FindGameObjectByName {GameObject Name} // Alias: {GameObject}
-FindSystemTypeByName {Component Type Name} // Alias: {Component Type}
-AddComponent {GameObject} {Component Type} // Alias: {Component}
+FindGameObjectByName {GameObject Name} >> {GameObject}
+FindSystemTypeByName {Component Type Name} >> {Component Type}
+AddComponent {GameObject} {Component Type} >> {Component}

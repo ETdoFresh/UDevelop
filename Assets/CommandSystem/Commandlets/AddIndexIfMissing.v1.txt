@@ -1,17 +1,17 @@
-﻿// Name: AddIndexIfMissing
-// Version: 1
-// Description: Add an index to the end of a path name if it doesn't already have one.
-// Author: ETdoFresh
-// Aliases: addindexifmissing, aiim
-// Arg1: string {Path}
-// Output: string {Path}
-// CommandLineOutput: {Path}
+﻿Name: AddIndexIfMissing
+Version: 1
+Description: Add an index to the end of a path name if it doesn't already have one.
+Author: ETdoFresh
+Aliases: addindexifmissing, aiim
+Arg1: string {Path}
+Output0: {Path}
+Output1: string {Path}
 
-CSharp CommandSystem.Utility.AddIndexIfMissing({Path}) // Alias: {Path}
+CSharp CommandSystem.Utility.AddIndexIfMissing({Path}) >> {Path}
 
-// ------------------------------
-// Arg1: string[] {Paths}
-// Output: string[] {Paths}
-// CommandLineOutput: Found Paths:\n{Paths}
+------------------------------
+Arg1: string[] {Paths}
+Output0: Found Paths:\n{Paths}
+Output1: string[] {Paths}
 
-CSharp CommandSystem.Utility.AddIndexIfMissing({Paths}) // Alias: {Paths} 
+CSharp CommandSystem.Utility.AddIndexIfMissing({Paths}) >> {Paths} 

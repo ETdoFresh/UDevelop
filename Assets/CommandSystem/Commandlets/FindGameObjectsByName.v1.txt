@@ -1,13 +1,13 @@
-﻿// Name: FindGameObjectsByName
-// Version: 1
-// Description: Finds GameObjects by name
-// Author: ETdoFresh
-// Aliases: findgameobjectsbyname, findgos, fgs
-// Arg1: string {GameObject Name}
-// Output: {GameObjects}
-// CommandLineOutput: Found GameObjects:\n{GameObjects ScenePath}
+﻿Name: FindGameObjectsByName
+Version: 1
+Description: Finds GameObjects by name
+Author: ETdoFresh
+Aliases: findgameobjectsbyname, findgos, fgs
+Arg1: string {GameObject Name}
+Output0: Found GameObjects:\n{GameObjects ScenePath}
+Output1: {GameObjects}
 
-FindObjectsOfType UnityEngine.GameObject // Alias: {All GameObjects}
-Filter name {GameObject Name} {All GameObjects} // Alias: {Objects}
-CastArray {Objects} UnityEngine.GameObject[] // Alias: {GameObjects}
-GetScenePath {GameObjects} // Alias: {GameObjects ScenePath}
+FindObjectsOfType UnityEngine.GameObject >> {All GameObjects}
+Filter name {GameObject Name} {All GameObjects} >> {Objects}
+CastArray {Objects} UnityEngine.GameObject[] >> {GameObjects}
+GetScenePath {GameObjects} >> {GameObjects ScenePath}

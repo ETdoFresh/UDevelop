@@ -1,21 +1,21 @@
-﻿// Name: GetPropertyInfo
-// Version: 1
-// Description: Gets the PropertyInfo from type and property name
-// Author: ETdoFresh
-// Aliases: getpropertyinfo, gpi
-// Arg1: System.Type {Type}
-// Arg2: string {Property Name}
-// Output: System.Reflection.PropertyInfo {Property}
-// CommandLineOutput: Found Property: {Property}
+﻿Name: GetPropertyInfo
+Version: 1
+Description: Gets the PropertyInfo from type and property name
+Author: ETdoFresh
+Aliases: getpropertyinfo, gpi
+Arg1: System.Type {Type}
+Arg2: string {Property Name}
+Output0: Found Property: {Property}
+Output1: System.Reflection.PropertyInfo {Property}
 
-GetDefaultBindingFlags // Alias: {Binding Flags}
-CSharp System.Type.GetProperty(this {Type}, {Property Name}, {Binding Flags}) // Alias: {Property}
+GetDefaultBindingFlags >> {Binding Flags}
+CSharp System.Type.GetProperty(this {Type}, {Property Name}, {Binding Flags}) >> {Property}
 
-// ------------------------------
-// Arg1: string {Type Name}
-// Arg2: string {Property Name}
-// Output: System.Reflection.PropertyInfo {Property}
-// CommandLineOutput: Found Property: {Property}
+------------------------------
+Arg1: string {Type Name}
+Arg2: string {Property Name}
+Output0: Found Property: {Property}
+Output1: System.Reflection.PropertyInfo {Property}
         
-FindSystemTypeByName {Type Name} // Alias: {Type}
-GetPropertyInfo {Type} {Property Name} // Alias: {Property}
+FindSystemTypeByName {Type Name} >> {Type}
+GetPropertyInfo {Type} {Property Name} >> {Property}

@@ -1,17 +1,17 @@
-// Name: GetScenePath
-// Version: 1
-// Description: Gets the scene path of a GameObject
-// Author: ETdoFresh
-// Aliases: getscenepath, gsp
-// Arg1: UnityEngine.GameObject {GameObject}
-// Output: string {GameObject ScenePath}
-// CommandLineOutput: {GameObject ScenePath}
+Name: GetScenePath
+Version: 1
+Description: Gets the scene path of a GameObject
+Author: ETdoFresh
+Aliases: getscenepath, gsp
+Arg1: UnityEngine.GameObject {GameObject}
+Output0: {GameObject ScenePath}
+Output1: string {GameObject ScenePath}
 
-CSharp CommandSystem.Utility.GetGameObjectScenePath({GameObject}) // Alias: {GameObject ScenePath}
+CSharp CommandSystem.Utility.GetGameObjectScenePath({GameObject}) >> {GameObject ScenePath}
 
-// ------------------------------
-// Arg1: UnityEngine.Object[] {Objects}
-// Output: string {Objects ScenePath}
-// CommandLineOutput: Found Objects: {Objects ScenePath}
+------------------------------
+Arg1: UnityEngine.Object[] {Objects}
+Output0: Found Objects: {Objects ScenePath}
+Output1: string {Objects ScenePath}
 
-CSharp CommandSystem.Utility.GetObjectsScenePath({Objects}) // Alias: {Objects ScenePath}
+CSharp CommandSystem.Utility.GetObjectsScenePath({Objects}) >> {Objects ScenePath}

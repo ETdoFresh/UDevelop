@@ -1,45 +1,45 @@
-// Name: Map
-// Version: 1
-// Description: Runs a function on each element of an array
-// Author: ETdoFresh
-// Aliases: map, select
-// Arg1: System.Reflection.FieldInfo {Field}
-// Arg2: object[] {Array}
-// Output: object[] {Mapped Array}
-// CommandLineOutput: Mapped Array: {Mapped Array}
+Name: Map
+Version: 1
+Description: Runs a function on each element of an array
+Author: ETdoFresh
+Aliases: map, select
+Arg1: System.Reflection.FieldInfo {Field}
+Arg2: object[] {Array}
+Output0: Mapped Array: {Mapped Array}
+Output1: object[] {Mapped Array}
 
-CSharp CommandSystem.Utility.Map({Field}, {Array}) // Alias: {Mapped Array}
+CSharp CommandSystem.Utility.Map({Field}, {Array}) >> {Mapped Array}
 
-// ------------------------------
-// Arg1: System.Reflection.PropertyInfo {Property}
-// Arg2: object[] {Array}
-// Output: object[] {Mapped Array}
-// CommandLineOutput: Mapped Array: {Mapped Array}
+------------------------------
+Arg1: System.Reflection.PropertyInfo {Property}
+Arg2: object[] {Array}
+Output0: Mapped Array: {Mapped Array}
+Output1: object[] {Mapped Array}
 
-CSharp CommandSystem.Utility.Map({Property}, {Array}) // Alias: {Mapped Array}
+CSharp CommandSystem.Utility.Map({Property}, {Array}) >> {Mapped Array}
 
-// ------------------------------
-// Arg1: System.Reflection.MethodInfo {Function}
-// Arg2: object[] {Array}
-// Output: object[] {Mapped Array}
-// CommandLineOutput: Mapped Array: {Mapped Array}
+------------------------------
+Arg1: System.Reflection.MethodInfo {Function}
+Arg2: object[] {Array}
+Output0: Mapped Array: {Mapped Array}
+Output1: object[] {Mapped Array}
 
-CSharp CommandSystem.Utility.Map({Function}, {Array}) // Alias: {Mapped Array}
+CSharp CommandSystem.Utility.Map({Function}, {Array}) >> {Mapped Array}
 
-// ------------------------------
-// Arg1: CommandSystem.CommandReference {Command}
-// Arg2: object[] {Array}
-// Output: object[] {Mapped Array}
-// CommandLineOutput: Mapped Array: {Mapped Array}
+------------------------------
+Arg1: CommandSystem.CommandReference {Command}
+Arg2: object[] {Array}
+Output0: Mapped Array: {Mapped Array}
+Output1: object[] {Mapped Array}
 
-CSharp CommandSystem.Utility.Map({Command}, {Array}) // Alias: {Mapped Array}
+CSharp CommandSystem.Utility.Map({Command}, {Array}) >> {Mapped Array}
 
-// ------------------------------
-// Arg1: string {Field or Property Name}
-// Arg2: object[] {Array}
-// Output: object[] {Mapped Array}
-// CommandLineOutput: Mapped Array: {Mapped Array}
+------------------------------
+Arg1: string {Field or Property Name}
+Arg2: object[] {Array}
+Output0: Mapped Array: {Mapped Array}
+Output1: object[] {Mapped Array}
 
-GetElementType {Array} // Alias: {Type}
-GetFieldInfoOrPropertyInfo {Type} {Field or Property Name} // Alias: {Field or Property}
-CSharp CommandSystem.Utility.Map({Field or Property}, {Array}) // Alias: {Mapped Array}
+GetElementType {Array} >> {Type}
+GetFieldInfoOrPropertyInfo {Type} {Field or Property Name} >> {Field or Property}
+CSharp CommandSystem.Utility.Map({Field or Property}, {Array}) >> {Mapped Array}

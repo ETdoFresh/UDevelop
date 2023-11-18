@@ -1,21 +1,21 @@
-// Name: FindAssetsByName
-// Version: 1
-// Description: Find assets by name
-// Author: ETdoFresh
-// Aliases: findassetsbyname
-// Arg1: string {Name}
-// Output: Object[] {Filtered Assets}
-// CommandLineOutput: {Filtered Asset Paths}
+Name: FindAssetsByName
+Version: 1
+Description: Find assets by name
+Author: ETdoFresh
+Aliases: findassetsbyname
+Arg1: string {Name}
+Output0: {Filtered Asset Paths}
+Output1: Object[] {Filtered Assets}
 
-AssetDatabaseFindAssets {Name} // Alias: {GUIDs}
-AssetDatabaseGUIDToAssetPath {GUIDs} // Alias: {Asset Paths}
-OrderBy {Asset Paths} string[] // Alias: {Ordered Asset Paths}
-AssetDatabaseLoadAssetAtPath {Ordered Asset Paths} // Alias: {Assets}
-Map name {Assets} // Alias: {Asset Names}
-GetCommandReference "StringEquals {MapByArg} {Name} InvariantCultureIgnoreCase" // Alias: {StringEquals Command}
-Map {StringEquals Command} {Asset Names} // Alias: {AreNamesEqual Booleans}
-CastArray {AreNamesEqual Booleans} bool[] // Alias: {AreNamesEqual Booleans}
-Filter {AreNamesEqual Booleans} {Assets} // Alias: {Filtered Assets}
-CastArray {Filtered Assets} UnityEngine.Object[] // Alias: {Filtered Assets}
-AssetDatabaseGetAssetPath {Filtered Assets} // Alias: {Filtered Asset Paths}
-StringJoin \n {Filtered Asset Paths} // Alias: {Filtered Asset Paths}
+AssetDatabaseFindAssets {Name} >> {GUIDs}
+AssetDatabaseGUIDToAssetPath {GUIDs} >> {Asset Paths}
+OrderBy {Asset Paths} string[] >> {Ordered Asset Paths}
+AssetDatabaseLoadAssetAtPath {Ordered Asset Paths} >> {Assets}
+Map name {Assets} >> {Asset Names}
+GetCommandReference "StringEquals {MapByArg} {Name} InvariantCultureIgnoreCase" >> {StringEquals Command}
+Map {StringEquals Command} {Asset Names} >> {AreNamesEqual Booleans}
+CastArray {AreNamesEqual Booleans} bool[] >> {AreNamesEqual Booleans}
+Filter {AreNamesEqual Booleans} {Assets} >> {Filtered Assets}
+CastArray {Filtered Assets} UnityEngine.Object[] >> {Filtered Assets}
+AssetDatabaseGetAssetPath {Filtered Assets} >> {Filtered Asset Paths}
+StringJoin \n {Filtered Asset Paths} >> {Filtered Asset Paths}

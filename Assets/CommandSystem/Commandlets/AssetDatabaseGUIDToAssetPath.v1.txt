@@ -1,20 +1,20 @@
-// Name: AssetDatabaseGUIDToAssetPath
-// Version: 1
-// Description: Get asset path from guid
-// Author: ETdoFresh
-// Aliases: assetdatabaseguidtoassetpath
-// Arg1: string[] {GUIDs}
-// Output: string[] {AssetPaths}
-// CommandLineOutput: Found Objects:\n{AssetPath Strings}
+Name: AssetDatabaseGUIDToAssetPath
+Version: 1
+Description: Get asset path from guid
+Author: ETdoFresh
+Aliases: assetdatabaseguidtoassetpath
+Arg1: string[] {GUIDs}
+Output0: Found Objects:\n{AssetPath Strings}
+Output1: string[] {AssetPaths}
 
-CSharp CommandSystem.Utility.AssetDatabaseGUIDToAssetPath({GUIDs}) // Alias: {AssetPaths}
-StringJoin \n {AssetPaths} // Alias: {AssetPath Strings}
+CSharp CommandSystem.Utility.AssetDatabaseGUIDToAssetPath({GUIDs}) >> {AssetPaths}
+StringJoin \n {AssetPaths} >> {AssetPath Strings}
 
-// ------------------------------
-// Arg1: string {GUID}
-// Output: string[] {AssetPaths}
-// CommandLineOutput: Found Objects:\n{AssetPaths String}
+------------------------------
+Arg1: string {GUID}
+Output0: Found Objects:\n{AssetPaths String}
+Output1: string[] {AssetPaths}
 
-ToArray {GUID} string[] // Alias: {GUIDs}
-AssetDatabaseGUIDToAssetPath {GUIDs} // Alias: {AssetPaths}
-StringJoin \n {AssetPaths} // Alias: {AssetPaths String}
+ToArray {GUID} string[] >> {GUIDs}
+AssetDatabaseGUIDToAssetPath {GUIDs} >> {AssetPaths}
+StringJoin \n {AssetPaths} >> {AssetPaths String}

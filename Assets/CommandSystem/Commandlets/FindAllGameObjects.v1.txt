@@ -1,10 +1,10 @@
-// Name: FindAllGameObjects
-// Version: 1
-// Description: Find all GameObjects
-// Author: ETdoFresh
-// Aliases: findallgameobjects, findallgos, fags
-// Output: {All GameObjects}
-// CommandLineOutput: Found GameObjects:\n{All GameObject ScenePaths}
+Name: FindAllGameObjects
+Version: 1
+Description: Find all GameObjects
+Author: ETdoFresh
+Aliases: findallgameobjects, findallgos, fags
+Output0: Found GameObjects:\n{All GameObject ScenePaths}
+Output1: {All GameObjects}
 
-FindObjectsOfType UnityEngine.GameObject // Alias: {All GameObjects}
-GetScenePath {All GameObjects} // Alias: {All GameObject ScenePaths}
+FindObjectsOfType UnityEngine.GameObject >> {All GameObjects}
+GetScenePath {All GameObjects} >> {All GameObject ScenePaths}

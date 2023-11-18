@@ -1,39 +1,39 @@
-﻿// Name: GetComponent
-// Version: 1
-// Description: Gets a component from a GameObject.
-// Author: ETdoFresh
-// Alias: getcomponent, getcomp
-// Arg1: UnityEngine.GameObject {GameObject}
-// Arg2: System.Type {Component Type}
-// Output: UnityEngine.Component {Component}
-// CommandLineOutput: Got component: {Component Type}
+﻿Name: GetComponent
+Version: 1
+Description: Gets a component from a GameObject.
+Author: ETdoFresh
+Aliases: getcomponent, getcomp
+Arg1: UnityEngine.GameObject {GameObject}
+Arg2: System.Type {Component Type}
+Output0: Got component: {Component Type}
+Output1: UnityEngine.Component {Component}
 
-CSharp UnityEngine.GameObject.GetComponent(this {GameObject}, {Component Type}) // Alias: {Component}
+CSharp UnityEngine.GameObject.GetComponent(this {GameObject}, {Component Type}) >> {Component}
 
-// ------------------------------
-// Arg1: string {GameObject Name}
-// Arg2: string {Component Type Name}
-// Output: UnityEngine.Component {Component}
-// CommandLineOutput: Got component: {Component Type}
+------------------------------
+Arg1: string {GameObject Name}
+Arg2: string {Component Type Name}
+Output1: UnityEngine.Component {Component}
+Output0: Got component: {Component Type}
 
-FindGameObjectByName {GameObject Name} // Alias: {GameObject}
-FindSystemTypeByName {Component Type Name} // Alias: {Component Type}
-GetComponent {GameObject} {Component Type} // Alias: {Component}
+FindGameObjectByName {GameObject Name} >> {GameObject}
+FindSystemTypeByName {Component Type Name} >> {Component Type}
+GetComponent {GameObject} {Component Type} >> {Component}
 
-// ------------------------------
-// Arg1: UnityEngine.GameObject {GameObject}
-// Arg2: string {Component Type Name}
-// Output: UnityEngine.Component {Component}
-// CommandLineOutput: Got component: {Component Type}
+------------------------------
+Arg1: UnityEngine.GameObject {GameObject}
+Arg2: string {Component Type Name}
+Output1: UnityEngine.Component {Component}
+Output0: Got component: {Component Type}
 
-FindSystemTypeByName {Component Type Name} // Alias: {Component Type}
-GetComponent {GameObject} {Component Type} // Alias: {Component}
+FindSystemTypeByName {Component Type Name} >> {Component Type}
+GetComponent {GameObject} {Component Type} >> {Component}
 
-// ------------------------------
-// Arg1: string {GameObject Name}
-// Arg2: System.Type {Component Type}
-// Output: UnityEngine.Component {Component}
-// CommandLineOutput: Got component: {Component Type}
+------------------------------
+Arg1: string {GameObject Name}
+Arg2: System.Type {Component Type}
+Output1: UnityEngine.Component {Component}
+Output0: Got component: {Component Type}
 
-FindGameObjectByName {GameObject Name} // Alias: {GameObject}
-GetComponent {GameObject} {Component Type} // Alias: {Component}
+FindGameObjectByName {GameObject Name} >> {GameObject}
+GetComponent {GameObject} {Component Type} >> {Component}

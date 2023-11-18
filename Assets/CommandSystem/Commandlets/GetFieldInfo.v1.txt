@@ -1,21 +1,21 @@
-﻿// Name: GetFieldInfo
-// Version: 1
-// Description: Gets the FieldInfo from type and field name
-// Author: ETdoFresh
-// Aliases: getfieldinfo, gfi
-// Arg1: System.Type {Type}
-// Arg2: string {Field Name}
-// Output: System.Reflection.FieldInfo {Field}
-// CommandLineOutput: Found Field: {Field}
+﻿Name: GetFieldInfo
+Version: 1
+Description: Gets the FieldInfo from type and field name
+Author: ETdoFresh
+Aliases: getfieldinfo, gfi
+Arg1: System.Type {Type}
+Arg2: string {Field Name}
+Output0: Found Field: {Field}
+Output1: System.Reflection.FieldInfo {Field}
 
-GetDefaultBindingFlags // Alias: {Binding Flags}
-CSharp System.Type.GetField(this {Type}, {Field Name}, {Binding Flags}) // Alias: {Field}
+GetDefaultBindingFlags >> {Binding Flags}
+CSharp System.Type.GetField(this {Type}, {Field Name}, {Binding Flags}) >> {Field}
 
-// ------------------------------
-// Arg1: string {Type Name}
-// Arg2: string {Field Name}
-// Output: System.Reflection.FieldInfo {Field}
-// CommandLineOutput: Found Field: {Field}
+------------------------------
+Arg1: string {Type Name}
+Arg2: string {Field Name}
+Output1: System.Reflection.FieldInfo {Field}
+Output0: Found Field: {Field}
 
-FindSystemTypeByName {Type Name} // Alias: {Type}
-GetFieldInfo {Type} {Field Name} // Alias: {Field}
+FindSystemTypeByName {Type Name} >> {Type}
+GetFieldInfo {Type} {Field Name} >> {Field}

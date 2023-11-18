@@ -1,29 +1,29 @@
-﻿// Name: FindObjectsOfType
-// Version: 1
-// Description: Finds all objects of a certain type.
-// Author: ETdoFresh
-// Alias: findobjectsoftype, foot
-// Arg1: System.Type {Component Type}
-// Output: UnityEngine.Object[] {Objects}
-// CommandLineOutput: Found objects of type {Component Type}\n{Object ScenePaths}
+﻿Name: FindObjectsOfType
+Version: 1
+Description: Finds all objects of a certain type.
+Author: ETdoFresh
+Aliases: findobjectsoftype, foot
+Arg1: System.Type {Component Type}
+Output0: Found objects of type {Component Type}\n{Object ScenePaths}
+Output1: UnityEngine.Object[] {Objects}
 
-CSharp UnityEngine.Object.FindObjectsOfType({Component Type}) // Alias: {Objects}
-GetScenePath {Objects} // Alias: {Object ScenePaths}
+CSharp UnityEngine.Object.FindObjectsOfType({Component Type}) >> {Objects}
+GetScenePath {Objects} >> {Object ScenePaths}
 
-// ------------------------------
-// Arg1: string {Component Type Name}
-// Output: UnityEngine.Object[] {Objects}
-// CommandLineOutput: Found objects of type {Component Type}\n{Object ScenePaths}
+------------------------------
+Arg1: string {Component Type Name}
+Output0: Found objects of type {Component Type}\n{Object ScenePaths}
+Output1: UnityEngine.Object[] {Objects}
 
-FindSystemTypeByName {Component Type Name} // Alias: {Component Type}
-FindObjectsOfType {Component Type} // Alias: {Objects}
-GetScenePath {Objects} // Alias: {Object ScenePaths}
+FindSystemTypeByName {Component Type Name} >> {Component Type}
+FindObjectsOfType {Component Type} >> {Objects}
+GetScenePath {Objects} >> {Object ScenePaths}
 
-// ------------------------------
-// Arg1: System.Type {Component Type}
-// Arg2: bool {IncludeInactive}
-// Output: UnityEngine.Object[] {Objects}
-// CommandLineOutput: Found objects of type {Component Type}\n{Object ScenePaths}
+------------------------------
+Arg1: System.Type {Component Type}
+Arg2: bool {IncludeInactive}
+Output0: Found objects of type {Component Type}\n{Object ScenePaths}
+Output1: UnityEngine.Object[] {Objects}
 
-CSharp UnityEngine.Object.FindObjectsOfType({Component Type}, {IncludeInactive}) // Alias: {Objects}
-GetScenePath {Objects} // Alias: {Object ScenePaths}
+CSharp UnityEngine.Object.FindObjectsOfType({Component Type}, {IncludeInactive}) >> {Objects}
+GetScenePath {Objects} >> {Object ScenePaths}
