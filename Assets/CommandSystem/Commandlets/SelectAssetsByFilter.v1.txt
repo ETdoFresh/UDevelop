@@ -1,0 +1,13 @@
+// Name SelectAssetsByFilter
+// Version: 1
+// Description: Select assets by filter
+// Author: ETdoFresh
+// Aliases: selectassetsbyfilter, selectassets, sabf
+// Arg1: string {filter}
+// Output: UnityEngine.Object[] {Assets}
+// CommandLineOutput: Selecting:\n{AssetPath Strings}
+
+FindAssets {filter} // Alias: {Assets}
+AssetDatabaseGetAssetPath {Assets} // Alias: {Asset Paths}
+Select {Assets}
+StringJoin \n {Asset Paths} // Alias: {AssetPath Strings}
