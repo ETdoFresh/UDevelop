@@ -1,0 +1,12 @@
+// Name: StringEquals
+// Version: 1
+// Description: Checks if two strings are equal
+// Author: ETdoFresh
+// Aliases: stringequals
+// Arg1: string {String1}
+// Arg2: string {String2}
+// Arg3: System.StringComparison {StringComparison}
+// Output: bool {Equal}
+// CommandLineOutput: Equal: {Equal}
+
+CSharp System.String.Equals({String1}, {String2}, {StringComparison}) // Alias: {Equal}

@@ -130,7 +130,10 @@ namespace CommandSystem
                         if (arg?.Value == null) continue;
                         if (methodParameter.ParameterType.IsInstanceOfType(arg.Value)) continue;
                         if (arg.IsConvertible(methodParameter.ParameterType))
+                        {
                             args[i] = arg.ConvertType(methodParameter.ParameterType);
+                            argObjects[i] = args[i].Value;
+                        }
                     }
                     return method.Invoke(self?.Value, argObjects);
                 }

@@ -9,7 +9,7 @@
 
 AddIndexIfMissing {Scene Path} // Alias: {Scene Path With Index}
 FindObjectsOfType UnityEngine.GameObject // Alias: {All GameObjects}
-GetCommandReference GetScenePathWithIndex // Alias: {GetScenePathWithIndex Command}
-FilterBy {GetScenePathWithIndex Command} {Scene Path With Index} {All GameObjects} // Alias: {GameObjects}
+GetCommandReference "GetScenePathWithIndex" // Alias: {GetScenePathWithIndex Command}
+Filter {GetScenePathWithIndex Command} {Scene Path With Index} {All GameObjects} // Alias: {GameObjects}
 GetFirstOrDefault {GameObjects} // Alias: {GameObject}
 GetScenePathWithIndex {GameObject} // Alias: {GameObject ScenePath}

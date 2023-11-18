@@ -9,6 +9,6 @@
 FindObjectsOfType UnityEngine.GameObject // Alias: {All GameObjects}
 // TODO: Implement GetValues
 GetValues transform {All GameObjects} // Alias: {All Transforms}
-FilterBy parent null {All Transforms} // Alias: {Root Transforms}
+Filter parent null {All Transforms} // Alias: {Root Transforms}
 GetValues gameObject {Root Transforms} // Alias: {Root GameObjects}
 GetScenePath {All GameObjects} // Alias: {All GameObject ScenePaths}

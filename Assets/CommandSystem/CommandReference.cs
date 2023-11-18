@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 
 namespace CommandSystem
 {
@@ -23,7 +22,9 @@ namespace CommandSystem
         public OutputData Run(params ArgData[] args)
         {
             var commandStringWithArgs = _commandString;
-            if (args.Length > 0) commandStringWithArgs += " " + string.Join(" ", args.Select(x => x.Name));
+            foreach(var arg in args)
+                if (!commandStringWithArgs.Contains(arg.Name))
+                    commandStringWithArgs += " " + arg.Name;
             var localArgsWithArgs = new Dictionary<string, ArgData>(_localArgs);
             foreach (var arg in args) localArgsWithArgs[arg.Name] = arg;
             return CommandObject.TryRun(commandStringWithArgs, null, localArgsWithArgs, out var outputData)

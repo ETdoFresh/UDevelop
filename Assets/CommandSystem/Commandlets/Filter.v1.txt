@@ -1,15 +1,15 @@
-﻿// Name: FilterBy
+﻿// Name: Filter
 // Version: 1
 // Description: Filters an array by a given field/property
 // Author: ETdoFresh
-// Aliases: filterby
+// Aliases: filter, where
 // Arg1: System.Reflection.FieldInfo {Field}
 // Arg2: object {Value}
 // Arg3: object[] {Array}
 // Output: object[] {Filtered Array}
 // CommandLineOutput: Filtered Array: {Filtered Array}
 
-CSharp CommandSystem.Utility.FilterBy({Field}, {Value}, {Array}) // Alias: {Filtered Array}
+CSharp CommandSystem.Utility.Filter({Field}, {Value}, {Array}) // Alias: {Filtered Array}
 
 // ------------------------------
 // Arg1: System.Reflection.PropertyInfo {Property}
@@ -18,7 +18,16 @@ CSharp CommandSystem.Utility.FilterBy({Field}, {Value}, {Array}) // Alias: {Filt
 // Output: object[] {Filtered Array}
 // CommandLineOutput: Filtered Array: {Filtered Array}
 
-CSharp CommandSystem.Utility.FilterBy({Property}, {Value}, {Array}) // Alias: {Filtered Array}
+CSharp CommandSystem.Utility.Filter({Property}, {Value}, {Array}) // Alias: {Filtered Array}
+
+// ------------------------------
+// Arg1: System.Reflection.MethodInfo {Function}
+// Arg2: object {Value}
+// Arg3: object[] {Array}
+// Output: object[] {Filtered Array}
+// CommandLineOutput: Filtered Array: {Filtered Array}
+
+CSharp CommandSystem.Utility.Filter({Function}, {Value}, {Array}) // Alias: {Filtered Array}
 
 // ------------------------------
 // Arg1: CommandSystem.CommandReference {Command}
@@ -27,7 +36,7 @@ CSharp CommandSystem.Utility.FilterBy({Property}, {Value}, {Array}) // Alias: {F
 // Output: object[] {Filtered Array}
 // CommandLineOutput: Filtered Array: {Filtered Array}
 
-CSharp CommandSystem.Utility.FilterBy({Command}, {Value}, {Array}) // Alias: {Filtered Array}
+CSharp CommandSystem.Utility.Filter({Command}, {Value}, {Array}) // Alias: {Filtered Array}
 
 // ------------------------------
 // Arg1: string {Field or Property Name}
@@ -38,4 +47,11 @@ CSharp CommandSystem.Utility.FilterBy({Command}, {Value}, {Array}) // Alias: {Fi
 
 GetElementType {Array} // Alias: {Type}
 GetFieldInfoOrPropertyInfo {Type} {Field or Property Name} // Alias: {Field or Property}
-CSharp CommandSystem.Utility.FilterBy({Field or Property}, {Value}, {Array}) // Alias: {Filtered Array}
+CSharp CommandSystem.Utility.Filter({Field or Property}, {Value}, {Array}) // Alias: {Filtered Array}
+
+// ------------------------------
+// Arg1: bool[] {Keep Array}
+// Arg2: object[] {Array}
+// Output: object[] {Filtered Array}
+
+CSharp CommandSystem.Utility.Filter({Keep Array}, {Array}) // Alias: {Filtered Array}

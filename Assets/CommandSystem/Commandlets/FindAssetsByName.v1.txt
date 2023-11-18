@@ -11,7 +11,11 @@ AssetDatabaseFindAssets {Name} // Alias: {GUIDs}
 AssetDatabaseGUIDToAssetPath {GUIDs} // Alias: {Asset Paths}
 OrderBy {Asset Paths} string[] // Alias: {Ordered Asset Paths}
 AssetDatabaseLoadAssetAtPath {Ordered Asset Paths} // Alias: {Assets}
-FilterBy name {Name} {Assets} // Alias: {Filtered Assets}
+Map name {Assets} // Alias: {Asset Names}
+GetCommandReference "StringEquals {MapByArg} {Name} InvariantCultureIgnoreCase" // Alias: {StringEquals Command}
+Map {StringEquals Command} {Asset Names} // Alias: {AreNamesEqual Booleans}
+CastArray {AreNamesEqual Booleans} bool[] // Alias: {AreNamesEqual Booleans}
+Filter {AreNamesEqual Booleans} {Assets} // Alias: {Filtered Assets}
 CastArray {Filtered Assets} UnityEngine.Object[] // Alias: {Filtered Assets}
 AssetDatabaseGetAssetPath {Filtered Assets} // Alias: {Filtered Asset Paths}
 StringJoin \n {Filtered Asset Paths} // Alias: {Filtered Asset Paths}

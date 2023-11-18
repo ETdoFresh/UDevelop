@@ -7,4 +7,4 @@
 // Output: CommandSystem.CommandReference {Command Reference}
 // CommandLineOutput: Command Reference: {Command Reference}
 
-CSharp CommandSystem.CommandReference({Command Name}) // Alias: {Command Reference}
+CSharp new CommandSystem.CommandReference({Command Name}) // Alias: {Command Reference}
