@@ -45,6 +45,9 @@ namespace CommandSystem
                 {
                     while ((arg.StartsWith("\"") && arg.EndsWith("\"")) || (arg.StartsWith("'") && arg.EndsWith("'")))
                         arg = arg[1..^1];
+                    arg = arg.Replace("\\r", "\r");
+                    arg = arg.Replace("\\n", "\n");
+                    arg = arg.Replace("\\t", "\t");
                     args[i] = new ArgData(arg, typeof(string), arg);
                 }
             }

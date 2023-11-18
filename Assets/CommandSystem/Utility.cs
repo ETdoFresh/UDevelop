@@ -67,6 +67,7 @@ namespace CommandSystem
                     if (rootSceneObject.name == transform.name) pathIndex++;
                 }
             }
+
             return -1;
         }
 
@@ -80,6 +81,7 @@ namespace CommandSystem
                 else if (obj is Object o) scenePaths += o.name + "\n";
                 else scenePaths += obj + "\n";
             }
+
             if (scenePaths.EndsWith("\n")) scenePaths = scenePaths[..^1];
             return scenePaths;
         }
@@ -172,6 +174,7 @@ namespace CommandSystem
                         output += $"{commandName} v{commandVersion} \n{commandDescription}\nAliases: {aliases}\n\n";
                         seenCommandObjects.Add(commandObjects);
                     }
+
                     if (output.EndsWith("\n\n")) output = output[..^2];
                     return output;
                 }
@@ -193,6 +196,7 @@ namespace CommandSystem
                         var usage = $"\n{commandName} {string.Join(" ", inputNames)}\nOutput: {outputName}";
                         usages += $"{usage}\n";
                     }
+
                     if (usages.EndsWith("\n")) usages = usages[..^1];
                     return
                         $"{dashes}{commandName} v{commandVersion}\n{dashes}{commandDescription}\nAliases: {commandAliases}\n\nUsages:{usages}";
@@ -275,8 +279,10 @@ namespace CommandSystem
             return array.OrderBy(propertyInfo.GetValue).ToArray();
         }
 
-        public static object[] ToArray(object obj)
+        public static object ToArray(object obj)
         {
+            if (obj == null) return Array.Empty<object>();
+            if (obj is Array array) return array;
             return new[] { obj };
         }
 
@@ -289,7 +295,7 @@ namespace CommandSystem
         {
             return paths.Select(AddIndexIfMissing).ToArray();
         }
-        
+
         public static object ParseEnum(Type enumType, string enumString)
         {
             if (enumType == null) throw new ArgumentNullException(nameof(enumType));
@@ -304,11 +310,14 @@ namespace CommandSystem
 
         public static object CastArray(object arrayObject, Type newArrayType)
         {
-            if (!newArrayType.IsArray) throw new ArgumentException("Type provided must be an array.", nameof(newArrayType));
+            if (!newArrayType.IsArray)
+                throw new ArgumentException("Type provided must be an array.", nameof(newArrayType));
             var arrayType = arrayObject.GetType();
-            if (!arrayType.IsArray) throw new ArgumentException("Object provided must be an array.", nameof(arrayObject));
+            if (!arrayType.IsArray)
+                throw new ArgumentException("Object provided must be an array.", nameof(arrayObject));
             var newElementType = newArrayType.GetElementType();
-            if (newElementType == null) throw new ArgumentException("Type provided must be an array.", nameof(newArrayType));
+            if (newElementType == null)
+                throw new ArgumentException("Type provided must be an array.", nameof(newArrayType));
             var array = (Array)arrayObject;
             var newArray = Array.CreateInstance(newElementType, array.Length);
             for (var i = 0; i < array.Length; i++)
@@ -317,7 +326,55 @@ namespace CommandSystem
                 var castedElement = Convert.ChangeType(element, newElementType);
                 newArray.SetValue(castedElement, i);
             }
+
             return newArray;
+        }
+
+        public static string[] AssetDatabaseFindAssets(string filter)
+        {
+#if UNITY_EDITOR
+            return UnityEditor.AssetDatabase.FindAssets(filter).ToArray();
+#else
+            return Array.Empty<string>();
+#endif
+        }
+
+        public static string[] AssetDatabaseGUIDToAssetPath(string[] guids)
+        {
+#if UNITY_EDITOR
+            return guids.Select(UnityEditor.AssetDatabase.GUIDToAssetPath).ToArray();
+#else
+            return Array.Empty<string>();
+#endif
+        }
+
+        public static Object[] AssetDatabaseLoadAssetAtPath(string[] assetPaths)
+        {
+#if UNITY_EDITOR
+            return assetPaths.Select(UnityEditor.AssetDatabase.LoadAssetAtPath<Object>).ToArray();
+#else
+            return Array.Empty<Object>();
+#endif
+        }
+
+        public static Object[] ResourcesLoadAll(string path)
+        {
+            var assetsViaResourcesLoadAll = Array.Empty<Object>();
+            return Resources.LoadAll(path);
+        }
+
+        public static string AssetDatabaseGetAssetPath(Object obj)
+        {
+#if UNITY_EDITOR
+            return UnityEditor.AssetDatabase.GetAssetPath(obj);
+#else
+            return "{GetAssetPath is not supported in builds}";
+#endif
+        }
+
+        public static string[] AssetDatabaseGetAssetPath(Object[] objects)
+        {
+            return objects.Select(AssetDatabaseGetAssetPath).ToArray();
         }
     }
 }

@@ -1,0 +1,20 @@
+// Name: AssetDatabaseGUIDToAssetPath
+// Version: 1
+// Description: Get asset path from guid
+// Author: ETdoFresh
+// Aliases: assetdatabaseguidtoassetpath
+// Arg1: string[] {GUIDs}
+// Output: string[] {AssetPaths}
+// CommandLineOutput: Found Objects:\n{AssetPath Strings}
+
+CSharp CommandSystem.Utility.AssetDatabaseGUIDToAssetPath({GUIDs}) // Alias: {AssetPaths}
+StringJoin \n {AssetPaths} // Alias: {AssetPath Strings}
+
+// ------------------------------
+// Arg1: string {GUID}
+// Output: string[] {AssetPaths}
+// CommandLineOutput: Found Objects:\n{AssetPaths String}
+
+ToArray {GUID} string[] // Alias: {GUIDs}
+AssetDatabaseGUIDToAssetPath {GUIDs} // Alias: {AssetPaths}
+StringJoin \n {AssetPaths} // Alias: {AssetPaths String}

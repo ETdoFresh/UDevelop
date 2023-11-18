@@ -56,47 +56,42 @@ namespace CommandSystem.Editor
             darkerBackgroundStyle.normal.background = _backgroundTexture;
             darkerBackgroundStyle.normal.textColor = Color.white;
             GUI.Box(windowRect, GUIContent.none, darkerBackgroundStyle);
-
-            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition);
-            EditorGUILayout.BeginVertical();
-
+            
+            var commandOutput = CommandLineHeader.GetHeader() + EditorCommandProcessor.GetCommandOutput();
+            var commandOutputSize = EditorStyles.label.CalcSize(new GUIContent(commandOutput));
+            var commandInputSize = EditorStyles.textField.CalcSize(new GUIContent(_commandLineInput));
+            
+            _scrollPosition = EditorGUILayout.BeginScrollView(_scrollPosition,GUILayout.Height(windowRect.height - commandInputSize.y - 10));
             // ShowDebugInformation();
-
-            // Draw the growing command history.
-            var commandOutput = CommandLineHeader.GetHeader();
-            commandOutput += EditorCommandProcessor.GetCommandOutput();
-            var commandOutputHeight = EditorStyles.label.CalcHeight(new GUIContent(commandOutput), windowRect.width);
-            EditorGUILayout.SelectableLabel(commandOutput, GUILayout.Height(commandOutputHeight));
-
-            // Draw the command line input. and name it "CommandLineInput" so we can focus it.
-            EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField(">", GUILayout.Width(10));
-            GUI.SetNextControlName("CommandLineInput");
-
+            EditorGUILayout.SelectableLabel(commandOutput, GUILayout.Width(commandOutputSize.x), GUILayout.Height(commandOutputSize.y));
+            EditorGUILayout.EndScrollView();
+            
             // _commandLineInput = EditorGUILayout.TextField(_commandLineInput);
             // Allow the command line input to be multiline. Left Align the text.
-            var commandInputHeight =
-                EditorStyles.textField.CalcHeight(new GUIContent(_commandLineInput), windowRect.width);
             // left align the text area style
             var textAreaStyle = new GUIStyle(EditorStyles.textField)
             {
                 alignment = TextAnchor.MiddleLeft,
                 normal = { background = _backgroundTexture },
-                fixedHeight = commandInputHeight + 5,
+                fixedHeight = commandInputSize.y + 5,
             };
+            
+            EditorGUILayout.BeginVertical();
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(">", GUILayout.Width(10));
+            // Draw the command line input. and name it "CommandLineInput" so we can focus it.
+            GUI.SetNextControlName("CommandLineInput");
             _commandLineInput =
                 EditorGUILayout.TextArea(_commandLineInput, textAreaStyle, GUILayout.Width(windowRect.width - 40));
             EditorGUILayout.EndHorizontal();
-
+            
             // Draw the command line input auto complete.
             var autoCompleteCommand = CommandAutoComplete.Get(_commandLineInput);
             autoCompleteCommand = string.IsNullOrEmpty(autoCompleteCommand)
                 ? ""
                 : autoCompleteCommand + " {Tab to autocomplete}";
             EditorGUILayout.LabelField(autoCompleteCommand);
-
             EditorGUILayout.EndVertical();
-            EditorGUILayout.EndScrollView();
 
             // Handle keyboard events.
             var isKeyUp = Event.current.type == EventType.KeyUp;

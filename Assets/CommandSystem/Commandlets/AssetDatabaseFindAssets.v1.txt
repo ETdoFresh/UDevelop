@@ -1,0 +1,11 @@
+// Name: AssetDatabaseFindAssets
+// Version: 1
+// Description: Find guids of assets by filter
+// Author: ETdoFresh
+// Aliases: assetdatabasefindassets
+// Arg1: string {filter}
+// Output: string[] {GUIDs}
+// CommandLineOutput: Found Objects:\n{GUID Strings}
+
+CSharp CommandSystem.Utility.AssetDatabaseFindAssets({filter}) // Alias: {GUIDs}
+StringJoin \n {GUIDs} // Alias: {GUID Strings}

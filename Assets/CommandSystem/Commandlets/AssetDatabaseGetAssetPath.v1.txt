@@ -1,0 +1,11 @@
+// Name: AssetDatabaseGetAssetPath
+// Version: 1
+// Description: Get asset path
+// Author: ETdoFresh
+// Aliases: assetdatabasegetassetpath
+// Arg1: UnityEngine.Object[] {Assets}
+// Output: string[] {AssetPaths}
+// CommandLineOutput: Asset Paths:\n{AssetPath Strings}
+
+CSharp CommandSystem.Utility.AssetDatabaseGetAssetPath({Assets}) // Alias: {AssetPaths}
+StringJoin \n {AssetPaths} // Alias: {AssetPath Strings}

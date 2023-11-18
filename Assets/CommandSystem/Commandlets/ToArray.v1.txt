@@ -3,8 +3,26 @@
 // Description: Converts an object to an array of one object
 // Author: ETdoFresh
 // Aliases: toarray
-// Arg1: object {Value}
-// Output: object[] {Value}
-// CommandLineOutput: Value: {Value}
+// Arg1: object {Object}
+// Output: object[] {Array}
+// CommandLineOutput: Value: {Array}
 
-CSharp CommandSystem.Utility.ToArray({Value}) // Alias: {Value}
+CSharp CommandSystem.Utility.ToArray({Object}) // Alias: {Array}
+
+// ------------------------------
+// Arg1: object {Object}
+// Arg2: System.Type {Type}
+// Output: object {Casted Array}
+// CommandLineOutput: Value: {Casted Array}
+
+ToArray {Object} // Alias: {Array}
+CSharp CommandSystem.Utility.CastArray({Array}, {Type}) // Alias: {Casted Array}
+
+// ------------------------------
+// Arg1: object {Object}
+// Arg2: string {Type Name}
+// Output: object {Casted Array}
+// CommandLineOutput: Value: {Casted Array}
+
+FindSystemTypeByName {Type Name} // Alias: {Type}
+ToArray {Object} {Type} // Alias: {Casted Array}
