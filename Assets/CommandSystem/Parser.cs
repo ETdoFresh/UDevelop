@@ -7,7 +7,7 @@ namespace CommandSystem
             // Will read everything in { } as a single argument and include the braces
             // Will read everything in " " as a single argument and not include the quotes
             // Will read everything in ' ' as a single argument and not include the quotes
-            
+
             var regex = new System.Text.RegularExpressions.Regex(@"\{.*?\}|'.*?'|"".*?""|\S+");
             var matches = regex.Matches(commandLine);
             var args = new string[matches.Count];
@@ -18,14 +18,16 @@ namespace CommandSystem
 
             return args;
         }
-        
+
         public static ArgData[] GetArgData(string argString)
         {
             // Will read everything in { } as a single argument and include the braces
             // Will read everything in " " as a single argument and not include the quotes
             // Will read everything in ' ' as a single argument and not include the quotes
-            
-            var regex = new System.Text.RegularExpressions.Regex(@"\{.*?\}|'.*?'|"".*?""|\S+");
+
+            var regexFlags = System.Text.RegularExpressions.RegexOptions.Multiline;
+            regexFlags |= System.Text.RegularExpressions.RegexOptions.Singleline;
+            var regex = new System.Text.RegularExpressions.Regex(@"\{.*?\}|'.*?'|"".*?""|\S+", regexFlags);
             var matches = regex.Matches(argString);
             var args = new ArgData[matches.Count];
             for (var i = 0; i < matches.Count; i++)
@@ -53,6 +55,17 @@ namespace CommandSystem
             }
 
             return args;
+        }
+
+        public static string[] MultiCommandString(string commands)
+        {
+            var split = commands.Split('\n');
+            var commandStrings = new string[split.Length];
+            for (var i = 0; i < split.Length; i++)
+            {
+                commandStrings[i] = split[i].Trim();
+            }
+            return commandStrings;
         }
     }
 }
