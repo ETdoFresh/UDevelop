@@ -8,10 +8,19 @@ namespace CommandSystem
 {
     public static class CSharp
     {
-        public static object Execute(string cSharpCode, Dictionary<string, ArgData> argMemory)
+        public static Dictionary<string, ArgData> Execute(string cSharpCode, Dictionary<string, ArgData> argMemory)
         {
+            argMemory ??= new Dictionary<string, ArgData>();
+            argMemory = new Dictionary<string, ArgData>(argMemory);
+
             if (string.IsNullOrWhiteSpace(cSharpCode)) return null;
             
+            // Remove CSharp from start of string
+            cSharpCode = cSharpCode.TrimStart();
+            var cSharpIndex = cSharpCode.IndexOf("csharp", StringComparison.OrdinalIgnoreCase);
+            if (cSharpIndex == 0)
+                cSharpCode = cSharpCode[6..].TrimStart();
+
             // New Example
             // new UnityEngine.GameObject({GameObject Name}, {Component Types})
             // Looks up {GameObject Name} in localRunValues and cast as localRunType lookup
@@ -34,7 +43,10 @@ namespace CommandSystem
                         argObjects.Add(arg.Value);
                 }
 
-                return Activator.CreateInstance(type, argObjects.ToArray());
+                var outputValue = Activator.CreateInstance(type, argObjects.ToArray());
+                argMemory["{Output0}"] = new ArgData("{Output0}", type, outputValue);
+                argMemory["{Output1}"] = new ArgData("{Output1}", type, outputValue);
+                return argMemory;
             }
             else
             {
@@ -44,9 +56,13 @@ namespace CommandSystem
                 // Function: Find
                 // Args: {GameObject Name}
                 var split = cSharpCode.Split('(');
-                
+
                 if (split.Length <= 1)
-                    return cSharpCode;
+                {
+                    argMemory["{Output0}"] = new ArgData("{Output0}", typeof(string), cSharpCode);
+                    argMemory["{Output1}"] = new ArgData("{Output1}", typeof(string), cSharpCode);
+                    return argMemory;
+                }
 
                 var splitClosingIndex = split[1].LastIndexOf(')');
                 var methodSplit = split[0].Split('.');
@@ -135,7 +151,10 @@ namespace CommandSystem
                             argObjects[i] = args[i].Value;
                         }
                     }
-                    return method.Invoke(self?.Value, argObjects);
+                    var outputValue = method.Invoke(self?.Value, argObjects);
+                    argMemory["{Output0}"] = new ArgData("{Output0}", method.ReturnType, outputValue);
+                    argMemory["{Output1}"] = new ArgData("{Output1}", method.ReturnType, outputValue);
+                    return argMemory;
                 }
                 catch (TargetInvocationException ex)
                 {
@@ -145,7 +164,7 @@ namespace CommandSystem
                 {
                     ThrowException(ex, cSharpCode, argMemory);
                 }
-                return null;
+                return argMemory;
             }
         }
         

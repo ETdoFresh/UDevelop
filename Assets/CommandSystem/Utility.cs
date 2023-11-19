@@ -263,7 +263,7 @@ namespace CommandSystem
         {
             return array.Where(x => propertyInfo.GetValue(x).Equals(value)).ToArray();
         }
-        
+
         public static object[] Filter(MethodInfo methodInfo, object value, object[] array)
         {
             return array.Where(x => methodInfo.Invoke(x, null).Equals(value)).ToArray();
@@ -272,44 +272,51 @@ namespace CommandSystem
         public static object[] Filter(CommandReference commandReference, object value, object[] array)
         {
             return array.Where(x =>
-                commandReference.Run(new ArgData("{FilterByArg}", x.GetType(), x, true)).Value.Equals(value)).ToArray();
+                commandReference
+                    .Run(new ArgData("{FilterByArg}", x.GetType(), x, true))["{Output1}"]
+                    .Value.Equals(value)).ToArray();
         }
 
         public static object Filter(bool[] keepArray, object[] array)
         {
             if (keepArray.Length != array.Length)
-                throw new Exception($"Length of keepArray ({keepArray.Length}) must match length of array ({array.Length})");
+                throw new Exception(
+                    $"Length of keepArray ({keepArray.Length}) must match length of array ({array.Length})");
             return array.Where((x, i) => keepArray[i]).ToArray();
         }
-        
+
         public static object Map(FieldInfo fieldInfo, object[] array)
         {
             return array.Select(x => fieldInfo.GetValue(x)).ToArray();
         }
-        
+
         public static object Map(PropertyInfo propertyInfo, object[] array)
         {
             return array.Select(x => propertyInfo.GetValue(x)).ToArray();
         }
-        
+
         public static object Map(MethodInfo methodInfo, object[] array)
         {
             return array.Select(x => methodInfo.Invoke(x, null)).ToArray();
         }
-        
+
         public static object Map(CommandReference commandReference, object[] array)
         {
-            return array.Select(x => commandReference.Run(new ArgData("{MapByArg}", x.GetType(), x, true)).Value).ToArray();
+            return array.Select(x => commandReference
+                    .Run(new ArgData("{MapByArg}", x.GetType(), x, true))["{Output1}"].Value)
+                .ToArray();
         }
-        
+
         public static object Reduce(MethodInfo methodInfo, object initialValue, object[] array)
         {
             return array.Aggregate(initialValue, (x, y) => methodInfo.Invoke(x, new[] { y }));
         }
-        
+
         public static object Reduce(CommandReference commandReference, object initialValue, object[] array)
         {
-            return array.Aggregate(initialValue, (x, y) => commandReference.Run(new ArgData("{ReduceByArg1}", x.GetType(), x, true), new ArgData("{ReduceByArg2}", y.GetType(), y, true)).Value);
+            return array.Aggregate(initialValue, (x, y) => commandReference.Run(
+                new ArgData("{ReduceByArg1}", x.GetType(), x, true),
+                new ArgData("{ReduceByArg2}", y.GetType(), y, true))["{Output1"].Value);
         }
 
         public static object[] SortBy(FieldInfo fieldInfo, object[] array)
@@ -381,7 +388,8 @@ namespace CommandSystem
                     }
                     catch (Exception e)
                     {
-                        throw new Exception($"Could not cast element {i} of array {arrayObject} to type {newElementType}", e);
+                        throw new Exception(
+                            $"Could not cast element {i} of array {arrayObject} to type {newElementType}", e);
                     }
                 }
             }

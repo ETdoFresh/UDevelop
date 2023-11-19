@@ -13,14 +13,10 @@ namespace CommandSystem
         
         public static Dictionary<string, CommandObject[]> CommandMap => commandMap;
 
-        public static OutputData Run(string commandString)
+        public static Dictionary<string, ArgData> Run(string commandString)
         {
             AttemptUpdateAliasMap();
-
-            if (CommandObject.TryRun(commandString, out var outputData))
-                return outputData;
-
-            throw new System.Exception($"Command not found\n{commandString}");
+            return CommandObject.RunCommandString(commandString, null);
         }
 
         private static void AttemptUpdateAliasMap()
@@ -104,11 +100,6 @@ namespace CommandSystem
                 }
             }
 #endif
-        }
-
-        public static void Update()
-        {
-            AttemptUpdateAliasMap();
         }
     }
 }

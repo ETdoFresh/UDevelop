@@ -19,8 +19,8 @@ namespace CommandSystem.Editor
                 try
                 {
                     var output = CommandRunner.Run(command);
-                    CommandHandlerScriptableObject.Outputs.Add(output.CommandLineOutput);
-                    CommandHandlerScriptableObject.Display.Add(output.CommandLineOutput);
+                    CommandHandlerScriptableObject.Outputs.Add(output["{Output0}"].Value?.ToString());
+                    CommandHandlerScriptableObject.Display.Add(output["{Output0}"].Value?.ToString());
 
                     // TODO: Will have to figure out how to reverse each command in the future
                     // if (commandInstance.AddToHistory)
