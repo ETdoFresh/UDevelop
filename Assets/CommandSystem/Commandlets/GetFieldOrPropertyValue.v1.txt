@@ -1,0 +1,39 @@
+Name: GetFieldOrPropertyValue
+Version: 1
+Description: Gets the value of a field or property
+Author: ETdoFresh
+Aliases: getfieldorpropertyvalue, gfopv
+Arg1: string {Type Name}
+Arg2: string {Field or Property Name}
+Output0: Value: {Value}
+Output1: object {Value}
+
+FindSystemTypeByName {Type Name} >> {Type}
+GetFieldInfoOrPropertyInfo {Type} {Field or Property Name} >> {FieldInfo or PropertyInfo}
+GetFieldOrPropertyValue {FieldInfo or PropertyInfo} >> {Value}
+
+------------------------------
+Arg1: string {Type Name}
+Arg2: string {Field or Property Name}
+Arg3: object {Object}
+Output0: Value: {Value}
+Output1: object {Value}
+
+FindSystemTypeByName {Type Name} >> {Type}
+GetFieldInfoOrPropertyInfo {Type} {Field or Property Name} >> {FieldInfo or PropertyInfo}
+GetFieldOrPropertyValue {FieldInfo or PropertyInfo} {Object} >> {Value}
+
+------------------------------
+Arg1: object {FieldInfo or PropertyInfo}
+Output0: Value: {Value}
+Output1: object {Value}
+
+GetValue {FieldInfo or PropertyInfo} {null} >> {Value}
+
+------------------------------
+Arg1: object {FieldInfo or PropertyInfo}
+Arg2: object {Object}
+Output0: Value: {Value}
+Output1: object {Value}
+
+GetValue {FieldInfo or PropertyInfo} {Object} >> {Value}

@@ -451,8 +451,15 @@ namespace CommandSystem
 
         public static object[] OrderByDescending(object[] array)
         {
-            System.Action a = () => { };
             return array.OrderByDescending(x => x).ToArray();
+        }
+
+        public static object ThrowExceptionIfNull(object obj) => ThrowExceptionIfNull(obj, "Object is null");
+        
+        public static object ThrowExceptionIfNull(object obj, string message)
+        {
+            if (obj == null) throw new Exception(message);
+            return obj;
         }
     }
 }

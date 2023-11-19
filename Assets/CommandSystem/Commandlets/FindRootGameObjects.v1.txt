@@ -9,6 +9,6 @@ Output1: {Root GameObjects}
 FindObjectsOfType UnityEngine.GameObject >> {All GameObjects}
 // TODO: Implement GetValues
 GetValues transform {All GameObjects} >> {All Transforms}
-Filter parent null {All Transforms} >> {Root Transforms}
+Filter parent {null} {All Transforms} >> {Root Transforms}
 GetValues gameObject {Root Transforms} >> {Root GameObjects}
 GetScenePath {All GameObjects} >> {All GameObject ScenePaths}

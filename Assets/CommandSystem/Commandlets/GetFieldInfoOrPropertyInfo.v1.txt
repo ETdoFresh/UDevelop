@@ -11,12 +11,13 @@ Output1: object {FieldInfo or PropertyInfo}
 GetFieldInfo {Type} {Field or Property Name} >> {FieldInfo}
 GetPropertyInfo {Type} {Field or Property Name} >> {PropertyInfo}
 Or {FieldInfo} {PropertyInfo} >> {FieldInfo or PropertyInfo}
+ThrowExceptionIfNull {FieldInfo or PropertyInfo} "Could not find field or property."
 
 ------------------------------
 Arg1: string {Type Name}
 Arg2: string {Field or Property Name}
-Output1: object {FieldInfo or PropertyInfo}
 Output0: Found Field: {FieldInfo or PropertyInfo}
+Output1: object {FieldInfo or PropertyInfo}
 
 FindSystemTypeByName {Type Name} >> {Type}
 GetFieldInfoOrPropertyInfo {Type} {Field or Property Name} >> {FieldInfo or PropertyInfo}

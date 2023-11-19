@@ -1,0 +1,20 @@
+Name: ShowIntermediateCommandResults
+Version: 1
+Description: Show intermediate command results
+Author: ETdoFresh
+Aliases: showintermediatecommandresults, sicr
+Arg1: bool {Show}
+Output0: ShowIntermediateCommandResults = {Show} {FieldInfo}
+Output1: bool {Show}
+
+FindSystemTypeByName CommandSystem.CommandObject >> {CommandObject Type}
+GetFieldInfo {CommandObject Type} showIntermediateCommandLineOutput >> {FieldInfo}
+SetValue {FieldInfo} {Show}
+
+------------------------------
+Output0: ShowIntermediateCommandResults = {Show}
+Output1: bool {Show}
+
+FindSystemTypeByName CommandSystem.CommandObject >> {CommandObject Type}
+GetFieldInfo {CommandObject Type} showIntermediateCommandLineOutput >> {FieldInfo}
+GetValue {FieldInfo} >> {Show}

@@ -6,4 +6,4 @@ Aliases: selectnone, selectn, sn, deselect
 Output0: Selected none
 Output1: void {void}
 
-Select null
+Select {null}

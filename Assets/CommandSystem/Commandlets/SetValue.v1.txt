@@ -30,3 +30,19 @@ Output0: Set Value: {Value}
 Output1: void {void}
 
 CSharp System.Reflection.PropertyInfo.SetValue(this {Property}, {Object}, {Value})
+
+------------------------------
+Arg1: System.Reflection.FieldInfo {Field}
+Arg2: System.Object {Value}
+Output0: Set Value: {Value}
+Output1: void {void}
+
+CSharp System.Reflection.FieldInfo.SetValue(this {Field}, {null}, {Value})
+
+------------------------------
+Arg1: System.Reflection.PropertyInfo {Property}
+Arg2: System.Object {Value}
+Output0: Set Value: {Value}
+Output1: void {void}
+
+CSharp System.Reflection.PropertyInfo.SetValue(this {Property}, {null}, {Value})

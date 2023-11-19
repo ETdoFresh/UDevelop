@@ -12,6 +12,8 @@ namespace CommandSystem
         {
             argMemory ??= new Dictionary<string, ArgData>();
             argMemory = new Dictionary<string, ArgData>(argMemory);
+            argMemory.TryAdd("{void}", new ArgData("{void}", typeof(void), null));
+            argMemory.TryAdd("{null}", new ArgData("{null}", typeof(object), null));
 
             if (string.IsNullOrWhiteSpace(cSharpCode)) return null;
             
@@ -95,8 +97,10 @@ namespace CommandSystem
                         args[i] = new ArgData(argString[1..^1], typeof(string), argString[1..^1]);
                     else if (argString.StartsWith("'") && argString.EndsWith("'"))
                         args[i] = new ArgData(argString[1..^1], typeof(string), argString[1..^1]);
-                    else if (argString == "null")
+                    else if (argString == "{null}")
                         args[i] = new ArgData(argString, typeof(object), null);
+                    else if (argString == "{void}")
+                        args[i] = new ArgData(argString, typeof(void), null);
                     else if (int.TryParse(argString, out var intResult))
                         args[i] = new ArgData(argString, typeof(int), intResult);
                     else if (float.TryParse(argString, out var floatResult))
@@ -144,6 +148,14 @@ namespace CommandSystem
                         var methodParameter = methodParameters[i];
                         var arg = args[i];
                         if (arg?.Value == null) continue;
+
+                        if (arg.Name == "{null}")
+                        {
+                            args[i] = new ArgData(arg.Name, methodParameter.ParameterType, null);
+                            argObjects[i] = args[i].Value;
+                            continue;
+                        }
+
                         if (methodParameter.ParameterType.IsInstanceOfType(arg.Value)) continue;
                         if (arg.IsConvertible(methodParameter.ParameterType))
                         {

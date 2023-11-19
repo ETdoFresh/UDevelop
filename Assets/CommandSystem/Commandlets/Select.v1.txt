@@ -8,7 +8,7 @@ Output0: Selected Objects:\n{Objects}
 Output1: void {void}
 
 GetPropertyInfo CommandSystem.Commands.Selection objects >> {Selection Objects PropertyInfo}
-SetValue {Selection Objects PropertyInfo} null {Objects}
+SetValue {Selection Objects PropertyInfo} {null} {Objects}
 
 ------------------------------
 Arg1: UnityEngine.Object {Object}
@@ -25,6 +25,15 @@ Output1: void {void}
 
 CastArray {Objects} UnityEngine.Object[] >> {ConvertedObjects}
 Select {ConvertedObjects}
+
+------------------------------
+Arg1: string {GameObject Name}
+Output0: Selected Object:\n{Scene Paths}
+Output1: void {void}
+
+FindGameObjectsByName {GameObject Name} >> {Objects}
+Select {Objects}
+GetScenePath {Objects} >> {Scene Paths}
 
 ------------------------------
 Arg1: object {Object}

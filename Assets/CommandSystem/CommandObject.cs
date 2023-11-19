@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace CommandSystem
 {
@@ -23,7 +24,9 @@ namespace CommandSystem
             argMemory ??= new Dictionary<string, ArgData>();
             argMemory = new Dictionary<string, ArgData>(argMemory);
             argMemory.TryAdd("{void}", new ArgData("{void}", typeof(void), null));
+            argMemory.TryAdd("{null}", new ArgData("{null}", typeof(object), null));
             argMemory.TryAdd("Depth", new ArgData("Depth", typeof(int), 0));
+            currentArgMemory = argMemory;
 
             // Copying Input Args to Named Input Args in argMemory
             var argKeys = argMemory.Keys.Where(x => x.StartsWith("{Arg")).OrderBy(x => x).ToArray();
@@ -93,6 +96,7 @@ namespace CommandSystem
             argMemory ??= new Dictionary<string, ArgData>();
             argMemory = new Dictionary<string, ArgData>(argMemory);
             argMemory.TryAdd("{void}", new ArgData("{void}", typeof(void), null));
+            currentArgMemory = argMemory;
 
             if (string.IsNullOrWhiteSpace(commandString))
                 return argMemory;
@@ -120,15 +124,22 @@ namespace CommandSystem
 
             if (CommandRunner.CommandMap.TryGetValue(commandAlias.ToLower(), out var commandObjects))
             {
-                foreach (var commandObject in commandObjects)
+                try
                 {
-                    if (!IsValidOverload(commandObject, commandArgs)) continue;
-                    argMemory["{CommandInput}"] = new ArgData("{CommandInput}", typeof(string), commandString);
-                    for (var i = 0; i < commandArgs.Length; i++) argMemory[$"{{Arg{i}}}"] = commandArgs[i];
-                    var newArgMemory = commandObject.Run(argMemory, commandString);
-                    argMemory["{Output0}"] = newArgMemory["{Output0}"];
-                    argMemory["{Output1}"] = newArgMemory["{Output1}"];
-                    return argMemory;
+                    foreach (var commandObject in commandObjects.OrderBy(x => Mathf.Abs(x.Input?.Length ?? 0 - commandArgs.Length)))
+                    {
+                        if (!IsValidOverload(commandObject, commandArgs)) continue;
+                        argMemory["{CommandInput}"] = new ArgData("{CommandInput}", typeof(string), commandString);
+                        for (var i = 0; i < commandArgs.Length; i++) argMemory[$"{{Arg{i}}}"] = commandArgs[i];
+                        var newArgMemory = commandObject.Run(argMemory, commandString);
+                        argMemory["{Output0}"] = newArgMemory["{Output0}"];
+                        argMemory["{Output1}"] = newArgMemory["{Output1}"];
+                        return argMemory;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new ArgumentException($"{ex.Message}\n{commandString}", ex);
                 }
 
                 ThrowException("No valid overload found!", commandString, argMemory, commandArgs);

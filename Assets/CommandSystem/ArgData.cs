@@ -23,11 +23,19 @@ namespace CommandSystem
             var required = Required ? "*" : "";
             return $"{Name}{required} ({Type}) = {Value}";
         }
-        
+
         public bool IsConvertible(Type inputType)
         {
             if (Type == inputType) return true;
             if (inputType.IsAssignableFrom(Type)) return true;
+            
+            if (Name == "{null}")
+                return !(inputType == typeof(int) ||
+                         inputType == typeof(float) ||
+                         inputType == typeof(double) ||
+                         inputType == typeof(bool) ||
+                         inputType.IsEnum);
+
             var argTypeAttempt2 = Value?.GetType();
             if (argTypeAttempt2 != null && inputType.IsAssignableFrom(argTypeAttempt2)) return true;
             if (inputType.IsEnum && Type == typeof(int)) return true;
@@ -50,8 +58,8 @@ namespace CommandSystem
 
             return false;
         }
-        
-         public ArgData ConvertType(Type toType)
+
+        public ArgData ConvertType(Type toType)
         {
             if (toType == null) return this;
             var obj = Value;
@@ -59,7 +67,8 @@ namespace CommandSystem
             var fromType = obj.GetType();
             if (fromType == toType) return this;
             if (toType.IsAssignableFrom(fromType)) return this;
-            if (toType.IsEnum && fromType == typeof(int)) return new ArgData(Name, toType, Enum.Parse(toType, obj.ToString()));
+            if (toType.IsEnum && fromType == typeof(int))
+                return new ArgData(Name, toType, Enum.Parse(toType, obj.ToString()));
             if (toType.IsEnum && fromType == typeof(string))
                 return new ArgData(Name, toType, Enum.Parse(toType, obj.ToString()));
             if (toType == typeof(int) && fromType == typeof(string))
@@ -70,7 +79,7 @@ namespace CommandSystem
                 return new ArgData(Name, toType, double.Parse(obj.ToString()));
             if (toType == typeof(bool) && fromType == typeof(string))
                 return new ArgData(Name, toType, bool.Parse(obj.ToString()));
-            
+
             if (toType.IsArray && fromType.IsArray)
             {
                 // Convert array types
@@ -89,7 +98,7 @@ namespace CommandSystem
 
                 return new ArgData(Name, toType, toArray);
             }
-            
+
             return obj is IConvertible ? new ArgData(Name, toType, Convert.ChangeType(obj, toType)) : this;
         }
     }

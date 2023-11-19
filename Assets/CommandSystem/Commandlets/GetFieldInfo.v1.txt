@@ -8,6 +8,8 @@ Arg2: string {Field Name}
 Output0: Found Field: {Field}
 Output1: System.Reflection.FieldInfo {Field}
 
+ThrowExceptionIfNull {Type} "GetFieldInfo: Type is null"
+ThrowExceptionIfNull {Field Name} "GetFieldInfo: Field Name is null"
 GetDefaultBindingFlags >> {Binding Flags}
 CSharp System.Type.GetField(this {Type}, {Field Name}, {Binding Flags}) >> {Field}
 
@@ -17,5 +19,8 @@ Arg2: string {Field Name}
 Output1: System.Reflection.FieldInfo {Field}
 Output0: Found Field: {Field}
 
+ThrowExceptionIfNull {Type Name} "GetFieldInfo: Type Name is null"
+ThrowExceptionIfNull {Field Name} "GetFieldInfo: Field Name is null"
 FindSystemTypeByName {Type Name} >> {Type}
+ThrowExceptionIfNull {Type} "GetFieldInfo: Type not found"
 GetFieldInfo {Type} {Field Name} >> {Field}

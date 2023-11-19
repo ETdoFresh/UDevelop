@@ -27,3 +27,17 @@ Output0: Got Value: {Value}
 Output1: System.Object {Value}
         
 CSharp System.Reflection.PropertyInfo.GetValue(this {Property}, {Object}) >> {Value}
+
+------------------------------
+Arg1: System.Reflection.FieldInfo {Field}
+Output0: Got Value: {Value}
+Output1: System.Object {Value}
+
+CSharp System.Reflection.FieldInfo.GetValue(this {Field}, {null}) >> {Value}
+        
+------------------------------
+Arg1: System.Reflection.PropertyInfo {Property}
+Output0: Got Value: {Value}
+Output1: System.Object {Value}
+        
+CSharp System.Reflection.PropertyInfo.GetValue(this {Property}, {null}) >> {Value}

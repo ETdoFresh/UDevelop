@@ -1,0 +1,18 @@
+Name: ThrowExceptionIfNull
+Version: 1
+Description: Throw an exception if value is null
+Author: ETdoFresh
+Aliases: throwexceptionifnull
+Arg1: object {Object}
+Output0: object {Object}
+Output1: object {Object}
+
+CSharp CommandSystem.Utility.ThrowExceptionIfNull({Object})
+
+------------------------------
+Arg1: object {Object}
+Arg2: string {Message}
+Output0: object {Object} message {Message}
+Output1: object {Object}
+
+CSharp CommandSystem.Utility.ThrowExceptionIfNull({Object}, {Message})
