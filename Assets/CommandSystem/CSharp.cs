@@ -72,6 +72,7 @@ namespace CommandSystem
                 var fullTypeName = methodSplit[..^1];
                 var fullTypeString = string.Join('.', fullTypeName);
                 var type = StringToTypeUtility.Get(fullTypeString);
+                if (type == null) ThrowException($"Type {fullTypeString} not found!", cSharpCode, argMemory);
 
                 // Else run method
                 var argsString = split[1][..splitClosingIndex];

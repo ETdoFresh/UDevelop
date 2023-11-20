@@ -5,7 +5,7 @@ Author: ETdoFresh
 Aliases: findassets
 Arg1: string {filter}
 Output0: Found Objects:\n{Asset Paths}
-Output1: Object[] {Assets}
+Output1: UnityEngine.Object[] {Assets}
 
 AssetDatabaseFindAssets {filter} >> {GUIDs}
 AssetDatabaseGUIDToAssetPath {GUIDs} >> {Asset Paths}

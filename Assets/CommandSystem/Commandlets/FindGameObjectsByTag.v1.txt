@@ -5,7 +5,7 @@ Author: ETdoFresh
 Aliases: findgameobjectsbytag, findgots, fgts
 Arg1: string {GameObject Tag}
 Output0: Found GameObjects:\n{GameObjects ScenePath}
-Output1: {GameObjects}
+Output1: UnityEngine.GameObject[] {GameObjects}
 
 FindObjectsOfType UnityEngine.GameObject >> {All GameObjects}
 Filter tag {GameObject Tag} {All GameObjects} >> {Objects}

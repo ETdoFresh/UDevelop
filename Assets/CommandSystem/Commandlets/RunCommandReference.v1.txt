@@ -1,0 +1,10 @@
+﻿Name: RunCommandReference
+Version: 1
+Description: Runs a command reference.
+Author: ETdoFresh
+Aliases: runcommandreference, rcr
+Arg1: CommandSystem.CommandReference {CommandReference}
+Output0: string {Output}
+Output1: object {Output}
+
+CSharp CommandSystem.CommandReference.Run(this {CommandReference}) >> {Output}

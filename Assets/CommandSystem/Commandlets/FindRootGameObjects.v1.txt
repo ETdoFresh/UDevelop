@@ -3,12 +3,15 @@ Version: 1
 Description: Find root GameObjects
 Author: ETdoFresh
 Aliases: findrootgameobjects, findrootgos, frgs
-Output0: Found Root GameObjects:\n{Root GameObjects}
-Output1: {Root GameObjects}
+Output0: Found Root GameObjects:\n{Root ScenePaths}
+Output1: UnityEngine.GameObject[] {Root GameObjects}
 
 FindObjectsOfType UnityEngine.GameObject >> {All GameObjects}
-// TODO: Implement GetValues
-GetValues transform {All GameObjects} >> {All Transforms}
+GetCommandReference "GetComponent {MapByArg} transform" >> {GetComponent Transform}
+Map {GetComponent Transform} {All GameObjects} >> {All Transforms}
+CastArray {All Transforms} UnityEngine.Transform[] >> {All Transforms}
 Filter parent {null} {All Transforms} >> {Root Transforms}
-GetValues gameObject {Root Transforms} >> {Root GameObjects}
-GetScenePath {All GameObjects} >> {All GameObject ScenePaths}
+CastArray {Root Transforms} UnityEngine.Transform[] >> {Root Transforms}
+Map gameObject {Root Transforms} >> {Root GameObjects}
+CastArray {Root GameObjects} UnityEngine.GameObject[] >> {Root GameObjects}
+GetScenePath {Root GameObjects} >> {Root ScenePaths}

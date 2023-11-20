@@ -5,7 +5,7 @@ Author: ETdoFresh
 Aliases: findgameobjectsbylayer, fgosbl
 Arg1: object {Layer}
 Output0: Found GameObjects:\n{GameObjects ScenePath}
-Output1: {GameObjects}
+Output1: UnityEngine.GameObject[] {GameObjects}
 
 GetLayer {Layer} >> {Layer Int}
 FindObjectsOfType UnityEngine.GameObject >> {All GameObjects}

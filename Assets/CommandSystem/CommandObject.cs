@@ -38,7 +38,7 @@ namespace CommandSystem
                 if (argKeys.Length <= i && !argRequired) continue;
                 if (argKeys.Length <= i && argRequired) throw new Exception($"Required arg {argName} not found!");
                 var argKey = argKeys[i];
-                argMemory[argName] = argMemory[argKey];
+                argMemory[argName] = argMemory[argKey].Rename(argName);
             }
 
             // Converting Input Arg Types to Command Input Types
@@ -64,19 +64,27 @@ namespace CommandSystem
                 if (call?.Command?.ToLower().StartsWith("csharp") ?? false)
                 {
                     var newArgMemory = CSharp.Execute(call?.Command, argMemory);
-                    if (call?.Name != null) argMemory[call.Name] = newArgMemory["{Output1}"];
+                    if (call?.Name != null) argMemory[call.Name] = newArgMemory.GetValueOrDefault("{Output1}");
                 }
                 else
                 {
                     var newArgMemory = RunCommandString(call?.Command, argMemory);
-                    if (call?.Name != null) argMemory[call.Name] = newArgMemory["{Output1}"];
+                    if (call?.Name != null) argMemory[call.Name] = newArgMemory.GetValueOrDefault("{Output1}");
                 }
             }
             argMemory["Depth"] = new ArgData("Depth", typeof(int), (int) argMemory["Depth"].Value - 1);
 
             // Setup Output Keys and Return
             argMemory["{Output0}"] = GetCommandLineOutput(CommandLineOutput, argMemory);
-            if (Output?.Name != null) argMemory["{Output1}"] = argMemory[Output.Name];
+            if (Output?.Name != null)
+            {
+                argMemory["{Output1}"] = argMemory[Output.Name].Rename("{Output1}");
+                var outputType = StringToTypeUtility.Get(Output.Type);
+                if (argMemory["{Output1}"].IsConvertible(outputType))
+                    argMemory["{Output1}"] = argMemory["{Output1}"].ConvertType(outputType);
+                else
+                    throw new Exception($"Output {Output.Name} is not convertible to {Output.Type}!");
+            }
 
             if (!showIntermediateCommandLineOutput) return argMemory;
             
@@ -130,10 +138,10 @@ namespace CommandSystem
                     {
                         if (!IsValidOverload(commandObject, commandArgs)) continue;
                         argMemory["{CommandInput}"] = new ArgData("{CommandInput}", typeof(string), commandString);
-                        for (var i = 0; i < commandArgs.Length; i++) argMemory[$"{{Arg{i}}}"] = commandArgs[i];
+                        for (var i = 0; i < commandArgs.Length; i++) argMemory[$"{{Arg{i}}}"] = commandArgs[i].Rename($"{{Arg{i}}}");
                         var newArgMemory = commandObject.Run(argMemory, commandString);
-                        argMemory["{Output0}"] = newArgMemory["{Output0}"];
-                        argMemory["{Output1}"] = newArgMemory["{Output1}"];
+                        if (newArgMemory.TryGetValue("{Output0}", out var argData)) argMemory["{Output0}"] = argData;
+                        if (newArgMemory.TryGetValue("{Output1}", out argData)) argMemory["{Output1}"] = argData;
                         return argMemory;
                     }
                 }

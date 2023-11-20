@@ -1,0 +1,11 @@
+﻿Name: TestSomething
+Version: 1
+Description: Test something.
+Author: ETdoFresh
+Aliases: test
+Arg1: string {Message}
+Output0: string {Output}
+Output1: object {Output}
+
+GetCommandReference "DebugLog {Message} >> {Message2}\nDebugLog {Message2}" >> {CommandReference}
+RunCommandReference {CommandReference} >> {Output}

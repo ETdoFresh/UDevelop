@@ -5,32 +5,14 @@ Author: ETdoFresh
 Aliases: debuglog, log
 Arg1: string {Message}
 Output0: string {Message}
+Output1: string {Message}
 
 CSharp UnityEngine.Debug.Log({Message})
 
-----------------------------------------------------------------
-
-Name: TestSomething
-Version: 1
-Description: Test something.
-Author: ETdoFresh
-Aliases: test
+------------------------------
 Arg1: string {Message}
-Output0: string {Output}
-Output1: object {Output}
+Arg2: UnityEngine.Object {Context}
+Output0: string {Message}
+Output1: string {Message}
 
-GetCommandReference "DebugLog {Message}\nDebugLog World" >> {CommandReference}
-RunCommandReference {CommandReference} >> {Output}
-
-----------------------------------------------------------------
-
-Name: RunCommandReference
-Version: 1
-Description: Runs a command reference.
-Author: ETdoFresh
-Aliases: runcommandreference, rcr
-Arg1: CommandSystem.CommandReference {CommandReference}
-Output0: string {Output}
-Output1: object {Output}
-
-CSharp CommandSystem.CommandReference.Run(this {CommandReference}) >> {Output}
+CSharp UnityEngine.Debug.Log({Message}, {Context})

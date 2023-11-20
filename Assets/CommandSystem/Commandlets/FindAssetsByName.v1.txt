@@ -5,7 +5,7 @@ Author: ETdoFresh
 Aliases: findassetsbyname
 Arg1: string {Name}
 Output0: {Filtered Asset Paths}
-Output1: Object[] {Filtered Assets}
+Output1: UnityEngine.Object[] {Filtered Assets}
 
 AssetDatabaseFindAssets {Name} >> {GUIDs}
 AssetDatabaseGUIDToAssetPath {GUIDs} >> {Asset Paths}

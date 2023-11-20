@@ -4,4 +4,4 @@ Description: Clears the console.
 Author: ETdoFresh
 Aliases: clear, cls
 
-CSharp CommandSystem.CommandData.Clear()
+CSharp CommandSystem.CommandHandlerScriptableObject.Clear()

@@ -9,3 +9,12 @@ Output1: UnityEngine.Object[] {Assets}
 
 CSharp CommandSystem.Utility.AssetDatabaseLoadAssetAtPath({AssetPaths}) >> {Assets}
 StringJoin \n {Assets} >> {Assets String}
+
+------------------------------
+Arg1: string {AssetPath}
+Output0: Loaded Object: {Assets String}
+Output1: UnityEngine.Object {Assets}
+
+ToArray {AssetPath} >> {AssetPaths}
+CSharp CommandSystem.Utility.AssetDatabaseLoadAssetAtPath({AssetPaths}) >> {Assets}
+StringJoin \n {Assets} >> {Assets String}

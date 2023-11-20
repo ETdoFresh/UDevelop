@@ -5,7 +5,7 @@ Author: ETdoFresh
 Aliases: findgameobjectbyscenepath, findgobsp, fgobsp
 Arg1: string {Scene Path}
 Output0: Found GameObject: {GameObject ScenePath}
-Output1: {GameObject}
+Output1: UnityEngine.GameObject {GameObject}
 
 AddIndexIfMissing {Scene Path} >> {Scene Path With Index}
 FindObjectsOfType UnityEngine.GameObject >> {All GameObjects}

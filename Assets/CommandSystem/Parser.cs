@@ -67,5 +67,15 @@ namespace CommandSystem
             }
             return commandStrings;
         }
+        
+        public static string[] CommandAliasSplit(string commandLine)
+        {
+            var regex = new System.Text.RegularExpressions.Regex(@"(.*|\"".*\""|\{.*\})(?:[ \t]*>>[ \t]*(.*))|(.+)");
+            var match = regex.Match(commandLine);
+            var command = match.Groups[1].Value;
+            if (string.IsNullOrWhiteSpace(command)) command = match.Groups[3].Value;
+            var alias = match.Groups[2].Value;
+            return new[] {command, alias};
+        }
     }
 }

@@ -4,8 +4,10 @@ Description: Finds a GameObject by name
 Author: ETdoFresh
 Aliases: findgameobjectbyname, findgo, fg
 Arg1: string {GameObject Name}
-Output0: Found GameObject: {GameObject}
-Output1: {GameObject}
+Output0: Found GameObject: {GameObject ScenePath}
+Output1: UnityEngine.GameObject {GameObject}
 
 FindGameObjectsByName {GameObject Name} >> {All GameObjects}
 GetFirstOrDefault {All GameObjects} >> {GameObject}
+ThrowExceptionIfNull {GameObject} "No GameObject found with Name {GameObject Name}"
+GetScenePath {GameObject} >> {GameObject ScenePath}

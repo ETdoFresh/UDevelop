@@ -4,9 +4,10 @@ Description: Find GameObject by Layer
 Author: ETdoFresh
 Aliases: findgameobjectbylayer, fgobl
 Arg1: object {Layer}
-Output0: Found GameObject:\n{GameObject ScenePath}
-Output1: {GameObject}
+Output0: Found GameObject: {GameObject ScenePath}
+Output1: UnityEngine.GameObject {GameObject}
 
 FindGameObjectsByLayer {Layer} >> {GameObjects}
 GetFirstOrDefault {GameObjects} >> {GameObject}
+ThrowExceptionIfNull {GameObject} "No GameObject found with Layer {Layer}"
 GetScenePath {GameObject} >> {GameObject ScenePath}

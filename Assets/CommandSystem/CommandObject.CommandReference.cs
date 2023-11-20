@@ -7,12 +7,12 @@ namespace CommandSystem
     {
         private static Dictionary<string, ArgData> currentArgMemory;
         
-        public static Dictionary<string, ArgData> RunCommandReference(string commandString)
+        public static object RunCommandReference(string commandString)
         {
             return RunCommandReference(commandString, Array.Empty<ArgData>());
         }
         
-        public static Dictionary<string, ArgData> RunCommandReference(string commandString, params ArgData[] moreArgs)
+        public static object RunCommandReference(string commandString, params ArgData[] moreArgs)
         {
             var argMemory = currentArgMemory;
             argMemory ??= new Dictionary<string, ArgData>();
@@ -22,9 +22,7 @@ namespace CommandSystem
                 argMemory[arg.Name] = arg;
 
             var newArgMemory = CommandObject.RunCommandString(commandString, argMemory);
-            argMemory["{Output0}"] = newArgMemory["{Output0}"];
-            argMemory["{Output1}"] = newArgMemory["{Output1}"];
-            return argMemory;
+            return newArgMemory.TryGetValue("{Output1}", out var argData) ? argData.Value : null;
         }
     }
 }

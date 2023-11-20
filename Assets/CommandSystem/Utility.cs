@@ -256,25 +256,23 @@ namespace CommandSystem
 
         public static object[] Filter(FieldInfo fieldInfo, object value, object[] array)
         {
-            return array.Where(x => fieldInfo.GetValue(x).Equals(value)).ToArray();
+            return array.Where(x => fieldInfo.GetValue(x) == value).ToArray();
         }
 
         public static object[] Filter(PropertyInfo propertyInfo, object value, object[] array)
         {
-            return array.Where(x => propertyInfo.GetValue(x).Equals(value)).ToArray();
+            return array.Where(x => propertyInfo.GetValue(x) == value).ToArray();
         }
 
         public static object[] Filter(MethodInfo methodInfo, object value, object[] array)
         {
-            return array.Where(x => methodInfo.Invoke(x, null).Equals(value)).ToArray();
+            return array.Where(x => methodInfo.Invoke(x, null) == value).ToArray();
         }
 
         public static object[] Filter(CommandReference commandReference, object value, object[] array)
         {
-            return array.Where(x =>
-                commandReference
-                    .Run(new ArgData("{FilterByArg}", x.GetType(), x, true))["{Output1}"]
-                    .Value.Equals(value)).ToArray();
+            return array.Where(x => commandReference
+                .Run(new ArgData("{FilterByArg}", x.GetType(), x, true)) == value).ToArray();
         }
 
         public static object Filter(bool[] keepArray, object[] array)
@@ -287,12 +285,12 @@ namespace CommandSystem
 
         public static object Map(FieldInfo fieldInfo, object[] array)
         {
-            return array.Select(x => fieldInfo.GetValue(x)).ToArray();
+            return array.Select(fieldInfo.GetValue).ToArray();
         }
 
         public static object Map(PropertyInfo propertyInfo, object[] array)
         {
-            return array.Select(x => propertyInfo.GetValue(x)).ToArray();
+            return array.Select(propertyInfo.GetValue).ToArray();
         }
 
         public static object Map(MethodInfo methodInfo, object[] array)
@@ -303,8 +301,7 @@ namespace CommandSystem
         public static object Map(CommandReference commandReference, object[] array)
         {
             return array.Select(x => commandReference
-                    .Run(new ArgData("{MapByArg}", x.GetType(), x, true))["{Output1}"].Value)
-                .ToArray();
+                .Run(new ArgData("{MapByArg}", x.GetType(), x, true))).ToArray();
         }
 
         public static object Reduce(MethodInfo methodInfo, object initialValue, object[] array)
@@ -314,9 +311,10 @@ namespace CommandSystem
 
         public static object Reduce(CommandReference commandReference, object initialValue, object[] array)
         {
-            return array.Aggregate(initialValue, (x, y) => commandReference.Run(
-                new ArgData("{ReduceByArg1}", x.GetType(), x, true),
-                new ArgData("{ReduceByArg2}", y.GetType(), y, true))["{Output1"].Value);
+            return array.Aggregate(initialValue,
+                (x, y) => commandReference.Run(
+                    new ArgData("{ReduceByArg1}", x.GetType(), x, true),
+                    new ArgData("{ReduceByArg2}", y.GetType(), y, true)));
         }
 
         public static object[] SortBy(FieldInfo fieldInfo, object[] array)
@@ -333,6 +331,7 @@ namespace CommandSystem
         {
             if (obj == null) return Array.Empty<object>();
             if (obj is Array array) return array;
+            if (obj is string) return new object[] { obj };
             if (obj is IEnumerable enumerable) return enumerable.Cast<object>().ToArray();
             return new[] { obj };
         }
@@ -455,7 +454,7 @@ namespace CommandSystem
         }
 
         public static object ThrowExceptionIfNull(object obj) => ThrowExceptionIfNull(obj, "Object is null");
-        
+
         public static object ThrowExceptionIfNull(object obj, string message)
         {
             if (obj == null) throw new Exception(message);

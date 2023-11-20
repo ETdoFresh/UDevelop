@@ -4,8 +4,10 @@ Description: Finds a GameObject by tag
 Author: ETdoFresh
 Aliases: findgameobjectbytag, findgot, fgt
 Arg1: string {GameObject Tag}
-Output0: Found GameObject: {GameObject}
-Output1: {GameObject}
+Output0: Found GameObject: {GameObject ScenePath}
+Output1: UnityEngine.GameObject {GameObject}
 
 FindGameObjectsByTag {GameObject Tag} >> {All GameObjects}
 GetFirstOrDefault {All GameObjects} >> {GameObject}
+ThrowExceptionIfNull {GameObject} "No GameObject found with Layer {Layer}"
+GetScenePath {GameObject} >> {GameObject ScenePath}

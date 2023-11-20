@@ -101,5 +101,10 @@ namespace CommandSystem
 
             return obj is IConvertible ? new ArgData(Name, toType, Convert.ChangeType(obj, toType)) : this;
         }
+
+        public ArgData Rename(string newName)
+        {
+            return new ArgData(newName, Type, Value, Required);
+        }
     }
 }

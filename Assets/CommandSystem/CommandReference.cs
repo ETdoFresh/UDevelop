@@ -11,12 +11,12 @@ namespace CommandSystem
             _commandString = commandString;
         }
 
-        public Dictionary<string, ArgData> Run()
+        public object Run()
         {
             return CommandObject.RunCommandReference(_commandString);
         }
 
-        public Dictionary<string, ArgData> Run(params ArgData[] args)
+        public object Run(params ArgData[] args)
         {
             return CommandObject.RunCommandReference(_commandString, args);
         }
