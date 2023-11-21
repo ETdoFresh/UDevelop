@@ -256,23 +256,23 @@ namespace CommandSystem
 
         public static object[] Filter(FieldInfo fieldInfo, object value, object[] array)
         {
-            return array.Where(x => fieldInfo.GetValue(x) == value).ToArray();
+            return array.Where(x => IsEqual(fieldInfo?.GetValue(x), value)).ToArray();
         }
 
         public static object[] Filter(PropertyInfo propertyInfo, object value, object[] array)
         {
-            return array.Where(x => propertyInfo.GetValue(x) == value).ToArray();
+            return array.Where(x => IsEqual(propertyInfo?.GetValue(x), value)).ToArray();
         }
 
         public static object[] Filter(MethodInfo methodInfo, object value, object[] array)
         {
-            return array.Where(x => methodInfo.Invoke(x, null) == value).ToArray();
+            return array.Where(x => IsEqual(methodInfo?.Invoke(x, null), value)).ToArray();
         }
 
         public static object[] Filter(CommandReference commandReference, object value, object[] array)
         {
-            return array.Where(x => commandReference
-                .Run(new ArgData("{FilterByArg}", x.GetType(), x, true)) == value).ToArray();
+            return array.Where(x => IsEqual(commandReference
+                .Run(new ArgData("{FilterByArg}", x.GetType(), x, true)), value)).ToArray();
         }
 
         public static object Filter(bool[] keepArray, object[] array)
@@ -459,6 +459,13 @@ namespace CommandSystem
         {
             if (obj == null) throw new Exception(message);
             return obj;
+        }
+        
+        private static bool IsEqual(object a, object b)
+        {
+            if (a == null && b == null) return true;
+            if (a == null || b == null) return false;
+            return a.Equals(b);
         }
     }
 }
