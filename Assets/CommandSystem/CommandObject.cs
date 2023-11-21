@@ -126,8 +126,16 @@ namespace CommandSystem
                 if (commandArgs[i].Type != typeof(string)) continue;
                 var argString = commandArgs[i].Value?.ToString();
                 if (argString == null) continue;
-                if (!argMemory.TryGetValue(argString, out var arg)) continue;
-                commandArgs[i] = arg;
+                if (argMemory.TryGetValue(argString, out var arg))
+                {
+                    commandArgs[i] = arg;
+                    continue;
+                }
+                if (Parser.ContainsBracesVariable(argString))
+                {
+                    argString = Parser.ReplaceBracesVariable(argString, argMemory);
+                    commandArgs[i] = new ArgData(argString, typeof(string), argString);
+                }
             }
 
             if (CommandRunner.CommandMap.TryGetValue(commandAlias.ToLower(), out var commandObjects))

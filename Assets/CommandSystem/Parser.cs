@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace CommandSystem
 {
     public static class Parser
@@ -27,7 +29,8 @@ namespace CommandSystem
 
             var regexFlags = System.Text.RegularExpressions.RegexOptions.Multiline;
             regexFlags |= System.Text.RegularExpressions.RegexOptions.Singleline;
-            var regex = new System.Text.RegularExpressions.Regex(@"\{.*?\}|'.*?'|"".*?""|\S+", regexFlags);
+            var pattern = @"(?:\S*\:)\{.*?\}|\{.*?\}|'.*?'|\"".*?\""|\S+";
+            var regex = new System.Text.RegularExpressions.Regex(pattern, regexFlags);
             var matches = regex.Matches(argString);
             var args = new ArgData[matches.Count];
             for (var i = 0; i < matches.Count; i++)
@@ -76,6 +79,27 @@ namespace CommandSystem
             if (string.IsNullOrWhiteSpace(command)) command = match.Groups[3].Value;
             var alias = match.Groups[2].Value;
             return new[] {command, alias};
+        }
+
+        public static bool ContainsBracesVariable(string argString)
+        {
+            var pattern = @"\{.*?\}";
+            var regex = new System.Text.RegularExpressions.Regex(pattern);
+            return regex.IsMatch(argString);
+        }
+
+        public static string ReplaceBracesVariable(string argString, Dictionary<string, ArgData> argMemory)
+        {
+            var pattern = @"\{.*?\}";
+            var regex = new System.Text.RegularExpressions.Regex(pattern);
+            var matches = regex.Matches(argString);
+            foreach (System.Text.RegularExpressions.Match match in matches)
+            {
+                var arg = match.Value;
+                if (argMemory.TryGetValue(arg, out var argData) && (argData?.Type == typeof(string) || argData?.Value?.GetType() == typeof(string)))
+                    argString = argString.Replace(arg, argData.Value.ToString());
+            }
+            return argString;
         }
     }
 }

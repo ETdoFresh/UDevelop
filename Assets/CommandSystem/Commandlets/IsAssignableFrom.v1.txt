@@ -1,0 +1,21 @@
+﻿Name: IsAssignableFrom
+Version: 1
+Description: Determines whether the current type can be assigned from the specified type.
+Author: ETdoFresh
+Aliases: isassignablefrom, iaf
+Arg1: System.Type {Type}
+Arg2: System.Type {AssignableFromType}
+Output0: IsAssignableFrom: {Boolean}
+Output1: bool {Boolean}
+
+CSharp System.Type.IsAssignableFrom(this {Type}, {AssignableFromType}) >> {Boolean}
+
+------------------------------
+Arg1: string {Type Name}
+Arg2: string {AssignableFromType Name}
+Output0: IsAssignableFrom: {Boolean}
+Output1: bool {Boolean}
+
+FindSystemTypeByName {Type Name} >> {Type}
+FindSystemTypeByName {AssignableFromType Name} >> {AssignableFromType}
+IsAssignableFrom {Type} {AssignableFromType} >> {Boolean}

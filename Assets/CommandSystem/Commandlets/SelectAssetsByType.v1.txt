@@ -1,0 +1,23 @@
+﻿Name: SelectAssetsByType
+Version: 1
+Description: Select assets by type
+Author: ETdoFresh
+Aliases: selectassetsbytype
+Arg1: System.Type {Type}
+Output0: Selecting:\n{AssetPath Strings}
+Output1: UnityEngine.Object[] {Assets}
+
+FindAssetsByType {Type} >> {Assets}
+AssetDatabaseGetAssetPath {Assets} >> {Asset Paths}
+Select {Assets}
+StringJoin \n {Asset Paths} >> {AssetPath Strings}
+
+------------------------------
+Arg1: string {Type Name}
+Output0: Selecting:\n{AssetPath Strings}
+Output1: UnityEngine.Object[] {Assets}
+
+FindAssetsByType {Type Name} >> {Assets}
+AssetDatabaseGetAssetPath {Assets} >> {Asset Paths}
+Select {Assets}
+StringJoin \n {Asset Paths} >> {AssetPath Strings}

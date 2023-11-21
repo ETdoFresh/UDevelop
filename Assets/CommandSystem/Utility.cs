@@ -399,7 +399,7 @@ namespace CommandSystem
         public static string[] AssetDatabaseFindAssets(string filter)
         {
 #if UNITY_EDITOR
-            return UnityEditor.AssetDatabase.FindAssets(filter).ToArray();
+            return UnityEditor.AssetDatabase.FindAssets(filter, new[] { "Assets" }).ToArray();
 #else
             return Array.Empty<string>();
 #endif
@@ -460,7 +460,7 @@ namespace CommandSystem
             if (obj == null) throw new Exception(message);
             return obj;
         }
-        
+
         private static bool IsEqual(object a, object b)
         {
             if (a == null && b == null) return true;

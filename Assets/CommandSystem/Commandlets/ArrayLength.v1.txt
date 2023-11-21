@@ -1,0 +1,10 @@
+﻿Name: ArrayLength
+Version: 1
+Description: Get the length of an array
+Author: ETdoFresh
+Aliases: arraylength
+Arg1: System.Array {Array}
+Output0: int {Length}
+Output1: int {Length}
+
+GetValue Length {Array} >> {Length}
