@@ -8,7 +8,7 @@ namespace Jint
         public static JsValue RunJavaScriptCommand(params string[] args)
         {
             var script = string.Join(" ", args);
-            return JavaScript.Run(script);
+            return JavaScript.Evaluate(script);
         }
         
         [Command("js", "Runs JavaScript code in Quantum Console.")]

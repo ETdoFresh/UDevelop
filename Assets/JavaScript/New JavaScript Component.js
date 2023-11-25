@@ -1,20 +1,59 @@
-class Component {
-    constructor() {
-        Debug.Log('Constructor called');
+new function (self) {
+    this.self = self;
+
+    this.awake = function () {
+        UnityEngine.Debug.Log('Awake');
     }
 
-    onEnable() {
-        Debug.Log('OnEnable called');
+    this.start = function () {
+        UnityEngine.Debug.Log('Start');
+    }
+    
+    this.onDestroy = function () {
+        UnityEngine.Debug.Log('OnDestroy');
     }
 
-    onDisable() {
-        Debug.Log('OnDisable called');
+    this.onEnable = function () {
+        UnityEngine.Debug.Log('OnEnable');
     }
 
-    update() {
-        // Called every frame
+    this.onDisable = function () {
+        UnityEngine.Debug.Log('OnDisable');
     }
-}
-
-const component = new Component();
-return component;
+    
+    this.update = function () {
+        //UnityEngine.Debug.Log('update');
+    }
+    
+    this.fixedUpdate = function () {
+        //UnityEngine.Debug.Log('fixedUpdate');
+    }
+    
+    this.lateUpdate = function () {
+        //UnityEngine.Debug.Log('lateUpdate');
+    }
+    
+    this.onTriggerEnter = function (other) {
+        UnityEngine.Debug.Log('onTriggerEnter');
+    }
+    
+    this.onTriggerExit = function (other) {
+        UnityEngine.Debug.Log('onTriggerExit');
+    }
+    
+    this.onTriggerStay = function (other) {
+        UnityEngine.Debug.Log('onTriggerStay');
+    }
+    
+    this.onCollisionEnter = function (other) {
+        UnityEngine.Debug.Log('onCollisionEnter');
+    }
+    
+    this.onCollisionExit = function (other) {
+        UnityEngine.Debug.Log('onCollisionExit');
+    }
+    
+    this.onCollisionStay = function (other) {
+        UnityEngine.Debug.Log('onCollisionStay');
+    }
+}(self);

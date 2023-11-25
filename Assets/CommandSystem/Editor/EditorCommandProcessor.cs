@@ -19,7 +19,7 @@ namespace CommandSystem.Editor
             {
                 try
                 {
-                    var output = JavaScript.Run(command);
+                    var output = JavaScript.Evaluate(command);
                     CommandHandlerScriptableObject.Outputs.Add(output.ToString());
                     CommandHandlerScriptableObject.Display.Add(output.ToString());
 
