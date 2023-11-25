@@ -1,0 +1,13 @@
+function component() {
+    onEnable() {
+        // Called when the component is enabled
+    }
+    
+    onDisable() {
+        // Called when the component is disabled
+    }
+    
+    update() {
+        // Called every frame
+    }
+}
