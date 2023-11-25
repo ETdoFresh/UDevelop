@@ -33,7 +33,7 @@ public sealed class DigicardAssetImporter : ScriptedImporter
 
         PopulateImporterFields();
 
-        ctx.AddObjectToAsset(GUID.Generate().ToString(), asset);
+        ctx.AddObjectToAsset("text", asset);
         ctx.SetMainObject(asset);
 
         // If extension not included in our project
@@ -73,3 +73,18 @@ public sealed class DigicardAssetImporter : ScriptedImporter
         EditorSettings.projectGenerationUserExtensions = list.ToArray();
     }
 }
+
+
+// [ScriptedImporter(1, "digicard")]
+// public class SrtImporter : ScriptedImporter
+// {
+//     public override void OnImportAsset(AssetImportContext ctx)
+//     {
+//         var subAsset = ScriptableObject.CreateInstance<DigicardAsset>();
+//         var assetPath = ctx.assetPath;
+//         subAsset.filePath = assetPath;
+//         subAsset.Load();
+//         ctx.AddObjectToAsset("text", subAsset);
+//         ctx.SetMainObject(subAsset);
+//     }
+// }

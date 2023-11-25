@@ -4,12 +4,12 @@
     "properties": [
         {
             "name": "Health",
-            "value": 32,
+            "value": 26,
             "description": "Health"
         },
         {
             "name": "Mana",
-            "value": 10,
+            "value": 700,
             "description": "Mana"
         }
     ],

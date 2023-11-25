@@ -8,7 +8,7 @@ namespace Jint
         [SerializeField] private int m_instanceID;
         [SerializeField] private int m_hashCode;
 
-        public string JavaScript => javascript;
+        public string JavaScript { get => javascript; set => javascript = value;}
         public int InstanceID => m_instanceID == 0 ? m_instanceID = GetInstanceID() : m_instanceID;
         public int HashCode => m_hashCode = InstanceID.GetHashCode();
 

@@ -1,13 +1,20 @@
-function component() {
-    onEnable = function() {
-        // Called when the component is enabled!!!!
+class Component {
+    constructor() {
+        Debug.Log('Constructor called');
     }
-    
-    onDisable = function() {
-        // Called when the component is disabled
+
+    onEnable() {
+        Debug.Log('OnEnable called');
     }
-    
-    update = function() {
+
+    onDisable() {
+        Debug.Log('OnDisable called');
+    }
+
+    update() {
         // Called every frame
     }
 }
+
+const component = new Component();
+return component;

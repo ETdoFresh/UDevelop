@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 000c7878489f42d419be91cc8d79ef4d
+guid: a0f362aad47074f269460d98404eedc3
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -8,12 +8,12 @@ ScriptedImporter:
   assetBundleName: 
   assetBundleVariant: 
   script: {fileID: 11500000, guid: 622c3a6930820e94d9960705396375c8, type: 3}
-  assetReferencePath: Assets/Digicard/DigicardTest.digicard
+  assetReferencePath: Assets/Digicard/DigicardTest 1.digicard
   cardName: DigicardTest
   cardType: 0
   cardProperties:
   - name: Health
-    value: 30
+    value: 26
     description: Health
   - name: Mana
     value: 10

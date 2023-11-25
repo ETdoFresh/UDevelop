@@ -1,4 +1,5 @@
 ﻿using System;
+using Jint;
 using UnityEngine;
 
 namespace CommandSystem.Editor
@@ -18,9 +19,9 @@ namespace CommandSystem.Editor
             {
                 try
                 {
-                    var output = CommandRunner.Run(command);
-                    CommandHandlerScriptableObject.Outputs.Add(output["{Output0}"].Value?.ToString());
-                    CommandHandlerScriptableObject.Display.Add(output["{Output0}"].Value?.ToString());
+                    var output = JavaScript.Run(command);
+                    CommandHandlerScriptableObject.Outputs.Add(output.ToString());
+                    CommandHandlerScriptableObject.Display.Add(output.ToString());
 
                     // TODO: Will have to figure out how to reverse each command in the future
                     // if (commandInstance.AddToHistory)
