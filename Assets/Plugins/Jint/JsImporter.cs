@@ -1,7 +1,6 @@
 using System.Linq;
 using System.Reflection;
 using Jint;
-using Unity.Collections;
 using UnityEditor;
 using UnityEditor.AssetImporters;
 using UnityEngine;
@@ -17,7 +16,8 @@ public sealed class JsImporter : ScriptedImporter
         {
             var assetPath = ctx.assetPath;
             var assetText = System.IO.File.ReadAllText(assetPath);
-            var javascriptField = jsScriptableObject.GetType().GetField("javascript", BindingFlags.NonPublic | BindingFlags.Instance);
+            var javascriptField = jsScriptableObject.GetType()
+                .GetField("javascript", BindingFlags.NonPublic | BindingFlags.Instance);
             javascriptField.SetValue(jsScriptableObject, assetText);
         }
         else
@@ -25,21 +25,20 @@ public sealed class JsImporter : ScriptedImporter
             var asset = ScriptableObject.CreateInstance<JsScriptableObject>();
             var assetPath = ctx.assetPath;
             var assetText = System.IO.File.ReadAllText(assetPath);
-            var javascriptField = asset.GetType().GetField("javascript", BindingFlags.NonPublic | BindingFlags.Instance);
+            var javascriptField =
+                asset.GetType().GetField("javascript", BindingFlags.NonPublic | BindingFlags.Instance);
             javascriptField.SetValue(asset, assetText);
             ctx.AddObjectToAsset("JavaScript", asset);
             ctx.SetMainObject(asset);
-            if (TryIncludeJavaScriptExtension())
-                AssetDatabase.Refresh();
+            TryIncludeJavaScriptExtension();
         }
     }
 
-    private static bool TryIncludeJavaScriptExtension()
+    private static void TryIncludeJavaScriptExtension()
     {
-        if (EditorSettings.projectGenerationUserExtensions.Contains(JavaScriptExtension)) return false;
+        if (EditorSettings.projectGenerationUserExtensions.Contains(JavaScriptExtension)) return;
         var list = EditorSettings.projectGenerationUserExtensions.ToList();
         list.Add(JavaScriptExtension);
         EditorSettings.projectGenerationUserExtensions = list.ToArray();
-        return true;
     }
 }

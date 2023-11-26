@@ -1,0 +1,19 @@
+﻿{
+  "Character": {
+    "Name": "Name",
+    "Class": "Class",
+    "Health": 100,
+    "Mana": 100,
+    "Stamina": 100,
+    "Strength": 10,
+    "Dexterity": 10,
+    "Intelligence": 10,
+    "Wisdom": 10,
+    "Charisma": 10,
+    "Luck": 10,
+    "Level": 1,
+    "Experience": 0,
+    "Gold": 0,
+    "IsAlive": true
+  }
+}
