@@ -153,7 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   js: {fileID: 1092224111381124699, guid: 3637a7e61c21a154783b42de84241fb5, type: 3}
-  overrideInitialValues: '{}'
+  dataJson: '{}'
 --- !u!4 &1490732502
 Transform:
   m_ObjectHideFlags: 0
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   js: {fileID: 1092224111381124699, guid: 673831f3d3caccb44971eac4bef962b2, type: 3}
-  overrideInitialValues: '{}'
+  dataJson: '{}'
 --- !u!4 &1596173165
 Transform:
   m_ObjectHideFlags: 0
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   js: {fileID: 1092224111381124699, guid: a2bbb2bb63dba1b43afb2974e7a12d1b, type: 3}
-  overrideInitialValues: '{}'
+  dataJson: '{}'
 --- !u!4 &1716495552
 Transform:
   m_ObjectHideFlags: 0
@@ -428,7 +428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   js: {fileID: 1092224111381124699, guid: 18840111ad0360b4984b7b6d0acd125b, type: 3}
-  overrideInitialValues: '{"hp":200.0,"mp":200.0,"name":"DemoCharacter2","attack":10.0,"speed":10.0,"defense":10.0,"isDead":true}'
+  dataJson: '{"name":"DemoCharacter","hp":200.0,"mp":200.0,"attack":50.0,"defense":30.0,"speed":5.0,"isDead":true}'
 --- !u!4 &2063894721
 Transform:
   m_ObjectHideFlags: 0

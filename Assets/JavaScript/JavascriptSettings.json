@@ -1,0 +1,24 @@
+﻿{
+  "AllowedAssemblies": [
+    { "name": "System", "assemblyName": "mscorlib" },
+    { "name": "UnityEngine", "assemblyName": "UnityEngine.CoreModule" },
+    { "name": "Assembly-CSharp", "assemblyName": "Assembly-CSharp" },
+    { "name": "ETdoFreshEventBus", "assemblyName": "com.etdofresh.unitypackages.eventbus" }
+  ],
+  "Namespaces": [
+    {"name": "System", "namespacePath": "System"},
+    {"name": "UnityEngine", "namespacePath": "UnityEngine"},
+    {"name": "ETdoFresh", "namespacePath": "ETdoFresh"},
+    {"name": "CommandSystem", "namespacePath": "CommandSystem"}
+  ],
+  "Types": [
+    {"name": "EventBus", "typeFullName": "ETdoFresh.UnityPackages.EventBusSystem.EventBus"},
+    {"name": "Mathf", "typeFullName": "UnityEngine.Mathf"},
+    {"name": "Debug", "typeFullName": "UnityEngine.Debug"}
+  ],
+  "Aliases": [
+    {"name": "clear", "js": "CommandSystem.CommandHandlerScriptableObject.Clear"},
+    {"name": "cls", "js": "CommandSystem.CommandHandlerScriptableObject.Clear"},
+    {"name": "log", "js": "UnityEngine.Debug.Log"}
+  ]
+}

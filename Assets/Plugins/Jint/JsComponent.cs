@@ -11,7 +11,7 @@ namespace Jint
     public class JsComponent : MonoBehaviour
     {
         [SerializeField] private JsScriptableObject js;
-        [SerializeField] private string overrideInitialValues;
+        [SerializeField] private string dataJson;
         private JsValue _componentJs;
         
         public string ScriptName => js ? js.name : null;
@@ -132,21 +132,21 @@ namespace Jint
 
         private void RemoveValuesNotInJs()
         {
-            if (overrideInitialValues == null) return;
-            var values = JsonConvert.DeserializeObject<Dictionary<string, object>>(overrideInitialValues);
+            if (dataJson == null) return;
+            var values = JsonConvert.DeserializeObject<Dictionary<string, object>>(dataJson);
             if (values == null) return;
             var jsKeys = _componentJs.AsObject().GetOwnProperties().Select(x => x.Key).ToArray();
             var valuesKeys = values.Keys.ToArray();
             foreach (var valuesKey in valuesKeys)
                 if (!jsKeys.Contains(valuesKey))
                     values.Remove(valuesKey);
-            overrideInitialValues = JsonConvert.SerializeObject(values);
+            dataJson = JsonConvert.SerializeObject(values);
         }
 
         private void OverrideInitialValues()
         {
-            if (overrideInitialValues == null) return;
-            var values = JsonConvert.DeserializeObject<Dictionary<string, object>>(overrideInitialValues);
+            if (dataJson == null) return;
+            var values = JsonConvert.DeserializeObject<Dictionary<string, object>>(dataJson);
             if (values == null) return;
             foreach (var (key, value) in values)
             {
@@ -177,7 +177,7 @@ namespace Jint
                 var serializedObject = new UnityEditor.SerializedObject(target);
                 var script = serializedObject.FindProperty("m_Script");
                 var js = serializedObject.FindProperty("js");
-                var overrideInitialValues = serializedObject.FindProperty("overrideInitialValues");
+                var dataJson = serializedObject.FindProperty("dataJson");
                 UnityEditor.EditorGUI.BeginDisabledGroup(true);
                 UnityEditor.EditorGUILayout.PropertyField(script, true, Array.Empty<GUILayoutOption>());
                 UnityEditor.EditorGUI.EndDisabledGroup();
@@ -186,8 +186,8 @@ namespace Jint
                 
                 //UnityEditor.EditorGUILayout.TextArea(overrideInitialValues.stringValue, UnityEditor.EditorStyles.textArea);
 
-                if (overrideInitialValues.stringValue != null && values.Count == 0)
-                    values = JsonConvert.DeserializeObject<Dictionary<string, object>>(overrideInitialValues.stringValue) ?? new Dictionary<string, object>();
+                if (dataJson.stringValue != null && values.Count == 0)
+                    values = JsonConvert.DeserializeObject<Dictionary<string, object>>(dataJson.stringValue) ?? new Dictionary<string, object>();
                 
                 if (js != null && js.objectReferenceValue != null)
                 {
@@ -302,19 +302,29 @@ namespace Jint
                         }
                         UnityEditor.EditorGUILayout.EndHorizontal();
                     }
-                    var newValue = JsonConvert.SerializeObject(values);
-                    if (newValue != overrideInitialValues.stringValue)
+                    var newValue = JsonConvert.SerializeObject(values, Formatting.Indented);
+                    if (newValue != dataJson.stringValue)
                     {
-                        overrideInitialValues.stringValue = newValue;
+                        dataJson.stringValue = newValue;
                         serializedObject.ApplyModifiedProperties();
                         target.HotReload();
                     }
+                }
+                
+                if (dataJson.stringValue != null)
+                {
+                    UnityEditor.EditorGUILayout.Space();
+                    UnityEditor.EditorGUILayout.LabelField("Data Json [Instance]", UnityEditor.EditorStyles.boldLabel);
+                    UnityEditor.EditorGUI.BeginDisabledGroup(true);
+                    UnityEditor.EditorGUILayout.TextArea(dataJson.stringValue, UnityEditor.EditorStyles.textArea);
+                    UnityEditor.EditorGUI.EndDisabledGroup();
                 }
                 
                 if (js != null && js.objectReferenceValue != null)
                 {
                     var jsScriptableObject = (JsScriptableObject)js.objectReferenceValue;
                     var jsText = jsScriptableObject.JavaScript;
+                    UnityEditor.EditorGUILayout.Space();
                     UnityEditor.EditorGUILayout.LabelField("JavaScript", UnityEditor.EditorStyles.boldLabel);
                     UnityEditor.EditorGUI.BeginDisabledGroup(true);
                     UnityEditor.EditorGUILayout.TextArea(jsText, UnityEditor.EditorStyles.textArea);
