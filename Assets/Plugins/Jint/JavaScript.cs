@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Linq;
+using ETdoFresh.UnityPackages.EventBusSystem;
 using Jint.Native;
 using Jint.Runtime.Interop;
 using UnityEngine;
@@ -17,8 +19,13 @@ namespace Jint
             var engine = new Engine(cfg => cfg
                 .AllowClr()
                 .AllowClr(typeof(Debug).Assembly)
+                .AllowClr(typeof(EventBus).Assembly)
+                .AllowClr(AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.GetName().Name == "Assembly-CSharp"))
             );
             engine.SetValue("UnityEngine", new NamespaceReference(engine, "UnityEngine"));
+            engine.SetValue("ETdoFresh", new NamespaceReference(engine, "ETdoFresh"));
+            engine.SetValue("EventBus", TypeReference.CreateTypeReference(engine, typeof(EventBus)));
+            engine.SetValue("AssemblyCSharp", AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.GetName().Name == "Assembly-CSharp"));
             return engine;
         }
 

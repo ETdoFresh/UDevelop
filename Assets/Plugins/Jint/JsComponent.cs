@@ -20,85 +20,103 @@ namespace Jint
         {
             if (js) js.ScriptChanged.AddListener(HotReload);
             HotReload();
-            _componentJs?.AsObject()?.GetProperty("awake")?.Value?.Invoke();
+            CallJsMethod("awake");
         }
 
         private void Start()
         {
-            _componentJs?.AsObject()?.GetProperty("start")?.Value?.Invoke();
+            CallJsMethod("start");
         }
 
         private void OnDestroy()
         {
-            _componentJs?.AsObject()?.GetProperty("onDestroy")?.Value?.Invoke();
+            CallJsMethod("onDestroy");
             if (js) js.ScriptChanged.RemoveListener(HotReload);
         }
 
         private void OnEnable()
         {
-            _componentJs?.AsObject()?.GetProperty("onEnable")?.Value?.Invoke();
+            CallJsMethod("onEnable");
         }
 
         private void OnDisable()
         {
-            _componentJs?.AsObject()?.GetProperty("onDisable")?.Value?.Invoke();
+            CallJsMethod("onDisable");
         }
 
         private void FixedUpdate()
         {
-            _componentJs?.AsObject()?.GetProperty("fixedUpdate")?.Value?.Invoke();
+            CallJsMethod("fixedUpdate");
         }
 
         private void LateUpdate()
         {
-            _componentJs?.AsObject()?.GetProperty("lateUpdate")?.Value?.Invoke();
+            CallJsMethod("lateUpdate");
         }
 
         private void Update()
         {
-            _componentJs?.AsObject()?.GetProperty("update")?.Value?.Invoke();
+            CallJsMethod("update");
         }
 
         private void OnCollisionEnter(Collision other)
         {
-            var collisionJs = JavaScript.GetJsValue(other);
-            _componentJs?.AsObject()?.GetProperty("onCollisionEnter")?.Value?.Invoke(collisionJs);
+            CallJsMethod("onCollisionEnter", other);
         }
 
         private void OnCollisionExit(Collision other)
         {
-            var collisionJs = JavaScript.GetJsValue(other);
-            _componentJs?.AsObject()?.GetProperty("onCollisionExit")?.Value?.Invoke(collisionJs);
+            CallJsMethod("onCollisionExit", other);
         }
 
         private void OnCollisionStay(Collision other)
         {
-            var collisionJs = JavaScript.GetJsValue(other);
-            _componentJs?.AsObject()?.GetProperty("onCollisionStay")?.Value?.Invoke(collisionJs);
+            CallJsMethod("onCollisionStay", other);
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            var colliderJs = JavaScript.GetJsValue(other);
-            _componentJs?.AsObject()?.GetProperty("onTriggerEnter")?.Value?.Invoke(colliderJs);
+            CallJsMethod("onTriggerEnter", other);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            var colliderJs = JavaScript.GetJsValue(other);
-            _componentJs?.AsObject()?.GetProperty("onTriggerExit")?.Value?.Invoke(colliderJs);
+            CallJsMethod("onTriggerExit", other);
         }
 
         private void OnTriggerStay(Collider other)
         {
-            var colliderJs = JavaScript.GetJsValue(other);
-            _componentJs?.AsObject()?.GetProperty("onTriggerStay")?.Value?.Invoke(colliderJs);
+            CallJsMethod("onTriggerStay", other);
         }
 
         private void OnParticleCollision(GameObject other)
         {
-            var gameObjectJs = JavaScript.GetJsValue(other);
-            _componentJs?.AsObject()?.GetProperty("onParticleCollision")?.Value?.Invoke(gameObjectJs);
+            CallJsMethod("onParticleCollision", other);
+        }
+        
+        private void CallJsMethod(string methodName)
+        {
+            try
+            {
+                _componentJs?.AsObject()?.GetProperty(methodName)?.Value?.Invoke();
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e, this);
+            }
+        }
+        
+        private void CallJsMethod(string methodName, object arg1)
+        {
+            try
+            {
+                var arg1Js = JavaScript.GetJsValue(arg1);
+                _componentJs?.AsObject()?.GetProperty(methodName)?.Value?.Invoke(arg1Js);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e, this);
+            }
         }
 
         [ContextMenu("Hot Reload")]
