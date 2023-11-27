@@ -1,13 +1,11 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using ETdoFresh.UnityPackages.EventBusSystem;
 using Jint.Native;
+using Jint.Runtime;
 using Jint.Runtime.Interop;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using UnityEngine;
 
 namespace Jint
 {
@@ -72,7 +70,15 @@ namespace Jint
                 _engine = null;
                 return "Engine restarted.";
             }
-            return Engine.Execute(script).GetCompletionValue();
+
+            try
+            {
+                return Engine.Execute(script).GetCompletionValue();
+            }
+            catch (JavaScriptException e)
+            {
+                throw new Exception($"[JavaScript] Line: {e.LineNumber} {e.Message}");
+            }
         }
 
         public static Engine SetValue(string name, object value)
@@ -87,11 +93,18 @@ namespace Jint
 
         public static JsValue GetJsValue(object obj)
         {
-            var guid = "guid" + Guid.NewGuid().ToString("N");
-            Engine.SetValue(guid, obj);
-            var jsValue = Evaluate(guid);
-            Evaluate($"delete {guid};");
-            return jsValue;
+            if (obj is JsValue objJsValue) return objJsValue;
+            return JsValue.FromObject(Engine, obj);
+        }
+        
+        public static string GetJson(JsValue obj)
+        {
+            return Engine.Json.Stringify(null, new[]{ obj }).AsString();
+        }
+
+        public static void Throw(JavaScriptException e)
+        {
+            throw new Exception($"[{e.GetType().Name}] Line: {e.LineNumber} Column: {e.Column} Source: {e.Location.Source} CallStack: {e.CallStack} ", e);
         }
     }
 }

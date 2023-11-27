@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Jint.Native;
+using Jint.Runtime;
 using Newtonsoft.Json;
 using UnityEngine;
 using Types = Jint.Runtime.Types;
@@ -11,8 +12,10 @@ namespace Jint
     public class JsComponent : MonoBehaviour
     {
         [SerializeField] private JsScriptableObject js;
+        [SerializeField] private JsonScriptableObject json;
         [SerializeField] private string dataJson;
         private JsValue _componentJs;
+        private JsValue _dataJs;
         
         public string ScriptName => js ? js.name : null;
 
@@ -20,89 +23,93 @@ namespace Jint
         {
             if (js) js.ScriptChanged.AddListener(HotReload);
             HotReload();
-            CallJsMethod("awake");
+            CallJsMethod("awake", gameObject, _dataJs);
         }
 
         private void Start()
         {
-            CallJsMethod("start");
+            CallJsMethod("start", gameObject, _dataJs);
         }
 
         private void OnDestroy()
         {
-            CallJsMethod("onDestroy");
+            CallJsMethod("onDestroy", gameObject, _dataJs);
             if (js) js.ScriptChanged.RemoveListener(HotReload);
         }
 
         private void OnEnable()
         {
-            CallJsMethod("onEnable");
+            CallJsMethod("onEnable", gameObject, _dataJs);
         }
 
         private void OnDisable()
         {
-            CallJsMethod("onDisable");
+            CallJsMethod("onDisable", gameObject, _dataJs);
         }
 
         private void FixedUpdate()
         {
-            CallJsMethod("fixedUpdate");
+            CallJsMethod("fixedUpdate", gameObject, _dataJs);
         }
 
         private void LateUpdate()
         {
-            CallJsMethod("lateUpdate");
+            CallJsMethod("lateUpdate", gameObject, _dataJs);
         }
 
         private void Update()
         {
-            CallJsMethod("update");
+            dataJson = JavaScript.GetJson(_dataJs);
+            CallJsMethod("update", gameObject, _dataJs);
         }
 
         private void OnCollisionEnter(Collision other)
         {
-            CallJsMethod("onCollisionEnter", other);
+            CallJsMethod("onCollisionEnter", gameObject, _dataJs, other);
         }
 
         private void OnCollisionExit(Collision other)
         {
-            CallJsMethod("onCollisionExit", other);
+            CallJsMethod("onCollisionExit", gameObject, _dataJs, other);
         }
 
         private void OnCollisionStay(Collision other)
         {
-            CallJsMethod("onCollisionStay", other);
+            CallJsMethod("onCollisionStay", gameObject, _dataJs, other);
         }
 
         private void OnTriggerEnter(Collider other)
         {
-            CallJsMethod("onTriggerEnter", other);
+            CallJsMethod("onTriggerEnter", gameObject, _dataJs, other);
         }
 
         private void OnTriggerExit(Collider other)
         {
-            CallJsMethod("onTriggerExit", other);
+            CallJsMethod("onTriggerExit", gameObject, _dataJs, other);
         }
 
         private void OnTriggerStay(Collider other)
         {
-            CallJsMethod("onTriggerStay", other);
+            CallJsMethod("onTriggerStay", gameObject, _dataJs, other);
         }
 
         private void OnParticleCollision(GameObject other)
         {
-            CallJsMethod("onParticleCollision", other);
+            CallJsMethod("onParticleCollision", gameObject, _dataJs, other);
         }
         
         private void CallJsMethod(string methodName)
         {
             try
             {
-                _componentJs?.AsObject()?.GetProperty(methodName)?.Value?.Invoke();
+                var jsObject = _componentJs?.AsObject();
+                if (jsObject == null) return;
+                if (!jsObject.HasProperty(methodName)) return;
+                jsObject.GetProperty(methodName).Value?.Invoke();
             }
-            catch (Exception e)
+            catch (JavaScriptException e)
             {
-                Debug.LogException(e, this);
+                JavaScript.Throw(e);
             }
         }
         
@@ -110,12 +117,50 @@ namespace Jint
         {
             try
             {
+                var jsObject = _componentJs?.AsObject();
+                if (jsObject == null) return;
+                if (!jsObject.HasProperty(methodName)) return;
                 var arg1Js = JavaScript.GetJsValue(arg1);
-                _componentJs?.AsObject()?.GetProperty(methodName)?.Value?.Invoke(arg1Js);
+                jsObject.GetProperty(methodName).Value?.Invoke(arg1Js);
             }
-            catch (Exception e)
+            catch (JavaScriptException e)
             {
-                Debug.LogException(e, this);
+                JavaScript.Throw(e);
+            }
+        }
+        
+        private void CallJsMethod(string methodName, object arg1, object arg2)
+        {
+            try
+            {
+                var jsObject = _componentJs?.AsObject();
+                if (jsObject == null) return;
+                if (!jsObject.HasProperty(methodName)) return;
+                var arg1Js = JavaScript.GetJsValue(arg1);
+                var arg2Js = JavaScript.GetJsValue(arg2);
+                jsObject.GetProperty(methodName).Value?.Invoke(arg1Js, arg2Js);
+            }
+            catch (JavaScriptException e)
+            {
+                JavaScript.Throw(e);
+            }
+        }
+        
+        private void CallJsMethod(string methodName, object arg1, object arg2, object arg3)
+        {
+            try
+            {
+                var jsObject = _componentJs?.AsObject();
+                if (jsObject == null) return;
+                if (!jsObject.HasProperty(methodName)) return;
+                var arg1Js = JavaScript.GetJsValue(arg1);
+                var arg2Js = JavaScript.GetJsValue(arg2);
+                var arg3Js = JavaScript.GetJsValue(arg3);
+                jsObject.GetProperty(methodName).Value?.Invoke(arg1Js, arg2Js, arg3Js);
+            }
+            catch (JavaScriptException e)
+            {
+                JavaScript.Throw(e);
             }
         }
 
@@ -125,6 +170,7 @@ namespace Jint
             var selfJs = JavaScript.GetJsValue(this);
             JavaScript.Engine.SetValue("self", selfJs);
             _componentJs = JavaScript.Evaluate(js.JavaScript);
+            _dataJs ??= _componentJs?.AsObject()?.GetProperty("data")?.Value;
             JavaScript.Evaluate($"delete self;");
             RemoveValuesNotInJs();
             OverrideInitialValues();
@@ -133,7 +179,7 @@ namespace Jint
         private void RemoveValuesNotInJs()
         {
             if (dataJson == null) return;
-            var values = JsonConvert.DeserializeObject<Dictionary<string, object>>(dataJson);
+            var values = (Dictionary<string, object>)null; //JsonConvert.DeserializeObject<Dictionary<string, object>>(dataJson);
             if (values == null) return;
             var jsKeys = _componentJs.AsObject().GetOwnProperties().Select(x => x.Key).ToArray();
             var valuesKeys = values.Keys.ToArray();
@@ -146,7 +192,7 @@ namespace Jint
         private void OverrideInitialValues()
         {
             if (dataJson == null) return;
-            var values = JsonConvert.DeserializeObject<Dictionary<string, object>>(dataJson);
+            var values = (Dictionary<string, object>)null; //JsonConvert.DeserializeObject<Dictionary<string, object>>(dataJson);
             if (values == null) return;
             foreach (var (key, value) in values)
             {
@@ -177,17 +223,19 @@ namespace Jint
                 var serializedObject = new UnityEditor.SerializedObject(target);
                 var script = serializedObject.FindProperty("m_Script");
                 var js = serializedObject.FindProperty("js");
+                var json = serializedObject.FindProperty("json");
                 var dataJson = serializedObject.FindProperty("dataJson");
                 UnityEditor.EditorGUI.BeginDisabledGroup(true);
                 UnityEditor.EditorGUILayout.PropertyField(script, true, Array.Empty<GUILayoutOption>());
                 UnityEditor.EditorGUI.EndDisabledGroup();
                 UnityEditor.EditorGUILayout.PropertyField(js, true, Array.Empty<GUILayoutOption>());
+                UnityEditor.EditorGUILayout.PropertyField(json, true, Array.Empty<GUILayoutOption>());
                 serializedObject.ApplyModifiedProperties();
                 
                 //UnityEditor.EditorGUILayout.TextArea(overrideInitialValues.stringValue, UnityEditor.EditorStyles.textArea);
 
-                if (dataJson.stringValue != null && values.Count == 0)
-                    values = JsonConvert.DeserializeObject<Dictionary<string, object>>(dataJson.stringValue) ?? new Dictionary<string, object>();
+                // if (dataJson.stringValue != null && values.Count == 0)
+                //     values = JsonConvert.DeserializeObject<Dictionary<string, object>>(dataJson.stringValue) ?? new Dictionary<string, object>();
                 
                 if (js != null && js.objectReferenceValue != null)
                 {
@@ -305,9 +353,9 @@ namespace Jint
                     var newValue = JsonConvert.SerializeObject(values, Formatting.Indented);
                     if (newValue != dataJson.stringValue)
                     {
-                        dataJson.stringValue = newValue;
-                        serializedObject.ApplyModifiedProperties();
-                        target.HotReload();
+                        // dataJson.stringValue = newValue;
+                        // serializedObject.ApplyModifiedProperties();
+                        // target.HotReload();
                     }
                 }
                 
