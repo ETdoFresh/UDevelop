@@ -6,6 +6,7 @@ using Jint.Runtime;
 using Jint.Runtime.Interop;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UnityEngine;
 
 namespace Jint
 {

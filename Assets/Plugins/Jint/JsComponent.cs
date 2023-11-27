@@ -14,9 +14,10 @@ namespace Jint
         [SerializeField] private JsScriptableObject js;
         [SerializeField] private JsonScriptableObject json;
         [SerializeField] private string dataJson;
-        private JsValue _componentJs;
+        //[SerializeField] private List<ValueFromSource> valuesFromSource = new();
         private JsValue _dataJs;
-        
+        private JsValue _componentJs;
+
         public string ScriptName => js ? js.name : null;
 
         private void Awake()
@@ -170,7 +171,7 @@ namespace Jint
             var selfJs = JavaScript.GetJsValue(this);
             JavaScript.Engine.SetValue("self", selfJs);
             _componentJs = JavaScript.Evaluate(js.JavaScript);
-            _dataJs ??= _componentJs?.AsObject()?.GetProperty("data")?.Value;
+            _dataJs = _componentJs?.AsObject()?.GetProperty("data")?.Value;
             JavaScript.Evaluate($"delete self;");
             RemoveValuesNotInJs();
             OverrideInitialValues();
