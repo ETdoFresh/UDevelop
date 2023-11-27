@@ -13,7 +13,7 @@ new function () {
         const up = Vector3.up;
         const time = Time.deltaTime;
         const speed = data.speed;
-
+        
         if (isNull(data.rigidbody)) {
             data.rigidbody = gameObject.GetComponent(Rigidbody);
             data.rigidbody = isNotNull(data.rigidbody) ? data.rigidbody : null;
@@ -23,6 +23,15 @@ new function () {
             gameObject.transform.Rotate(multiply(up, speed * time));
         }
 
+        if (Input.GetKeyDown(KeyCode.W)) {
+            if (isNull(data.rigidbody)) {
+                data.rigidbody = gameObject.AddComponent(Rigidbody);
+            } else {
+                Object.Destroy(data.rigidbody);
+                data.rigidbody = null;
+            }
+        }
+        
         if (Input.GetKeyDown(KeyCode.Space)) {
             data.rigidbody.AddForce(multiply(up, 200));
         }
