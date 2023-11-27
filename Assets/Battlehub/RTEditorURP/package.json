@@ -1,0 +1,20 @@
+{
+  "name": "net.battlehub.rteditor.urp",
+  "version": "3.5.5",
+  "displayName": "Runtime Editor URP Support",
+  "description": "Runtime Editor URP Support",
+  "unity": "2019.4",
+  "dependencies": {
+    "net.battlehub.rteditor": "3.5.5",
+    "com.unity.render-pipelines.universal": "7.5.3"
+  },
+  "keywords": [
+    "runtime editor urp",
+    "transform handles urp"
+  ],
+  "author": {
+    "name": "Battlehub",
+    "email": "Battlehub@outlook.com",
+    "url": "http://www.battlehub.net"
+  }
+}

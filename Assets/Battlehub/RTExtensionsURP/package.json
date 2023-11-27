@@ -1,0 +1,20 @@
+{
+  "name": "net.battlehub.rtextensions.urp",
+  "version": "3.5.5",
+  "displayName": "Runtime Editor Extensions URP Support",
+  "description": "Runtime Editor Extensions URP Support",
+  "unity": "2019.4",
+  "dependencies": {
+    "net.battlehub.rteditor": "3.5.5",
+    "net.battlehub.rtextensions": "3.5.5",
+    "com.unity.render-pipelines.universal": "7.5.3"
+  },
+  "keywords": [
+    "runtime editor extensions urp support"
+  ],
+  "author": {
+    "name": "Battlehub",
+    "email": "Battlehub@outlook.com",
+    "url": "http://www.battlehub.net"
+  }
+}

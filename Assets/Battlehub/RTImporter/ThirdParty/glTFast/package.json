@@ -1,0 +1,31 @@
+{
+  "name": "com.atteneder.gltfast",
+  "version": "4.3.3",
+  "displayName": "glTFast",
+  "description": "Load glTF 3D files fast at runtime or import them into the asset database in the Editor",
+  "unity": "2019.3",
+  "keywords": [
+    "mesh",
+    "gltf",
+    "asset",
+    "format",
+    "draco",
+    "ktx",
+    "basis",
+    "universal",
+    "basisu"
+  ],
+  "author": {
+    "name": "Andreas Atteneder",
+    "email": "andreas.atteneder@gmail.com",
+    "url": "https://pixel.engineer"
+  },
+  "dependencies": {
+    "com.unity.modules.jsonserialize": "1.0.0",
+    "com.unity.modules.unitywebrequest": "1.0.0",
+    "com.unity.modules.unitywebrequesttexture": "1.0.0",
+    "com.unity.mathematics": "1.2.1",
+    "com.unity.burst": "1.4.11"
+  },
+  "type": "library"
+}

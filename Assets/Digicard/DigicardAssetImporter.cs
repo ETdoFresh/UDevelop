@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Linq;
 using UnityEditor;
 using UnityEditor.AssetImporters;
@@ -88,3 +89,4 @@ public sealed class DigicardAssetImporter : ScriptedImporter
 //         ctx.SetMainObject(subAsset);
 //     }
 // }
+#endif

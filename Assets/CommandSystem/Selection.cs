@@ -81,7 +81,7 @@ namespace CommandSystem.Commands
 #else
         public static bool IsInEditorMode => false;
             
-        public static object activeContext { get => _activeContext; set => SetActiveObject(value); }
+        public static Object activeContext { get => _activeContext; set => SetActiveObject(value); }
         public static int activeInstanceID { get => _activeInstanceID; set => SetActiveInstanceID(value); }
         public static GameObject activeGameObject { get => _activeGameObject; set => SetActiveGameObject(value); }
         public static Object activeObject { get => _activeObject; set => SetActiveObject(value); }
@@ -114,8 +114,10 @@ namespace CommandSystem.Commands
             _activeGameObject = _gameObjects.FirstOrDefault();
             _activeInstanceID = _activeObject != null ? _activeObject.GetInstanceID() : 0;
             _activeContext = _activeGameObject;
+            #if UNITY_EDITOR
             _assetGUIDs = _objects.Select(UnityEditor.AssetDatabase.GetAssetPath)
                 .Select(UnityEditor.AssetDatabase.AssetPathToGUID).ToArray();
+            #endif
             _selectionChanged?.Invoke();
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿#if UNITY_EDITOR
+using System.Linq;
 using System.Reflection;
 using Jint;
 using UnityEditor;
@@ -42,3 +43,4 @@ public sealed class JsonImporter : ScriptedImporter
         EditorSettings.projectGenerationUserExtensions = list.ToArray();
     }
 }
+#endif

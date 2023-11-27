@@ -64,9 +64,37 @@ namespace CommandSystem.Commands.Select
             }
             
             if (currentParents == null) throw new ArgumentException($"No GameObjects found! {foundPath}");
-            _previousSelectedObjects = UnityEditor.Selection.objects;
+            _previousSelectedObjects = Selection.objects;
             _selectedObjects = currentParents.Select(x => x.gameObject).Cast<Object>().ToArray();
-            UnityEditor.Selection.objects = _selectedObjects;
+            Selection.objects = _selectedObjects;
+        }
+    }
+}
+
+public class Player : MonoBehaviour
+{
+    private void Update()
+    {
+        var rigidbody = GetComponent<Rigidbody>();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rigidbody.AddForce(Vector3.up * 10, ForceMode.Impulse);
+        }
+        if (Input.GetKey(KeyCode.W))
+        {
+            rigidbody.AddForce(transform.forward * 10, ForceMode.Impulse);
+        }
+        if (Input.GetKey(KeyCode.S))
+        {
+            rigidbody.AddForce(-transform.forward * 10, ForceMode.Impulse);
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            rigidbody.AddTorque(Vector3.up * 10, ForceMode.Impulse);
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            rigidbody.AddTorque(-transform.forward * 10, ForceMode.Impulse);
         }
     }
 }

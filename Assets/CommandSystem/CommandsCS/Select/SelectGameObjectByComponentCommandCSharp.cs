@@ -27,19 +27,19 @@ namespace CommandSystem.Commands.Select
                 .OrderBy(SelectionUtil.GetGameObjectOrder)
                 .Cast<Object>();
 
-            _previousSelectedObjects = UnityEditor.Selection.objects;
+            _previousSelectedObjects = Selection.objects;
             _selectedObjects = SelectionUtil.ParseAndSelectIndex(objectsByComponent, component);
-            UnityEditor.Selection.objects = _selectedObjects;
+            Selection.objects = _selectedObjects;
         }
 
         public override void OnUndo()
         {
-            UnityEditor.Selection.objects = _previousSelectedObjects;
+            Selection.objects = _previousSelectedObjects;
         }
 
         public override void OnRedo()
         {
-            UnityEditor.Selection.objects = _selectedObjects;
+            Selection.objects = _selectedObjects;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+using System;
 using UnityEditor.PackageManager.Requests;
 
 namespace CommandSystem.Commands.EditorOnly
@@ -53,3 +54,4 @@ namespace CommandSystem.Commands.EditorOnly
         }
     }
 }
+#endif

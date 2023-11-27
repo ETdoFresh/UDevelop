@@ -1,11 +1,11 @@
 using System;
 using System.IO;
-using UnityEditor;
 using UnityEngine;
 
 public sealed class DigicardAsset : ScriptableObject
 {
     private int m_instanceID;
+
     public int InstanceID
     {
         get
@@ -15,6 +15,7 @@ public sealed class DigicardAsset : ScriptableObject
             return m_instanceID;
         }
     }
+
     private int m_hashCode;
     public int HashCode => InstanceID.GetHashCode();
 
@@ -70,7 +71,9 @@ public sealed class DigicardAsset : ScriptableObject
             type = cardType,
             properties = cardProperties,
             description = cardDescription,
-            coverArtPath = AssetDatabase.GetAssetPath(cardCoverArt)
+#if UNITY_EDITOR
+            coverArtPath = UnityEditor.AssetDatabase.GetAssetPath(cardCoverArt)
+#endif
         };
 
         // We then reuse our data, and change the field
@@ -79,7 +82,9 @@ public sealed class DigicardAsset : ScriptableObject
         data.type = cardType;
         data.properties = cardProperties;
         data.description = cardDescription;
-        data.coverArtPath = AssetDatabase.GetAssetPath(cardCoverArt);
+#if UNITY_EDITOR
+        data.coverArtPath = UnityEditor.AssetDatabase.GetAssetPath(cardCoverArt);
+#endif
     }
 
     public void Load()
@@ -106,12 +111,13 @@ public sealed class DigicardAsset : ScriptableObject
         return true;
     }
 
-    private Sprite ConvertTextureToSprite(Texture2D _texture, float _pixelPerUnit = 100.0f, SpriteMeshType _spriteType = SpriteMeshType.Tight)
+    private Sprite ConvertTextureToSprite(Texture2D _texture, float _pixelPerUnit = 100.0f,
+        SpriteMeshType _spriteType = SpriteMeshType.Tight)
     {
-
         Sprite newSprite = null;
         //Converts a Texture2D to a sprite, assign this texture to a new sprite and return its reference
-        newSprite = Sprite.Create(_texture, new Rect(0, 0, _texture.width, _texture.height), new Vector2(0, 0), _pixelPerUnit, 0, _spriteType);
+        newSprite = Sprite.Create(_texture, new Rect(0, 0, _texture.width, _texture.height), new Vector2(0, 0),
+            _pixelPerUnit, 0, _spriteType);
 
         return newSprite;
     }
@@ -140,12 +146,7 @@ public sealed class DigicardAsset : ScriptableObject
     }
 }
 
-public enum CardType
-{
-    Normal,
-    Spell,
-    Summons
-}
+public enum CardType { Normal, Spell, Summons }
 
 [Serializable]
 public sealed class DigicardData

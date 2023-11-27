@@ -21,7 +21,7 @@ namespace CommandSystem.Commands.Select
             if (args.Length > 1) indexString = $"{args[1]}";
             if (indexString != "*" && !int.TryParse(indexString, out _)) throw new ArgumentException("Invalid index!");
             indexString = $"[{indexString}]";
-            var currentSelection = UnityEditor.Selection.objects;
+            var currentSelection = Selection.objects;
             var gameObjects = currentSelection.OfType<GameObject>().ToArray();
             if (gameObjects.Length == 0) throw new ArgumentException("No GameObjects selected!");
             var selection = new List<Object>();
@@ -32,17 +32,17 @@ namespace CommandSystem.Commands.Select
             }
             _previousSelectedObjects = currentSelection;
             _selectedObjects = selection.Distinct().ToArray();
-            UnityEditor.Selection.objects = _selectedObjects;
+            Selection.objects = _selectedObjects;
         }
         
         public override void OnUndo()
         {
-            UnityEditor.Selection.objects = _previousSelectedObjects;
+            Selection.objects = _previousSelectedObjects;
         }
         
         public override void OnRedo()
         {
-            UnityEditor.Selection.objects = _selectedObjects;
+            Selection.objects = _selectedObjects;
         }
     }
 }

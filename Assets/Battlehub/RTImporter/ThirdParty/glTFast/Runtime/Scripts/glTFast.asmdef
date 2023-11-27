@@ -1,0 +1,60 @@
+{
+    "name": "glTFast",
+    "references": [
+        "Draco",
+        "glTFastSchema",
+        "glTFastFakeSchema",
+        "Ktx",
+        "Unity.Mathematics",
+        "Unity.Burst",
+        "Unity.Collections",
+        "Unity.Jobs",
+        "Unity.RenderPipelines.Universal.Runtime",
+        "Unity.RenderPipelines.HighDefinition.Runtime"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.atteneder.draco",
+            "expression": "3.1.0",
+            "define": "DRACO_UNITY"
+        },
+        {
+            "name": "com.atteneder.ktx",
+            "expression": "1.1.0",
+            "define": "KTX_UNITY"
+        },
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "7.3.1",
+            "define": "USING_URP"
+        },
+        {
+            "name": "com.unity.render-pipelines.high-definition",
+            "expression": "7.3.1",
+            "define": "USING_HDRP"
+        },
+        {
+            "name": "com.unity.modules.physics",
+            "expression": "1.0.0",
+            "define": "UNITY_PHYSICS"
+        },
+        {
+            "name": "com.unity.modules.animation",
+            "expression": "1.0.0",
+            "define": "UNITY_ANIMATION"
+        },
+        {
+            "name": "com.unity.jobs",
+            "expression": "0.2.0",
+            "define": "UNITY_JOBS"
+        }
+    ],
+    "noEngineReferences": false
+}

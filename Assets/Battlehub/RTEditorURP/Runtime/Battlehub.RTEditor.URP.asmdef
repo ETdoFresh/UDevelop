@@ -1,0 +1,30 @@
+{
+    "name": "Battlehub.RTEditor.URP",
+    "rootNamespace": "",
+    "references": [
+        "GUID:fb20bc2d30583e34fba2eb37c20bd497",
+        "GUID:15fc0a57446b3144c949da3e2b9737a9",
+        "GUID:1826c0224c0d048b88112c79bbb0cd85",
+        "GUID:df380645f10b7bc4b97d4f5eb6303d95"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "13.1.9",
+            "define": "UNIVERSAL_RP_13_1_OR_NEWER"
+        },
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "15.0.0",
+            "define": "UNIVERSAL_RP_15_0_OR_NEWER"
+        }
+    ],
+    "noEngineReferences": false
+}

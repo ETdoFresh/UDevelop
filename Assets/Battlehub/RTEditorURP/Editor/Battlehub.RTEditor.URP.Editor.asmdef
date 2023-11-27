@@ -1,0 +1,21 @@
+{
+    "name": "Battlehub.RTEditor.URP.Editor",
+    "references": [
+        "GUID:fb20bc2d30583e34fba2eb37c20bd497",
+        "GUID:15fc0a57446b3144c949da3e2b9737a9",
+        "GUID:1826c0224c0d048b88112c79bbb0cd85",
+        "GUID:df380645f10b7bc4b97d4f5eb6303d95",
+        "GUID:6a39457a71f6a6746b57ee3166017673"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Linq;
 using System.Reflection;
 using Jint;
@@ -42,3 +43,4 @@ public sealed class JsImporter : ScriptedImporter
         EditorSettings.projectGenerationUserExtensions = list.ToArray();
     }
 }
+#endif

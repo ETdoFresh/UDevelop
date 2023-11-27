@@ -22,7 +22,7 @@ namespace CommandSystem.Commands.Create
         {
             _gameObjectName = args.Length < 2 ? "Light" : string.Join("_", args[1..]);
             _gameObject = new GameObject(_gameObjectName, typeof(Light));
-            UnityEditor.Selection.activeObject = _gameObject;
+            Selection.activeObject = _gameObject;
         }
         
         public override void OnUndo()
@@ -33,7 +33,7 @@ namespace CommandSystem.Commands.Create
         public override void OnRedo()
         {
             _gameObject = new GameObject(_gameObjectName, typeof(Light));
-            UnityEditor.Selection.activeObject = _gameObject;
+            Selection.activeObject = _gameObject;
         }
     }
 }
