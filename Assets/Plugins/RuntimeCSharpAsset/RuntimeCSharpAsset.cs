@@ -9,6 +9,7 @@ public class RuntimeCSharpAsset : ScriptableObject
     [SerializeField] public string filePath;
     [SerializeField, TextArea(3, 50)] public string sourceCode;
     [SerializeField] private UnityEvent sourceChanged = new();
+    public Type runtimeType;
     private string _previousSourceCode;
 
     public UnityEvent SourceChanged => sourceChanged;

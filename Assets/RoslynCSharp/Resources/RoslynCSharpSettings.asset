@@ -68,7 +68,7 @@ MonoBehaviour:
   - RoslynCSharp.Examples.dll
   referenceAssets: []
   defineSymbols: []
-  allowHotReloading: 1
+  allowHotReloading: 0
   hotReloadCopySerializedFields: 1
   hotReloadCopyNonSerializedFields: 1
   hotReloadDestroyOriginalScript: 1

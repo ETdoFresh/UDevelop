@@ -159,11 +159,17 @@ namespace RoslynCSharp.HotReloading
             path = path.Replace("\\", "/");
             path = FileUtil.GetProjectRelativePath(path);
 
+            Debug.Log($"[{nameof(RealtimeScriptWatcher)}] Path: {path}");
+            
             // Load the mono script
-            MonoScript script = AssetDatabase.LoadAssetAtPath<MonoScript>(path);
-
-            // Get the mono class
-            return script.GetClass();
+            var script = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(path);
+            var scriptType = script.GetType();
+            if (script == null) throw new Exception($"Could not find MonoScript for {path}");
+            if (script is MonoScript monoScript) return monoScript.GetClass();
+            if (scriptType.Name != "RuntimeCSharpAsset") throw new Exception($"Could not find MonoScript for {path}");
+            var runtimeType = scriptType.GetField("runtimeType")?.GetValue(script);
+            if (runtimeType != null) return (Type)runtimeType;
+            throw new Exception($"Could not find MonoScript for {path}");
         }
 
         private static CSharpProject GetCSharpProjectForScript(string scriptPath)
