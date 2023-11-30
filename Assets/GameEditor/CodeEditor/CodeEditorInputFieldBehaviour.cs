@@ -1,22 +1,28 @@
+using System;
 using ETdoFresh.UnityPackages.EventBusSystem;
 using ETdoFresh.UnityPackages.ExtensionMethods;
 using GameEditor.CodeEditor.Events;
 using RuntimeCSharp;
-using TMPro;
 using UnityEngine;
+using TextEditor = InGameTextEditor.TextEditor;
 
 namespace GameEditor.CodeEditor
 {
     public class CodeEditorInputFieldBehaviour : MonoBehaviour
     {
         [SerializeField] private RuntimeCSharpAsset runtimeCSharpAsset;
-        [SerializeField] private TMP_InputField inputField;
-    
+        [SerializeField] private TextEditor textEditor;
+        private string _previousText;
+
+        private void OnValidate()
+        {
+            if (!textEditor) textEditor = GetComponent<TextEditor>();
+        }
+
         private void OnEnable()
         {
             EventBus.AddListener<CodeEditorAssetChangedEvent>(OnCodeEditorAssetChanged);
             if (runtimeCSharpAsset) runtimeCSharpAsset.SourceChanged.AddPersistentListener(OnSourceChanged);
-            inputField.onValueChanged.AddPersistentListener(OnInputValueChanged);
             OnSourceChanged();
         }
 
@@ -24,7 +30,13 @@ namespace GameEditor.CodeEditor
         {
             EventBus.RemoveListener<CodeEditorAssetChangedEvent>(OnCodeEditorAssetChanged);
             if (runtimeCSharpAsset) runtimeCSharpAsset.SourceChanged.RemovePersistentListener(OnSourceChanged);
-            inputField.onValueChanged.RemovePersistentListener(OnInputValueChanged);
+        }
+
+        private void Update()
+        {
+            if (_previousText == textEditor.Text) return;
+            _previousText = textEditor.Text;
+            OnInputValueChanged(textEditor.Text);
         }
 
         private void OnCodeEditorAssetChanged(CodeEditorAssetChangedEvent e)
@@ -38,13 +50,13 @@ namespace GameEditor.CodeEditor
         {
             if (runtimeCSharpAsset == null)
             {
-                inputField.interactable = false;
-                inputField.text = "\n\n    // No asset selected";
+                textEditor.SetText("\n\n    // No GameObject with a RuntimeCSharpBehaviour selected");
+                textEditor.disableInput = true;
             }
             else
             {
-                inputField.interactable = true;
-                inputField.text = runtimeCSharpAsset.sourceCode;
+                textEditor.SetText(runtimeCSharpAsset.sourceCode);
+                textEditor.disableInput = false;
             }
         }
     

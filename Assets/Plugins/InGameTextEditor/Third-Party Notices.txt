@@ -1,0 +1,3 @@
+In-Game Text Editor is governed by the Asset Store EULA; however, the following components are governed by the licenses indicated below:
+
+SourceCodePro Font (Fonts/SourceCodePro.otf), Copyright 2010-2019 Adobe (http://www.adobe.com/) has been released under the SIL Open Font License, Version 1.1 (License details can be found in Fonts/FontLicense.txt)

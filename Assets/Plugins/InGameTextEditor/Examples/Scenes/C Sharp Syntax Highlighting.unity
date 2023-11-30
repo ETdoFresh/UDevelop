@@ -1,0 +1,729 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!29 &1
+OcclusionCullingSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_OcclusionBakeSettings:
+    smallestOccluder: 5
+    smallestHole: 0.25
+    backfaceThreshold: 100
+  m_SceneGUID: 00000000000000000000000000000000
+  m_OcclusionCullingData: {fileID: 0}
+--- !u!104 &2
+RenderSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 9
+  m_Fog: 0
+  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_FogMode: 3
+  m_FogDensity: 0.01
+  m_LinearFogStart: 0
+  m_LinearFogEnd: 300
+  m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
+  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
+  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
+  m_AmbientIntensity: 1
+  m_AmbientMode: 0
+  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
+  m_SkyboxMaterial: {fileID: 0}
+  m_HaloStrength: 0.5
+  m_FlareStrength: 1
+  m_FlareFadeSpeed: 3
+  m_HaloTexture: {fileID: 0}
+  m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
+  m_DefaultReflectionMode: 0
+  m_DefaultReflectionResolution: 128
+  m_ReflectionBounces: 1
+  m_ReflectionIntensity: 1
+  m_CustomReflection: {fileID: 0}
+  m_Sun: {fileID: 0}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_UseRadianceAmbientProbe: 0
+--- !u!157 &3
+LightmapSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 11
+  m_GIWorkflowMode: 0
+  m_GISettings:
+    serializedVersion: 2
+    m_BounceScale: 1
+    m_IndirectOutputScale: 1
+    m_AlbedoBoost: 1
+    m_EnvironmentLightingMode: 0
+    m_EnableBakedLightmaps: 1
+    m_EnableRealtimeLightmaps: 1
+  m_LightmapEditorSettings:
+    serializedVersion: 10
+    m_Resolution: 2
+    m_BakeResolution: 40
+    m_AtlasSize: 1024
+    m_AO: 0
+    m_AOMaxDistance: 1
+    m_CompAOExponent: 1
+    m_CompAOExponentDirect: 0
+    m_Padding: 2
+    m_LightmapParameters: {fileID: 0}
+    m_LightmapsBakeMode: 1
+    m_TextureCompression: 1
+    m_FinalGather: 0
+    m_FinalGatherFiltering: 1
+    m_FinalGatherRayCount: 256
+    m_ReflectionCompression: 2
+    m_MixedBakeMode: 2
+    m_BakeBackend: 1
+    m_PVRSampling: 1
+    m_PVRDirectSampleCount: 32
+    m_PVRSampleCount: 500
+    m_PVRBounces: 2
+    m_PVRFilterTypeDirect: 0
+    m_PVRFilterTypeIndirect: 0
+    m_PVRFilterTypeAO: 0
+    m_PVRFilteringMode: 1
+    m_PVRCulling: 1
+    m_PVRFilteringGaussRadiusDirect: 1
+    m_PVRFilteringGaussRadiusIndirect: 5
+    m_PVRFilteringGaussRadiusAO: 2
+    m_PVRFilteringAtrousPositionSigmaDirect: 0.5
+    m_PVRFilteringAtrousPositionSigmaIndirect: 2
+    m_PVRFilteringAtrousPositionSigmaAO: 1
+    m_ShowResolutionOverlay: 1
+  m_LightingDataAsset: {fileID: 0}
+  m_UseShadowmask: 1
+--- !u!196 &4
+NavMeshSettings:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_BuildSettings:
+    serializedVersion: 2
+    agentTypeID: 0
+    agentRadius: 0.5
+    agentHeight: 2
+    agentSlope: 45
+    agentClimb: 0.4
+    ledgeDropHeight: 0
+    maxJumpAcrossDistance: 0
+    minRegionArea: 2
+    manualCellSize: 0
+    cellSize: 0.16666667
+    manualTileSize: 0
+    tileSize: 256
+    accuratePlacement: 0
+    debug:
+      m_Flags: 0
+  m_NavMeshData: {fileID: 0}
+--- !u!1 &478336547
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 478336549}
+  - component: {fileID: 478336548}
+  m_Layer: 0
+  m_Name: Directional Light
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!108 &478336548
+Light:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478336547}
+  m_Enabled: 1
+  serializedVersion: 8
+  m_Type: 1
+  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Intensity: 1
+  m_Range: 10
+  m_SpotAngle: 30
+  m_CookieSize: 10
+  m_Shadows:
+    m_Type: 2
+    m_Resolution: -1
+    m_CustomResolution: -1
+    m_Strength: 1
+    m_Bias: 0.05
+    m_NormalBias: 0.4
+    m_NearPlane: 0.2
+  m_Cookie: {fileID: 0}
+  m_DrawHalo: 0
+  m_Flare: {fileID: 0}
+  m_RenderMode: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_Lightmapping: 4
+  m_LightShadowCasterMode: 0
+  m_AreaSize: {x: 1, y: 1}
+  m_BounceIntensity: 1
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
+  m_ShadowRadius: 0
+  m_ShadowAngle: 0
+--- !u!4 &478336549
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478336547}
+  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1001 &539511143
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 934813207}
+    m_Modifications:
+    - target: {fileID: 1134388053291424, guid: d53fd87b7d86a40469735ea1ab29f85c, type: 3}
+      propertyPath: m_Name
+      value: TextEditor
+      objectReference: {fileID: 0}
+    - target: {fileID: 114662724014931294, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: defaultText
+      value: "// In this example, we use a sightly more complex version of the regex-based
+        text formatter to highlight C# syntax.\n\nusing System.Collections.Generic;\nusing
+        System.Text.RegularExpressions;\nusing UnityEngine;\n\nnamespace InGameTextEditor.Format\n{\n\t///
+        <summary>\n\t/// Text formatter applying syntax highlighting for C# code.\n\t///
+        </summary>\n\tpublic class CSharpSyntaxHighlighter : TextFormatter\n\t{\n\t\t///
+        <summary>\n\t\t/// Text style for comments.\n\t\t/// </summary>\n\t\tpublic
+        TextStyle textStyleComment = new TextStyle(new Color(0.5f, 0.5f, 0.5f));\n\n\t\t///
+        <summary>\n\t\t/// Text style for string and characters.\n\t\t/// </summary>\n\t\tpublic
+        TextStyle textStyleString = new TextStyle(new Color(0.9f, 0.4f, 0.1f));\n\n\t\t///
+        <summary>\n\t\t/// Text style for numbers.\n\t\t/// </summary>\n\t\tpublic
+        TextStyle textStyleNumber = new TextStyle(new Color(0.2f, 0.4f, 0.6f));\n\n\t\t///
+        <summary>\n\t\t/// Text style for C# keywords\n\t\t/// </summary>\n\t\tpublic
+        TextStyle textStyleKeyword = new TextStyle(new Color(0.2f, 0.6f, 0.6f));\n\n\t\t//
+        collection of all C# keywords\n\t\treadonly string[] keywords = { \"abstract\",
+        \"add\", \"alias\", \"as\", \"base\", \"bool\", \"break\", \"byte\", \"case\",
+        \"catch\", \"char\", \"checked\", \"class\", \"const\", \"continue\", \"decimal\",
+        \"default\", \"delegate\", \"do\", \"double\", \"else\", \"enum\", \"event\",
+        \"explicit\", \"extern\", \"false\", \"finally\", \"fixed\", \"float\", \"for\",
+        \"foreach\", \"get\", \"global\", \"goto\", \"if\", \"implicit\", \"in\",
+        \"int\", \"interface\", \"internal\", \"is\", \"lock\", \"long\", \"namespace\",
+        \"new\", \"null\", \"object\", \"operator\", \"out\", \"override\", \"params\",
+        \"partial\", \"private\", \"protected\", \"public\", \"readonly\", \"ref\",
+        \"remove\", \"return\", \"sbyte\", \"sealed\", \"set\", \"short\", \"sizeof\",
+        \"stackalloc\", \"static\", \"string\", \"struct\", \"switch\", \"this\",
+        \"throw\", \"true\", \"try\", \"typeof\", \"uint\", \"ulong\", \"unchecked\",
+        \"unsafe\", \"ushort\", \"using\", \"value\", \"var\", \"virtual\", \"void\",
+        \"volatile\", \"where\", \"while\", \"yield\" };\n\n\t\t// indicates if the
+        text formatter has been initialized\n\t\tbool initialized = false;\n\n\t\t//
+        regex to match the text\n\t\tRegex regex = null;\n\n\t\t/// <summary>\n\t\t///
+        Indicates whether this text formatter has been initialized.\n\t\t/// </summary>\n\t\t///
+        <value><c>true</c> if initialized; otherwise, <c>false</c>.</value>\n\t\tpublic
+        override bool Initialized\n\t\t{\n\t\t\tget { return initialized; }\n\t\t}\n\n\t\t///
+        <summary>\n\t\t/// Initializes this instance.\n\t\t/// </summary>\n\t\tpublic
+        override void Init()\n\t\t{\n\t\t\t// create regex pattern\n\t\t\tstring regexPattern
+        = \"\";\n\n\t\t\t// matches the end of a multi-line comment: ...*/\n\t\t\t//
+        use mark u001B + 0 to indicate that this line starts with an open multi-line
+        comment) \n\t\t\tregexPattern += @\"(?<multiLineCommentEnding>^\\u001B0.*?\\*/)\";\n\n\t\t\t//
+        matches the start of a multi-line comment: /*...\n\t\t\tregexPattern += @\"|(?<multiLineCommentStarting>/\\*((?!\\*/).)*$)\";\n\n\t\t\t//
+        matches a comment with /* and */\n\t\t\tregexPattern += @\"|(?<comment>/\\*((?!\\*/).)*\\*/)\";\n\n\t\t\t//
+        matches a line comment: //...\n\t\t\tregexPattern += @\"|(?<comment>//.*$?)\";\n\n\t\t\t//
+        matches a string within double quotes: \"...\"\n\t\t\tregexPattern += @\"|(?<string>\"\"(?:[^\"\"\\\\]|\\\\.)*[\"\"]?)\";\n\n\t\t\t//
+        matches the start of a verbatim string: @\"...\n\t\t\tregexPattern += @\"|(?<verbatimStringStarting>@\"\"(?:[^\"\"\"\"]|\"\"\"\")*$)\";\n\n\t\t\t//
+        matches the end of a verbatim string: ...\" (using mark u001B + 1 to indicate
+        that this line starts with an open verbatim string)\n\t\t\tregexPattern +=
+        @\"|(?<verbatimStringEnding>^\\u001B1(?:[^\"\"\"\"]|\"\"\"\")*[\"\"])\";\n\n\t\t\t//
+        matches a complete verbatim string: @\"...\"\n\t\t\tregexPattern += @\"|(?<verbatimString>@\"\"(?:[^\"\"\"\"]|\"\"\"\")*[\"\"])\";\n\n\t\t\t//
+        matches a string within single quotes : '...'\n\t\t\tregexPattern += @\"|(?<char>'(?:[^'\\\\]|\\\\.)*[']?)\";\n\n\t\t\t//
+        matches an integer number in binary format: 0b...\n\t\t\tregexPattern += @\"|(?<intBinary>\\b0b[01]+[lL]?)\";\n\n\t\t\t//
+        matches an integer number in hexadecimal format: 0x...\n\t\t\tregexPattern
+        += @\"|(?<intHex>\\b0x[0-9a-fA-F]+[lL]?)\";\n\n\t\t\t// matches a floating
+        point number\n\t\t\tregexPattern += @\"|(?<float>\\b[0-9]+(\\.[0-9]+)?[dfDF])\";\n\n\t\t\t//
+        matches a floating point number\n\t\t\tregexPattern += @\"|(?<floatImplicit>\\b[0-9]*\\.[0-9]+[dfDF]?)\";\n\n\t\t\t//
+        matches an integer number\n\t\t\tregexPattern += @\"|(?<intImplicit>\\b[0-9]+[lL]?)\";\n\n\t\t\t//
+        matches a C# keyword\n\t\t\tregexPattern += @\"|(?<keyword>\";\n\t\t\tfor(int
+        i = 0; i < keywords.Length; i++)\n\t\t\t\tregexPattern += \"\\\\b\" + keywords[i]
+        + \"\\\\b\" + (i < keywords.Length - 1 ? \"|\" : \"\");\n\t\t\tregexPattern
+        += \")\";\n\n\t\t\t// create regex\n\t\t\tregex = new Regex(regexPattern);\n\n\t\t\t//
+        initialization complete\n\t\t\tinitialized = true;\n\t\t}\n\n\t\t/// <summary>\n\t\t///
+        Is called by the text editor when the given line has changed.\n\t\t/// </summary>\n\t\t///
+        <param name=\"line\">Line that has changed.</param>\n\t\tpublic override void
+        OnLineChanged(Line line)\n\t\t{\n\t\t\t// collection of text format groups\n\t\t\tList<TextFormatGroup>
+        textFormatGroups = new List<TextFormatGroup>();\n\n\t\t\t// detect if line
+        starts with an open multi-line comment\n\t\t\tbool lineStartsWithMultiLineComment
+        = line.PreviousLine != null && line.PreviousLine.GetProperty<bool>(\"endsWithMultiLineComment\",
+        false);\n\t\t\tbool endsExistingMultiLineComment = false;\n\t\t\tbool startsNewMultiLineComment
+        = false;\n\n\t\t\t// detect if line starts with an open verbatim string\n\t\t\tbool
+        lineStartsWithVerbatimString = line.PreviousLine != null && line.PreviousLine.GetProperty<bool>(\"endsWithVerbatimString\",
+        false);\n\t\t\tbool endsExistingVerbatimString = false;\n\t\t\tbool startsNewVerbatimString
+        = false;\n\n\t\t\tif(line.Text.Length > 0)\n\t\t\t{\n\t\t\t\tMatchCollection
+        matches = null;\n\n\t\t\t\t// match line text\n\t\t\t\tif(lineStartsWithMultiLineComment)\n\t\t\t\t{\n\t\t\t\t\t//
+        add special mark to indicate that the line starts with an open multi-line
+        comment\n\t\t\t\t\t// escape character (unicode 001B) followed by 0\n\t\t\t\t\tmatches
+        = regex.Matches('\\u001B' + \"0\" + line.Text);\n\t\t\t\t}\n\t\t\t\telse if(lineStartsWithVerbatimString)\n\t\t\t\t{\n\t\t\t\t\t//
+        add special mark to indicate that the line starts with an open verbatim string\n\t\t\t\t\t//
+        escape character (unicode 001B) followed by 1\n\t\t\t\t\tmatches = regex.Matches('\\u001B'
+        + \"1\" + line.Text);\n\t\t\t\t}\n\t\t\t\telse\n\t\t\t\t\tmatches = regex.Matches(line.Text);\n\n\t\t\t\t//
+        loop through all matches\n\t\t\t\tforeach(Match match in matches)\n\t\t\t\t{\n\t\t\t\t\tint
+        i = 0;\n\t\t\t\t\tforeach(Group group in match.Groups)\n\t\t\t\t\t{\n\t\t\t\t\t\tif(group.Success
+        && i > 0)\n\t\t\t\t\t\t{\n\t\t\t\t\t\t\tstring groupName = regex.GroupNameFromNumber(i);\n\t\t\t\t\t\t\tint
+        tokenStartIndex = group.Index;\n\t\t\t\t\t\t\tint tokenEndIndex = tokenStartIndex
+        + group.Value.Length - 1;\n\n\t\t\t\t\t\t\t// add corresponding text format
+        group\n\t\t\t\t\t\t\tswitch(groupName)\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\tcase
+        \"multiLineCommentStarting\":\n\t\t\t\t\t\t\t\t\tif(!lineStartsWithVerbatimString
+        || endsExistingVerbatimString)\n\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\tstartsNewMultiLineComment
+        = true;\n\t\t\t\t\t\t\t\t\t\ttextFormatGroups.Add(new TextFormatGroup(tokenStartIndex,
+        tokenEndIndex, textStyleComment));\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\tcase
+        \"multiLineCommentEnding\":\n\t\t\t\t\t\t\t\t\tendsExistingMultiLineComment
+        = true;\n\t\t\t\t\t\t\t\t\ttextFormatGroups.Add(new TextFormatGroup(tokenStartIndex
+        + 2, tokenEndIndex, textStyleComment));\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\tcase
+        \"comment\":\n\t\t\t\t\t\t\t\t\ttextFormatGroups.Add(new TextFormatGroup(tokenStartIndex,
+        tokenEndIndex, textStyleComment));\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\tcase
+        \"verbatimStringStarting\":\n\t\t\t\t\t\t\t\t\tif(!lineStartsWithMultiLineComment
+        || endsExistingMultiLineComment)\n\t\t\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\t\tstartsNewVerbatimString
+        = true;\n\t\t\t\t\t\t\t\t\t\ttextFormatGroups.Add(new TextFormatGroup(tokenStartIndex,
+        tokenEndIndex, textStyleString));\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\tcase
+        \"verbatimStringEnding\":\n\t\t\t\t\t\t\t\t\tendsExistingVerbatimString =
+        true;\n\t\t\t\t\t\t\t\t\ttextFormatGroups.Add(new TextFormatGroup(tokenStartIndex
+        + 2, tokenEndIndex, textStyleString));\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\tcase
+        \"verbatimString\":\n\t\t\t\t\t\t\t\t\ttextFormatGroups.Add(new TextFormatGroup(tokenStartIndex,
+        tokenEndIndex, textStyleString));\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\tcase
+        \"string\":\n\t\t\t\t\t\t\t\tcase \"char\":\n\t\t\t\t\t\t\t\t\ttextFormatGroups.Add(new
+        TextFormatGroup(tokenStartIndex, tokenEndIndex, textStyleString));\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\tcase
+        \"intBinary\":\n\t\t\t\t\t\t\t\tcase \"intHex\":\n\t\t\t\t\t\t\t\tcase \"float\":\n\t\t\t\t\t\t\t\tcase
+        \"floatImplicit\":\n\t\t\t\t\t\t\t\tcase \"intImplicit\":\n\t\t\t\t\t\t\t\t\ttextFormatGroups.Add(new
+        TextFormatGroup(tokenStartIndex, tokenEndIndex, textStyleNumber));\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\tcase
+        \"keyword\":\n\t\t\t\t\t\t\t\t\ttextFormatGroups.Add(new TextFormatGroup(tokenStartIndex,
+        tokenEndIndex, textStyleKeyword));\n\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\ti++;\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\t//
+        correct offset introduced by multiline escape sequence\n\t\t\t\tif(lineStartsWithMultiLineComment
+        || lineStartsWithVerbatimString)\n\t\t\t\t{\n\t\t\t\t\tforeach(TextFormatGroup
+        textFormatGroup in textFormatGroups)\n\t\t\t\t\t{\n\t\t\t\t\t\ttextFormatGroup.startIndex
+        -= 2;\n\t\t\t\t\t\ttextFormatGroup.endIndex -= 2;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\n\t\t\t//
+        set property indicating if the current line ends with a multi-line comment\n\t\t\tif(lineStartsWithMultiLineComment
+        && !endsExistingMultiLineComment)\n\t\t\t{\n\t\t\t\ttextFormatGroups.Clear();\n\t\t\t\tif(line.Text.Length
+        > 0)\n\t\t\t\t\ttextFormatGroups.Add(new TextFormatGroup(0, line.Text.Length
+        - 1, textStyleComment));\n\t\t\t\tline.SetProperty<bool>(\"endsWithMultiLineComment\",
+        true);\n\t\t\t}\n\t\t\telse\n\t\t\t\tline.SetProperty<bool>(\"endsWithMultiLineComment\",
+        startsNewMultiLineComment);\n\n\t\t\t// set property indicating if the current
+        line ends with a verbatim string\n\t\t\tif(lineStartsWithVerbatimString &&
+        !endsExistingVerbatimString)\n\t\t\t{\n\t\t\t\ttextFormatGroups.Clear();\n\t\t\t\tif(line.Text.Length
+        > 0)\n\t\t\t\t\ttextFormatGroups.Add(new TextFormatGroup(0, line.Text.Length
+        - 1, textStyleString));\n\t\t\t\tline.SetProperty<bool>(\"endsWithVerbatimString\",
+        true);\n\t\t\t}\n\t\t\telse\n\t\t\t\tline.SetProperty<bool>(\"endsWithVerbatimString\",
+        startsNewVerbatimString);\n\n\t\t\t// apply format to line\n\t\t\tline.ApplyTextFormat(textFormatGroups);\n\t\t}\n\t}\n}"
+      objectReference: {fileID: 0}
+    - target: {fileID: 224299824152407374, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224299824152407374, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d53fd87b7d86a40469735ea1ab29f85c, type: 3}
+--- !u!224 &539511144 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 224537337030871512, guid: d53fd87b7d86a40469735ea1ab29f85c,
+    type: 3}
+  m_PrefabInstance: {fileID: 539511143}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &539511145 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1134388053291424, guid: d53fd87b7d86a40469735ea1ab29f85c,
+    type: 3}
+  m_PrefabInstance: {fileID: 539511143}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &539511146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 539511145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e998388f3a0d4179ae747f493dec045, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textStyleComment:
+    fontStyle: 0
+    overrideFontStyle: 0
+    fontColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    overrideColor: 1
+  textStyleString:
+    fontStyle: 0
+    overrideFontStyle: 0
+    fontColor: {r: 0.9, g: 0.4, b: 0.1, a: 1}
+    overrideColor: 1
+  textStyleNumber:
+    fontStyle: 0
+    overrideFontStyle: 0
+    fontColor: {r: 0.2, g: 0.4, b: 0.6, a: 1}
+    overrideColor: 1
+  textStyleKeyword:
+    fontStyle: 0
+    overrideFontStyle: 0
+    fontColor: {r: 0.2, g: 0.6, b: 0.6, a: 1}
+    overrideColor: 1
+--- !u!1 &546651588
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 546651591}
+  - component: {fileID: 546651590}
+  - component: {fileID: 546651589}
+  m_Layer: 0
+  m_Name: Main Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!81 &546651589
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546651588}
+  m_Enabled: 1
+--- !u!20 &546651590
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546651588}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_projectionMatrixMode: 1
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_GateFitMode: 2
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &546651591
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 546651588}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &934813203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 934813207}
+  - component: {fileID: 934813206}
+  - component: {fileID: 934813205}
+  - component: {fileID: 934813204}
+  m_Layer: 5
+  m_Name: Canvas
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &934813204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934813203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &934813205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934813203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+--- !u!223 &934813206
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934813203}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!224 &934813207
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934813203}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_Children:
+  - {fileID: 539511144}
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0, y: 0}
+--- !u!1 &2028260660
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2028260663}
+  - component: {fileID: 2028260662}
+  - component: {fileID: 2028260661}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2028260661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028260660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1077351063, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &2028260662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028260660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -619905303, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &2028260663
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028260660}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
