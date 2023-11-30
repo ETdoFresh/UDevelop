@@ -667,6 +667,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   runtimeCSharp: {fileID: 3012672010200371302, guid: b731e5b02d6ce774e9e014aace4a5053, type: 3}
+  runtimeBehaviour2: {fileID: 0}
   assemblyReferences:
   - {fileID: 11400000, guid: fe24fc97048e2974787cc8d5328fa171, type: 2}
   - {fileID: 11400000, guid: 49e9f5d6abb77204793f81ae256f8b86, type: 2}
@@ -677,7 +678,6 @@ MonoBehaviour:
   copyNonSerializedFields: 1
   copySerializedProperties: 0
   copyNonSerializedProperties: 0
-  runtimeBehaviour2: {fileID: 0}
 --- !u!54 &572840104
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1904,6 +1904,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1190409829485508, guid: 945b593f379c81a499114a9afb22a8e3, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1548671774077554, guid: 945b593f379c81a499114a9afb22a8e3, type: 3}
       propertyPath: m_Name
       value: Debugging Essentials
@@ -1952,8 +1956,32 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114160121875497854, guid: 945b593f379c81a499114a9afb22a8e3, type: 3}
+      propertyPath: showConsoleOnError
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160121875497854, guid: 945b593f379c81a499114a9afb22a8e3, type: 3}
+      propertyPath: showConsoleOnException
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160121875497854, guid: 945b593f379c81a499114a9afb22a8e3, type: 3}
+      propertyPath: showConsoleWhenInvokingMethod
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114259738138788040, guid: 945b593f379c81a499114a9afb22a8e3, type: 3}
+      propertyPath: showOnStart
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114478560119012194, guid: 945b593f379c81a499114a9afb22a8e3, type: 3}
+      propertyPath: useCanvas
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114478560119012194, guid: 945b593f379c81a499114a9afb22a8e3, type: 3}
       propertyPath: onlyUseViewToggleKeys
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114478560119012194, guid: 945b593f379c81a499114a9afb22a8e3, type: 3}
+      propertyPath: useDontDestroyOnLoadScene
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
