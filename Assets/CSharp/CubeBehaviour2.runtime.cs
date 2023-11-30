@@ -3,33 +3,31 @@ using UnityEngine;
 
 namespace Game.RuntimeScripts
 {
-    public class CubeBehaviour : RuntimeBehaviour
+    public class CubeBehaviour2 : RuntimeBehaviour
     {
         [SerializeField] private Camera cam;
         [SerializeField] private Rigidbody rb;
-        [SerializeField] private float rotateSpeed = 500;
-        [SerializeField] private float jumpForce = 5;
+        [SerializeField] private float floatForce = 9.6;
         [SerializeField] private float movementSpeed = 5;
-        [SerializeField] private bool isRotating = true;
+        private Vector3 _initialPosition;
+        private Quaternion _initialRotation;
 
+        private void Awake()
+        {
+            _initialPosition = transform.position;
+            _initialRotation = transform.rotation;
+        }
 
         private void OnEnable()
         {
-            GetComponent<MeshRenderer>().material.color = Color.red;
+            GetComponent<MeshRenderer>().material.color = Color.green;
         }
 
         private void Update()
         {
             if (!rb) rb = GetComponent<Rigidbody>();
             if (!cam) cam = Camera.main;
-
-            if (isRotating)
-                transform.Rotate(Vector3.up, rotateSpeed * Time.deltaTime, Space.World);
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            }
+            
             if (Input.GetKey(KeyCode.A))
             {
                 var leftVector = -cam.transform.right;
@@ -56,11 +54,17 @@ namespace Game.RuntimeScripts
             }
             if (Input.GetKey(KeyCode.R))
             {
-                transform.position = new Vector3(0, 0, 0);
-                transform.rotation = Quaternion.identity;
+                transform.position = _initialPosition;
+                transform.rotation = _initialRotation;
                 rb.velocity = Vector3.zero;
                 rb.angularVelocity = Vector3.zero;
             }
+        }
+        
+        private void FixedUpdate()
+        {
+            if (!rb) rb = GetComponent<Rigidbody>();
+            rb.AddForce(Vector3.up * floatForce, ForceMode.Force);
         }
     }
 }
