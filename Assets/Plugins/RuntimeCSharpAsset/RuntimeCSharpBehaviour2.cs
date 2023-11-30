@@ -18,6 +18,8 @@ public class RuntimeCSharpBehaviour2 : MonoBehaviour
     private ScriptDomain _domain;
     private string _activeCSharpSource;
     private Dictionary<MemberInfo, object> _originalValues = new();
+    
+    public RuntimeCSharpAsset RuntimeCSharpAsset => runtimeCSharp;
 
     [ContextMenu("Hot Reload")]
     private void HotReload()

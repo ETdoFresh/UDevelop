@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using ETdoFresh.UnityPackages.EventBusSystem;
 using UnityEngine;
 
 namespace DebuggingEssentials
@@ -447,8 +448,9 @@ namespace DebuggingEssentials
                 selectionIndicatorLocalPos = Vector3.zero;
                 selectionIndicatorLocalRot = Quaternion.LookRotation(Vector3.forward);
             }
-
+            
             selectedGO = lastScreenRayedGO = go;
+            onSelectedGOChanged?.Invoke(go);
 #if UNITY_EDITOR
             if (linkSelect.Value)
             {

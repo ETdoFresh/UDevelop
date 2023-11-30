@@ -13,6 +13,9 @@ namespace DebuggingEssentials
         public delegate void FloatMethod(float newValue);
         public static event FloatMethod onTimeScaleChanged;
         public static event SetActiveMethod onSetActive;
+        
+        public delegate void SelectedGOChangedMethod(GameObject newGO);
+        public static event SelectedGOChangedMethod onSelectedGOChanged;
 
         public static RuntimeInspector instance;
         public static GameObject selectionIndicatorGO;

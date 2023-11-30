@@ -5,7 +5,7 @@ public class CubeBehaviour2 : RuntimeBehaviour2
 {
 	[SerializeField] private Camera cam;
 	[SerializeField] private Rigidbody rb;
-	[SerializeField] private float rotateSpeed = 100;
+	[SerializeField] private float rotateSpeed = 500;
 	[SerializeField] private float jumpForce = 5;
 	[SerializeField] private float movementSpeed = 5;
 	[SerializeField] private bool isRotating = true;
