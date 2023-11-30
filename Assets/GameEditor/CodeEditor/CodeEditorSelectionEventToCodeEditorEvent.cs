@@ -1,6 +1,7 @@
 ﻿using ETdoFresh.UnityPackages.EventBusSystem;
 using GameEditor.CodeEditor.Events;
 using GameEditor.Selection.Events;
+using RuntimeCSharp;
 using UnityEngine;
 
 namespace GameEditor.CodeEditor
@@ -28,7 +29,7 @@ namespace GameEditor.CodeEditor
                 return;
             }
             
-            var runtimeCSharpBehaviour = newSelectedGameObject.GetComponent<RuntimeCSharpBehaviour2>();
+            var runtimeCSharpBehaviour = newSelectedGameObject.GetComponent<RuntimeCSharpBehaviour>();
             if (runtimeCSharpBehaviour == null)
             {
                 SetCurrentAsset(null);

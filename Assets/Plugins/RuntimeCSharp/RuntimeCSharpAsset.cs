@@ -2,29 +2,31 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class RuntimeCSharpAsset : ScriptableObject
+namespace RuntimeCSharp
 {
-    private const string PersistentDataPath = "CSharpSourceCode";
+    public class RuntimeCSharpAsset : ScriptableObject
+    {
+        private const string PersistentDataPath = "CSharpSourceCode";
     
-    [SerializeField] public string filePath;
-    [SerializeField, TextArea(3, 50)] public string sourceCode;
-    [SerializeField] private UnityEvent sourceChanged = new();
-    public Type runtimeType;
-    private string _previousSourceCode;
+        [SerializeField] public string filePath;
+        [SerializeField, TextArea(3, 50)] public string sourceCode;
+        [SerializeField] private UnityEvent sourceChanged = new();
+        public Type runtimeType;
+        private string _previousSourceCode;
 
-    public UnityEvent SourceChanged => sourceChanged;
+        public UnityEvent SourceChanged => sourceChanged;
 
-    public void OnValidate()
-    {
+        public void OnValidate()
+        {
 #if UNITY_EDITOR
-        if (_previousSourceCode == sourceCode) return;
-        _previousSourceCode = sourceCode;
-        sourceChanged.Invoke();
+            if (_previousSourceCode == sourceCode) return;
+            _previousSourceCode = sourceCode;
+            sourceChanged.Invoke();
 #endif
-    }
+        }
 
-    private void Awake()
-    {
+        private void Awake()
+        {
 #if !UNITY_EDITOR
         var filename = System.IO.Path.GetFileName(filePath);
         var path = System.IO.Path.Combine(Application.persistentDataPath, PersistentDataPath, filename);
@@ -32,12 +34,12 @@ public class RuntimeCSharpAsset : ScriptableObject
         sourceCode = System.IO.File.ReadAllText(path);
         Debug.Log($"Loaded from {path}");
 #endif
-    }
+        }
 
-    public void Save()
-    {
+        public void Save()
+        {
 #if UNITY_EDITOR
-        System.IO.File.WriteAllText(filePath, sourceCode);
+            System.IO.File.WriteAllText(filePath, sourceCode);
 #else
         var filename = System.IO.Path.GetFileName(filePath);
         // Save to persistent data path
@@ -50,6 +52,7 @@ public class RuntimeCSharpAsset : ScriptableObject
         System.IO.File.WriteAllText(path, sourceCode);
         Debug.Log($"Saved to {path}");
 #endif
-        sourceChanged.Invoke();
+            sourceChanged.Invoke();
+        }
     }
 }
