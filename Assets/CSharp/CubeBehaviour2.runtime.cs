@@ -7,7 +7,7 @@ namespace Game.RuntimeScripts
     {
         [SerializeField] private Camera cam;
         [SerializeField] private Rigidbody rb;
-        [SerializeField] private float floatForce = 9.6;
+        [SerializeField] private float floatForce = 9.6f;
         [SerializeField] private float movementSpeed = 5;
         private Vector3 _initialPosition;
         private Quaternion _initialRotation;
