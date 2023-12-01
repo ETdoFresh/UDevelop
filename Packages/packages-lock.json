@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.etdofresh.unitypackages.databus": {
+      "version": "https://github.com/ETdoFresh/UnityPackages.DataBus.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "06f76c86f466e0a7a7b676b691153f3c20027d90"
+    },
     "com.etdofresh.unitypackages.editortools": {
       "version": "https://github.com/ETdoFresh/UnityPackages.EditorTools.git",
       "depth": 0,

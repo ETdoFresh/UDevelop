@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.etdofresh.unitypackages.databus": "https://github.com/ETdoFresh/UnityPackages.DataBus.git",
     "com.etdofresh.unitypackages.editortools": "https://github.com/ETdoFresh/UnityPackages.EditorTools.git",
     "com.etdofresh.unitypackages.eventbus": "https://github.com/ETdoFresh/UnityPackages.EventBus.git",
     "com.etdofresh.unitypackages.extensionmethods": "https://github.com/ETdoFresh/UnityPackages.ExtensionMethods.git",
