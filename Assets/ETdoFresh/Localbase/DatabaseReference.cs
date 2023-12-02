@@ -10,42 +10,79 @@ namespace ETdoFresh.Localbase
     [Serializable]
     public class DatabaseReference : Query
     {
-        private static Dictionary<LocalbaseDatabase, Dictionary<string, DatabaseReference>> _references = new();
-        private static Dictionary<string, Data<ValueChangedEventArgs>> _valueChangedEvents = new();
-        private static Dictionary<string, Data<ChildChangedEventArgs>> _childAddedEvents = new();
-        private static Dictionary<string, Data<ChildChangedEventArgs>> _childChangedEvents = new();
-        private static Dictionary<string, Data<ChildChangedEventArgs>> _childRemovedEvents = new();
-        private static Dictionary<string, Data<ChildChangedEventArgs>> _childMovedEvents = new();
-        private string _path;
-        
-        public Data<ValueChangedEventArgs> ValueChanged => _valueChangedEvents[_path];
-        public Data<ChildChangedEventArgs> ChildAdded => _childAddedEvents[_path];
-        public Data<ChildChangedEventArgs> ChildChanged => _childChangedEvents[_path];
-        public Data<ChildChangedEventArgs> ChildRemoved => _childRemovedEvents[_path];
-        public Data<ChildChangedEventArgs> ChildMoved => _childMovedEvents[_path];
-
-        internal DatabaseReference(LocalbaseDatabase database, string path)
+        public class DatabaseReferenceEntry
         {
-            Database = database;
-            _path = database.FormatPath(path);
-            _references.TryAdd(database, new Dictionary<string, DatabaseReference>());
-            var databaseJObject = database.JObject;
-            var jToken = databaseJObject.SelectToken(_path);
-            _valueChangedEvents.TryAdd(_path, new Data<ValueChangedEventArgs>(new ValueChangedEventArgs(new DataSnapshot(jToken, this))));
-            _childAddedEvents.TryAdd(_path, new Data<ChildChangedEventArgs>(new ChildChangedEventArgs(new DataSnapshot(jToken, this), null)));
-            _childChangedEvents.TryAdd(_path, new Data<ChildChangedEventArgs>(new ChildChangedEventArgs(new DataSnapshot(jToken, this), null)));
-            _childRemovedEvents.TryAdd(_path, new Data<ChildChangedEventArgs>(new ChildChangedEventArgs(new DataSnapshot(jToken, this), null)));
-            _childMovedEvents.TryAdd(_path, new Data<ChildChangedEventArgs>(new ChildChangedEventArgs(new DataSnapshot(jToken, this), null)));
-            _references[database].TryAdd(_path, this);
+            public DatabaseReference databaseReference;
+            public LocalbaseDatabase database;
+            public string path;
+            public object caller;
+            public Data<ValueChangedEventArgs> valueChanged;
+            public Data<ChildChangedEventArgs> childAdded;
+            public Data<ChildChangedEventArgs> childChanged;
+            public Data<ChildChangedEventArgs> childRemoved;
+            public Data<ChildChangedEventArgs> childMoved;
         }
 
-        public LocalbaseDatabase Database { get; private set; }
+        public static List<DatabaseReferenceEntry> DatabaseReferenceEntries = new();
+        public DatabaseReferenceEntry databaseReferenceEntry;
+        
+        public Data<ValueChangedEventArgs> ValueChanged => databaseReferenceEntry.valueChanged;
+        public Data<ChildChangedEventArgs> ChildAdded => databaseReferenceEntry.childAdded;
+        public Data<ChildChangedEventArgs> ChildChanged => databaseReferenceEntry.childChanged;
+        public Data<ChildChangedEventArgs> ChildRemoved => databaseReferenceEntry.childRemoved;
+        public Data<ChildChangedEventArgs> ChildMoved => databaseReferenceEntry.childMoved;
+        public LocalbaseDatabase Database => databaseReferenceEntry.database;
+        
+        private string Path => databaseReferenceEntry.path;
+        private object Caller => databaseReferenceEntry.caller;
 
-        public DatabaseReference Parent => IsRoot() ? null : new DatabaseReference(Database, GetParent());
+        public DatabaseReference Parent => IsRoot() ? null : Create(Database, GetParent(), Caller);
 
-        public DatabaseReference Root => new(Database, GetRoot());
+        public DatabaseReference Root => Create(Database, GetRoot(), Caller);
 
-        public DatabaseReference Child(string pathString) => new(Database, pathString);
+        public static DatabaseReference Create(LocalbaseDatabase database, string path, object caller = null)
+        {
+            var existingDatabaseReference = DatabaseReferenceEntries
+                .FirstOrDefault(entry => entry.database == database && entry.path == path && entry.caller == caller);
+            if (existingDatabaseReference != null) return existingDatabaseReference.databaseReference;
+            var databaseReference = new DatabaseReference();
+            var jToken = database.JObject.SelectToken(path);
+            databaseReference.databaseReferenceEntry = new DatabaseReferenceEntry
+            {
+                database = database,
+                path = path,
+                caller = caller,
+                valueChanged = new Data<ValueChangedEventArgs>(
+                    new ValueChangedEventArgs(new DataSnapshot(jToken, databaseReference))),
+                childAdded = new Data<ChildChangedEventArgs>(
+                    new ChildChangedEventArgs(new DataSnapshot(jToken, databaseReference), null)),
+                childChanged = new Data<ChildChangedEventArgs>(
+                    new ChildChangedEventArgs(new DataSnapshot(jToken, databaseReference), null)),
+                childRemoved = new Data<ChildChangedEventArgs>(
+                    new ChildChangedEventArgs(new DataSnapshot(jToken, databaseReference), null)),
+                childMoved = new Data<ChildChangedEventArgs>(
+                    new ChildChangedEventArgs(new DataSnapshot(jToken, databaseReference), null))
+            };
+            return databaseReference;
+        }
+
+        public void Destroy()
+        {
+            if (databaseReferenceEntry == null) return;
+            DatabaseReferenceEntries.Remove(databaseReferenceEntry);
+            databaseReferenceEntry.databaseReference = null;
+            databaseReferenceEntry.database = null;
+            databaseReferenceEntry.path = null;
+            databaseReferenceEntry.caller = null;
+            databaseReferenceEntry.valueChanged = null;
+            databaseReferenceEntry.childAdded = null;
+            databaseReferenceEntry.childChanged = null;
+            databaseReferenceEntry.childRemoved = null;
+            databaseReferenceEntry.childMoved = null;
+            databaseReferenceEntry = null;
+        }
+
+        public DatabaseReference Child(string pathString) => Create(Database, $"{Path}.{pathString}", Caller);
 
         // public DatabaseReference Push() => new(Database, "push");
 
@@ -57,14 +94,13 @@ namespace ETdoFresh.Localbase
 
         public Task SetRawJsonValueAsync(string jsonValue)
         {
-            var path = _path;
             var databaseJson = Database.Json;
             var jsonValueObject = JToken.Parse(jsonValue);
             var databaseObject = string.IsNullOrEmpty(databaseJson) ? new JObject() : JObject.Parse(databaseJson);
-            var pathObject = GetOrCreatePath(databaseObject, path); 
+            var pathObject = GetOrCreatePath(databaseObject, Path);
             pathObject.Replace(jsonValueObject);
             Database.Json = databaseObject.ToString(Formatting.Indented);
-            _valueChangedEvents[path].Value = new ValueChangedEventArgs(new DataSnapshot(jsonValueObject, this));
+            ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(jsonValueObject, this));
             return Task.CompletedTask;
         }
 
@@ -73,7 +109,7 @@ namespace ETdoFresh.Localbase
             if (string.IsNullOrEmpty(path)) return databaseObject;
             var jToken = databaseObject.SelectToken(path);
             if (jToken != null) return jToken;
-            
+
             var pathParts = path.Split('.');
             var parentPath = string.Join('.', pathParts.Take(pathParts.Length - 1));
             var parentObject = GetOrCreatePath(databaseObject, parentPath);
@@ -107,6 +143,7 @@ namespace ETdoFresh.Localbase
                     {
                         parentJObject.Add(i.ToString(), parentJArray[i]);
                     }
+
                     parentJObject.Add(childName, childObject);
                     parentObject.Replace(parentJObject);
                 }
@@ -116,6 +153,7 @@ namespace ETdoFresh.Localbase
                 parentJObject = new JObject { { childName, childObject } };
                 parentObject.Replace(parentJObject);
             }
+
             return childObject;
         }
 
@@ -139,15 +177,15 @@ namespace ETdoFresh.Localbase
             return Task.CompletedTask;
         }
 
-        public override string ToString() => base.ToString() + " " + _path;
+        public override string ToString() => base.ToString() + " " + Path;
 
-        public string Key => IsRoot() ? null : _path.Split('.').Last();
+        public string Key => IsRoot() ? null : Path.Split('.').Last();
 
-        public bool IsRoot() => string.IsNullOrEmpty(_path);
+        public bool IsRoot() => string.IsNullOrEmpty(Path);
 
-        public string GetParent() => _path[.._path.LastIndexOf('.')];
+        public string GetParent() => Path[..Path.LastIndexOf('.')];
 
-        public string GetRoot() => _path.Split('.').First();
+        public string GetRoot() => Path.Split('.').First();
 
         public override bool Equals(object other) => other is DatabaseReference && ToString().Equals(other.ToString());
 

@@ -12,6 +12,6 @@ EditorBuildSettings:
     path: Assets/GameEditor/Scenes/ProjectSelect.unity
     guid: a7df2e4ba0920544eb90f78ed11247d0
   - enabled: 1
-    path: Assets/RoslynCSharp/MessAround/RoslynRotateCube.unity
+    path: Assets/GameEditor/Scenes/RoslynRotateCube.unity
     guid: b8ab0ceac5c31e24bb3a9f6225c48003
   m_configObjects: {}

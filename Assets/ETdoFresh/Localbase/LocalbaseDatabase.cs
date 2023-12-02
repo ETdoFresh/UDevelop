@@ -24,14 +24,14 @@ namespace ETdoFresh.Localbase
         {
             if (!_databases.TryAdd(name, new LocalbaseDatabase { _name = name })) return _databases[name];
             var path = Path.Combine(Application.persistentDataPath, "Databases", $"{name}.json");
-            if (File.Exists(path)) _databases[name].Json = File.ReadAllText(path);
-            _databases[name]._jObject = JObject.Parse(_databases[name]._json);
+            _databases[name].Json = File.Exists(path) ? File.ReadAllText(path) : "";
             return _databases[name];
         }
 
         public DatabaseReference RootReference => GetReference();
 
-        public DatabaseReference GetReference(string pathString = "") => new(this, pathString);
+        public DatabaseReference GetReference(string pathString = "", object caller = null) => 
+            DatabaseReference.Create(this, pathString, caller);
 
         public void SetPersistenceEnabled(bool enabled)
         {
@@ -40,7 +40,7 @@ namespace ETdoFresh.Localbase
 
         private void SetValue(string value)
         {
-            _json = value;
+            _json = string.IsNullOrEmpty(value) ? "{}" : value;
             _jObject = JObject.Parse(_json);
             if (!_persistenceEnabled) return;
             var path = Path.Combine(Application.persistentDataPath, "Databases", $"{_name}.json");
