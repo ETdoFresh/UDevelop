@@ -49,6 +49,7 @@ namespace ETdoFresh.Localbase
             var jToken = database.JObject.SelectToken(path);
             databaseReference.databaseReferenceEntry = new DatabaseReferenceEntry
             {
+                databaseReference = databaseReference,
                 database = database,
                 path = path,
                 caller = caller,
@@ -63,6 +64,7 @@ namespace ETdoFresh.Localbase
                 childMoved = new Data<ChildChangedEventArgs>(
                     new ChildChangedEventArgs(new DataSnapshot(jToken, databaseReference), null))
             };
+            DatabaseReferenceEntries.Add(databaseReference.databaseReferenceEntry);
             return databaseReference;
         }
 
@@ -88,7 +90,13 @@ namespace ETdoFresh.Localbase
 
         public Task SetValueAsync(object value)
         {
-            var objectJson = JsonConvert.SerializeObject(value);
+            var settings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore
+            };
+            var objectJson = JsonConvert.SerializeObject(value, settings);
             return SetRawJsonValueAsync(objectJson);
         }
 
@@ -98,9 +106,26 @@ namespace ETdoFresh.Localbase
             var jsonValueObject = JToken.Parse(jsonValue);
             var databaseObject = string.IsNullOrEmpty(databaseJson) ? new JObject() : JObject.Parse(databaseJson);
             var pathObject = GetOrCreatePath(databaseObject, Path);
-            pathObject.Replace(jsonValueObject);
+            
+            if (IsRoot() && jsonValueObject is JObject jObject)
+                databaseObject = jObject;
+            else if (!IsRoot())
+                pathObject.Replace(jsonValueObject);
+            
             Database.Json = databaseObject.ToString(Formatting.Indented);
             ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(jsonValueObject, this));
+
+            foreach (var otherReference in DatabaseReferenceEntries)
+            {
+                if (!otherReference.databaseReference.IsChildOf(this)) continue;
+                var otherPreviousValue = otherReference.valueChanged.Value.Snapshot.Value;
+                var otherPath = otherReference.databaseReference.Path;
+                var otherJToken = databaseObject.SelectToken(otherPath);
+                var otherCurrentValue = otherJToken?.ToObject<object>();
+                if (otherPreviousValue == otherCurrentValue) continue;
+                otherReference.valueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(otherJToken, otherReference.databaseReference));
+            }
+            
             return Task.CompletedTask;
         }
 
@@ -190,5 +215,13 @@ namespace ETdoFresh.Localbase
         public override bool Equals(object other) => other is DatabaseReference && ToString().Equals(other.ToString());
 
         public override int GetHashCode() => ToString().GetHashCode();
+        
+        private bool IsChildOf(DatabaseReference other)
+        {
+            if (other == null) return false;
+            if (other.IsRoot()) return true;
+            if (IsRoot()) return false;
+            return Path.StartsWith(other.Path);
+        }
     }
 }

@@ -1,52 +1,63 @@
+using ETdoFresh.Localbase;
 using ETdoFresh.UnityPackages.EventBusSystem;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 namespace GameEditor.Project
 {
     public class ProjectSingletonBehaviour : MonoBehaviourLazyLoadedSingleton<ProjectSingletonBehaviour>
     {
-        [SerializeField] private string projectName;
-        [SerializeField] private string projectVersion;
-        [SerializeField] private string projectDescription;
-        [SerializeField] private string[] projectAuthors;
-        [SerializeField] private string[] projectContributors;
-        //[SerializeField] private string projectRemotePath;
-        [SerializeField] private string projectLocalPath;
-        [SerializeField] private string projectLocalImagePath = "{LocalPath}/Images";
-        [SerializeField] private string projectLocalAudioPath = "{LocalPath}/Audio";
-        [SerializeField] private string projectLocalVideoPath = "{LocalPath}/Video";
-        [SerializeField] private string projectLocalFontPath = "{LocalPath}/Fonts";
-        [SerializeField] private string projectLocalScriptPath = "{LocalPath}/Scripts";
-        //[SerializeField] private string projectLocalShaderPath = "{LocalPath}/Shaders";
-        [SerializeField] private string projectLocalPrefabPath = "{LocalPath}/Prefabs";
-        [SerializeField] private string projectLocalScriptableObjectPath = "{LocalPath}/ScriptableObjects";
-        [SerializeField] private string projectLocalScenePath = "{LocalPath}/Scenes";
-        [SerializeField] private string projectLocalMaterialPath = "{LocalPath}/Materials";
-        [SerializeField] private string projectLocalAnimationPath = "{LocalPath}/Animations";
-
-        public void Load(string json)
+        [SerializeField] private string guid;
+        [SerializeField] private ProjectJsonObject projectData;
+        private DatabaseReference _projects;
+        private DatabaseReference _currentProject;
+        
+        private void Awake()
         {
-            var JObject = JsonConvert.DeserializeObject<JObject>(json);
-            projectName = JObject["name"]?.Value<string>();
-            projectVersion = JObject["version"]?.Value<string>();
-            projectDescription = JObject["description"]?.Value<string>();
-            projectAuthors = JObject["authors"]?.ToObject<string[]>();
-            projectContributors = JObject["contributors"]?.ToObject<string[]>();
-            //projectRemotePath = JObject["projectRemotePath"]?.Value<string>();
-            projectLocalPath = JObject["localPath"]?.Value<string>();
-            projectLocalImagePath = JObject["localImagePath"]?.Value<string>();
-            projectLocalAudioPath = JObject["localAudioPath"]?.Value<string>();
-            projectLocalVideoPath = JObject["localVideoPath"]?.Value<string>();
-            projectLocalFontPath = JObject["localFontPath"]?.Value<string>();
-            projectLocalScriptPath = JObject["localScriptPath"]?.Value<string>();
-            //projectLocalShaderPath = JObject["localShaderPath"]?.Value<string>();
-            projectLocalPrefabPath = JObject["localPrefabPath"]?.Value<string>();
-            projectLocalScriptableObjectPath = JObject["localScriptableObjectPath"]?.Value<string>();
-            projectLocalScenePath = JObject["localScenePath"]?.Value<string>();
-            projectLocalMaterialPath = JObject["localMaterialPath"]?.Value<string>();
-            projectLocalAnimationPath = JObject["localAnimationPath"]?.Value<string>();
+            // TODO: Temporary fix since Awake is private in packaged parent class
+            var baseType = typeof(MonoBehaviourLazyLoadedSingleton<>).MakeGenericType(GetType());
+            var baseAwake = baseType.GetMethod("Awake", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
+            baseAwake.Invoke(this, null);
+            
+            _projects = LocalbaseDatabase.DefaultInstance.GetReference("projects", this);
+            if (!string.IsNullOrEmpty(guid)) 
+                SetGuid(guid);
+        }
+
+        private void OnDestroy()
+        {
+            _currentProject?.Destroy();
+            _projects?.Destroy();
+        }
+
+        private void OnEnable()
+        {
+            _currentProject?.ValueChanged.AddListener(OnProjectChanged);
+        }
+        
+        private void OnDisable()
+        {
+            _currentProject?.ValueChanged.RemoveListener(OnProjectChanged);
+        }
+
+        public static void SetGuid(string guid)
+        {
+            if (Instance == null) return;
+            var projects = Instance._projects;
+            var currentProject = Instance._currentProject;
+            if (currentProject != null)
+            {
+                currentProject.ValueChanged.RemoveListener(OnProjectChanged);
+                currentProject.Destroy();
+            }
+            currentProject = projects.Child(guid);
+            currentProject.ValueChanged.AddListener(OnProjectChanged);
+        }
+
+        private static void OnProjectChanged(ValueChangedEventArgs e)
+        {
+            var projectData = e.Snapshot.GetValue<ProjectJsonObject>();
+            Debug.Log($"[{nameof(ProjectSingletonBehaviour)}] {nameof(OnProjectChanged)} {projectData?.name} {projectData?.guid}");
+            Instance.projectData = projectData;
         }
     }
 }

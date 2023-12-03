@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using ETdoFresh.Localbase;
 using ETdoFresh.ReadonlyInspectorAttribute;
 using ETdoFresh.UnityPackages.ExtensionMethods;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TMPro;
 using UnityEngine;
@@ -48,9 +49,9 @@ namespace GameEditor.Project
         [SerializeField] private Button cancelCreateProjectButton;
 
         [Header("Project Data")]
-        [SerializeField, Readonly, TextArea(3, 50)] private string _projectsJArrayString;
+        [SerializeField, Readonly, TextArea(3, 50)] private string _projectsJObjectString;
         [SerializeField, Readonly] private ProjectJsonObject[] _projects;
-        private JArray _projectsJArray;
+        private JObject _projectsJObject;
 
         private DatabaseReference _projectsDatabaseReference;
 
@@ -109,22 +110,54 @@ namespace GameEditor.Project
             Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnAddProjectButtonClicked");
             createProjectUI.SetActive(true);
             selectProjectUI.SetActive(false);
+            projectGuidText.text = Guid.NewGuid().ToString("N");
         }
         
         private void OnCreateProjectButtonClicked()
         {
-            Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnCreateProjectButtonClicked {projectNameInputField.text} {projectGuidText.text}"); 
-            // Create a new project using all the fields and load project
+            Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnCreateProjectButtonClicked {projectNameInputField.text} {projectGuidText.text}");
+
+            var projectJsonObject = new ProjectJsonObject();
+            projectJsonObject.name = projectNameInputField.text;
+            projectJsonObject.guid = projectGuidText.text;
+            projectJsonObject.version = string.IsNullOrEmpty(projectVersionInputField.text) ? null : projectVersionInputField.text;
+            projectJsonObject.description = string.IsNullOrEmpty(projectDescriptionInputField.text) ? null : projectDescriptionInputField.text;
+            projectJsonObject.authors = string.IsNullOrEmpty(projectAuthorInputField.text) ? null : projectAuthorInputField.text.Split(',');
+            projectJsonObject.localPath = string.IsNullOrEmpty(projectLocalPathInputField.text) ? null : projectLocalPathInputField.text;
+            projectJsonObject.localImagePath = string.IsNullOrEmpty(projectImageLocalPathInputField.text) ? null : projectImageLocalPathInputField.text;
+            projectJsonObject.localAudioPath = string.IsNullOrEmpty(projectAudioLocalPathInputField.text) ? null : projectAudioLocalPathInputField.text;
+            projectJsonObject.localVideoPath = string.IsNullOrEmpty(projectVideoLocalPathInputField.text) ? null : projectVideoLocalPathInputField.text;
+            projectJsonObject.localFontPath = string.IsNullOrEmpty(projectFontLocalPathInputField.text) ? null : projectFontLocalPathInputField.text;
+            projectJsonObject.localScriptPath = string.IsNullOrEmpty(projectScriptLocalPathInputField.text) ? null : projectScriptLocalPathInputField.text;
+            projectJsonObject.localPrefabPath = string.IsNullOrEmpty(projectPrefabLocalPathInputField.text) ? null : projectPrefabLocalPathInputField.text;
+            projectJsonObject.localScriptableObjectPath = string.IsNullOrEmpty(projectScriptableObjectLocalPathInputField.text) ? null : projectScriptableObjectLocalPathInputField.text;
+            projectJsonObject.localScenePath = string.IsNullOrEmpty(projectSceneLocalPathInputField.text) ? null : projectSceneLocalPathInputField.text;
+            projectJsonObject.localMaterialPath = string.IsNullOrEmpty(projectMaterialLocalPathInputField.text) ? null : projectMaterialLocalPathInputField.text;
+            projectJsonObject.localAnimationPath = string.IsNullOrEmpty(projectAnimationLocalPathInputField.text) ? null : projectAnimationLocalPathInputField.text;
+            
+            var settings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+            };
+            var json = JsonConvert.SerializeObject(projectJsonObject, settings);
+            var jObject = JObject.Parse(json);
+            
+            _projectsJObject.Add(projectJsonObject.guid, jObject);
+            _projectsDatabaseReference.SetValueAsync(_projectsJObject);
+            
             createProjectUI.SetActive(false);
             selectProjectUI.SetActive(true);
         }
 
         private void OnLoadProjectButtonClicked(ProjectSlotBehaviour projectSlot)
         {
-            var projectGuid = projectSlot.Guid;
-            var projectName = projectSlot.Data.name;
+            var data = projectSlot.Data;
+            var projectGuid = data.guid;
+            var projectName = data.name;
             Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnLoadProjectButtonClicked: {projectName} {projectGuid} {projectSlot}");
-            // Load Project by Guid
+            ProjectSingletonBehaviour.SetGuid(projectGuid);
             createProjectUI.SetActive(false);
             selectProjectUI.SetActive(true);
         }
@@ -139,16 +172,19 @@ namespace GameEditor.Project
         private void OnProjectsValueChanged(ValueChangedEventArgs e)
         {
             _projects = null;
-            _projectsJArrayString = null;
+            _projectsJObjectString = null;
 
             var value = e.Snapshot.Value;
-            _projectsJArray = value as JArray;
-            if (value != null && _projectsJArray == null)
+            _projectsJObject = value as JObject;
+            if (value != null && _projectsJObject == null)
                 throw new Exception(
                     $"[{nameof(ProjectSceneBehaviour)}] OnProjectsValueChanged: Snapshot value is not JObject");
 
-            _projects = _projectsJArray?.ToObject<ProjectJsonObject[]>();
-            _projectsJArrayString = _projectsJArray?.ToString();
+            var projectDictionary = _projectsJObject?.ToObject<Dictionary<string, ProjectJsonObject>>() ?? new Dictionary<string, ProjectJsonObject>();
+            _projects = new ProjectJsonObject[projectDictionary.Count];
+            projectDictionary.Values.CopyTo(_projects, 0);
+            _projectsJObject ??= new JObject();
+            _projectsJObjectString = _projectsJObject.ToString();
 
             Debug.Log(
                 $"[{nameof(ProjectSceneBehaviour)}] OnProjectsValueChanged: Project Count: {_projects?.Length ?? -1}");
@@ -156,7 +192,6 @@ namespace GameEditor.Project
             projectSlots.ForEach(Destroy);
             projectSlots.Clear();
             
-            if (_projects == null) return;
             foreach (var project in _projects)
             {
                 var projectSlot = Instantiate(inSceneProjectSlot, projectButtonsParent);
@@ -164,8 +199,6 @@ namespace GameEditor.Project
                 
                 var projectSlotBehaviour = projectSlot.GetComponent<ProjectSlotBehaviour>();
                 projectSlotBehaviour.SetData(project, OnLoadProjectButtonClicked);
-
-                var projectButton = projectSlotBehaviour.Button;
                 
                 projectSlots.Add(projectSlot);
             }

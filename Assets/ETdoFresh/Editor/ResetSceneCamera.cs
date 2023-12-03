@@ -1,9 +1,8 @@
 #if UNITY_EDITOR
-using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace ETdoFresh
+namespace ETdoFresh.Editor
 {
     public static class ResetSceneCamera
     {

@@ -62,6 +62,8 @@ namespace ETdoFresh.Localbase
 
         public object GetValue(bool useExportFormat) => _jToken?.ToObject<object>();
 
+        public T GetValue<T>() => _jToken != null ? _jToken.ToObject<T>() : default;
+
         public override string ToString() => $"DataSnapshot {{ key = {Key}, value = {Value} }}";
     }
 }

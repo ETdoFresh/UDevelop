@@ -1,4 +1,3 @@
-using System;
 using ETdoFresh.UnityPackages.ExtensionMethods;
 using GameEditor.Project;
 using TMPro;
@@ -11,10 +10,8 @@ public class ProjectSlotBehaviour : MonoBehaviour
     [SerializeField] private Button button;
     [SerializeField] private TMP_Text nameText;
     [SerializeField] private ProjectJsonObject data;
-    private UnityAction<ProjectSlotBehaviour> onClickAction;
-    
-    public string Guid => data.guid;
-    public Button Button => button;
+    private UnityAction<ProjectSlotBehaviour> _onClickAction;
+
     public ProjectJsonObject Data => data;
 
     private void OnEnable()
@@ -27,15 +24,15 @@ public class ProjectSlotBehaviour : MonoBehaviour
         button.onClick.RemovePersistentListener(OnClick);
     }
 
-    public void SetData(ProjectJsonObject data, UnityAction<ProjectSlotBehaviour> onClickAction)
+    public void SetData(ProjectJsonObject newData, UnityAction<ProjectSlotBehaviour> onClickAction)
     {
-        this.data = data;
-        this.onClickAction = onClickAction;
-        nameText.text = data.name;
+        data = newData;
+        _onClickAction = onClickAction;
+        nameText.text = $"{newData.name}\n[{newData.guid[..8]}]";
     }
 
     private void OnClick()
     {
-        onClickAction?.Invoke(this);
+        _onClickAction?.Invoke(this);
     }
 }
