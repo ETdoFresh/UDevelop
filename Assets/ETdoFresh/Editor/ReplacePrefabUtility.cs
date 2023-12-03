@@ -15,7 +15,7 @@ namespace ETdoFresh.Editor
         private bool _copyRotation = true;
         private bool _copyScale = true;
         
-        [MenuItem("PixelDash/Replace Prefab Utility")]
+        [MenuItem("ETdoFresh/Replace Prefab Utility")]
         public static void ShowWindow()
         {
             GetWindow<ReplacePrefabUtility>("Replace Prefab Utility");

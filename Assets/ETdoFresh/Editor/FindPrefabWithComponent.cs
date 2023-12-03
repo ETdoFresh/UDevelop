@@ -11,7 +11,7 @@ namespace ETdoFresh.Editor
         private string _componentNameLower;
         private List<string> _prefabPaths = new();
 
-        [MenuItem("PixelDash/Unity/Find Prefab With Component")]
+        [MenuItem("ETdoFresh/Find Prefab With Component")]
         public static void ShowWindow()
         {
             GetWindow(typeof(FindPrefabWithComponent));
