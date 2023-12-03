@@ -160,6 +160,7 @@ namespace GameEditor.Project
             ProjectSingletonBehaviour.SetGuid(projectGuid);
             createProjectUI.SetActive(false);
             selectProjectUI.SetActive(true);
+            SceneManager.LoadScene("RoslynRotateCube");
         }
 
         private void OnCancelCreateProjectButtonClicked()
