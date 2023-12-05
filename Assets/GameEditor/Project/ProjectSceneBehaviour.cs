@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using ETdoFresh.Localbase;
 using ETdoFresh.ReadonlyInspectorAttribute;
+using ETdoFresh.SceneReferences;
 using ETdoFresh.UnityPackages.ExtensionMethods;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -19,10 +20,11 @@ namespace GameEditor.Project
         [SerializeField] private GameObject createProjectUI;
 
         [Header("Title Bar")]
+        [SerializeField] private SceneReference previousSceneReference;
         [SerializeField] private Button backButton;
-        [SerializeField] private string previousSceneName;
 
         [Header("Select Project Fields")]
+        [SerializeField] private SceneReference loadProjectSceneReference;
         [SerializeField] private Button addProjectButton;
         [SerializeField] private GameObject inSceneProjectSlot;
         [SerializeField, Readonly] private List<GameObject> projectSlots;
@@ -97,12 +99,8 @@ namespace GameEditor.Project
 
         private void OnBackButtonClicked()
         {
-            Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnBackButtonClicked {previousSceneName}");
-            if (int.TryParse(previousSceneName, out var sceneIndex) && sceneIndex >= 0 &&
-                sceneIndex < SceneManager.sceneCountInBuildSettings)
-                SceneManager.LoadScene(sceneIndex);
-            else
-                SceneManager.LoadScene(previousSceneName);
+            Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnBackButtonClicked {previousSceneReference.sceneIndex} {previousSceneReference.sceneName}");
+            SceneManager.LoadScene(previousSceneReference.sceneIndex);
         }
 
         private void OnAddProjectButtonClicked()
@@ -160,7 +158,7 @@ namespace GameEditor.Project
             ProjectSingletonBehaviour.SetGuid(projectGuid);
             createProjectUI.SetActive(false);
             selectProjectUI.SetActive(true);
-            SceneManager.LoadScene("RoslynRotateCube");
+            SceneManager.LoadScene(loadProjectSceneReference.sceneIndex);
         }
 
         private void OnCancelCreateProjectButtonClicked()

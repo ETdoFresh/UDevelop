@@ -5089,8 +5089,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectProjectUI: {fileID: 457955762}
   createProjectUI: {fileID: 524769961}
+  previousSceneReference: {fileID: -6215085096478395516, guid: a990b3a2a7772ea48820bd866decaf2e, type: 2}
   backButton: {fileID: 1971829036}
-  previousSceneName: Authenticate
+  loadProjectSceneReference: {fileID: 334011759497809390, guid: a990b3a2a7772ea48820bd866decaf2e, type: 2}
   addProjectButton: {fileID: 1525696931}
   inSceneProjectSlot: {fileID: 2072511711}
   projectSlots: []
@@ -5113,7 +5114,7 @@ MonoBehaviour:
   projectAnimationLocalPathInputField: {fileID: 233338496}
   createProjectButton: {fileID: 1440272154}
   cancelCreateProjectButton: {fileID: 528157418}
-  _projectsJArrayString: 
+  _projectsJObjectString: 
   _projects: []
 --- !u!4 &700228524
 Transform:
