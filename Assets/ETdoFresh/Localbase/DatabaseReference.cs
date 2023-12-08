@@ -25,16 +25,17 @@ namespace ETdoFresh.Localbase
 
         public static List<DatabaseReferenceEntry> DatabaseReferenceEntries = new();
         public DatabaseReferenceEntry databaseReferenceEntry;
-        
+
         public Data<ValueChangedEventArgs> ValueChanged => databaseReferenceEntry.valueChanged;
         public Data<ChildChangedEventArgs> ChildAdded => databaseReferenceEntry.childAdded;
         public Data<ChildChangedEventArgs> ChildChanged => databaseReferenceEntry.childChanged;
         public Data<ChildChangedEventArgs> ChildRemoved => databaseReferenceEntry.childRemoved;
         public Data<ChildChangedEventArgs> ChildMoved => databaseReferenceEntry.childMoved;
         public LocalbaseDatabase Database => databaseReferenceEntry.database;
-        
+
         private string Path => databaseReferenceEntry.path;
         private object Caller => databaseReferenceEntry.caller;
+        private JToken MyJToken => Database?.JObject?.SelectToken(Path);
 
         public DatabaseReference Parent => IsRoot() ? null : Create(Database, GetParent(), Caller);
 
@@ -55,14 +56,10 @@ namespace ETdoFresh.Localbase
                 caller = caller,
                 valueChanged = new Data<ValueChangedEventArgs>(
                     new ValueChangedEventArgs(new DataSnapshot(jToken, databaseReference))),
-                childAdded = new Data<ChildChangedEventArgs>(
-                    new ChildChangedEventArgs(new DataSnapshot(jToken, databaseReference), null)),
-                childChanged = new Data<ChildChangedEventArgs>(
-                    new ChildChangedEventArgs(new DataSnapshot(jToken, databaseReference), null)),
-                childRemoved = new Data<ChildChangedEventArgs>(
-                    new ChildChangedEventArgs(new DataSnapshot(jToken, databaseReference), null)),
-                childMoved = new Data<ChildChangedEventArgs>(
-                    new ChildChangedEventArgs(new DataSnapshot(jToken, databaseReference), null))
+                childAdded = new Data<ChildChangedEventArgs>(null),
+                childChanged = new Data<ChildChangedEventArgs>(null),
+                childRemoved = new Data<ChildChangedEventArgs>(null),
+                childMoved = new Data<ChildChangedEventArgs>(null)
             };
             DatabaseReferenceEntries.Add(databaseReference.databaseReferenceEntry);
             return databaseReference;
@@ -83,6 +80,8 @@ namespace ETdoFresh.Localbase
             databaseReferenceEntry.childMoved = null;
             databaseReferenceEntry = null;
         }
+        
+        public bool HasChild(string pathString) => Child(pathString).MyJToken != null;
 
         public DatabaseReference Child(string pathString) => Create(Database, $"{Path}.{pathString}", Caller);
 
@@ -106,26 +105,20 @@ namespace ETdoFresh.Localbase
             var jsonValueObject = JToken.Parse(jsonValue);
             var databaseObject = string.IsNullOrEmpty(databaseJson) ? new JObject() : JObject.Parse(databaseJson);
             var pathObject = GetOrCreatePath(databaseObject, Path);
-            
+
             if (IsRoot() && jsonValueObject is JObject jObject)
                 databaseObject = jObject;
             else if (!IsRoot())
                 pathObject.Replace(jsonValueObject);
-            
-            Database.Json = databaseObject.ToString(Formatting.Indented);
-            ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(jsonValueObject, this));
 
-            foreach (var otherReference in DatabaseReferenceEntries)
-            {
-                if (!otherReference.databaseReference.IsChildOf(this)) continue;
-                var otherPreviousValue = otherReference.valueChanged.Value.Snapshot.Value;
-                var otherPath = otherReference.databaseReference.Path;
-                var otherJToken = databaseObject.SelectToken(otherPath);
-                var otherCurrentValue = otherJToken?.ToObject<object>();
-                if (otherPreviousValue == otherCurrentValue) continue;
-                otherReference.valueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(otherJToken, otherReference.databaseReference));
-            }
+            Database.Json = databaseObject.ToString(Formatting.Indented);
+            var snapshot = new DataSnapshot(jsonValueObject, this);
+            ValueChanged.Value = new ValueChangedEventArgs(snapshot);
+            InvokeParentChildChangedEvents(Parent, new ChildChangedEventArgs(snapshot, null));
             
+            if (IsRoot())
+                InvokeValueChangeOnAllReferences(databaseObject);
+
             return Task.CompletedTask;
         }
 
@@ -208,20 +201,153 @@ namespace ETdoFresh.Localbase
 
         public bool IsRoot() => string.IsNullOrEmpty(Path);
 
-        public string GetParent() => Path[..Path.LastIndexOf('.')];
+        public string GetParent() => Path.Contains('.') ? Path[..Path.LastIndexOf('.')] : "";
 
-        public string GetRoot() => Path.Split('.').First();
+        public string GetRoot() => "";
 
         public override bool Equals(object other) => other is DatabaseReference && ToString().Equals(other.ToString());
 
         public override int GetHashCode() => ToString().GetHashCode();
-        
+
         private bool IsChildOf(DatabaseReference other)
         {
             if (other == null) return false;
             if (other.IsRoot()) return true;
             if (IsRoot()) return false;
             return Path.StartsWith(other.Path);
+        }
+
+        public void AddArrayChild(JToken childJToken)
+        {
+            var databaseJObject = Database.JObject;
+            if (MyJToken is not JArray myJArray)
+                throw new Exception(
+                    $"[{nameof(DatabaseReference)}] {nameof(AddArrayChild)} {nameof(MyJToken)} is not a JArray");
+
+            myJArray.Add(childJToken);
+            Database.JObject = databaseJObject;
+            ChildAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+            InvokeParentChildChangedEvents(Parent, ChildAdded.Value);
+        }
+
+        public void AddArrayChild(object obj)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+            };
+            var json = JsonConvert.SerializeObject(obj, settings);
+            var jToken = JToken.Parse(json);
+            AddArrayChild(jToken);
+        }
+
+        public void AddObjectChild(string key, JToken childJToken)
+        {
+            var databaseJObject = Database.JObject;
+            if (MyJToken is not JObject myJObject)
+                throw new Exception(
+                    $"[{nameof(DatabaseReference)}] {nameof(AddObjectChild)} {nameof(MyJToken)} is not a JObject");
+
+            myJObject.Add(key, childJToken);
+            Database.JObject = databaseJObject;
+            ChildAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+            InvokeParentChildChangedEvents(Parent, ChildAdded.Value);
+        }
+
+        public void AddObjectChild(string key, object obj)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Ignore,
+                DefaultValueHandling = DefaultValueHandling.Ignore,
+            };
+            var json = JsonConvert.SerializeObject(obj, settings);
+            var jToken = JToken.Parse(json);
+            AddObjectChild(key, jToken);
+        }
+
+        public void RemoveArrayChild(int index)
+        {
+            var databaseJObject = Database.JObject;
+            if (MyJToken is not JArray myJArray)
+                throw new Exception(
+                    $"[{nameof(DatabaseReference)}] {nameof(RemoveArrayChild)} {nameof(MyJToken)} is not a JArray");
+
+            var childJToken = myJArray[index];
+            myJArray.RemoveAt(index);
+            Database.JObject = databaseJObject;
+            ChildRemoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+            InvokeParentChildChangedEvents(Parent, ChildRemoved.Value);
+        }
+
+        public void RemoveObjectChild(string key)
+        {
+            var databaseJObject = Database.JObject;
+            if (MyJToken is not JObject myJObject)
+                throw new Exception(
+                    $"[{nameof(DatabaseReference)}] {nameof(RemoveObjectChild)} {nameof(MyJToken)} is not a JObject");
+
+            var childJToken = myJObject[key];
+            myJObject.Remove(key);
+            Database.JObject = databaseJObject;
+            ChildRemoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+            InvokeParentChildChangedEvents(Parent, ChildRemoved.Value);
+        }
+
+        public void MoveArrayChild(int oldIndex, int newIndex)
+        {
+            var databaseJObject = Database.JObject;
+            if (MyJToken is not JArray myJArray)
+                throw new Exception(
+                    $"[{nameof(DatabaseReference)}] {nameof(MoveArrayChild)} {nameof(MyJToken)} is not a JArray");
+
+            var childJToken = myJArray[oldIndex];
+            myJArray.RemoveAt(oldIndex);
+            myJArray.Insert(newIndex, childJToken);
+            Database.JObject = databaseJObject;
+            ChildMoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), oldIndex.ToString());
+            InvokeParentChildChangedEvents(Parent, ChildMoved.Value);
+        }
+
+        public void MoveObjectChild(string oldKey, string newKey)
+        {
+            var databaseJObject = Database.JObject;
+            if (MyJToken is not JObject myJObject)
+                throw new Exception(
+                    $"[{nameof(DatabaseReference)}] {nameof(MoveObjectChild)} {nameof(MyJToken)} is not a JObject");
+
+            var childJToken = myJObject[oldKey];
+            myJObject.Remove(oldKey);
+            myJObject.Add(newKey, childJToken);
+            Database.JObject = databaseJObject;
+            ChildMoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), oldKey);
+            InvokeParentChildChangedEvents(Parent, ChildMoved.Value);
+        }
+
+        private void InvokeParentChildChangedEvents(DatabaseReference currentParent,
+            ChildChangedEventArgs childChangedEventArgs)
+        {
+            while (currentParent != null)
+            {
+                currentParent.ChildChanged.Value = childChangedEventArgs;
+                currentParent = currentParent.Parent;
+            }
+        }
+        
+        private void InvokeValueChangeOnAllReferences(JObject databaseObject)
+        {
+            foreach (var databaseReferenceEntry in DatabaseReferenceEntries)
+            {
+                if (databaseReferenceEntry.database != Database) continue;
+                if (databaseReferenceEntry.databaseReference.Equals(this)) continue;
+                var databaseReference = databaseReferenceEntry.databaseReference;
+                var path = databaseReferenceEntry.path;
+                var jToken = databaseObject.SelectToken(path);
+                databaseReference.ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(jToken, databaseReference));
+            }
         }
     }
 }

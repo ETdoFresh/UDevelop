@@ -19,7 +19,7 @@ namespace ETdoFresh.Localbase
                 var path = database.Path;
                 if (!System.IO.File.Exists(path)) continue;
                 var lastWriteTime = System.IO.File.GetLastWriteTime(path);
-                if (lastWriteTime <= database.LastWriteTime) continue;
+                if (lastWriteTime <= database.LastReadWriteTime) continue;
                 database.UpdateFromFile();
             }
         }

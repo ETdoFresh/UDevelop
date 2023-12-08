@@ -49,6 +49,10 @@ namespace GameEditor.Project
                 currentProject.ValueChanged.RemoveListener(OnProjectChanged);
                 currentProject.Destroy();
             }
+            else if (guid == "game-editor-test")
+            {
+                
+            }
             currentProject = projects.Child(guid);
             currentProject.ValueChanged.AddListener(OnProjectChanged);
         }

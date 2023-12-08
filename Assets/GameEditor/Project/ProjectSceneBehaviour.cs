@@ -4,7 +4,6 @@ using ETdoFresh.Localbase;
 using ETdoFresh.ReadonlyInspectorAttribute;
 using ETdoFresh.SceneReferences;
 using ETdoFresh.UnityPackages.ExtensionMethods;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TMPro;
 using UnityEngine;
@@ -85,6 +84,10 @@ namespace GameEditor.Project
             addProjectButton.onClick.AddPersistentListener(OnAddProjectButtonClicked);
             createProjectButton.onClick.AddPersistentListener(OnCreateProjectButtonClicked);
             cancelCreateProjectButton.onClick.AddPersistentListener(OnCancelCreateProjectButtonClicked);
+            _projectsDatabaseReference.ChildAdded.AddListener(OnProjectsChildAdded);
+            _projectsDatabaseReference.ChildChanged.AddListener(OnProjectsChildChanged);
+            _projectsDatabaseReference.ChildRemoved.AddListener(OnProjectsChildRemoved);
+            _projectsDatabaseReference.ChildMoved.AddListener(OnProjectsChildMoved);
             _projectsDatabaseReference.ValueChanged.AddListener(OnProjectsValueChanged);
         }
 
@@ -94,12 +97,17 @@ namespace GameEditor.Project
             addProjectButton.onClick.RemovePersistentListener(OnAddProjectButtonClicked);
             createProjectButton.onClick.RemovePersistentListener(OnCreateProjectButtonClicked);
             cancelCreateProjectButton.onClick.RemovePersistentListener(OnCancelCreateProjectButtonClicked);
+            _projectsDatabaseReference.ChildAdded.RemoveListener(OnProjectsChildAdded);
+            _projectsDatabaseReference.ChildChanged.RemoveListener(OnProjectsChildChanged);
+            _projectsDatabaseReference.ChildRemoved.RemoveListener(OnProjectsChildRemoved);
+            _projectsDatabaseReference.ChildMoved.RemoveListener(OnProjectsChildMoved);
             _projectsDatabaseReference.ValueChanged.RemoveListener(OnProjectsValueChanged);
         }
 
         private void OnBackButtonClicked()
         {
-            Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnBackButtonClicked {previousSceneReference.sceneIndex} {previousSceneReference.sceneName}");
+            Debug.Log(
+                $"[{nameof(ProjectSceneBehaviour)}] OnBackButtonClicked {previousSceneReference.sceneIndex} {previousSceneReference.sceneName}");
             SceneManager.LoadScene(previousSceneReference.sceneIndex);
         }
 
@@ -110,43 +118,38 @@ namespace GameEditor.Project
             selectProjectUI.SetActive(false);
             projectGuidText.text = Guid.NewGuid().ToString("N");
         }
-        
+
         private void OnCreateProjectButtonClicked()
         {
-            Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnCreateProjectButtonClicked {projectNameInputField.text} {projectGuidText.text}");
+            Debug.Log(
+                $"[{nameof(ProjectSceneBehaviour)}] OnCreateProjectButtonClicked {projectNameInputField.text} {projectGuidText.text}");
 
             var projectJsonObject = new ProjectJsonObject();
             projectJsonObject.name = projectNameInputField.text;
             projectJsonObject.guid = projectGuidText.text;
-            projectJsonObject.version = string.IsNullOrEmpty(projectVersionInputField.text) ? null : projectVersionInputField.text;
-            projectJsonObject.description = string.IsNullOrEmpty(projectDescriptionInputField.text) ? null : projectDescriptionInputField.text;
-            projectJsonObject.authors = string.IsNullOrEmpty(projectAuthorInputField.text) ? null : projectAuthorInputField.text.Split(',');
-            projectJsonObject.localPath = string.IsNullOrEmpty(projectLocalPathInputField.text) ? null : projectLocalPathInputField.text;
-            projectJsonObject.localImagePath = string.IsNullOrEmpty(projectImageLocalPathInputField.text) ? null : projectImageLocalPathInputField.text;
-            projectJsonObject.localAudioPath = string.IsNullOrEmpty(projectAudioLocalPathInputField.text) ? null : projectAudioLocalPathInputField.text;
-            projectJsonObject.localVideoPath = string.IsNullOrEmpty(projectVideoLocalPathInputField.text) ? null : projectVideoLocalPathInputField.text;
-            projectJsonObject.localFontPath = string.IsNullOrEmpty(projectFontLocalPathInputField.text) ? null : projectFontLocalPathInputField.text;
-            projectJsonObject.localScriptPath = string.IsNullOrEmpty(projectScriptLocalPathInputField.text) ? null : projectScriptLocalPathInputField.text;
-            projectJsonObject.localPrefabPath = string.IsNullOrEmpty(projectPrefabLocalPathInputField.text) ? null : projectPrefabLocalPathInputField.text;
-            projectJsonObject.localScriptableObjectPath = string.IsNullOrEmpty(projectScriptableObjectLocalPathInputField.text) ? null : projectScriptableObjectLocalPathInputField.text;
-            projectJsonObject.localScenePath = string.IsNullOrEmpty(projectSceneLocalPathInputField.text) ? null : projectSceneLocalPathInputField.text;
-            projectJsonObject.localMaterialPath = string.IsNullOrEmpty(projectMaterialLocalPathInputField.text) ? null : projectMaterialLocalPathInputField.text;
-            projectJsonObject.localAnimationPath = string.IsNullOrEmpty(projectAnimationLocalPathInputField.text) ? null : projectAnimationLocalPathInputField.text;
-            
-            var settings = new JsonSerializerSettings
-            {
-                Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Ignore,
-                DefaultValueHandling = DefaultValueHandling.Ignore,
-            };
-            var json = JsonConvert.SerializeObject(projectJsonObject, settings);
-            var jObject = JObject.Parse(json);
-            
-            _projectsJObject.Add(projectJsonObject.guid, jObject);
-            _projectsDatabaseReference.SetValueAsync(_projectsJObject);
-            
+            projectJsonObject.version = NullIfEmpty(projectVersionInputField.text);
+            projectJsonObject.description = NullIfEmpty(projectDescriptionInputField.text);
+            projectJsonObject.authors = NullIfEmpty(projectAuthorInputField.text)?.Split(',');
+            projectJsonObject.localPath = NullIfEmpty(projectLocalPathInputField.text);
+            projectJsonObject.localImagePath = NullIfEmpty(projectImageLocalPathInputField.text);
+            projectJsonObject.localAudioPath = NullIfEmpty(projectAudioLocalPathInputField.text);
+            projectJsonObject.localVideoPath = NullIfEmpty(projectVideoLocalPathInputField.text);
+            projectJsonObject.localFontPath = NullIfEmpty(projectFontLocalPathInputField.text);
+            projectJsonObject.localScriptPath = NullIfEmpty(projectScriptLocalPathInputField.text);
+            projectJsonObject.localPrefabPath = NullIfEmpty(projectPrefabLocalPathInputField.text);
+            projectJsonObject.localScriptableObjectPath = NullIfEmpty(projectScriptableObjectLocalPathInputField.text);
+            projectJsonObject.localScenePath = NullIfEmpty(projectSceneLocalPathInputField.text);
+            projectJsonObject.localMaterialPath = NullIfEmpty(projectMaterialLocalPathInputField.text);
+            projectJsonObject.localAnimationPath = NullIfEmpty(projectAnimationLocalPathInputField.text);
+            _projectsDatabaseReference.AddObjectChild(projectJsonObject.guid, projectJsonObject);
+
             createProjectUI.SetActive(false);
             selectProjectUI.SetActive(true);
+        }
+
+        private static string NullIfEmpty(string value)
+        {
+            return string.IsNullOrEmpty(value) ? null : value;
         }
 
         private void OnLoadProjectButtonClicked(ProjectSlotBehaviour projectSlot)
@@ -154,7 +157,8 @@ namespace GameEditor.Project
             var data = projectSlot.Data;
             var projectGuid = data.guid;
             var projectName = data.name;
-            Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnLoadProjectButtonClicked: {projectName} {projectGuid} {projectSlot}");
+            Debug.Log(
+                $"[{nameof(ProjectSceneBehaviour)}] OnLoadProjectButtonClicked: {projectName} {projectGuid} {projectSlot}");
             ProjectSingletonBehaviour.SetGuid(projectGuid);
             createProjectUI.SetActive(false);
             selectProjectUI.SetActive(true);
@@ -168,8 +172,49 @@ namespace GameEditor.Project
             createProjectUI.SetActive(false);
         }
 
+        private void OnProjectsChildAdded(ChildChangedEventArgs e)
+        {
+            var newProject = e.Snapshot.GetValue<ProjectJsonObject>();
+            
+            var projectSlot = Instantiate(inSceneProjectSlot, projectButtonsParent);
+            projectSlot.SetActive(true);
+
+            var projectSlotBehaviour = projectSlot.GetComponent<ProjectSlotBehaviour>();
+            projectSlotBehaviour.SetData(newProject, OnLoadProjectButtonClicked);
+
+            projectSlots.Add(projectSlot);
+        }
+        
+        private void OnProjectsChildRemoved(ChildChangedEventArgs e)
+        {
+            var projectGuid = e.Snapshot.Key;
+            var projectSlot = projectSlots.Find(slot => slot.GetComponent<ProjectSlotBehaviour>().Data.guid == projectGuid);
+            if (projectSlot == null) return;
+            projectSlots.Remove(projectSlot);
+            Destroy(projectSlot);
+        }
+        
+        private void OnProjectsChildMoved(ChildChangedEventArgs e)
+        {
+            var oldProjectGuid = e.PreviousChildName;
+            var newProjectGuid = e.Snapshot.Key;
+            var projectSlot = projectSlots.Find(slot => slot.GetComponent<ProjectSlotBehaviour>().Data.guid == oldProjectGuid);
+            if (projectSlot == null) return;
+            projectSlot.GetComponent<ProjectSlotBehaviour>().Data.guid = newProjectGuid;
+        }
+
+        private void OnProjectsChildChanged(ChildChangedEventArgs e)
+        {
+            var projectGuid = e.Snapshot.Key;
+            var projectSlot = projectSlots.Find(slot => slot.GetComponent<ProjectSlotBehaviour>().Data.guid == projectGuid);
+            if (projectSlot == null) return;
+            var newProject = e.Snapshot.GetValue<ProjectJsonObject>();
+            projectSlot.GetComponent<ProjectSlotBehaviour>().SetData(newProject, OnLoadProjectButtonClicked);
+        }
+
         private void OnProjectsValueChanged(ValueChangedEventArgs e)
         {
+            if (!e.Snapshot.Reference.Equals(_projectsDatabaseReference)) return;
             _projects = null;
             _projectsJObjectString = null;
 
@@ -179,7 +224,8 @@ namespace GameEditor.Project
                 throw new Exception(
                     $"[{nameof(ProjectSceneBehaviour)}] OnProjectsValueChanged: Snapshot value is not JObject");
 
-            var projectDictionary = _projectsJObject?.ToObject<Dictionary<string, ProjectJsonObject>>() ?? new Dictionary<string, ProjectJsonObject>();
+            var projectDictionary = _projectsJObject?.ToObject<Dictionary<string, ProjectJsonObject>>() ??
+                                    new Dictionary<string, ProjectJsonObject>();
             _projects = new ProjectJsonObject[projectDictionary.Count];
             projectDictionary.Values.CopyTo(_projects, 0);
             _projectsJObject ??= new JObject();
@@ -190,15 +236,15 @@ namespace GameEditor.Project
 
             projectSlots.ForEach(Destroy);
             projectSlots.Clear();
-            
+
             foreach (var project in _projects)
             {
                 var projectSlot = Instantiate(inSceneProjectSlot, projectButtonsParent);
                 projectSlot.SetActive(true);
-                
+
                 var projectSlotBehaviour = projectSlot.GetComponent<ProjectSlotBehaviour>();
                 projectSlotBehaviour.SetData(project, OnLoadProjectButtonClicked);
-                
+
                 projectSlots.Add(projectSlot);
             }
         }

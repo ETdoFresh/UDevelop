@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
@@ -16,13 +17,16 @@ namespace ETdoFresh.Localbase
         private JObject _jObject;
         private static string _defaultName = "__DEFAULT__";
         private bool _persistenceEnabled = true;
+        private DateTime _lastReadWriteTime;
         private DateTime _lastWriteTime;
+        private int _errorCount;
 
         public static LocalbaseDatabase DefaultInstance => GetInstance(_defaultName);
         internal static Dictionary<string, LocalbaseDatabase> Databases => _databases;
 
-        internal DateTime LastWriteTime => _lastWriteTime;
-        internal JObject JObject => _jObject;
+        internal DateTime LastReadWriteTime => _lastReadWriteTime;
+        internal JObject JObject { get => _jObject ??= JObject.Parse(_json); set => SetValue(value); }
+
         internal string Path => _path;
         internal string Json { get => _json; set => SetValue(value); }
 
@@ -56,6 +60,17 @@ namespace ETdoFresh.Localbase
             var directory = System.IO.Path.GetDirectoryName(_path);
             if (directory != null && !Directory.Exists(directory)) Directory.CreateDirectory(directory);
             File.WriteAllText(_path, value);
+            _lastWriteTime = File.GetLastWriteTime(_path);
+        }
+        
+        private void SetValue(JObject value)
+        {
+            _jObject = value ?? new JObject();
+            _json = value?.ToString(Formatting.Indented);
+            if (!_persistenceEnabled) return;
+            var directory = System.IO.Path.GetDirectoryName(_path);
+            if (directory != null && !Directory.Exists(directory)) Directory.CreateDirectory(directory);
+            File.WriteAllText(_path, _json);
             _lastWriteTime = File.GetLastWriteTime(_path);
         }
 
@@ -93,13 +108,25 @@ namespace ETdoFresh.Localbase
         {
             var path = GetPath(_name);
             var fileExists = File.Exists(path);
-            var lastWriteTime = fileExists ? File.GetLastWriteTime(path) : DateTime.MinValue;
-            if (fileExists && lastWriteTime >= DateTime.Now) return;
-            var value = fileExists ? File.ReadAllText(path) : "{}";
-            _json = value;
-            _jObject = JObject.Parse(value);
-            _lastWriteTime = File.GetLastWriteTime(path);
-            RootReference.SetValueAsync(value);
+            _lastWriteTime = fileExists ? _lastWriteTime : DateTime.MinValue;
+            if (fileExists && _lastWriteTime >= DateTime.Now) return;
+            try
+            {
+                var value = fileExists ? File.ReadAllText(path) : "{}";
+                _json = value;
+                _jObject = JObject.Parse(value);
+                RootReference.SetValueAsync(value);
+                _lastReadWriteTime = _lastWriteTime;
+                _errorCount = 0;
+            }
+            catch (Exception e)
+            {
+                var message = $"[{nameof(LocalbaseDatabase)}] {nameof(UpdateFromFile)} {e} (Will try again next frame)";
+                if (_errorCount < 2) Debug.Log(message);
+                else if (_errorCount < 5) Debug.LogWarning(message);
+                else Debug.LogError(message);
+                _errorCount++;
+            }
         }
     }
 }

@@ -23,7 +23,8 @@ namespace ETdoFresh.Localbase
 
         public void AddListener(UnityAction<T> listener)
         {
-            _valueChanged.AddListener(listener);
+            _valueChanged.AddListener(listener); 
+            if (typeof(IDoNotInvokeOnAddListenerWhenNull).IsAssignableFrom(typeof(T)) && _value == null) return;
             listener.Invoke(_value);
         }
 
