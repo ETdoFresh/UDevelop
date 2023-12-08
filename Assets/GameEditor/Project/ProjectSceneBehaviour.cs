@@ -49,11 +49,6 @@ namespace GameEditor.Project
         [SerializeField] private Button createProjectButton;
         [SerializeField] private Button cancelCreateProjectButton;
 
-        [Header("Project Data")]
-        [SerializeField, Readonly, TextArea(3, 50)] private string _projectsJObjectString;
-        [SerializeField, Readonly] private ProjectJsonObject[] _projects;
-        private JObject _projectsJObject;
-
         private DatabaseReference _projectsDatabaseReference;
 
         private void OnValidate()
@@ -185,23 +180,26 @@ namespace GameEditor.Project
 
             projectSlots.Add(projectSlot);
         }
-        
+
         private void OnProjectsChildRemoved(ChildChangedEventArgs e)
         {
             var removedProject = e.Snapshot.GetValue<ProjectJsonObject>();
-            Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildRemoved {removedProject.name} {removedProject.guid}");
-            var projectSlot = projectSlots.Find(slot => slot.GetComponent<ProjectSlotBehaviour>().Data.guid == removedProject.guid);
+            Debug.Log(
+                $"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildRemoved {removedProject.name} {removedProject.guid}");
+            var projectSlot = projectSlots.Find(slot =>
+                slot.GetComponent<ProjectSlotBehaviour>().Data.guid == removedProject.guid);
             if (projectSlot == null) return;
             projectSlots.Remove(projectSlot);
             Destroy(projectSlot);
         }
-        
+
         private void OnProjectsChildMoved(ChildChangedEventArgs e)
         {
             var oldProjectGuid = e.PreviousChildName;
             var newProjectGuid = e.Snapshot.Key;
             Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildMoved {oldProjectGuid} {newProjectGuid}");
-            var projectSlot = projectSlots.Find(slot => slot.GetComponent<ProjectSlotBehaviour>().Data.guid == oldProjectGuid);
+            var projectSlot =
+                projectSlots.Find(slot => slot.GetComponent<ProjectSlotBehaviour>().Data.guid == oldProjectGuid);
             if (projectSlot == null) return;
             projectSlot.GetComponent<ProjectSlotBehaviour>().Data.guid = newProjectGuid;
         }
@@ -212,7 +210,8 @@ namespace GameEditor.Project
             while (!databaseReference.IsRoot() && databaseReference.Parent.Key != "projects")
                 databaseReference = databaseReference.Parent;
             var projectGuid = databaseReference.Key;
-            var projectSlot = projectSlots.Find(slot => slot.GetComponent<ProjectSlotBehaviour>().Data.guid == projectGuid);
+            var projectSlot =
+                projectSlots.Find(slot => slot.GetComponent<ProjectSlotBehaviour>().Data.guid == projectGuid);
             if (projectSlot == null) return;
             var newProject = databaseReference.ValueChanged.Value.Snapshot.GetValue<ProjectJsonObject>();
             Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildChanged {newProject.name} {newProject.guid}");
@@ -223,31 +222,23 @@ namespace GameEditor.Project
         {
             // One-time initialization
             _projectsDatabaseReference.ValueChanged.RemoveListener(OnProjectsValueChanged);
-            
-            if (!e.Snapshot.Reference.Equals(_projectsDatabaseReference)) return;
-            _projects = null;
-            _projectsJObjectString = null;
 
             var value = e.Snapshot.Value;
-            _projectsJObject = value as JObject;
-            if (value != null && _projectsJObject == null)
+            if (value != null && value is not JObject)
                 throw new Exception(
                     $"[{nameof(ProjectSceneBehaviour)}] OnProjectsValueChanged: Snapshot value is not JObject");
 
-            var projectDictionary = _projectsJObject?.ToObject<Dictionary<string, ProjectJsonObject>>() ??
+            var projectsJObject = value as JObject ?? new JObject();
+            var projectDictionary = projectsJObject.ToObject<Dictionary<string, ProjectJsonObject>>() ??
                                     new Dictionary<string, ProjectJsonObject>();
-            _projects = new ProjectJsonObject[projectDictionary.Count];
-            projectDictionary.Values.CopyTo(_projects, 0);
-            _projectsJObject ??= new JObject();
-            _projectsJObjectString = _projectsJObject.ToString();
 
             Debug.Log(
-                $"[{nameof(ProjectSceneBehaviour)}] OnProjectsValueChanged: Project Count: {_projects?.Length ?? -1}");
+                $"[{nameof(ProjectSceneBehaviour)}] OnProjectsValueChanged: Project Count: {projectDictionary.Count}");
 
             projectSlots.ForEach(Destroy);
             projectSlots.Clear();
 
-            foreach (var project in _projects)
+            foreach (var project in projectDictionary.Values)
             {
                 var projectSlot = Instantiate(inSceneProjectSlot, projectButtonsParent);
                 projectSlot.SetActive(true);
