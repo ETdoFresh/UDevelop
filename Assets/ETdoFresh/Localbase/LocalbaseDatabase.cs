@@ -18,7 +18,6 @@ namespace ETdoFresh.Localbase
         private static string _defaultName = "__DEFAULT__";
         private bool _persistenceEnabled = true;
         private DateTime _lastReadWriteTime;
-        private DateTime _lastWriteTime;
         private int _errorCount;
 
         public static LocalbaseDatabase DefaultInstance => GetInstance(_defaultName);
@@ -60,7 +59,6 @@ namespace ETdoFresh.Localbase
             var directory = System.IO.Path.GetDirectoryName(_path);
             if (directory != null && !Directory.Exists(directory)) Directory.CreateDirectory(directory);
             File.WriteAllText(_path, value);
-            _lastWriteTime = File.GetLastWriteTime(_path);
         }
         
         private void SetValue(JObject value)
@@ -71,7 +69,6 @@ namespace ETdoFresh.Localbase
             var directory = System.IO.Path.GetDirectoryName(_path);
             if (directory != null && !Directory.Exists(directory)) Directory.CreateDirectory(directory);
             File.WriteAllText(_path, _json);
-            _lastWriteTime = File.GetLastWriteTime(_path);
         }
 
         public string FormatPath(string path)
@@ -108,15 +105,16 @@ namespace ETdoFresh.Localbase
         {
             var path = GetPath(_name);
             var fileExists = File.Exists(path);
-            _lastWriteTime = fileExists ? _lastWriteTime : DateTime.MinValue;
-            if (fileExists && _lastWriteTime >= DateTime.Now) return;
+            var lastWriteTime = fileExists ? File.GetLastWriteTime(path) : DateTime.MinValue;
+            if (fileExists && lastWriteTime >= DateTime.Now) return;
             try
             {
                 var value = fileExists ? File.ReadAllText(path) : "{}";
+                var previousJObject = _jObject ?? new JObject();
                 _json = value;
                 _jObject = JObject.Parse(value);
-                RootReference.SetValueAsync(value);
-                _lastReadWriteTime = _lastWriteTime;
+                RootReference.DetectChanges(previousJObject);
+                _lastReadWriteTime = lastWriteTime;
                 _errorCount = 0;
             }
             catch (Exception e)

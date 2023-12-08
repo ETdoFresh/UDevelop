@@ -24,11 +24,14 @@ namespace ETdoFresh.Localbase
         public void AddListener(UnityAction<T> listener)
         {
             _valueChanged.AddListener(listener); 
-            if (typeof(IDoNotInvokeOnAddListenerWhenNull).IsAssignableFrom(typeof(T)) && _value == null) return;
+            if (typeof(IDoNotInvokeOnAddListener).IsAssignableFrom(typeof(T))) return;
             listener.Invoke(_value);
         }
 
-        public void RemoveListener(UnityAction<T> listener) => _valueChanged.RemoveListener(listener);
-        public void RemoveAllListeners() => _valueChanged.RemoveAllListeners();
+        public void RemoveListener(UnityAction<T> listener) => 
+            _valueChanged.RemoveListener(listener);
+        
+        public void RemoveAllListeners() =>
+            _valueChanged.RemoveAllListeners();
     }
 }

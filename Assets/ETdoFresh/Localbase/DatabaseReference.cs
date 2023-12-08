@@ -15,7 +15,6 @@ namespace ETdoFresh.Localbase
             public DatabaseReference databaseReference;
             public LocalbaseDatabase database;
             public string path;
-            public object caller;
             public Data<ValueChangedEventArgs> valueChanged;
             public Data<ChildChangedEventArgs> childAdded;
             public Data<ChildChangedEventArgs> childChanged;
@@ -34,17 +33,16 @@ namespace ETdoFresh.Localbase
         public LocalbaseDatabase Database => databaseReferenceEntry.database;
 
         private string Path => databaseReferenceEntry.path;
-        private object Caller => databaseReferenceEntry.caller;
         private JToken MyJToken => Database?.JObject?.SelectToken(Path);
 
-        public DatabaseReference Parent => IsRoot() ? null : Create(Database, GetParent(), Caller);
+        public DatabaseReference Parent => IsRoot() ? null : Create(Database, GetParent());
 
-        public DatabaseReference Root => Create(Database, GetRoot(), Caller);
+        public DatabaseReference Root => Create(Database, GetRoot());
 
         public static DatabaseReference Create(LocalbaseDatabase database, string path, object caller = null)
         {
             var existingDatabaseReference = DatabaseReferenceEntries
-                .FirstOrDefault(entry => entry.database == database && entry.path == path && entry.caller == caller);
+                .FirstOrDefault(entry => entry.database == database && entry.path == path);
             if (existingDatabaseReference != null) return existingDatabaseReference.databaseReference;
             var databaseReference = new DatabaseReference();
             var jToken = database.JObject.SelectToken(path);
@@ -53,7 +51,6 @@ namespace ETdoFresh.Localbase
                 databaseReference = databaseReference,
                 database = database,
                 path = path,
-                caller = caller,
                 valueChanged = new Data<ValueChangedEventArgs>(
                     new ValueChangedEventArgs(new DataSnapshot(jToken, databaseReference))),
                 childAdded = new Data<ChildChangedEventArgs>(null),
@@ -72,7 +69,6 @@ namespace ETdoFresh.Localbase
             databaseReferenceEntry.databaseReference = null;
             databaseReferenceEntry.database = null;
             databaseReferenceEntry.path = null;
-            databaseReferenceEntry.caller = null;
             databaseReferenceEntry.valueChanged = null;
             databaseReferenceEntry.childAdded = null;
             databaseReferenceEntry.childChanged = null;
@@ -80,10 +76,12 @@ namespace ETdoFresh.Localbase
             databaseReferenceEntry.childMoved = null;
             databaseReferenceEntry = null;
         }
-        
+
         public bool HasChild(string pathString) => Child(pathString).MyJToken != null;
 
-        public DatabaseReference Child(string pathString) => Create(Database, $"{Path}.{pathString}", Caller);
+        public DatabaseReference Child(string pathString) => Create(Database, IsRoot() ? pathString : $"{Path}.{pathString}");
+        
+        public DatabaseReference Child(int index) => Create(Database, $"{Path}[{index}]");
 
         // public DatabaseReference Push() => new(Database, "push");
 
@@ -115,9 +113,6 @@ namespace ETdoFresh.Localbase
             var snapshot = new DataSnapshot(jsonValueObject, this);
             ValueChanged.Value = new ValueChangedEventArgs(snapshot);
             InvokeParentChildChangedEvents(Parent, new ChildChangedEventArgs(snapshot, null));
-            
-            if (IsRoot())
-                InvokeValueChangeOnAllReferences(databaseObject);
 
             return Task.CompletedTask;
         }
@@ -333,10 +328,11 @@ namespace ETdoFresh.Localbase
             while (currentParent != null)
             {
                 currentParent.ChildChanged.Value = childChangedEventArgs;
+                currentParent.ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(currentParent.MyJToken, currentParent));
                 currentParent = currentParent.Parent;
             }
         }
-        
+
         private void InvokeValueChangeOnAllReferences(JObject databaseObject)
         {
             foreach (var databaseReferenceEntry in DatabaseReferenceEntries)
@@ -346,7 +342,99 @@ namespace ETdoFresh.Localbase
                 var databaseReference = databaseReferenceEntry.databaseReference;
                 var path = databaseReferenceEntry.path;
                 var jToken = databaseObject.SelectToken(path);
-                databaseReference.ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(jToken, databaseReference));
+                databaseReference.ValueChanged.Value =
+                    new ValueChangedEventArgs(new DataSnapshot(jToken, databaseReference));
+            }
+        }
+
+        public void DetectChanges(JToken previousJToken)
+        {
+            if (previousJToken is JObject previousJObject && MyJToken is JObject currentJObject)
+            {
+                var previousKeys = previousJObject.Properties().Select(p => p.Name).ToList();
+                var currentKeys = currentJObject.Properties().Select(p => p.Name).ToList();
+                var addedKeys = currentKeys.Except(previousKeys).ToList();
+                var removedKeys = previousKeys.Except(currentKeys).ToList();
+                var commonKeys = previousKeys.Intersect(currentKeys).ToList();
+
+                foreach (var removedKey in removedKeys)
+                {
+                    var childJToken = previousJObject[removedKey];
+                    ChildRemoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+                    InvokeParentChildChangedEvents(Parent, ChildRemoved.Value);
+                    
+                    var childPath = IsRoot() ? removedKey : $"{Path}.{removedKey}";
+                    for (var i = DatabaseReferenceEntries.Count - 1; i >= 0; i--)
+                    {
+                        var databaseReferenceEntry = DatabaseReferenceEntries[i];
+                        if (databaseReferenceEntry.database != Database) continue;
+                        if (!databaseReferenceEntry.path.StartsWith(childPath)) continue;
+                        databaseReferenceEntry.databaseReference.Destroy();
+                    }
+                }
+                
+                foreach (var addedKey in addedKeys)
+                {
+                    var childJToken = currentJObject[addedKey];
+                    ChildAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+                    InvokeParentChildChangedEvents(Parent, ChildAdded.Value);
+                }
+
+                foreach (var commonKey in commonKeys)
+                {
+                    var previousChildJToken = previousJObject[commonKey];
+                    var childDatabaseReference = Child(commonKey);
+                    childDatabaseReference.DetectChanges(previousChildJToken);
+                }
+            }
+            else if (previousJToken is JArray previousJArray && MyJToken is JArray currentJArray)
+            {
+                var previousCount = previousJArray.Count;
+                var currentCount = currentJArray.Count;
+                var minCount = Math.Min(previousCount, currentCount);
+                var maxCount = Math.Max(previousCount, currentCount);
+                
+                for (var i = 0; i < minCount; i++)
+                {
+                    var previousChildJToken = previousJArray[i];
+                    var childDatabaseReference = Child(i);
+                    childDatabaseReference.DetectChanges(previousChildJToken);
+                }
+                
+                if (previousCount < currentCount)
+                {
+                    for (var i = minCount; i < maxCount; i++)
+                    {
+                        var childJToken = currentJArray[i];
+                        ChildAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+                        InvokeParentChildChangedEvents(Parent, ChildAdded.Value);
+                    }
+                }
+                
+                else if (previousCount > currentCount)
+                {
+                    for (var i = minCount; i < maxCount; i++)
+                    {
+                        var childJToken = previousJArray[i];
+                        ChildRemoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+                        InvokeParentChildChangedEvents(Parent, ChildRemoved.Value);
+                        
+                        var childPath = IsRoot() ? i.ToString() : $"{Path}[{i}]";
+                        for (var j = DatabaseReferenceEntries.Count - 1; j >= 0; j--)
+                        {
+                            var databaseReferenceEntry = DatabaseReferenceEntries[j];
+                            if (databaseReferenceEntry.database != Database) continue;
+                            if (!databaseReferenceEntry.path.StartsWith(childPath)) continue;
+                            databaseReferenceEntry.databaseReference.Destroy();
+                        }
+                    }
+                }
+            }
+            else if (!JToken.DeepEquals(previousJToken, MyJToken))
+            {
+                var snapshot = new DataSnapshot(MyJToken, this);
+                ValueChanged.Value = new ValueChangedEventArgs(snapshot);
+                InvokeParentChildChangedEvents(Parent, new ChildChangedEventArgs(snapshot, null));
             }
         }
     }

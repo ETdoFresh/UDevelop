@@ -175,7 +175,8 @@ namespace GameEditor.Project
         private void OnProjectsChildAdded(ChildChangedEventArgs e)
         {
             var newProject = e.Snapshot.GetValue<ProjectJsonObject>();
-            
+            Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildAdded {newProject.name} {newProject.guid}");
+
             var projectSlot = Instantiate(inSceneProjectSlot, projectButtonsParent);
             projectSlot.SetActive(true);
 
@@ -187,8 +188,9 @@ namespace GameEditor.Project
         
         private void OnProjectsChildRemoved(ChildChangedEventArgs e)
         {
-            var projectGuid = e.Snapshot.Key;
-            var projectSlot = projectSlots.Find(slot => slot.GetComponent<ProjectSlotBehaviour>().Data.guid == projectGuid);
+            var removedProject = e.Snapshot.GetValue<ProjectJsonObject>();
+            Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildRemoved {removedProject.name} {removedProject.guid}");
+            var projectSlot = projectSlots.Find(slot => slot.GetComponent<ProjectSlotBehaviour>().Data.guid == removedProject.guid);
             if (projectSlot == null) return;
             projectSlots.Remove(projectSlot);
             Destroy(projectSlot);
@@ -198,6 +200,7 @@ namespace GameEditor.Project
         {
             var oldProjectGuid = e.PreviousChildName;
             var newProjectGuid = e.Snapshot.Key;
+            Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildMoved {oldProjectGuid} {newProjectGuid}");
             var projectSlot = projectSlots.Find(slot => slot.GetComponent<ProjectSlotBehaviour>().Data.guid == oldProjectGuid);
             if (projectSlot == null) return;
             projectSlot.GetComponent<ProjectSlotBehaviour>().Data.guid = newProjectGuid;
@@ -205,15 +208,22 @@ namespace GameEditor.Project
 
         private void OnProjectsChildChanged(ChildChangedEventArgs e)
         {
-            var projectGuid = e.Snapshot.Key;
+            var databaseReference = e.Snapshot.Reference;
+            while (!databaseReference.IsRoot() && databaseReference.Parent.Key != "projects")
+                databaseReference = databaseReference.Parent;
+            var projectGuid = databaseReference.Key;
             var projectSlot = projectSlots.Find(slot => slot.GetComponent<ProjectSlotBehaviour>().Data.guid == projectGuid);
             if (projectSlot == null) return;
-            var newProject = e.Snapshot.GetValue<ProjectJsonObject>();
+            var newProject = databaseReference.ValueChanged.Value.Snapshot.GetValue<ProjectJsonObject>();
+            Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildChanged {newProject.name} {newProject.guid}");
             projectSlot.GetComponent<ProjectSlotBehaviour>().SetData(newProject, OnLoadProjectButtonClicked);
         }
 
         private void OnProjectsValueChanged(ValueChangedEventArgs e)
         {
+            // One-time initialization
+            _projectsDatabaseReference.ValueChanged.RemoveListener(OnProjectsValueChanged);
+            
             if (!e.Snapshot.Reference.Equals(_projectsDatabaseReference)) return;
             _projects = null;
             _projectsJObjectString = null;

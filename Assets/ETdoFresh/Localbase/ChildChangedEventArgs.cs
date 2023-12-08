@@ -2,7 +2,7 @@ using System;
 
 namespace ETdoFresh.Localbase
 {
-    public class ChildChangedEventArgs : EventArgs, IDoNotInvokeOnAddListenerWhenNull
+    public class ChildChangedEventArgs : EventArgs, IDoNotInvokeOnAddListener
     {
         public DataSnapshot Snapshot { get; private set; }
         public DatabaseError DatabaseError { get; private set; }
