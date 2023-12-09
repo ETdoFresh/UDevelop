@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace GameEditor.UI
 {
-    public class CollapsableBehaviour : MonoBehaviour
+    public class CollapsableItemBehaviour : MonoBehaviour
     {
         [SerializeField] private bool isCollapsed;
         [SerializeField] private float collapseSpeed = 1;
@@ -11,8 +11,8 @@ namespace GameEditor.UI
 
         private void Awake()
         {
-            initialHeight = GetComponent<RectTransform>().rect.height;
             _rectTransform = GetComponent<RectTransform>();
+            if (initialHeight <= 0) initialHeight = _rectTransform.rect.height;
         }
 
         private void Update()
@@ -21,25 +21,27 @@ namespace GameEditor.UI
             {
                 var rectTransform = GetComponent<RectTransform>();
                 var height = rectTransform.rect.height;
-                height = Mathf.Lerp(height, 0, Time.deltaTime * collapseSpeed);
+                height = Mathf.MoveTowards(height, 0, Time.deltaTime * collapseSpeed);
                 rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
             }
             else if (!isCollapsed && _rectTransform.rect.height < initialHeight)
             {
                 var rectTransform = GetComponent<RectTransform>();
                 var height = rectTransform.rect.height;
-                height = Mathf.Lerp(height, initialHeight, Time.deltaTime * collapseSpeed);
+                height = Mathf.MoveTowards(height, initialHeight, Time.deltaTime * collapseSpeed);
                 rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
             }
         }
     
-        public void Collapse()
+        public void Collapse(float speed)
         {
+            collapseSpeed = speed <= 0 ? collapseSpeed : speed;
             isCollapsed = true;
         }
     
-        public void Expand()
+        public void Expand(float speed)
         {
+            collapseSpeed = speed <= 0 ? collapseSpeed : speed;
             isCollapsed = false;
         }
     }

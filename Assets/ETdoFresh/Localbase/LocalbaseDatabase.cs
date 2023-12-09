@@ -43,8 +43,8 @@ namespace ETdoFresh.Localbase
         
         public DatabaseReference RootReference => GetReference();
 
-        public DatabaseReference GetReference(string pathString = "", object caller = null) =>
-            DatabaseReference.Create(this, pathString, caller);
+        public DatabaseReference GetReference(string pathString = "") =>
+            DatabaseReference.Create(this, pathString);
 
         public void SetPersistenceEnabled(bool enabled)
         {

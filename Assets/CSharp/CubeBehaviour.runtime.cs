@@ -8,7 +8,7 @@ namespace Game.RuntimeScripts
         [SerializeField] private Camera cam;
         [SerializeField] private Rigidbody rb;
         [SerializeField] private float rotateSpeed = 500;
-        [SerializeField] private float jumpForce = 5;
+        [SerializeField] private float jumpForce = 10;
         [SerializeField] private float movementSpeed = 5;
         [SerializeField] private bool isRotating = true;
 

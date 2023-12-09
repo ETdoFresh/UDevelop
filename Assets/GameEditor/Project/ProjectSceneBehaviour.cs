@@ -58,7 +58,7 @@ namespace GameEditor.Project
 
         private void Awake()
         {
-            _projectsDatabaseReference = LocalbaseDatabase.DefaultInstance.GetReference("projects", this);
+            _projectsDatabaseReference = LocalbaseDatabase.DefaultInstance.GetReference("projects");
             inSceneProjectSlot.SetActive(false);
         }
 

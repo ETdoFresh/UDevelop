@@ -18,7 +18,7 @@ namespace GameEditor.Project
             var baseAwake = baseType.GetMethod("Awake", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
             baseAwake.Invoke(this, null);
             
-            _projects = LocalbaseDatabase.DefaultInstance.GetReference("projects", this);
+            _projects = LocalbaseDatabase.DefaultInstance.GetReference("projects");
             if (!string.IsNullOrEmpty(guid)) 
                 SetGuid(guid);
         }

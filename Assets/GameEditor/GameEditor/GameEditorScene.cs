@@ -1,5 +1,5 @@
-using System;
 using ETdoFresh.UnityPackages.ExtensionMethods;
+using GameEditor.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,6 +13,9 @@ namespace GameEditor.GameEditor
         [SerializeField] private Button gameSettingsPanel;
         [SerializeField] private Button scenesPanel;
         [SerializeField] private Button packagesPanel;
+        [SerializeField] private CollapsableSectionBehaviour collapsableGameSettingsPanel;
+        [SerializeField] private CollapsableSectionBehaviour collapsableScenesPanel;
+        [SerializeField] private CollapsableSectionBehaviour collapsablePackagesPanel;
         [SerializeField] private GameObject sceneTabsParent;
         [SerializeField] private GameObject contextBar;
         [SerializeField] private GameObject projectEditorPanel;
@@ -43,41 +46,16 @@ namespace GameEditor.GameEditor
         
         private void OnGameSettingsPanelClick()
         {
-            var gameSettingsPanelSiblingIndex = gameSettingsPanel.transform.GetSiblingIndex();
-            for (var i = 0; i < gameSettingsPanel.transform.parent.childCount; i++)
-            {
-                var child = gameSettingsPanel.transform.parent.GetChild(i);
-                if (child == gameSettingsPanel.transform) continue;
-                child.SetSiblingIndex(child.GetSiblingIndex() > gameSettingsPanelSiblingIndex
-                    ? child.GetSiblingIndex() - 1
-                    : child.GetSiblingIndex() + 1);
-            }
         }
         
         private void OnScenesPanelClick()
         {
-            var scenesPanelSiblingIndex = scenesPanel.transform.GetSiblingIndex();
-            for (var i = 0; i < scenesPanel.transform.parent.childCount; i++)
-            {
-                var child = scenesPanel.transform.parent.GetChild(i);
-                if (child == scenesPanel.transform) continue;
-                child.SetSiblingIndex(child.GetSiblingIndex() > scenesPanelSiblingIndex
-                    ? child.GetSiblingIndex() - 1
-                    : child.GetSiblingIndex() + 1);
-            }
+            
         }
         
         private void OnPackagesPanelClick()
         {
-            var packagesPanelSiblingIndex = packagesPanel.transform.GetSiblingIndex();
-            for (var i = 0; i < packagesPanel.transform.parent.childCount; i++)
-            {
-                var child = packagesPanel.transform.parent.GetChild(i);
-                if (child == packagesPanel.transform) continue;
-                child.SetSiblingIndex(child.GetSiblingIndex() > packagesPanelSiblingIndex
-                    ? child.GetSiblingIndex() - 1
-                    : child.GetSiblingIndex() + 1);
-            }
+            
         }
     }
 }
