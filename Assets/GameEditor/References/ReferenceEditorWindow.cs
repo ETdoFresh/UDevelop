@@ -3,6 +3,7 @@ using System.Linq;
 using ETdoFresh.Localbase;
 using GameEditor.Organizations;
 using GameEditor.Project;
+using GameEditor.References;
 using Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -392,13 +393,8 @@ public class ReferenceEditorWindow : EditorWindow
                         for (var i = 0; i < itemHistoriesLength; i++)
                         {
                             var textPath = _textListItems[i].path;
-                            var webRequest = UnityWebRequest.Get(textPath);
                             var index = i;
-                            webRequest.SendWebRequest().completed += (e) =>
-                            {
-                                var textAsset = DownloadHandlerBuffer.GetContent(webRequest);
-                                _textPreviews[index] = textAsset;
-                            };
+                            HttpCache.GetTextAsync(textPath).ContinueWith(e => _textPreviews[index] = e.Result);
                         }
                     };
                     textAssetReadReference.ValueChanged.AddListener(onTextAssetReadValueChanged);
