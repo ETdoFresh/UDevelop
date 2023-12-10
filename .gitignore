@@ -9,3 +9,4 @@
 .vscode
 *.sln
 *.csproj
+Assets/Firebase/Plugins/x86_64/FirebaseCppApp-11_6_0.bundle*

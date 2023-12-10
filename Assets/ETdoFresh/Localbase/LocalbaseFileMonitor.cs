@@ -7,6 +7,7 @@ namespace ETdoFresh.Localbase
     {
         public static void Touch()
         {
+            if (!Application.isPlaying) return;
             if (Instance) return;
             Debug.LogWarning($"[{nameof(LocalbaseFileMonitor)}] could not be initialized. You are probably quitting the application.");
         }

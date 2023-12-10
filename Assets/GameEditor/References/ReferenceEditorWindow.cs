@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using ETdoFresh.Localbase;
+using Firebase.Extensions;
 using GameEditor.Organizations;
 using GameEditor.Project;
 using GameEditor.References;
@@ -457,11 +458,20 @@ public class ReferenceEditorWindow : EditorWindow
                     var guid = _currentTextListItem.guid;
                     var utcNowTicks = DateTime.UtcNow.Ticks;
                     var objectName = $"{guid}-{utcNowTicks}{ext}";
-                    GoogleCloudStorage.UploadText(objectName, _textPreviews[0]);
-                    var textReference = LocalbaseDatabase.DefaultInstance.GetReference($"{TextsPath}.{guid}");
-                    _currentTextListItem.lastModifiedUtcTicks = utcNowTicks;
-                    textReference.AddObjectChild(utcNowTicks.ToString(), _currentTextListItem);
-                    _operationType = OperationType.List;
+                    GoogleCloudStorage.UploadText(objectName, _textPreviews[0]).ContinueWithOnMainThread(e =>
+                    {
+                        if (e.Exception != null)
+                        {
+                            Debug.LogError(e.Exception);
+                            return;
+                        }
+                        var downloadUri = e.Result;
+                        var textReference = LocalbaseDatabase.DefaultInstance.GetReference($"{TextsPath}.{guid}");
+                        _currentTextListItem.lastModifiedUtcTicks = utcNowTicks;
+                        _currentTextListItem.path = downloadUri.ToString();
+                        textReference.AddObjectChild(utcNowTicks.ToString(), _currentTextListItem);
+                        _operationType = OperationType.List;
+                    });
                 }
                 EditorGUILayout.EndHorizontal();
                 break;
@@ -492,14 +502,35 @@ public class ReferenceEditorWindow : EditorWindow
                     var guid = _currentTextListItem.guid;
                     var utcNowTicks = DateTime.UtcNow.Ticks;
                     var objectName = $"{guid}-{utcNowTicks}{ext}";
-                    GoogleCloudStorage.UploadText(objectName, _textPreviews[0]);
-                    var textReference = LocalbaseDatabase.DefaultInstance.GetReference($"{TextsPath}.{guid}");
-                    if (textReference.ValueChanged.Value.Snapshot.Value == null)
-                        textReference.SetValueAsync(new JObject());
-                    _currentTextListItem.createdUtcTicks = utcNowTicks;
-                    _currentTextListItem.lastModifiedUtcTicks = utcNowTicks;
-                    textReference.AddObjectChild(utcNowTicks.ToString(), _currentTextListItem);
-                    _operationType = OperationType.List;
+                    GoogleCloudStorage.UploadText(objectName, _textPreviews[0]).ContinueWithOnMainThread(e =>
+                    {
+                        if (e.Exception != null)
+                        {
+                            Debug.LogError(e.Exception);
+                            return;
+                        }
+                        var downloadUri = e.Result;
+                        var textReference = LocalbaseDatabase.DefaultInstance.GetReference($"{TextsPath}.{guid}");
+                        _currentTextListItem.createdUtcTicks = utcNowTicks;
+                        _currentTextListItem.lastModifiedUtcTicks = utcNowTicks;
+                        _currentTextListItem.path = downloadUri.ToString();
+                        if (textReference.ValueChanged.Value.Snapshot.Value == null)
+                            textReference.SetValueAsync(new JObject()).ContinueWithOnMainThread(e2 =>
+                            {
+                                if (e2.Exception != null)
+                                {
+                                    Debug.LogError(e2.Exception);
+                                    return;
+                                }
+                                textReference.AddObjectChild(utcNowTicks.ToString(), _currentTextListItem);
+                                _operationType = OperationType.List;
+                            });
+                        else
+                        {
+                            textReference.AddObjectChild(utcNowTicks.ToString(), _currentTextListItem);
+                            _operationType = OperationType.List;
+                        }
+                    });
                 }
                 EditorGUILayout.EndHorizontal();
                 break;
