@@ -7,6 +7,10 @@ namespace GameEditor.Project
     {
         public string name;
         public string guid;
+        public long createdTick;
+        public string createdBy;
+        public long lastModifiedTick;
+        public string lastModifiedBy;
         public string version;
         public string description;
         public string[] authors;

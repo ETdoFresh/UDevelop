@@ -1,6 +1,7 @@
 using ETdoFresh.Localbase;
 using ETdoFresh.UnityPackages.EventBusSystem;
 using UnityEngine;
+using static ETdoFresh.Localbase.Paths;
 
 namespace GameEditor.Project
 {
@@ -18,7 +19,7 @@ namespace GameEditor.Project
             var baseAwake = baseType.GetMethod("Awake", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
             baseAwake.Invoke(this, null);
             
-            _projects = LocalbaseDatabase.DefaultInstance.GetReference("projects");
+            _projects = LocalbaseDatabase.DefaultInstance.GetReference(ProjectsPath);
             if (!string.IsNullOrEmpty(guid)) 
                 SetGuid(guid);
         }

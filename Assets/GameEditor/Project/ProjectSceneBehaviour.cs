@@ -9,6 +9,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static ETdoFresh.Localbase.Paths;
 
 namespace GameEditor.Project
 {
@@ -58,7 +59,7 @@ namespace GameEditor.Project
 
         private void Awake()
         {
-            _projectsDatabaseReference = LocalbaseDatabase.DefaultInstance.GetReference("projects");
+            _projectsDatabaseReference = LocalbaseDatabase.DefaultInstance.GetReference(ProjectsPath);
             inSceneProjectSlot.SetActive(false);
         }
 
@@ -207,7 +208,7 @@ namespace GameEditor.Project
         private void OnProjectsChildChanged(ChildChangedEventArgs e)
         {
             var databaseReference = e.Snapshot.Reference;
-            while (!databaseReference.IsRoot() && databaseReference.Parent.Key != "projects")
+            while (!databaseReference.IsRoot() && databaseReference.Parent.Key != ProjectsPath)
                 databaseReference = databaseReference.Parent;
             var projectGuid = databaseReference.Key;
             var projectSlot =

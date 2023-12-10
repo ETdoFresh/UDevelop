@@ -4,6 +4,7 @@ using System.IO;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+using static ETdoFresh.Localbase.Paths;
 
 namespace ETdoFresh.Localbase
 {
@@ -30,7 +31,7 @@ namespace ETdoFresh.Localbase
         internal string Json { get => _json; set => SetValue(value); }
 
         private static string GetPath(string name) =>
-            System.IO.Path.Combine(Application.persistentDataPath, "Databases", $"{name}.json");
+            System.IO.Path.Combine(Application.persistentDataPath, DatabasesPath, $"{name}.json");
 
         public static LocalbaseDatabase GetInstance(string name)
         {

@@ -3,13 +3,12 @@ using System.Linq;
 using ETdoFresh.Localbase;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
+using static ETdoFresh.Localbase.Paths;
 
 namespace GameEditor.References
 {
     public class Texture2DReference : MonoBehaviour
     {
-        const string Texture2DEndpoint = "images";
-        
         [SerializeField] private string guid;
         [SerializeField] private long tick;
         [SerializeField] private bool lockTickOnPublish = true;
@@ -21,7 +20,7 @@ namespace GameEditor.References
         private void OnEnable()
         {
             if (string.IsNullOrEmpty(guid)) return;
-            var endpoint = $"{Texture2DEndpoint}.{guid}";
+            var endpoint = $"{ImagesPath}.{guid}";
             _reference = LocalbaseDatabase.DefaultInstance.GetReference(endpoint);
             _reference.ValueChanged.AddListener(OnValueChanged);
         }
