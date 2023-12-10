@@ -359,7 +359,7 @@ public class ReferenceEditorWindow : EditorWindow
                 if (GUILayout.Button("Create"))
                 {
                     _operationType = OperationType.Create;
-                    _currentTextListItem = new TextJsonObject { guid = Guid.NewGuid().ToString() };
+                    _currentTextListItem = new TextJsonObject { guid = Guid.NewGuid().ToString("N") };
                 }
                 break;
             case OperationType.Read:
@@ -453,10 +453,14 @@ public class ReferenceEditorWindow : EditorWindow
                     _operationType = OperationType.List;
                 if (GUILayout.Button("Update"))
                 {
-                    // Upload text asset to server
-                    Debug.Log("Upload text asset to server");
-                    // Update text asset reference in database
-                    Debug.Log("Update text asset reference in database");
+                    var ext = System.IO.Path.GetExtension(_currentTextListItem.name);
+                    var guid = _currentTextListItem.guid;
+                    var utcNowTicks = DateTime.UtcNow.Ticks;
+                    var objectName = $"{guid}-{utcNowTicks}{ext}";
+                    GoogleCloudStorage.UploadText(objectName, _textPreviews[0]);
+                    var textReference = LocalbaseDatabase.DefaultInstance.GetReference($"{TextsPath}.{guid}");
+                    _currentTextListItem.lastModifiedUtcTicks = utcNowTicks;
+                    textReference.AddObjectChild(utcNowTicks.ToString(), _currentTextListItem);
                     _operationType = OperationType.List;
                 }
                 EditorGUILayout.EndHorizontal();
@@ -484,10 +488,17 @@ public class ReferenceEditorWindow : EditorWindow
                     _operationType = OperationType.List;
                 if (GUILayout.Button("Create"))
                 {
-                    // Upload text asset to server
-                    Debug.Log("Upload text asset to server");
-                    // Update text asset reference in database
-                    Debug.Log("Update text asset reference in database");
+                    var ext = System.IO.Path.GetExtension(_currentTextListItem.name);
+                    var guid = _currentTextListItem.guid;
+                    var utcNowTicks = DateTime.UtcNow.Ticks;
+                    var objectName = $"{guid}-{utcNowTicks}{ext}";
+                    GoogleCloudStorage.UploadText(objectName, _textPreviews[0]);
+                    var textReference = LocalbaseDatabase.DefaultInstance.GetReference($"{TextsPath}.{guid}");
+                    if (textReference.ValueChanged.Value.Snapshot.Value == null)
+                        textReference.SetValueAsync(new JObject());
+                    _currentTextListItem.createdUtcTicks = utcNowTicks;
+                    _currentTextListItem.lastModifiedUtcTicks = utcNowTicks;
+                    textReference.AddObjectChild(utcNowTicks.ToString(), _currentTextListItem);
                     _operationType = OperationType.List;
                 }
                 EditorGUILayout.EndHorizontal();

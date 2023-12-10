@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "614868165915",
+    "firebase_url": "https://ingameeditor-f4937-default-rtdb.firebaseio.com",
+    "project_id": "ingameeditor-f4937",
+    "storage_bucket": "ingameeditor-f4937.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614868165915:android:ada2e83c8bb03809825fbe",
+        "android_client_info": {
+          "package_name": "com.etdofresh.ingameeditor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCq6fNHywoYzM0NUnw86_E11PcQ_KavXZU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

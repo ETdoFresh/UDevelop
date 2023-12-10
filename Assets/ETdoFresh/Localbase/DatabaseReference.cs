@@ -222,6 +222,7 @@ namespace ETdoFresh.Localbase
             myJArray.Add(childJToken);
             Database.JObject = databaseJObject;
             ChildAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+            ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJArray, this));
             InvokeParentChildChangedEvents(Parent, ChildAdded.Value);
         }
 
@@ -248,6 +249,7 @@ namespace ETdoFresh.Localbase
             myJObject.Add(key, childJToken);
             Database.JObject = databaseJObject;
             ChildAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+            ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJObject, this));
             InvokeParentChildChangedEvents(Parent, ChildAdded.Value);
         }
 
@@ -275,6 +277,7 @@ namespace ETdoFresh.Localbase
             myJArray.RemoveAt(index);
             Database.JObject = databaseJObject;
             ChildRemoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+            ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJArray, this));
             InvokeParentChildChangedEvents(Parent, ChildRemoved.Value);
         }
 
@@ -289,6 +292,7 @@ namespace ETdoFresh.Localbase
             myJObject.Remove(key);
             Database.JObject = databaseJObject;
             ChildRemoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+            ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJObject, this));
             InvokeParentChildChangedEvents(Parent, ChildRemoved.Value);
         }
 
@@ -304,6 +308,7 @@ namespace ETdoFresh.Localbase
             myJArray.Insert(newIndex, childJToken);
             Database.JObject = databaseJObject;
             ChildMoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), oldIndex.ToString());
+            ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJArray, this));
             InvokeParentChildChangedEvents(Parent, ChildMoved.Value);
         }
 
@@ -319,6 +324,7 @@ namespace ETdoFresh.Localbase
             myJObject.Add(newKey, childJToken);
             Database.JObject = databaseJObject;
             ChildMoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), oldKey);
+            ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJObject, this));
             InvokeParentChildChangedEvents(Parent, ChildMoved.Value);
         }
 
