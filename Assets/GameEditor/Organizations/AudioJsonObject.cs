@@ -3,10 +3,7 @@
 namespace GameEditor.Organizations
 {
     [Serializable]
-    public class AudioJsonObject
+    public class AudioJsonObject : CommonReferenceJsonObjectFields
     {
-        public string guid;
-        public string name;
-        public string path;
     }
 }

@@ -7,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Networking;
 using static ETdoFresh.Localbase.Paths;
 
 public class ReferenceEditorWindow : EditorWindow
@@ -45,22 +46,31 @@ public class ReferenceEditorWindow : EditorWindow
     private UserJsonObject _currentUserListItem;
     private SceneJsonObject[] _sceneListItems;
     private SceneJsonObject _currentSceneListItem;
+    private string[] _scenePreviews;
     private PackageJsonObject[] _packageListItems;
     private PackageJsonObject _currentPackageListItem;
+    private string[] _packagePreviews;
     private PrefabJsonObject[] _prefabListItems;
     private PrefabJsonObject _currentPrefabListItem;
+    private string[] _prefabPreviews;
     private ImageJsonObject[] _imageListItems;
     private ImageJsonObject _currentImageListItem;
+    private Texture2D[] _imagePreviews;
     private AudioJsonObject[] _audioListItems;
     private AudioJsonObject _currentAudioListItem;
+    private AudioClip[] _audioPreviews;
     private ScriptJsonObject[] _scriptListItems;
-    private SceneJsonObject _currentScriptListItem;
+    private ScriptJsonObject _currentScriptListItem;
+    private string[] _scriptPreviews;
     private MaterialJsonObject[] _materialListItems;
     private MaterialJsonObject _currentMaterialListItem;
+    private string[] _materialPreviews;
     private ModelJsonObject[] _modelListItems;
     private ModelJsonObject _currentModelListItem;
+    private string[] _modelPreviews;
     private TextJsonObject[] _textListItems;
     private TextJsonObject _currentTextListItem;
+    private string[] _textPreviews;
 
     private ReferenceType _referenceType;
     private ReferenceType _previousReferenceType;
@@ -127,13 +137,15 @@ public class ReferenceEditorWindow : EditorWindow
 
     private void OnProjectsGUI()
     {
+        if (_referenceTypeChangedThisFrame)
+            _operationType = OperationType.List;
+        
         switch (_operationType)
         {
             case OperationType.List:
 
                 if (_referenceTypeChangedThisFrame || _operationTypeChangedThisFrame)
                 {
-                    _operationType = OperationType.List;
                     _currentProjectsPath = ProjectsPath;
                     var databaseReference = LocalbaseDatabase.DefaultInstance.GetReference(_currentProjectsPath);
                     UnityAction<ValueChangedEventArgs> onValueChanged = null;
@@ -262,10 +274,162 @@ public class ReferenceEditorWindow : EditorWindow
 
     private void OnTextsGUI()
     {
-        // TODO: Implement this using history and timestamps
+        if (_referenceTypeChangedThisFrame)
+            _operationType = OperationType.List;
+        
         switch (_operationType)
         {
             case OperationType.List:
+
+                if (_referenceTypeChangedThisFrame || _operationTypeChangedThisFrame)
+                {
+                    var databaseReference = LocalbaseDatabase.DefaultInstance.GetReference(TextsPath);
+                    UnityAction<ValueChangedEventArgs> onValueChanged = null;
+                    onValueChanged = (e) =>
+                    {
+                        databaseReference.ValueChanged.RemoveListener(onValueChanged);
+                        var value = e.Snapshot.Value;
+                        var jObject = value as JObject;
+                        var itemHistories = jObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
+                        var itemHistoriesLength = itemHistories.Length;
+                        _textListItems = new TextJsonObject[itemHistoriesLength];
+                        var utcNowTicks = DateTime.UtcNow.Ticks;
+                        for (var i = 0; i < itemHistoriesLength; i++)
+                        {
+                            var itemHistoryJObject = itemHistories[i].Value as JObject;
+                            var itemHistory = itemHistoryJObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
+                            var itemHistoryLength = itemHistory.Length;
+                            var closestWithoutGoingOverTick = 0L;
+                            var closestWithoutGoingOverIndex = -1;
+                            var minTick = long.MaxValue;
+                            var minIndex = -1;
+                            for (var j = 0; j < itemHistoryLength; j++)
+                            {
+                                var itemHistoryItemTick = long.Parse(itemHistory[j].Name);
+                                if (itemHistoryItemTick < minTick)
+                                {
+                                    minTick = itemHistoryItemTick;
+                                    minIndex = j;
+                                }
+                                if (itemHistoryItemTick <= utcNowTicks &&
+                                    itemHistoryItemTick > closestWithoutGoingOverTick)
+                                {
+                                    closestWithoutGoingOverTick = itemHistoryItemTick;
+                                    closestWithoutGoingOverIndex = j;
+                                }
+                            }
+                            var index = closestWithoutGoingOverIndex == -1 ? minIndex : closestWithoutGoingOverIndex;
+                            var itemHistoryItemJObject = itemHistory[index].Value as JObject;
+                            var itemHistoryItem = itemHistoryItemJObject?.ToObject<TextJsonObject>();
+                            _textListItems[i] = itemHistoryItem;
+                        }
+                    };
+                    databaseReference.ValueChanged.AddListener(onValueChanged);
+                }
+
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                EditorGUILayout.LabelField("Text Assets", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                _textListItems ??= Array.Empty<TextJsonObject>();
+                var listItemsCount = _textListItems.Length;
+                for (var i = 0; i < listItemsCount; i++)
+                {
+                    var listItem = _textListItems[i];
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField(listItem.name);
+                    EditorGUILayout.LabelField(listItem.guid);
+                    if (GUILayout.Button("Read"))
+                    {
+                        _operationType = OperationType.Read;
+                        _currentTextListItem = listItem;
+                    }
+                    if (GUILayout.Button("Update"))
+                    {
+                        _operationType = OperationType.Update;
+                        _currentTextListItem = listItem;
+                    }
+                    if (GUILayout.Button("Delete"))
+                    {
+                        _operationType = OperationType.Delete;
+                        _currentTextListItem = listItem;
+                    }
+                    EditorGUILayout.EndHorizontal();
+                }
+                if (GUILayout.Button("Create"))
+                {
+                    _operationType = OperationType.Create;
+                    _currentTextListItem = new TextJsonObject { guid = Guid.NewGuid().ToString() };
+                }
+                break;
+            case OperationType.Read:
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                EditorGUILayout.LabelField("Read Text Asset", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+                if (_operationTypeChangedThisFrame)
+                {
+                    _textPreviews = Array.Empty<string>();
+                    var guid = _currentTextListItem.guid;
+                    var textAssetReadReference = LocalbaseDatabase.DefaultInstance.GetReference($"{TextsPath}.{guid}");
+                    UnityAction<ValueChangedEventArgs> onTextAssetReadValueChanged = null;
+                    onTextAssetReadValueChanged = (e) =>
+                    {
+                        textAssetReadReference.ValueChanged.RemoveListener(onTextAssetReadValueChanged);
+                        var value = e.Snapshot.Value;
+                        var jObject = value as JObject;
+                        var itemHistories = jObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
+                        var itemHistoriesLength = itemHistories.Length;
+                        itemHistories = itemHistories.OrderBy(x => long.Parse(x.Name)).ToArray();
+                        _textListItems = new TextJsonObject[itemHistoriesLength];
+                        for (var i = 0; i < itemHistoriesLength; i++)
+                        {
+                            var itemHistoryJObject = itemHistories[i].Value as JObject;
+                            var textAsset = itemHistoryJObject?.ToObject<TextJsonObject>();
+                            _textListItems[i] = textAsset;
+                        }
+                        
+                        _textPreviews = new string[itemHistoriesLength];
+                        for (var i = 0; i < itemHistoriesLength; i++)
+                        {
+                            var textPath = _textListItems[i].path;
+                            var webRequest = UnityWebRequest.Get(textPath);
+                            var index = i;
+                            webRequest.SendWebRequest().completed += (e) =>
+                            {
+                                var textAsset = DownloadHandlerBuffer.GetContent(webRequest);
+                                _textPreviews[index] = textAsset;
+                            };
+                        }
+                    };
+                    textAssetReadReference.ValueChanged.AddListener(onTextAssetReadValueChanged);
+                }
+                _textListItems ??= Array.Empty<TextJsonObject>();
+                var textListItemsCount = _textListItems.Length;
+                for (var i = 0; i < textListItemsCount; i++)
+                {
+                    var textListItem = _textListItems[i];
+                    var lastModifiedUtc = new DateTime(textListItem.lastModifiedUtcTicks);
+                    var lastModified = lastModifiedUtc.ToLocalTime();
+                    var lastModifiedString = lastModified.ToString("yyyy-MM-dd HH:mm:ss");
+                    
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField(textListItem.guid);
+                    EditorGUILayout.LabelField(lastModifiedString);
+                    EditorGUILayout.LabelField(textListItem.name);
+                    EditorGUILayout.EndHorizontal();
+                    
+                    EditorGUILayout.LabelField(textListItem.path);
+                    
+                    EditorGUI.BeginDisabledGroup(true);
+                    EditorGUILayout.TextArea(_textPreviews[i]);
+                    EditorGUI.EndDisabledGroup();
+                    
+                    if (i < textListItemsCount - 1)
+                        EditorGUILayout.Space();
+                }
+
+                if (GUILayout.Button("Back"))
+                    _operationType = OperationType.List;
                 break;
         }
     }

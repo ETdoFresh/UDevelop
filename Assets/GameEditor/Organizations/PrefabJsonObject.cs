@@ -3,9 +3,7 @@
 namespace GameEditor.Organizations
 {
     [Serializable]
-    public class PrefabJsonObject
+    public class PrefabJsonObject : CommonReferenceJsonObjectFields
     {
-        public string guid;
-        public string name;
     }
 }

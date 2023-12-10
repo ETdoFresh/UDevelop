@@ -3,9 +3,7 @@
 namespace GameEditor.Organizations
 {
     [Serializable]
-    public class PackageJsonObject
+    public class PackageJsonObject : CommonReferenceJsonObjectFields
     {
-        public string guid;
-        public string name;
     }
 }

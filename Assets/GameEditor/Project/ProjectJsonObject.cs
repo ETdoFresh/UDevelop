@@ -1,16 +1,11 @@
 using System;
+using GameEditor.Organizations;
 
 namespace GameEditor.Project
 {
     [Serializable]
-    public class ProjectJsonObject
+    public class ProjectJsonObject : CommonJsonObjectFields
     {
-        public string name;
-        public string guid;
-        public long createdTick;
-        public string createdBy;
-        public long lastModifiedTick;
-        public string lastModifiedBy;
         public string version;
         public string description;
         public string[] authors;
