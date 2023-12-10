@@ -427,6 +427,40 @@ public class ReferenceEditorWindow : EditorWindow
                 if (GUILayout.Button("Back"))
                     _operationType = OperationType.List;
                 break;
+            case OperationType.Update:
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                EditorGUILayout.LabelField("Update Text Asset", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+                if (_operationTypeChangedThisFrame)
+                {
+                    _textPreviews = new string[1];
+                    _textPreviews[0] = null;
+                    HttpCache.GetTextAsync(_currentTextListItem.path).ContinueWith(e => _textPreviews[0] = e.Result);
+                }
+
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("Guid", _currentTextListItem.guid);
+                _currentTextListItem.name = EditorGUILayout.TextField("Name", _currentTextListItem.name);
+                EditorGUILayout.EndHorizontal();
+                
+                EditorGUI.BeginDisabledGroup(_textPreviews[0] == null);
+                _textPreviews[0] = EditorGUILayout.TextArea(_textPreviews[0]);
+                EditorGUI.EndDisabledGroup();
+                
+                EditorGUILayout.BeginHorizontal();
+                if (GUILayout.Button("Back"))
+                    _operationType = OperationType.List;
+                if (GUILayout.Button("Update"))
+                {
+                    // Upload text asset to server
+                    Debug.Log("Upload text asset to server");
+                    // Update text asset reference in database
+                    Debug.Log("Update text asset reference in database");
+                    _operationType = OperationType.List;
+                }
+                EditorGUILayout.EndHorizontal();
+                break;
         }
     }
 }
