@@ -440,8 +440,8 @@ public class ReferenceEditorWindow : EditorWindow
                 }
 
                 EditorGUILayout.BeginHorizontal();
-                EditorGUILayout.LabelField("Guid", _currentTextListItem.guid);
                 _currentTextListItem.name = EditorGUILayout.TextField("Name", _currentTextListItem.name);
+                EditorGUILayout.LabelField("Guid", _currentTextListItem.guid);
                 EditorGUILayout.EndHorizontal();
                 
                 EditorGUI.BeginDisabledGroup(_textPreviews[0] == null);
@@ -452,6 +452,37 @@ public class ReferenceEditorWindow : EditorWindow
                 if (GUILayout.Button("Back"))
                     _operationType = OperationType.List;
                 if (GUILayout.Button("Update"))
+                {
+                    // Upload text asset to server
+                    Debug.Log("Upload text asset to server");
+                    // Update text asset reference in database
+                    Debug.Log("Update text asset reference in database");
+                    _operationType = OperationType.List;
+                }
+                EditorGUILayout.EndHorizontal();
+                break;
+            case OperationType.Create:
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                EditorGUILayout.LabelField("Create Text Asset", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                
+                if (_operationTypeChangedThisFrame)
+                {
+                    _textPreviews = new string[1];
+                    _textPreviews[0] = "";
+                }
+                
+                EditorGUILayout.BeginHorizontal();
+                _currentTextListItem.name = EditorGUILayout.TextField("Name", _currentTextListItem.name);
+                EditorGUILayout.LabelField("Guid", _currentTextListItem.guid);
+                EditorGUILayout.EndHorizontal();
+                
+                _textPreviews[0] = EditorGUILayout.TextArea(_textPreviews[0]);
+                
+                EditorGUILayout.BeginHorizontal();
+                if (GUILayout.Button("Back"))
+                    _operationType = OperationType.List;
+                if (GUILayout.Button("Create"))
                 {
                     // Upload text asset to server
                     Debug.Log("Upload text asset to server");
