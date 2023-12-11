@@ -161,9 +161,9 @@ namespace GameEditor.Project
             createProjectUI.SetActive(false);
         }
 
-        private void OnProjectsChildAdded(object sender, ChildChangedEventArgs childChangedEventArgs)
+        private void OnProjectsChildAdded(object sender, ChildChangedEventArgsWrapper e)
         {
-            var newProject = (childChangedEventArgs.Snapshot.Value as JObject)?.ToObject<ProjectJsonObject>();
+            var newProject = (e.Snapshot.Value as JObject)?.ToObject<ProjectJsonObject>();
             Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildAdded {newProject.name} {newProject.guid}");
 
             var projectSlot = Instantiate(inSceneProjectSlot, projectButtonsParent);
@@ -175,9 +175,9 @@ namespace GameEditor.Project
             projectSlots.Add(projectSlot);
         }
 
-        private void OnProjectsChildRemoved(object sender, ChildChangedEventArgs childChangedEventArgs)
+        private void OnProjectsChildRemoved(object sender, ChildChangedEventArgsWrapper e)
         {
-            var removedProject = (childChangedEventArgs.Snapshot.Value as JObject)?.ToObject<ProjectJsonObject>();
+            var removedProject = (e.Snapshot.Value as JObject)?.ToObject<ProjectJsonObject>();
             Debug.Log(
                 $"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildRemoved {removedProject.name} {removedProject.guid}");
             var projectSlot = projectSlots.Find(slot =>
@@ -187,7 +187,7 @@ namespace GameEditor.Project
             Destroy(projectSlot);
         }
 
-        private void OnProjectsChildMoved(object sender, ChildChangedEventArgs childChangedEventArgs)
+        private void OnProjectsChildMoved(object sender, ChildChangedEventArgsWrapper e)
         {
             // var oldProjectGuid = e.PreviousChildName;
             // var newProjectGuid = e.Snapshot.Key;
@@ -198,7 +198,7 @@ namespace GameEditor.Project
             // projectSlot.GetComponent<ProjectSlotBehaviour>().Data.guid = newProjectGuid;
         }
 
-        private void OnProjectsChildChanged(object sender, ChildChangedEventArgs childChangedEventArgs)
+        private void OnProjectsChildChanged(object sender, ChildChangedEventArgsWrapper e)
         {
             // var databaseReference = e.Snapshot.Reference;
             // while (!databaseReference.IsRoot() && databaseReference.Parent.Key != ProjectsPath)

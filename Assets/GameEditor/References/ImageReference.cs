@@ -28,7 +28,7 @@ namespace GameEditor.References
                 Database.GetValueCallback(EndPoint, OnValueChanged);
         }
 
-        private void OnValueChanged(object sender, ValueChangedEventArgs e)
+        private void OnValueChanged(object sender, ValueChangedEventArgsWrapper e)
         {
             bestTickString = null;
             bestJsonString = null;

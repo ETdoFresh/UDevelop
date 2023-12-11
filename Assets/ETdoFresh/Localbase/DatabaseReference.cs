@@ -439,5 +439,21 @@ namespace ETdoFresh.Localbase
                 InvokeParentChildChangedEvents(Parent, new ChildChangedEventArgs(snapshot, null));
             }
         }
+
+        public DatabaseReference Push()
+        {
+            var databaseJObject = Database.JObject;
+            if (MyJToken is not JArray myJArray)
+                throw new Exception(
+                    $"[{nameof(DatabaseReference)}] {nameof(Push)} {nameof(MyJToken)} is not a JArray");
+
+            var childJToken = new JObject();
+            myJArray.Add(childJToken);
+            Database.JObject = databaseJObject;
+            ChildAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+            ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJArray, this));
+            InvokeParentChildChangedEvents(Parent, ChildAdded.Value);
+            return Child(myJArray.Count - 1);
+        }
     }
 }

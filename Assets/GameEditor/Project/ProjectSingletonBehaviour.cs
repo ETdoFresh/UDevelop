@@ -44,7 +44,7 @@ namespace GameEditor.Project
             Database.ValueChanged.AddListener(Instance.ProjectPath, OnProjectChanged);
         }
 
-        private static void OnProjectChanged(object sender, ValueChangedEventArgs e)
+        private static void OnProjectChanged(object sender, ValueChangedEventArgsWrapper e)
         {
             var projectData = JsonConvert.DeserializeObject<ProjectJsonObject>(e.Snapshot.GetRawJsonValue());
             Debug.Log($"[{nameof(ProjectSingletonBehaviour)}] {nameof(OnProjectChanged)} {projectData?.name} {projectData?.guid}");
