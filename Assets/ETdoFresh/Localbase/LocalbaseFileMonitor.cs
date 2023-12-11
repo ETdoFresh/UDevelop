@@ -1,5 +1,6 @@
 using ETdoFresh.UnityPackages.DataBusSystem;
 using GameEditor.References;
+using GameEditor.Storages;
 using UnityEngine;
 
 namespace ETdoFresh.Localbase

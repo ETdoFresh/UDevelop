@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace GameEditor.References
+namespace GameEditor.Storages
 {
     // Responsible for caching http requests to persistent storage
     public static class HttpCache
