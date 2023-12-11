@@ -31,5 +31,7 @@ namespace GameEditor.Databases
 
         public DatabaseErrorWrapper DatabaseError =>
             (DatabaseErrorWrapper)_localbaseArgs?.DatabaseError ?? _firebaseArgs.DatabaseError;
+
+        public override string ToString() => _localbaseArgs?.ToString() ?? _firebaseArgs.ToString();
     }
 }

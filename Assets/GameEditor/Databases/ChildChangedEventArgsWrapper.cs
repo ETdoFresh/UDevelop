@@ -31,5 +31,7 @@ namespace GameEditor.Databases
 
         public string PreviousChildName =>
             _localbaseArgs?.PreviousChildName ?? _firebaseArgs.PreviousChildName;
+        
+        public override string ToString() => _localbaseArgs?.ToString() ?? _firebaseArgs.ToString();
     }
 }

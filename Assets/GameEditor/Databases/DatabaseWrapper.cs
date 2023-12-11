@@ -62,5 +62,7 @@
         }
 
         // public LogLevel LogLevel => _localbaseDatabase?.LogLevel ?? _firebaseDatabase.LogLevel;
+        
+        public override string ToString() => _localbaseDatabase?.ToString() ?? _firebaseDatabase.ToString();
     }
 }
