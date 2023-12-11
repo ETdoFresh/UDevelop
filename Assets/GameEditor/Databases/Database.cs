@@ -86,5 +86,8 @@ namespace GameEditor.Databases
             LocalbaseDatabase.DefaultInstance.GetReference(path).ValueChanged.AddListener(listener);
             return tcs.Task;
         }
+
+        public static async Task<bool> IsNullCheckAsync(string path) => 
+            await GetValueAsync(path) == null;
     }
 }

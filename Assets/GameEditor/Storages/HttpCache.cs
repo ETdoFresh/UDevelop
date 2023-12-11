@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Net;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.Networking;
 
 namespace GameEditor.References
@@ -9,6 +10,14 @@ namespace GameEditor.References
     public static class HttpCache
     {
         private const string CachePath = "cache";
+        private static string _persistentDataPath;
+
+        public static void Initialize()
+        {
+            if (!string.IsNullOrEmpty(_persistentDataPath)) return;
+            _persistentDataPath = Application.persistentDataPath;
+            Debug.Log($"[{nameof(HttpCache)}] initialized.");
+        }
         
         public static async Task<string> GetTextAsync(string url)
         {
@@ -67,8 +76,7 @@ namespace GameEditor.References
             var md5 = System.Security.Cryptography.MD5.Create();
             var hash = md5.ComputeHash(System.Text.Encoding.UTF8.GetBytes(url));
             var fileName = System.BitConverter.ToString(hash).Replace("-", "").ToLower();
-            var persistentDataPath = UnityEngine.Application.persistentDataPath;
-            var cachePath = Path.Combine(persistentDataPath, CachePath);
+            var cachePath = Path.Combine(_persistentDataPath, CachePath);
             return Path.Combine(cachePath, $"{fileName}{extension}");
         }
     }

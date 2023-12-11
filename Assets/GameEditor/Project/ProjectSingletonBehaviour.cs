@@ -1,7 +1,7 @@
 using ETdoFresh.Localbase;
 using ETdoFresh.UnityPackages.EventBusSystem;
+using GameEditor.Databases;
 using UnityEngine;
-using static ETdoFresh.Localbase.Paths;
 
 namespace GameEditor.Project
 {
@@ -9,8 +9,8 @@ namespace GameEditor.Project
     {
         [SerializeField] private string guid;
         [SerializeField] private ProjectJsonObject projectData;
-        private DatabaseReference _projects;
-        private DatabaseReference _currentProject;
+        
+        private string ProjectPath => $"{Paths.ProjectsPath}/{guid}";
         
         private void Awake()
         {
@@ -18,44 +18,28 @@ namespace GameEditor.Project
             var baseType = typeof(MonoBehaviourLazyLoadedSingleton<>).MakeGenericType(GetType());
             var baseAwake = baseType.GetMethod("Awake", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
             baseAwake.Invoke(this, null);
-            
-            _projects = LocalbaseDatabase.DefaultInstance.GetReference(ProjectsPath);
-            if (!string.IsNullOrEmpty(guid)) 
-                SetGuid(guid);
-        }
-
-        private void OnDestroy()
-        {
-            _currentProject?.Destroy();
-            _projects?.Destroy();
         }
 
         private void OnEnable()
         {
-            _currentProject?.ValueChanged.AddListener(OnProjectChanged);
+            SetGuid(guid);
         }
         
         private void OnDisable()
         {
-            _currentProject?.ValueChanged.RemoveListener(OnProjectChanged);
+            if (!string.IsNullOrEmpty(guid))
+                Database.ValueChanged.RemoveListener(ProjectPath, OnProjectChanged);
         }
 
-        public static void SetGuid(string guid)
+        public static void SetGuid(string newGuid)
         {
             if (Instance == null) return;
-            var projects = Instance._projects;
-            var currentProject = Instance._currentProject;
-            if (currentProject != null)
-            {
-                currentProject.ValueChanged.RemoveListener(OnProjectChanged);
-                currentProject.Destroy();
-            }
-            else if (guid == "game-editor-test")
-            {
-                
-            }
-            currentProject = projects.Child(guid);
-            currentProject.ValueChanged.AddListener(OnProjectChanged);
+            
+            if (!string.IsNullOrEmpty(Instance.guid))
+                Database.ValueChanged.RemoveListener(Instance.ProjectPath, OnProjectChanged);
+            
+            Instance.guid = newGuid;
+            Database.ValueChanged.AddListener(Instance.ProjectPath, OnProjectChanged);
         }
 
         private static void OnProjectChanged(ValueChangedEventArgs e)

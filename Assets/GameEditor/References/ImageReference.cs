@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using ETdoFresh.Localbase;
+using GameEditor.Databases;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using static ETdoFresh.Localbase.Paths;
@@ -17,17 +18,18 @@ namespace GameEditor.References
         private DatabaseReference _reference;
         private Texture2D _texture2D;
 
+        private string EndPoint => $"{ImagesPath}.{guid}";
+        
         private void OnEnable()
         {
-            if (string.IsNullOrEmpty(guid)) return;
-            var endpoint = $"{ImagesPath}.{guid}";
-            _reference = LocalbaseDatabase.DefaultInstance.GetReference(endpoint);
-            _reference.ValueChanged.AddListener(OnValueChanged);
+            if (!string.IsNullOrEmpty(guid))
+                Database.ValueChanged.AddListener(EndPoint, OnValueChanged);
         }
         
         private void OnDisable()
         {
-            _reference?.ValueChanged.RemoveListener(OnValueChanged);
+            if (!string.IsNullOrEmpty(guid))
+                Database.ValueChanged.RemoveListener(EndPoint, OnValueChanged);
         }
 
         private void OnValueChanged(ValueChangedEventArgs e)

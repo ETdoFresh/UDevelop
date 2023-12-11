@@ -1,14 +1,13 @@
 using System;
 using System.Linq;
-using ETdoFresh.Localbase;
 using Firebase.Extensions;
+using GameEditor.Databases;
 using GameEditor.Organizations;
 using GameEditor.Project;
 using GameEditor.References;
 using Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
 using static ETdoFresh.Localbase.Paths;
 
 public class ReferenceEditorWindow : EditorWindow
@@ -80,6 +79,11 @@ public class ReferenceEditorWindow : EditorWindow
     private OperationType _previousOperationType;
     private bool _operationTypeChangedThisFrame;
 
+    private void OnEnable()
+    {
+        HttpCache.Initialize();
+    }
+
     private void OnGUI()
     {
         _referenceType = (ReferenceType)EditorGUILayout.EnumPopup("Reference Type", _referenceType);
@@ -140,7 +144,7 @@ public class ReferenceEditorWindow : EditorWindow
     {
         if (_referenceTypeChangedThisFrame)
             _operationType = OperationType.List;
-        
+
         switch (_operationType)
         {
             case OperationType.List:
@@ -148,20 +152,16 @@ public class ReferenceEditorWindow : EditorWindow
                 if (_referenceTypeChangedThisFrame || _operationTypeChangedThisFrame)
                 {
                     _currentProjectsPath = ProjectsPath;
-                    var databaseReference = LocalbaseDatabase.DefaultInstance.GetReference(_currentProjectsPath);
-                    Action<ValueChangedEventArgs> onValueChanged = null;
-                    onValueChanged = (e) =>
+                    Database.GetValueAsync(_currentProjectsPath).ContinueWithOnMainThread(task =>
                     {
-                        databaseReference.ValueChanged.RemoveListener(onValueChanged);
-                        var value = e.Snapshot.Value;
+                        var value = task.Result;
                         var jObject = value as JObject;
                         var properties = jObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
                         var propertiesCount = properties.Length;
                         _projectListItems = new ProjectJsonObject[propertiesCount];
                         for (var i = 0; i < propertiesCount; i++)
                             _projectListItems[i] = (properties[i].Value as JObject)?.ToObject<ProjectJsonObject>();
-                    };
-                    databaseReference.ValueChanged.AddListener(onValueChanged);
+                    });
                 }
 
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
@@ -210,8 +210,7 @@ public class ReferenceEditorWindow : EditorWindow
                     _operationType = OperationType.List;
                 if (GUILayout.Button("Create"))
                 {
-                    var projectReference = LocalbaseDatabase.DefaultInstance.GetReference(ProjectsPath);
-                    projectReference.AddObjectChild(_currentProjectListItem.guid, _currentProjectListItem);
+                    Database.Object.AddChild(ProjectsPath, _currentProjectListItem.guid, _currentProjectListItem);
                     _operationType = OperationType.List;
                 }
                 EditorGUILayout.EndHorizontal();
@@ -237,10 +236,7 @@ public class ReferenceEditorWindow : EditorWindow
                     _operationType = OperationType.List;
                 if (GUILayout.Button("Update"))
                 {
-                    var projectItemReference =
-                        LocalbaseDatabase.DefaultInstance.GetReference(
-                            $"{ProjectsPath}.{_currentProjectListItem.guid}");
-                    projectItemReference.SetValueAsync(_currentProjectListItem);
+                    Database.SetValueAsync($"{ProjectsPath}.{_currentProjectListItem.guid}", _currentProjectListItem);
                     _operationType = OperationType.List;
                 }
                 EditorGUILayout.EndHorizontal();
@@ -248,8 +244,7 @@ public class ReferenceEditorWindow : EditorWindow
             case OperationType.Delete:
                 if (_operationTypeChangedThisFrame)
                 {
-                    var databaseReference = LocalbaseDatabase.DefaultInstance.GetReference(ProjectsPath);
-                    databaseReference.RemoveObjectChild(_currentProjectListItem.guid);
+                    Database.Object.RemoveChild(ProjectsPath, _currentProjectListItem.guid);
                 }
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
                 EditorGUILayout.LabelField("Delete Project", EditorStyles.boldLabel);
@@ -277,19 +272,17 @@ public class ReferenceEditorWindow : EditorWindow
     {
         if (_referenceTypeChangedThisFrame)
             _operationType = OperationType.List;
-        
+
         switch (_operationType)
         {
             case OperationType.List:
 
                 if (_referenceTypeChangedThisFrame || _operationTypeChangedThisFrame)
                 {
-                    var databaseReference = LocalbaseDatabase.DefaultInstance.GetReference(TextsPath);
-                    Action<ValueChangedEventArgs> onValueChanged = null;
-                    onValueChanged = (e) =>
+                    _textListItems = Array.Empty<TextJsonObject>();
+                    Database.GetValueAsync(TextsPath).ContinueWithOnMainThread(task =>
                     {
-                        databaseReference.ValueChanged.RemoveListener(onValueChanged);
-                        var value = e.Snapshot.Value;
+                        var value = task.Result;
                         var jObject = value as JObject;
                         var itemHistories = jObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
                         var itemHistoriesLength = itemHistories.Length;
@@ -324,8 +317,7 @@ public class ReferenceEditorWindow : EditorWindow
                             var itemHistoryItem = itemHistoryItemJObject?.ToObject<TextJsonObject>();
                             _textListItems[i] = itemHistoryItem;
                         }
-                    };
-                    databaseReference.ValueChanged.AddListener(onValueChanged);
+                    });
                 }
 
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
@@ -337,8 +329,8 @@ public class ReferenceEditorWindow : EditorWindow
                 {
                     var listItem = _textListItems[i];
                     EditorGUILayout.BeginHorizontal();
-                    EditorGUILayout.LabelField(listItem.name);
-                    EditorGUILayout.LabelField(listItem.guid);
+                    EditorGUILayout.LabelField(listItem?.name ?? "null");
+                    EditorGUILayout.LabelField(listItem?.guid ?? "null");
                     if (GUILayout.Button("Read"))
                     {
                         _operationType = OperationType.Read;
@@ -369,14 +361,12 @@ public class ReferenceEditorWindow : EditorWindow
 
                 if (_operationTypeChangedThisFrame)
                 {
+                    _textListItems = Array.Empty<TextJsonObject>();
                     _textPreviews = Array.Empty<string>();
                     var guid = _currentTextListItem.guid;
-                    var textAssetReadReference = LocalbaseDatabase.DefaultInstance.GetReference($"{TextsPath}.{guid}");
-                    Action<ValueChangedEventArgs> onTextAssetReadValueChanged = null;
-                    onTextAssetReadValueChanged = (e) =>
+                    Database.GetValueAsync($"{TextsPath}.{guid}").ContinueWithOnMainThread(task =>
                     {
-                        textAssetReadReference.ValueChanged.RemoveListener(onTextAssetReadValueChanged);
-                        var value = e.Snapshot.Value;
+                        var value = task.Result;
                         var jObject = value as JObject;
                         var itemHistories = jObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
                         var itemHistoriesLength = itemHistories.Length;
@@ -388,18 +378,18 @@ public class ReferenceEditorWindow : EditorWindow
                             var textAsset = itemHistoryJObject?.ToObject<TextJsonObject>();
                             _textListItems[i] = textAsset;
                         }
-                        
+
                         _textPreviews = new string[itemHistoriesLength];
                         for (var i = 0; i < itemHistoriesLength; i++)
                         {
                             var textPath = _textListItems[i].path;
                             var index = i;
-                            HttpCache.GetTextAsync(textPath).ContinueWith(e => _textPreviews[index] = e.Result);
+                            HttpCache.GetTextAsync(textPath).ContinueWithOnMainThread(e => _textPreviews[index] = e.Result);
                         }
-                    };
-                    textAssetReadReference.ValueChanged.AddListener(onTextAssetReadValueChanged);
+                    });
                 }
                 _textListItems ??= Array.Empty<TextJsonObject>();
+                _textPreviews ??= Array.Empty<string>();
                 var textListItemsCount = _textListItems.Length;
                 for (var i = 0; i < textListItemsCount; i++)
                 {
@@ -407,19 +397,19 @@ public class ReferenceEditorWindow : EditorWindow
                     var lastModifiedUtc = new DateTime(textListItem.lastModifiedUtcTicks);
                     var lastModified = lastModifiedUtc.ToLocalTime();
                     var lastModifiedString = lastModified.ToString("yyyy-MM-dd HH:mm:ss");
-                    
+
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField(textListItem.guid);
                     EditorGUILayout.LabelField(lastModifiedString);
                     EditorGUILayout.LabelField(textListItem.name);
                     EditorGUILayout.EndHorizontal();
-                    
+
                     EditorGUILayout.LabelField(textListItem.path);
-                    
+
                     EditorGUI.BeginDisabledGroup(true);
                     EditorGUILayout.TextArea(_textPreviews[i]);
                     EditorGUI.EndDisabledGroup();
-                    
+
                     if (i < textListItemsCount - 1)
                         EditorGUILayout.Space();
                 }
@@ -443,11 +433,11 @@ public class ReferenceEditorWindow : EditorWindow
                 _currentTextListItem.name = EditorGUILayout.TextField("Name", _currentTextListItem.name);
                 EditorGUILayout.LabelField("Guid", _currentTextListItem.guid);
                 EditorGUILayout.EndHorizontal();
-                
+
                 EditorGUI.BeginDisabledGroup(_textPreviews[0] == null);
                 _textPreviews[0] = EditorGUILayout.TextArea(_textPreviews[0]);
                 EditorGUI.EndDisabledGroup();
-                
+
                 EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button("Back"))
                     _operationType = OperationType.List;
@@ -465,10 +455,9 @@ public class ReferenceEditorWindow : EditorWindow
                             return;
                         }
                         var downloadUri = e.Result;
-                        var textReference = LocalbaseDatabase.DefaultInstance.GetReference($"{TextsPath}.{guid}");
                         _currentTextListItem.lastModifiedUtcTicks = utcNowTicks;
                         _currentTextListItem.path = downloadUri.ToString();
-                        textReference.AddObjectChild(utcNowTicks.ToString(), _currentTextListItem);
+                        Database.Object.AddChild($"{TextsPath}.{guid}", utcNowTicks.ToString(), _currentTextListItem);
                         _operationType = OperationType.List;
                     });
                 }
@@ -478,20 +467,20 @@ public class ReferenceEditorWindow : EditorWindow
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
                 EditorGUILayout.LabelField("Create Text Asset", EditorStyles.boldLabel);
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-                
+
                 if (_operationTypeChangedThisFrame)
                 {
                     _textPreviews = new string[1];
                     _textPreviews[0] = "";
                 }
-                
+
                 EditorGUILayout.BeginHorizontal();
                 _currentTextListItem.name = EditorGUILayout.TextField("Name", _currentTextListItem.name);
                 EditorGUILayout.LabelField("Guid", _currentTextListItem.guid);
                 EditorGUILayout.EndHorizontal();
-                
+
                 _textPreviews[0] = EditorGUILayout.TextArea(_textPreviews[0]);
-                
+
                 EditorGUILayout.BeginHorizontal();
                 if (GUILayout.Button("Back"))
                     _operationType = OperationType.List;
@@ -499,7 +488,9 @@ public class ReferenceEditorWindow : EditorWindow
                 {
                     var ext = System.IO.Path.GetExtension(_currentTextListItem.name);
                     var guid = _currentTextListItem.guid;
+                    var path = $"{TextsPath}.{guid}";
                     var utcNowTicks = DateTime.UtcNow.Ticks;
+                    var utcNowTicksString = utcNowTicks.ToString();
                     var objectName = $"{guid}-{utcNowTicks}{ext}";
                     GoogleCloudStorage.UploadText(objectName, _textPreviews[0]).ContinueWithOnMainThread(e =>
                     {
@@ -509,26 +500,26 @@ public class ReferenceEditorWindow : EditorWindow
                             return;
                         }
                         var downloadUri = e.Result;
-                        var textReference = LocalbaseDatabase.DefaultInstance.GetReference($"{TextsPath}.{guid}");
+                        //var textReference = LocalbaseDatabase.DefaultInstance.GetReference($"{TextsPath}.{guid}");
                         _currentTextListItem.createdUtcTicks = utcNowTicks;
                         _currentTextListItem.lastModifiedUtcTicks = utcNowTicks;
                         _currentTextListItem.path = downloadUri.ToString();
-                        if (textReference.ValueChanged.Value.Snapshot.Value == null)
-                            textReference.SetValueAsync(new JObject()).ContinueWithOnMainThread(e2 =>
-                            {
-                                if (e2.Exception != null)
-                                {
-                                    Debug.LogError(e2.Exception);
-                                    return;
-                                }
-                                textReference.AddObjectChild(utcNowTicks.ToString(), _currentTextListItem);
-                                _operationType = OperationType.List;
-                            });
-                        else
+                        Database.IsNullCheckAsync($"{TextsPath}.{guid}").ContinueWithOnMainThread(task =>
                         {
-                            textReference.AddObjectChild(utcNowTicks.ToString(), _currentTextListItem);
-                            _operationType = OperationType.List;
-                        }
+                            var isNull = task.Result;
+                            if (isNull)
+                            {
+                                var jObject = new JObject();
+                                jObject.Add(utcNowTicksString, JObject.FromObject(_currentTextListItem));
+                                Database.SetValueAsync(path, jObject);
+                                _operationType = OperationType.List;
+                            }
+                            else
+                            {
+                                Database.Object.AddChild(path, utcNowTicksString, _currentTextListItem);
+                                _operationType = OperationType.List;
+                            }
+                        });
                     });
                 }
                 EditorGUILayout.EndHorizontal();
