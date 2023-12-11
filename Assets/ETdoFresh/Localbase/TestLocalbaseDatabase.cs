@@ -1,35 +1,28 @@
-using ETdoFresh.Localbase;
+using GameEditor.References;
 using UnityEngine;
 
 public class TestLocalbaseDatabase : MonoBehaviour
 {
-    private DatabaseReference test => LocalbaseDatabase.DefaultInstance.GetReference(endpoint);
     [SerializeField] private string endpoint = "/test/feature/1";
 
     private void OnEnable()
     {
-        test.ValueChanged.AddListener(OnTestValueChanged);
+        Database.ValueChanged.AddListener(endpoint, OnTestValueChanged);
     }
 
     private void OnDisable()
     {
-        test.ValueChanged.RemoveListener(OnTestValueChanged);
+        Database.ValueChanged.RemoveListener(endpoint, OnTestValueChanged);
     }
 
-    private void OnTestValueChanged(ValueChangedEventArgs e)
+    private void OnTestValueChanged(object e)
     {
-        Debug.Log(e.Snapshot.Value);
+        Debug.Log(e);
     }
 
     [ContextMenu("Set Text")]
     private void SetTextRandomInt()
     {
-        test.SetValueAsync(UnityEngine.Random.Range(0, 100));
-    }
-
-    [ContextMenu("Clear Database")]
-    private void ClearDatabase()
-    {
-        LocalbaseDatabase.DefaultInstance.Json = "";
+        Database.SetValueAsync(endpoint, Random.Range(0, 100));
     }
 }

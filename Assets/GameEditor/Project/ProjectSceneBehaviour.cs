@@ -4,6 +4,8 @@ using ETdoFresh.Localbase;
 using ETdoFresh.ReadonlyInspectorAttribute;
 using ETdoFresh.SceneReferences;
 using ETdoFresh.UnityPackages.ExtensionMethods;
+using Firebase.Extensions;
+using GameEditor.References;
 using Newtonsoft.Json.Linq;
 using TMPro;
 using UnityEngine;
@@ -50,8 +52,6 @@ namespace GameEditor.Project
         [SerializeField] private Button createProjectButton;
         [SerializeField] private Button cancelCreateProjectButton;
 
-        private DatabaseReference _projectsDatabaseReference;
-
         private void OnValidate()
         {
             if (inSceneProjectSlot) projectButtonsParent = inSceneProjectSlot.transform.parent;
@@ -59,7 +59,6 @@ namespace GameEditor.Project
 
         private void Awake()
         {
-            _projectsDatabaseReference = LocalbaseDatabase.DefaultInstance.GetReference(ProjectsPath);
             inSceneProjectSlot.SetActive(false);
         }
 
@@ -69,22 +68,17 @@ namespace GameEditor.Project
             createProjectUI.SetActive(false);
         }
 
-        private void OnDestroy()
-        {
-            _projectsDatabaseReference?.Destroy();
-        }
-
         private void OnEnable()
         {
             backButton.onClick.AddPersistentListener(OnBackButtonClicked);
             addProjectButton.onClick.AddPersistentListener(OnAddProjectButtonClicked);
             createProjectButton.onClick.AddPersistentListener(OnCreateProjectButtonClicked);
             cancelCreateProjectButton.onClick.AddPersistentListener(OnCancelCreateProjectButtonClicked);
-            _projectsDatabaseReference.ChildAdded.AddListener(OnProjectsChildAdded);
-            _projectsDatabaseReference.ChildChanged.AddListener(OnProjectsChildChanged);
-            _projectsDatabaseReference.ChildRemoved.AddListener(OnProjectsChildRemoved);
-            _projectsDatabaseReference.ChildMoved.AddListener(OnProjectsChildMoved);
-            _projectsDatabaseReference.ValueChanged.AddListener(OnProjectsValueChanged);
+            Database.ChildAdded.AddListener(ProjectsPath, OnProjectsChildAdded);
+            Database.ChildChanged.AddListener(ProjectsPath, OnProjectsChildChanged);
+            Database.ChildRemoved.AddListener(ProjectsPath, OnProjectsChildRemoved);
+            Database.ChildMoved.AddListener(ProjectsPath, OnProjectsChildMoved);
+            Database.GetValueAsync(ProjectsPath).ContinueWithOnMainThread(task => OnProjectsValueChanged(task.Result));
         }
 
         private void OnDisable()
@@ -93,11 +87,10 @@ namespace GameEditor.Project
             addProjectButton.onClick.RemovePersistentListener(OnAddProjectButtonClicked);
             createProjectButton.onClick.RemovePersistentListener(OnCreateProjectButtonClicked);
             cancelCreateProjectButton.onClick.RemovePersistentListener(OnCancelCreateProjectButtonClicked);
-            _projectsDatabaseReference.ChildAdded.RemoveListener(OnProjectsChildAdded);
-            _projectsDatabaseReference.ChildChanged.RemoveListener(OnProjectsChildChanged);
-            _projectsDatabaseReference.ChildRemoved.RemoveListener(OnProjectsChildRemoved);
-            _projectsDatabaseReference.ChildMoved.RemoveListener(OnProjectsChildMoved);
-            _projectsDatabaseReference.ValueChanged.RemoveListener(OnProjectsValueChanged);
+            Database.ChildAdded.RemoveListener(ProjectsPath, OnProjectsChildAdded);
+            Database.ChildChanged.RemoveListener(ProjectsPath, OnProjectsChildChanged);
+            Database.ChildRemoved.RemoveListener(ProjectsPath, OnProjectsChildRemoved);
+            Database.ChildMoved.RemoveListener(ProjectsPath, OnProjectsChildMoved);
         }
 
         private void OnBackButtonClicked()
@@ -137,7 +130,7 @@ namespace GameEditor.Project
             projectJsonObject.localScenePath = NullIfEmpty(projectSceneLocalPathInputField.text);
             projectJsonObject.localMaterialPath = NullIfEmpty(projectMaterialLocalPathInputField.text);
             projectJsonObject.localAnimationPath = NullIfEmpty(projectAnimationLocalPathInputField.text);
-            _projectsDatabaseReference.AddObjectChild(projectJsonObject.guid, projectJsonObject);
+            Database.Object.AddChild(ProjectsPath, projectJsonObject.guid, projectJsonObject);
 
             createProjectUI.SetActive(false);
             selectProjectUI.SetActive(true);
@@ -168,9 +161,9 @@ namespace GameEditor.Project
             createProjectUI.SetActive(false);
         }
 
-        private void OnProjectsChildAdded(ChildChangedEventArgs e)
+        private void OnProjectsChildAdded(object value)
         {
-            var newProject = e.Snapshot.GetValue<ProjectJsonObject>();
+            var newProject = (value as JObject)?.ToObject<ProjectJsonObject>();
             Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildAdded {newProject.name} {newProject.guid}");
 
             var projectSlot = Instantiate(inSceneProjectSlot, projectButtonsParent);
@@ -182,9 +175,9 @@ namespace GameEditor.Project
             projectSlots.Add(projectSlot);
         }
 
-        private void OnProjectsChildRemoved(ChildChangedEventArgs e)
+        private void OnProjectsChildRemoved(object value)
         {
-            var removedProject = e.Snapshot.GetValue<ProjectJsonObject>();
+            var removedProject = (value as JObject)?.ToObject<ProjectJsonObject>();
             Debug.Log(
                 $"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildRemoved {removedProject.name} {removedProject.guid}");
             var projectSlot = projectSlots.Find(slot =>
@@ -194,37 +187,33 @@ namespace GameEditor.Project
             Destroy(projectSlot);
         }
 
-        private void OnProjectsChildMoved(ChildChangedEventArgs e)
+        private void OnProjectsChildMoved(object value)
         {
-            var oldProjectGuid = e.PreviousChildName;
-            var newProjectGuid = e.Snapshot.Key;
-            Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildMoved {oldProjectGuid} {newProjectGuid}");
-            var projectSlot =
-                projectSlots.Find(slot => slot.GetComponent<ProjectSlotBehaviour>().Data.guid == oldProjectGuid);
-            if (projectSlot == null) return;
-            projectSlot.GetComponent<ProjectSlotBehaviour>().Data.guid = newProjectGuid;
+            // var oldProjectGuid = e.PreviousChildName;
+            // var newProjectGuid = e.Snapshot.Key;
+            // Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildMoved {oldProjectGuid} {newProjectGuid}");
+            // var projectSlot =
+            //     projectSlots.Find(slot => slot.GetComponent<ProjectSlotBehaviour>().Data.guid == oldProjectGuid);
+            // if (projectSlot == null) return;
+            // projectSlot.GetComponent<ProjectSlotBehaviour>().Data.guid = newProjectGuid;
         }
 
-        private void OnProjectsChildChanged(ChildChangedEventArgs e)
+        private void OnProjectsChildChanged(object value)
         {
-            var databaseReference = e.Snapshot.Reference;
-            while (!databaseReference.IsRoot() && databaseReference.Parent.Key != ProjectsPath)
-                databaseReference = databaseReference.Parent;
-            var projectGuid = databaseReference.Key;
-            var projectSlot =
-                projectSlots.Find(slot => slot.GetComponent<ProjectSlotBehaviour>().Data.guid == projectGuid);
-            if (projectSlot == null) return;
-            var newProject = databaseReference.ValueChanged.Value.Snapshot.GetValue<ProjectJsonObject>();
-            Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildChanged {newProject.name} {newProject.guid}");
-            projectSlot.GetComponent<ProjectSlotBehaviour>().SetData(newProject, OnLoadProjectButtonClicked);
+            // var databaseReference = e.Snapshot.Reference;
+            // while (!databaseReference.IsRoot() && databaseReference.Parent.Key != ProjectsPath)
+            //     databaseReference = databaseReference.Parent;
+            // var projectGuid = databaseReference.Key;
+            // var projectSlot =
+            //     projectSlots.Find(slot => slot.GetComponent<ProjectSlotBehaviour>().Data.guid == projectGuid);
+            // if (projectSlot == null) return;
+            // var newProject = databaseReference.ValueChanged.Value.Snapshot.GetValue<ProjectJsonObject>();
+            // Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildChanged {newProject.name} {newProject.guid}");
+            // projectSlot.GetComponent<ProjectSlotBehaviour>().SetData(newProject, OnLoadProjectButtonClicked);
         }
 
-        private void OnProjectsValueChanged(ValueChangedEventArgs e)
+        private void OnProjectsValueChanged(object value)
         {
-            // One-time initialization
-            _projectsDatabaseReference.ValueChanged.RemoveListener(OnProjectsValueChanged);
-
-            var value = e.Snapshot.Value;
             if (value != null && value is not JObject)
                 throw new Exception(
                     $"[{nameof(ProjectSceneBehaviour)}] OnProjectsValueChanged: Snapshot value is not JObject");
