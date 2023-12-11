@@ -10,7 +10,7 @@
     "com.google.firebase.database": "file:../GooglePackages/com.google.firebase.database-11.6.0.tgz",
     "com.google.firebase.storage": "file:../GooglePackages/com.google.firebase.storage-11.6.0.tgz",
     "com.unity.feature.2d": "2.0.0",
-    "com.unity.ide.rider": "3.0.26",
+    "com.unity.ide.rider": "3.0.27",
     "com.unity.mathematics": "1.2.6",
     "com.unity.nuget.newtonsoft-json": "3.2.1",
     "com.unity.probuilder": "5.1.1",
