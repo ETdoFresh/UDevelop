@@ -250,7 +250,7 @@ public class ReferenceEditorWindow : EditorWindow
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
                 EditorGUILayout.LabelField("Delete Project", EditorStyles.boldLabel);
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-                EditorGUILayout.LabelField("You have chosen to deleted the following project:");
+                EditorGUILayout.LabelField("You have deleted the following project:");
                 EditorGUILayout.LabelField(_currentProjectListItem.name);
                 EditorGUILayout.LabelField(_currentProjectListItem.guid);
                 if (GUILayout.Button("Back"))
@@ -524,6 +524,21 @@ public class ReferenceEditorWindow : EditorWindow
                     });
                 }
                 EditorGUILayout.EndHorizontal();
+                break;
+            case OperationType.Delete:
+                if (_operationTypeChangedThisFrame)
+                {
+                    var guid = _currentTextListItem.guid;
+                    Database.Object.RemoveChild(TextsPath, guid);
+                }
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                EditorGUILayout.LabelField("Delete Text Asset", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                EditorGUILayout.LabelField("You have deleted the following text asset:");
+                EditorGUILayout.LabelField(_currentTextListItem.name);
+                EditorGUILayout.LabelField(_currentTextListItem.guid);
+                if (GUILayout.Button("Back"))
+                    _operationType = OperationType.List;
                 break;
         }
     }
