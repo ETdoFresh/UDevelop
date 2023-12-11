@@ -8,22 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:614868165915:ios:65dee2fef1055722825fbe",
+        "mobilesdk_app_id": "1:614868165915:android:ada2e83c8bb03809825fbe",
         "android_client_info": {
           "package_name": "com.etdofresh.ingameeditor"
         }
       },
+      "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyCdsnbv61QMNn4LM8ZC1zobtRa0JSFiS60"
+          "current_key": "AIzaSyCq6fNHywoYzM0NUnw86_E11PcQ_KavXZU"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 0
-        },
         "appinvite_service": {
-          "status": 1
+          "other_platform_oauth_client": []
         }
       }
     }
