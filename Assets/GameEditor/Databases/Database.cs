@@ -71,10 +71,10 @@ namespace GameEditor.Databases
                 LocalbaseDatabase.DefaultInstance.GetReference(path).RemoveArrayChild(index);
         }
     
-        public static Task SetValueAsync(string path, object value) => 
-            LocalbaseDatabase.DefaultInstance.GetReference(path).SetValueAsync(value);
+        public static async Task SetValueAsync(string path, object value) => 
+            await LocalbaseDatabase.DefaultInstance.GetReference(path).SetValueAsync(value);
 
-        public static Task<object> GetValueAsync(string path)
+        public static async Task<object> GetValueAsync(string path)
         {
             var tcs = new TaskCompletionSource<object>();
             Action<ValueChangedEventArgs> listener = null;
@@ -84,9 +84,20 @@ namespace GameEditor.Databases
                 tcs.SetResult(args.Snapshot.Value);
             };
             LocalbaseDatabase.DefaultInstance.GetReference(path).ValueChanged.AddListener(listener);
-            return tcs.Task;
+            return await tcs.Task;
         }
-
+        
+        public static void GetValueCallback(string path, Action<object> callback)
+        {
+            Action<ValueChangedEventArgs> listener = null;
+            listener = args =>
+            {
+                LocalbaseDatabase.DefaultInstance.GetReference(path).ValueChanged.RemoveListener(listener);
+                callback?.Invoke(args.Snapshot.Value);
+            };
+            LocalbaseDatabase.DefaultInstance.GetReference(path).ValueChanged.AddListener(listener);
+        }
+        
         public static async Task<bool> IsNullCheckAsync(string path) => 
             await GetValueAsync(path) == null;
     }

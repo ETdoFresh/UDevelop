@@ -81,11 +81,6 @@ public class ReferenceEditorWindow : EditorWindow
     private OperationType _previousOperationType;
     private bool _operationTypeChangedThisFrame;
 
-    private void OnEnable()
-    {
-        HttpCache.Initialize();
-    }
-
     private void OnGUI()
     {
         _referenceType = (ReferenceType)EditorGUILayout.EnumPopup("Reference Type", _referenceType);
@@ -154,9 +149,8 @@ public class ReferenceEditorWindow : EditorWindow
                 if (_referenceTypeChangedThisFrame || _operationTypeChangedThisFrame)
                 {
                     _currentProjectsPath = ProjectsPath;
-                    Database.GetValueAsync(_currentProjectsPath).ContinueWithOnMainThread(task =>
+                    Database.GetValueCallback(_currentProjectsPath, value =>
                     {
-                        var value = task.Result;
                         var jObject = value as JObject;
                         var properties = jObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
                         var propertiesCount = properties.Length;
@@ -282,9 +276,8 @@ public class ReferenceEditorWindow : EditorWindow
                 if (_referenceTypeChangedThisFrame || _operationTypeChangedThisFrame)
                 {
                     _textListItems = Array.Empty<TextJsonObject>();
-                    Database.GetValueAsync(TextsPath).ContinueWithOnMainThread(task =>
+                    Database.GetValueCallback(TextsPath, value =>
                     {
-                        var value = task.Result;
                         var jObject = value as JObject;
                         var itemHistories = jObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
                         var itemHistoriesLength = itemHistories.Length;
@@ -330,6 +323,7 @@ public class ReferenceEditorWindow : EditorWindow
                 for (var i = 0; i < listItemsCount; i++)
                 {
                     var listItem = _textListItems[i];
+                    var isDeleted = listItem?.deletedUtcTicks.HasValue == true;
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField(listItem?.name ?? "null");
                     EditorGUILayout.LabelField(listItem?.guid ?? "null");
@@ -338,16 +332,18 @@ public class ReferenceEditorWindow : EditorWindow
                         _operationType = OperationType.Read;
                         _currentTextListItem = listItem;
                     }
-                    if (GUILayout.Button("Update"))
+                    EditorGUI.BeginDisabledGroup(isDeleted);
+                    if (GUILayout.Button(isDeleted ? "Deleted" : "Update"))
                     {
                         _operationType = OperationType.Update;
                         _currentTextListItem = listItem;
                     }
-                    if (GUILayout.Button("Delete"))
+                    if (GUILayout.Button(isDeleted ? "Deleted" : "Delete"))
                     {
                         _operationType = OperationType.Delete;
                         _currentTextListItem = listItem;
                     }
+                    EditorGUI.EndDisabledGroup();
                     EditorGUILayout.EndHorizontal();
                 }
                 if (GUILayout.Button("Create"))
@@ -366,9 +362,8 @@ public class ReferenceEditorWindow : EditorWindow
                     _textListItems = Array.Empty<TextJsonObject>();
                     _textPreviews = Array.Empty<string>();
                     var guid = _currentTextListItem.guid;
-                    Database.GetValueAsync($"{TextsPath}.{guid}").ContinueWithOnMainThread(task =>
+                    Database.GetValueCallback($"{TextsPath}.{guid}", value =>
                     {
-                        var value = task.Result;
                         var jObject = value as JObject;
                         var itemHistories = jObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
                         var itemHistoriesLength = itemHistories.Length;
@@ -384,9 +379,10 @@ public class ReferenceEditorWindow : EditorWindow
                         _textPreviews = new string[itemHistoriesLength];
                         for (var i = 0; i < itemHistoriesLength; i++)
                         {
-                            var textPath = _textListItems[i].path;
+                            var textPath = _textListItems[i]?.path;
+                            if (string.IsNullOrEmpty(textPath)) continue;
                             var index = i;
-                            HttpCache.GetTextAsync(textPath).ContinueWithOnMainThread(e => _textPreviews[index] = e.Result);
+                            HttpCache.GetTextCallback(textPath, textValue => _textPreviews[index] = textValue);
                         }
                     });
                 }
@@ -396,6 +392,7 @@ public class ReferenceEditorWindow : EditorWindow
                 for (var i = 0; i < textListItemsCount; i++)
                 {
                     var textListItem = _textListItems[i];
+                    var isDeleted = textListItem?.deletedUtcTicks.HasValue == true;
                     var lastModifiedUtc = new DateTime(textListItem.lastModifiedUtcTicks);
                     var lastModified = lastModifiedUtc.ToLocalTime();
                     var lastModifiedString = lastModified.ToString("yyyy-MM-dd HH:mm:ss");
@@ -406,11 +403,19 @@ public class ReferenceEditorWindow : EditorWindow
                     EditorGUILayout.LabelField(textListItem.name);
                     EditorGUILayout.EndHorizontal();
 
-                    EditorGUILayout.LabelField(textListItem.path);
+                    if (isDeleted)
+                    {
+                        EditorGUILayout.LabelField("Deleted");
+                    }
+                    else
+                    {
+                        EditorGUILayout.LabelField(textListItem.path);
+                        EditorGUILayout.LabelField("Cache", HttpCache.GetCacheFilename(textListItem.path, ".txt"));
 
-                    EditorGUI.BeginDisabledGroup(true);
-                    EditorGUILayout.TextArea(_textPreviews[i]);
-                    EditorGUI.EndDisabledGroup();
+                        EditorGUI.BeginDisabledGroup(true);
+                        EditorGUILayout.TextArea(_textPreviews[i]);
+                        EditorGUI.EndDisabledGroup();
+                    }
 
                     if (i < textListItemsCount - 1)
                         EditorGUILayout.Space();
@@ -428,7 +433,7 @@ public class ReferenceEditorWindow : EditorWindow
                 {
                     _textPreviews = new string[1];
                     _textPreviews[0] = null;
-                    HttpCache.GetTextAsync(_currentTextListItem.path).ContinueWith(e => _textPreviews[0] = e.Result);
+                    HttpCache.GetTextCallback(_currentTextListItem.path, textValue => _textPreviews[0] = textValue);
                 }
 
                 EditorGUILayout.BeginHorizontal();
@@ -535,7 +540,13 @@ public class ReferenceEditorWindow : EditorWindow
                 if (_operationTypeChangedThisFrame)
                 {
                     var guid = _currentTextListItem.guid;
-                    Database.Object.RemoveChild(TextsPath, guid);
+                    var UtcNowTicks = DateTime.UtcNow.Ticks;
+                    var UtcNowTicksString = UtcNowTicks.ToString();
+                    var path = $"{TextsPath}.{guid}";
+                    _currentTextListItem.lastModifiedUtcTicks = UtcNowTicks;
+                    _currentTextListItem.deletedUtcTicks = UtcNowTicks;
+                    _currentTextListItem.path = null;
+                    Database.Object.AddChild(path, UtcNowTicksString, _currentTextListItem);
                 }
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
                 EditorGUILayout.LabelField("Delete Text Asset", EditorStyles.boldLabel);

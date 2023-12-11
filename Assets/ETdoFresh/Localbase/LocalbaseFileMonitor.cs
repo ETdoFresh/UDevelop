@@ -1,6 +1,4 @@
 using ETdoFresh.UnityPackages.DataBusSystem;
-using GameEditor.References;
-using GameEditor.Storages;
 using UnityEngine;
 
 namespace ETdoFresh.Localbase
@@ -10,7 +8,6 @@ namespace ETdoFresh.Localbase
         public static void Touch()
         {
             if (!Application.isPlaying) return;
-            HttpCache.Initialize();
             if (Instance) return;
             Debug.LogWarning($"[{nameof(LocalbaseFileMonitor)}] could not be initialized. You are probably quitting the application.");
         }

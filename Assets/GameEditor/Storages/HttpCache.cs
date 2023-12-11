@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using UnityEngine;
 using UnityEngine.Networking;
 
 namespace GameEditor.Storages
@@ -10,13 +9,6 @@ namespace GameEditor.Storages
     public static class HttpCache
     {
         private const string CachePath = "cache";
-        private static string _persistentDataPath;
-
-        public static void Initialize()
-        {
-            if (!string.IsNullOrEmpty(_persistentDataPath)) return;
-            _persistentDataPath = Application.persistentDataPath;
-        }
         
         public static async Task<string> GetTextAsync(string url)
         {
@@ -39,6 +31,33 @@ namespace GameEditor.Storages
             Directory.CreateDirectory(Path.GetDirectoryName(cachePath));
             await File.WriteAllTextAsync(cachePath, text);
             return text;
+        }
+        
+        public static void GetTextCallback(string url, System.Action<string> callback)
+        {
+            if (string.IsNullOrEmpty(url)) return;
+            
+            var cachePath = GetCachePath(url, ".txt");
+            if (File.Exists(cachePath))
+            {
+                callback?.Invoke(File.ReadAllText(cachePath));
+                return;
+            }
+
+            var webRequest = UnityWebRequest.Get(url);
+            var operation = webRequest.SendWebRequest();
+            operation.completed += _ =>
+            {
+                if (webRequest.error != null)
+                    callback?.Invoke(null);
+                else
+                {
+                    var text = webRequest.downloadHandler.text;
+                    Directory.CreateDirectory(Path.GetDirectoryName(cachePath));
+                    File.WriteAllText(cachePath, text);
+                    callback?.Invoke(text);
+                }
+            };
         }
         
         public static async Task<byte[]> GetBytesAsync(string url)
@@ -64,8 +83,9 @@ namespace GameEditor.Storages
             return bytes;
         }
 
-        private static string GetCachePath(string url, string backupExtension)
+        public static string GetCacheFilename(string url, string backupExtension)
         {
+            if (string.IsNullOrEmpty(url)) return null;
             var uri = new System.Uri(url);
             url = uri.AbsoluteUri;
             var queryIndex = url.IndexOf('?');
@@ -75,8 +95,15 @@ namespace GameEditor.Storages
             var md5 = System.Security.Cryptography.MD5.Create();
             var hash = md5.ComputeHash(System.Text.Encoding.UTF8.GetBytes(url));
             var fileName = System.BitConverter.ToString(hash).Replace("-", "").ToLower();
-            var cachePath = Path.Combine(_persistentDataPath, CachePath);
-            return Path.Combine(cachePath, $"{fileName}{extension}");
+            return $"{fileName}{extension}";
+        }
+
+        public static string GetCachePath(string url, string backupExtension)
+        {
+            if (string.IsNullOrEmpty(url)) return null;
+            var filename = GetCacheFilename(url, backupExtension);
+            if (string.IsNullOrEmpty(filename)) return null;
+            return Path.Combine(UnityEngine.Application.persistentDataPath, CachePath, filename);
         }
     }
 }
