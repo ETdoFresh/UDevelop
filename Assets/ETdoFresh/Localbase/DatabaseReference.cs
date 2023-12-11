@@ -228,14 +228,12 @@ namespace ETdoFresh.Localbase
 
         public void AddArrayChild(object obj)
         {
-            var settings = new JsonSerializerSettings
+            var settings = new JsonSerializer
             {
-                Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore,
             };
-            var json = JsonConvert.SerializeObject(obj, settings);
-            var jToken = JToken.Parse(json);
+            var jToken = JToken.FromObject(obj, settings);
             AddArrayChild(jToken);
         }
 
@@ -255,14 +253,12 @@ namespace ETdoFresh.Localbase
 
         public void AddObjectChild(string key, object obj)
         {
-            var settings = new JsonSerializerSettings
+            var settings = new JsonSerializer
             {
-                Formatting = Formatting.Indented,
                 NullValueHandling = NullValueHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore,
             };
-            var json = JsonConvert.SerializeObject(obj, settings);
-            var jToken = JToken.Parse(json);
+            var jToken = JToken.FromObject(obj, settings);
             AddObjectChild(key, jToken);
         }
 

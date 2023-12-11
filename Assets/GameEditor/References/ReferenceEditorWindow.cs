@@ -6,6 +6,7 @@ using GameEditor.Organizations;
 using GameEditor.Project;
 using GameEditor.References;
 using GameEditor.Storages;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -511,7 +512,12 @@ public class ReferenceEditorWindow : EditorWindow
                             if (isNull)
                             {
                                 var jObject = new JObject();
-                                jObject.Add(utcNowTicksString, JObject.FromObject(_currentTextListItem));
+                                var settings = new JsonSerializer
+                                {
+                                    NullValueHandling = NullValueHandling.Ignore,
+                                    DefaultValueHandling = DefaultValueHandling.Ignore,
+                                };
+                                jObject.Add(utcNowTicksString, JObject.FromObject(_currentTextListItem, settings));
                                 Database.SetValueAsync(path, jObject);
                                 _operationType = OperationType.List;
                             }

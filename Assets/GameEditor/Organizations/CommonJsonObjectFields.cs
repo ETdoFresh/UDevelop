@@ -8,5 +8,7 @@
         public string lastModifiedBy;
         public long createdUtcTicks;
         public string createdBy;
+        public long? deletedUtcTicks;
+        public string deletedBy;
     }
 }
