@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using ETdoFresh.Localbase;
 using ETdoFresh.ReadonlyInspectorAttribute;
 using ETdoFresh.SceneReferences;
 using ETdoFresh.UnityPackages.ExtensionMethods;
 using Firebase.Extensions;
-using GameEditor.References;
+using GameEditor.Databases;
 using Newtonsoft.Json.Linq;
 using TMPro;
 using UnityEngine;

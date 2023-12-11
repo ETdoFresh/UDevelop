@@ -9,7 +9,6 @@ using Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Networking;
 using static ETdoFresh.Localbase.Paths;
 
 public class ReferenceEditorWindow : EditorWindow
@@ -150,7 +149,7 @@ public class ReferenceEditorWindow : EditorWindow
                 {
                     _currentProjectsPath = ProjectsPath;
                     var databaseReference = LocalbaseDatabase.DefaultInstance.GetReference(_currentProjectsPath);
-                    UnityAction<ValueChangedEventArgs> onValueChanged = null;
+                    Action<ValueChangedEventArgs> onValueChanged = null;
                     onValueChanged = (e) =>
                     {
                         databaseReference.ValueChanged.RemoveListener(onValueChanged);
@@ -286,7 +285,7 @@ public class ReferenceEditorWindow : EditorWindow
                 if (_referenceTypeChangedThisFrame || _operationTypeChangedThisFrame)
                 {
                     var databaseReference = LocalbaseDatabase.DefaultInstance.GetReference(TextsPath);
-                    UnityAction<ValueChangedEventArgs> onValueChanged = null;
+                    Action<ValueChangedEventArgs> onValueChanged = null;
                     onValueChanged = (e) =>
                     {
                         databaseReference.ValueChanged.RemoveListener(onValueChanged);
@@ -373,7 +372,7 @@ public class ReferenceEditorWindow : EditorWindow
                     _textPreviews = Array.Empty<string>();
                     var guid = _currentTextListItem.guid;
                     var textAssetReadReference = LocalbaseDatabase.DefaultInstance.GetReference($"{TextsPath}.{guid}");
-                    UnityAction<ValueChangedEventArgs> onTextAssetReadValueChanged = null;
+                    Action<ValueChangedEventArgs> onTextAssetReadValueChanged = null;
                     onTextAssetReadValueChanged = (e) =>
                     {
                         textAssetReadReference.ValueChanged.RemoveListener(onTextAssetReadValueChanged);
