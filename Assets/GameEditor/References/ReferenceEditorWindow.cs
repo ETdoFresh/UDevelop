@@ -149,10 +149,10 @@ public class ReferenceEditorWindow : EditorWindow
                 if (_referenceTypeChangedThisFrame || _operationTypeChangedThisFrame)
                 {
                     _currentProjectsPath = ProjectsPath;
-                    Database.GetValueCallback(_currentProjectsPath, value =>
+                    Database.GetValueCallback(_currentProjectsPath, (sender, e) =>
                     {
-                        var jObject = value as JObject;
-                        var properties = jObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
+                        var jObject = JObject.FromObject(e.Snapshot.Value);
+                        var properties = jObject.Properties().ToArray();
                         var propertiesCount = properties.Length;
                         _projectListItems = new ProjectJsonObject[propertiesCount];
                         for (var i = 0; i < propertiesCount; i++)
@@ -276,9 +276,9 @@ public class ReferenceEditorWindow : EditorWindow
                 if (_referenceTypeChangedThisFrame || _operationTypeChangedThisFrame)
                 {
                     _textListItems = Array.Empty<TextJsonObject>();
-                    Database.GetValueCallback(TextsPath, value =>
+                    Database.GetValueCallback(TextsPath, (sender, e) =>
                     {
-                        var jObject = value as JObject;
+                        var jObject = JObject.FromObject(e.Snapshot.Value);
                         var itemHistories = jObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
                         var itemHistoriesLength = itemHistories.Length;
                         _textListItems = new TextJsonObject[itemHistoriesLength];
@@ -362,9 +362,9 @@ public class ReferenceEditorWindow : EditorWindow
                     _textListItems = Array.Empty<TextJsonObject>();
                     _textPreviews = Array.Empty<string>();
                     var guid = _currentTextListItem.guid;
-                    Database.GetValueCallback($"{TextsPath}.{guid}", value =>
+                    Database.GetValueCallback($"{TextsPath}.{guid}", (sender, e) =>
                     {
-                        var jObject = value as JObject;
+                        var jObject = JObject.FromObject(e.Snapshot.Value);
                         var itemHistories = jObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
                         var itemHistoriesLength = itemHistories.Length;
                         itemHistories = itemHistories.OrderBy(x => long.Parse(x.Name)).ToArray();

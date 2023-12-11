@@ -1,7 +1,9 @@
 using ETdoFresh.Localbase;
 using ETdoFresh.UnityPackages.EventBusSystem;
 using GameEditor.Databases;
+using Newtonsoft.Json;
 using UnityEngine;
+using ValueChangedEventArgs = Firebase.Database.ValueChangedEventArgs;
 
 namespace GameEditor.Project
 {
@@ -42,9 +44,9 @@ namespace GameEditor.Project
             Database.ValueChanged.AddListener(Instance.ProjectPath, OnProjectChanged);
         }
 
-        private static void OnProjectChanged(ValueChangedEventArgs e)
+        private static void OnProjectChanged(object sender, ValueChangedEventArgs e)
         {
-            var projectData = e.Snapshot.GetValue<ProjectJsonObject>();
+            var projectData = JsonConvert.DeserializeObject<ProjectJsonObject>(e.Snapshot.GetRawJsonValue());
             Debug.Log($"[{nameof(ProjectSingletonBehaviour)}] {nameof(OnProjectChanged)} {projectData?.name} {projectData?.guid}");
             Instance.projectData = projectData;
         }

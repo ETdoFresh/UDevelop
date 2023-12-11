@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace ETdoFresh.Localbase
 {
@@ -45,5 +46,32 @@ namespace ETdoFresh.Localbase
         
         public static void RemoveAllListeners<T>(this Action<T> action) =>
             action = delegate { };
+    }
+    
+    public static class EventHandlerExtensionMethods
+    {
+        private static readonly Dictionary<object, object> Listeners = new Dictionary<object, object>();
+
+        public static void AddListener<T>(this EventHandler<T> eventHandler, Action<T> listener) where T : EventArgs
+        {
+            if (!Listeners.ContainsKey(listener))
+                Listeners.Add(eventHandler, new EventHandler<T>((object _, T args) => listener.Invoke(args)));
+            
+            eventHandler += (EventHandler<T>)Listeners[listener];
+        }
+            
+        
+        public static void RemoveListener<T>(this EventHandler<T> eventHandler, Action<T> listener) where T : EventArgs
+        {
+            if (!Listeners.ContainsKey(listener)) return;
+            
+            eventHandler -= (EventHandler<T>)Listeners[listener];
+            Listeners.Remove(listener);
+        }
+
+        public static void RemoveAllListeners<T>(this EventHandler<T> eventHandler) where T : EventArgs
+        {
+            eventHandler = delegate { };
+        }
     }
 }

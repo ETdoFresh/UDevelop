@@ -2,9 +2,11 @@ using System;
 using System.Linq;
 using ETdoFresh.Localbase;
 using GameEditor.Databases;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using static ETdoFresh.Localbase.Paths;
+using ValueChangedEventArgs = Firebase.Database.ValueChangedEventArgs;
 
 namespace GameEditor.References
 {
@@ -23,18 +25,11 @@ namespace GameEditor.References
         private void OnEnable()
         {
             if (!string.IsNullOrEmpty(guid))
-                Database.ValueChanged.AddListener(EndPoint, OnValueChanged);
-        }
-        
-        private void OnDisable()
-        {
-            if (!string.IsNullOrEmpty(guid))
-                Database.ValueChanged.RemoveListener(EndPoint, OnValueChanged);
+                Database.GetValueCallback(EndPoint, OnValueChanged);
         }
 
-        private void OnValueChanged(ValueChangedEventArgs e)
+        private void OnValueChanged(object sender, ValueChangedEventArgs e)
         {
-            _reference.ValueChanged.RemoveListener(OnValueChanged);
             bestTickString = null;
             bestJsonString = null;
             var value = e.Snapshot.Value;
@@ -43,7 +38,7 @@ namespace GameEditor.References
                 Debug.LogError($"[{nameof(Texture2DReference)}] Value is null");
                 return;
             }
-            var jObject = value as JObject;
+            var jObject = JsonConvert.DeserializeObject<JObject>(e.Snapshot.GetRawJsonValue());
             if (jObject == null)
             {
                 Debug.LogError($"[{nameof(Texture2DReference)}] Value is not a JObject");

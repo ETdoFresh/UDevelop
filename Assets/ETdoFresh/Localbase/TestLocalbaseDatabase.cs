@@ -1,5 +1,6 @@
 using GameEditor.Databases;
 using UnityEngine;
+using ValueChangedEventArgs = Firebase.Database.ValueChangedEventArgs;
 
 public class TestLocalbaseDatabase : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class TestLocalbaseDatabase : MonoBehaviour
         Database.ValueChanged.RemoveListener(endpoint, OnTestValueChanged);
     }
 
-    private void OnTestValueChanged(object e)
+    private void OnTestValueChanged(object sender, ValueChangedEventArgs e)
     {
         Debug.Log(e);
     }
