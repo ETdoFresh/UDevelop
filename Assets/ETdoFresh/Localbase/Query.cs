@@ -1,16 +1,56 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using GameEditor.Databases;
 
 namespace ETdoFresh.Localbase
 {
     public class Query
     {
-        public event EventHandler<ValueChangedEventArgs> ValueChanged;
-        public event EventHandler<ChildChangedEventArgs> ChildAdded;
-        public event EventHandler<ChildChangedEventArgs> ChildChanged;
-        public event EventHandler<ChildChangedEventArgs> ChildRemoved;
-        public event EventHandler<ChildChangedEventArgs> ChildMoved;
+        public class QueryEntry
+        {
+            public Query query;
+            public DatabaseReference databaseReference; 
+            public LocalbaseDatabase database;
+            public string path;
+            public Data<ValueChangedEventArgs> valueChanged;
+            public Data<ChildChangedEventArgs> childAdded;
+            public Data<ChildChangedEventArgs> childChanged;
+            public Data<ChildChangedEventArgs> childRemoved;
+            public Data<ChildChangedEventArgs> childMoved;
+        }
+
+        public static List<QueryEntry> QueryEntries = new();
+        public QueryEntry queryEntry;
+        
+        public event EventHandler<ValueChangedEventArgs> ValueChanged
+        {
+            add => queryEntry.valueChanged.AddListener(value);
+            remove => queryEntry.valueChanged.RemoveListener(value);
+        }
+        
+        public event EventHandler<ChildChangedEventArgs> ChildAdded
+        {
+            add => queryEntry.childAdded.AddListener(value);
+            remove => queryEntry.childAdded.RemoveListener(value);
+        }
+        
+        public event EventHandler<ChildChangedEventArgs> ChildChanged
+        {
+            add => queryEntry.childChanged.AddListener(value);
+            remove => queryEntry.childChanged.RemoveListener(value);
+        }
+        
+        public event EventHandler<ChildChangedEventArgs> ChildRemoved
+        {
+            add => queryEntry.childRemoved.AddListener(value);
+            remove => queryEntry.childRemoved.RemoveListener(value);
+        }
+        
+        public event EventHandler<ChildChangedEventArgs> ChildMoved
+        {
+            add => queryEntry.childMoved.AddListener(value);
+            remove => queryEntry.childMoved.RemoveListener(value);
+        }
         
         public DatabaseReference Reference { get; set; }
 

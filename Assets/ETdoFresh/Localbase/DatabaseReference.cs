@@ -10,29 +10,9 @@ namespace ETdoFresh.Localbase
     [Serializable]
     public class DatabaseReference : Query
     {
-        public class DatabaseReferenceEntry
-        {
-            public DatabaseReference databaseReference;
-            public LocalbaseDatabase database;
-            public string path;
-            public Data<ValueChangedEventArgs> valueChanged;
-            public Data<ChildChangedEventArgs> childAdded;
-            public Data<ChildChangedEventArgs> childChanged;
-            public Data<ChildChangedEventArgs> childRemoved;
-            public Data<ChildChangedEventArgs> childMoved;
-        }
+        public LocalbaseDatabase Database => queryEntry.database;
 
-        public static List<DatabaseReferenceEntry> DatabaseReferenceEntries = new();
-        public DatabaseReferenceEntry databaseReferenceEntry;
-
-        public Data<ValueChangedEventArgs> ValueChanged => databaseReferenceEntry.valueChanged;
-        public Data<ChildChangedEventArgs> ChildAdded => databaseReferenceEntry.childAdded;
-        public Data<ChildChangedEventArgs> ChildChanged => databaseReferenceEntry.childChanged;
-        public Data<ChildChangedEventArgs> ChildRemoved => databaseReferenceEntry.childRemoved;
-        public Data<ChildChangedEventArgs> ChildMoved => databaseReferenceEntry.childMoved;
-        public LocalbaseDatabase Database => databaseReferenceEntry.database;
-
-        private string Path => databaseReferenceEntry.path;
+        private string Path => queryEntry.path;
         private JToken MyJToken => Database?.JObject?.SelectToken(Path);
 
         public DatabaseReference Parent => IsRoot() ? null : Create(Database, GetParent());
@@ -41,13 +21,14 @@ namespace ETdoFresh.Localbase
 
         public static DatabaseReference Create(LocalbaseDatabase database, string path, object caller = null)
         {
-            var existingDatabaseReference = DatabaseReferenceEntries
+            var existingQueryEntry = QueryEntries
                 .FirstOrDefault(entry => entry.database == database && entry.path == path);
-            if (existingDatabaseReference != null) return existingDatabaseReference.databaseReference;
+            if (existingQueryEntry != null) return existingQueryEntry.databaseReference;
             var databaseReference = new DatabaseReference();
             var jToken = database.JObject.SelectToken(path);
-            databaseReference.databaseReferenceEntry = new DatabaseReferenceEntry
+            databaseReference.queryEntry = new QueryEntry
             {
+                query = databaseReference,
                 databaseReference = databaseReference,
                 database = database,
                 path = path,
@@ -58,23 +39,24 @@ namespace ETdoFresh.Localbase
                 childRemoved = new Data<ChildChangedEventArgs>(null),
                 childMoved = new Data<ChildChangedEventArgs>(null)
             };
-            DatabaseReferenceEntries.Add(databaseReference.databaseReferenceEntry);
+            QueryEntries.Add(databaseReference.queryEntry);
             return databaseReference;
         }
 
         public void Destroy()
         {
-            if (databaseReferenceEntry == null) return;
-            DatabaseReferenceEntries.Remove(databaseReferenceEntry);
-            databaseReferenceEntry.databaseReference = null;
-            databaseReferenceEntry.database = null;
-            databaseReferenceEntry.path = null;
-            databaseReferenceEntry.valueChanged = null;
-            databaseReferenceEntry.childAdded = null;
-            databaseReferenceEntry.childChanged = null;
-            databaseReferenceEntry.childRemoved = null;
-            databaseReferenceEntry.childMoved = null;
-            databaseReferenceEntry = null;
+            if (queryEntry == null) return;
+            QueryEntries.Remove(queryEntry);
+            queryEntry.query = null;
+            queryEntry.databaseReference = null;
+            queryEntry.database = null;
+            queryEntry.path = null;
+            queryEntry.valueChanged = null;
+            queryEntry.childAdded = null;
+            queryEntry.childChanged = null;
+            queryEntry.childRemoved = null;
+            queryEntry.childMoved = null;
+            queryEntry = null;
         }
 
         public bool HasChild(string pathString) => Child(pathString).MyJToken != null;
@@ -111,7 +93,7 @@ namespace ETdoFresh.Localbase
 
             Database.Json = databaseObject.ToString(Formatting.Indented);
             var snapshot = new DataSnapshot(jsonValueObject, this);
-            ValueChanged.Value = new ValueChangedEventArgs(snapshot);
+            queryEntry.valueChanged.Value = new ValueChangedEventArgs(snapshot);
             InvokeParentChildChangedEvents(Parent, new ChildChangedEventArgs(snapshot, null));
 
             return Task.CompletedTask;
@@ -221,9 +203,9 @@ namespace ETdoFresh.Localbase
 
             myJArray.Add(childJToken);
             Database.JObject = databaseJObject;
-            ChildAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
-            ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJArray, this));
-            InvokeParentChildChangedEvents(Parent, ChildAdded.Value);
+            queryEntry.childAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+            queryEntry.valueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJArray, this));
+            InvokeParentChildChangedEvents(Parent, queryEntry.childAdded.Value);
         }
 
         public void AddArrayChild(object obj)
@@ -246,9 +228,9 @@ namespace ETdoFresh.Localbase
 
             myJObject.Add(key, childJToken);
             Database.JObject = databaseJObject;
-            ChildAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
-            ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJObject, this));
-            InvokeParentChildChangedEvents(Parent, ChildAdded.Value);
+            queryEntry.childAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+            queryEntry.valueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJObject, this));
+            InvokeParentChildChangedEvents(Parent, queryEntry.childAdded.Value);
         }
 
         public void AddObjectChild(string key, object obj)
@@ -272,9 +254,9 @@ namespace ETdoFresh.Localbase
             var childJToken = myJArray[index];
             myJArray.RemoveAt(index);
             Database.JObject = databaseJObject;
-            ChildRemoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
-            ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJArray, this));
-            InvokeParentChildChangedEvents(Parent, ChildRemoved.Value);
+            queryEntry.childRemoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+            queryEntry.valueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJArray, this));
+            InvokeParentChildChangedEvents(Parent, queryEntry.childRemoved.Value);
         }
 
         public void RemoveObjectChild(string key)
@@ -287,9 +269,9 @@ namespace ETdoFresh.Localbase
             var childJToken = myJObject[key];
             myJObject.Remove(key);
             Database.JObject = databaseJObject;
-            ChildRemoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
-            ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJObject, this));
-            InvokeParentChildChangedEvents(Parent, ChildRemoved.Value);
+            queryEntry.childRemoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+            queryEntry.valueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJObject, this));
+            InvokeParentChildChangedEvents(Parent, queryEntry.childRemoved.Value);
         }
 
         public void MoveArrayChild(int oldIndex, int newIndex)
@@ -303,9 +285,9 @@ namespace ETdoFresh.Localbase
             myJArray.RemoveAt(oldIndex);
             myJArray.Insert(newIndex, childJToken);
             Database.JObject = databaseJObject;
-            ChildMoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), oldIndex.ToString());
-            ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJArray, this));
-            InvokeParentChildChangedEvents(Parent, ChildMoved.Value);
+            queryEntry.childMoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), oldIndex.ToString());
+            queryEntry.valueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJArray, this));
+            InvokeParentChildChangedEvents(Parent, queryEntry.childMoved.Value);
         }
 
         public void MoveObjectChild(string oldKey, string newKey)
@@ -319,9 +301,9 @@ namespace ETdoFresh.Localbase
             myJObject.Remove(oldKey);
             myJObject.Add(newKey, childJToken);
             Database.JObject = databaseJObject;
-            ChildMoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), oldKey);
-            ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJObject, this));
-            InvokeParentChildChangedEvents(Parent, ChildMoved.Value);
+            queryEntry.childMoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), oldKey);
+            queryEntry.valueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJObject, this));
+            InvokeParentChildChangedEvents(Parent, queryEntry.childMoved.Value);
         }
 
         private void InvokeParentChildChangedEvents(DatabaseReference currentParent,
@@ -329,22 +311,22 @@ namespace ETdoFresh.Localbase
         {
             while (currentParent != null)
             {
-                currentParent.ChildChanged.Value = childChangedEventArgs;
-                currentParent.ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(currentParent.MyJToken, currentParent));
+                currentParent.queryEntry.childChanged.Value = childChangedEventArgs;
+                currentParent.queryEntry.valueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(currentParent.MyJToken, currentParent));
                 currentParent = currentParent.Parent;
             }
         }
 
         private void InvokeValueChangeOnAllReferences(JObject databaseObject)
         {
-            foreach (var databaseReferenceEntry in DatabaseReferenceEntries)
+            foreach (var queryEntry in QueryEntries)
             {
-                if (databaseReferenceEntry.database != Database) continue;
-                if (databaseReferenceEntry.databaseReference.Equals(this)) continue;
-                var databaseReference = databaseReferenceEntry.databaseReference;
-                var path = databaseReferenceEntry.path;
+                if (queryEntry.database != Database) continue;
+                if (queryEntry.databaseReference.Equals(this)) continue;
+                var databaseReference = queryEntry.databaseReference;
+                var path = queryEntry.path;
                 var jToken = databaseObject.SelectToken(path);
-                databaseReference.ValueChanged.Value =
+                databaseReference.queryEntry.valueChanged.Value =
                     new ValueChangedEventArgs(new DataSnapshot(jToken, databaseReference));
             }
         }
@@ -362,13 +344,13 @@ namespace ETdoFresh.Localbase
                 foreach (var removedKey in removedKeys)
                 {
                     var childJToken = previousJObject[removedKey];
-                    ChildRemoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
-                    InvokeParentChildChangedEvents(Parent, ChildRemoved.Value);
+                    queryEntry.childRemoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+                    InvokeParentChildChangedEvents(Parent, queryEntry.childRemoved.Value);
                     
                     var childPath = IsRoot() ? removedKey : $"{Path}.{removedKey}";
-                    for (var i = DatabaseReferenceEntries.Count - 1; i >= 0; i--)
+                    for (var i = QueryEntries.Count - 1; i >= 0; i--)
                     {
-                        var databaseReferenceEntry = DatabaseReferenceEntries[i];
+                        var databaseReferenceEntry = QueryEntries[i];
                         if (databaseReferenceEntry.database != Database) continue;
                         if (!databaseReferenceEntry.path.StartsWith(childPath)) continue;
                         databaseReferenceEntry.databaseReference.Destroy();
@@ -378,8 +360,8 @@ namespace ETdoFresh.Localbase
                 foreach (var addedKey in addedKeys)
                 {
                     var childJToken = currentJObject[addedKey];
-                    ChildAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
-                    InvokeParentChildChangedEvents(Parent, ChildAdded.Value);
+                    queryEntry.childAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+                    InvokeParentChildChangedEvents(Parent, queryEntry.childAdded.Value);
                 }
 
                 foreach (var commonKey in commonKeys)
@@ -408,8 +390,8 @@ namespace ETdoFresh.Localbase
                     for (var i = minCount; i < maxCount; i++)
                     {
                         var childJToken = currentJArray[i];
-                        ChildAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
-                        InvokeParentChildChangedEvents(Parent, ChildAdded.Value);
+                        queryEntry.childAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+                        InvokeParentChildChangedEvents(Parent, queryEntry.childAdded.Value);
                     }
                 }
                 
@@ -418,13 +400,13 @@ namespace ETdoFresh.Localbase
                     for (var i = minCount; i < maxCount; i++)
                     {
                         var childJToken = previousJArray[i];
-                        ChildRemoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
-                        InvokeParentChildChangedEvents(Parent, ChildRemoved.Value);
+                        queryEntry.childRemoved.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+                        InvokeParentChildChangedEvents(Parent, queryEntry.childRemoved.Value);
                         
                         var childPath = IsRoot() ? i.ToString() : $"{Path}[{i}]";
-                        for (var j = DatabaseReferenceEntries.Count - 1; j >= 0; j--)
+                        for (var j = QueryEntries.Count - 1; j >= 0; j--)
                         {
-                            var databaseReferenceEntry = DatabaseReferenceEntries[j];
+                            var databaseReferenceEntry = QueryEntries[j];
                             if (databaseReferenceEntry.database != Database) continue;
                             if (!databaseReferenceEntry.path.StartsWith(childPath)) continue;
                             databaseReferenceEntry.databaseReference.Destroy();
@@ -435,7 +417,7 @@ namespace ETdoFresh.Localbase
             else if (!JToken.DeepEquals(previousJToken, MyJToken))
             {
                 var snapshot = new DataSnapshot(MyJToken, this);
-                ValueChanged.Value = new ValueChangedEventArgs(snapshot);
+                queryEntry.valueChanged.Value = new ValueChangedEventArgs(snapshot);
                 InvokeParentChildChangedEvents(Parent, new ChildChangedEventArgs(snapshot, null));
             }
         }
@@ -450,9 +432,9 @@ namespace ETdoFresh.Localbase
             var childJToken = new JObject();
             myJArray.Add(childJToken);
             Database.JObject = databaseJObject;
-            ChildAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
-            ValueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJArray, this));
-            InvokeParentChildChangedEvents(Parent, ChildAdded.Value);
+            queryEntry.childAdded.Value = new ChildChangedEventArgs(new DataSnapshot(childJToken, this), null);
+            queryEntry.valueChanged.Value = new ValueChangedEventArgs(new DataSnapshot(myJArray, this));
+            InvokeParentChildChangedEvents(Parent, queryEntry.childAdded.Value);
             return Child(myJArray.Count - 1);
         }
     }

@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace ETdoFresh.Localbase
 {
     public class Data<T>
     {
         private T _value;
-        private readonly Action<T> _valueChanged = delegate { };
+        private EventHandler<T> _valueChanged;
 
         public T Value { get => _value; set => SetValue(value); }
-        public Action<T> ValueChanged => _valueChanged;
 
         public Data(T initialValue)
         {
@@ -19,59 +17,20 @@ namespace ETdoFresh.Localbase
         private void SetValue(T value)
         {
             _value = value;
-            _valueChanged.Invoke(value);
+            _valueChanged.Invoke(null, value);
         }
 
-        public void AddListener(Action<T> listener)
+        public void AddListener(EventHandler<T> listener)
         {
-            _valueChanged.AddListener(listener); 
+            _valueChanged += listener; 
             if (typeof(IDoNotInvokeOnAddListener).IsAssignableFrom(typeof(T))) return;
-            listener.Invoke(_value);
+            listener.Invoke(null, _value);
         }
 
-        public void RemoveListener(Action<T> listener) => 
-            _valueChanged.RemoveListener(listener);
+        public void RemoveListener(EventHandler<T> listener) => 
+            _valueChanged -= listener;
         
         public void RemoveAllListeners() =>
-            _valueChanged.RemoveAllListeners();
-    }
-    
-    public static class ActionExtensionMethods
-    {
-        public static void AddListener<T>(this Action<T> action, Action<T> listener) =>
-            action += listener;
-        
-        public static void RemoveListener<T>(this Action<T> action, Action<T> listener) =>
-            action -= listener;
-        
-        public static void RemoveAllListeners<T>(this Action<T> action) =>
-            action = delegate { };
-    }
-    
-    public static class EventHandlerExtensionMethods
-    {
-        private static readonly Dictionary<object, object> Listeners = new Dictionary<object, object>();
-
-        public static void AddListener<T>(this EventHandler<T> eventHandler, Action<T> listener) where T : EventArgs
-        {
-            if (!Listeners.ContainsKey(listener))
-                Listeners.Add(eventHandler, new EventHandler<T>((object _, T args) => listener.Invoke(args)));
-            
-            eventHandler += (EventHandler<T>)Listeners[listener];
-        }
-            
-        
-        public static void RemoveListener<T>(this EventHandler<T> eventHandler, Action<T> listener) where T : EventArgs
-        {
-            if (!Listeners.ContainsKey(listener)) return;
-            
-            eventHandler -= (EventHandler<T>)Listeners[listener];
-            Listeners.Remove(listener);
-        }
-
-        public static void RemoveAllListeners<T>(this EventHandler<T> eventHandler) where T : EventArgs
-        {
-            eventHandler = delegate { };
-        }
+            _valueChanged = delegate { };
     }
 }
