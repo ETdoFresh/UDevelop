@@ -16,7 +16,6 @@ namespace GameEditor.Storages
         {
             if (!string.IsNullOrEmpty(_persistentDataPath)) return;
             _persistentDataPath = Application.persistentDataPath;
-            Debug.Log($"[{nameof(HttpCache)}] initialized.");
         }
         
         public static async Task<string> GetTextAsync(string url)
