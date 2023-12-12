@@ -5,7 +5,7 @@ namespace ETdoFresh.Localbase
     public class Data<T>
     {
         private T _value;
-        private EventHandler<T> _valueChanged;
+        private EventHandler<T> _valueChanged = delegate { };
 
         public T Value { get => _value; set => SetValue(value); }
 
