@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Firebase;
 using Firebase.Database;
 
@@ -129,10 +129,10 @@ namespace GameEditor.Databases
             enumerator.Dispose();
         }
 
-        public Task SetValueAsync(string path, object value) =>
-            _database.GetReference(path).SetValueAsync(value);
+        public async UniTask SetValueAsync(string path, object value) =>
+            await _database.GetReference(path).SetValueAsync(value);
 
-        public async Task<object> GetValueAsync(string path) =>
+        public async UniTask<object> GetValueAsync(string path) =>
             await _database.GetReference(path).GetValueAsync();
     }
 

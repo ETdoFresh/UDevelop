@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Firebase.Extensions;
 using GameEditor.Databases;
 using GameEditor.Organizations;
@@ -149,9 +150,9 @@ public class ReferenceEditorWindow : EditorWindow
                 if (_referenceTypeChangedThisFrame || _operationTypeChangedThisFrame)
                 {
                     _currentProjectsPath = ProjectsPath;
-                    Database.GetValueAsync(_currentProjectsPath).ContinueWithOnMainThread(e =>
+                    Database.GetValueAsync(_currentProjectsPath).ContinueWith(value =>
                     {
-                        var jObject = JObject.FromObject(e.Result);
+                        var jObject = JObject.FromObject(value);
                         var properties = jObject.Properties().ToArray();
                         var propertiesCount = properties.Length;
                         _projectListItems = new ProjectJsonObject[propertiesCount];
@@ -276,9 +277,9 @@ public class ReferenceEditorWindow : EditorWindow
                 if (_referenceTypeChangedThisFrame || _operationTypeChangedThisFrame)
                 {
                     _textListItems = Array.Empty<TextJsonObject>();
-                    Database.GetValueAsync(TextsPath).ContinueWithOnMainThread(e =>
+                    Database.GetValueAsync(TextsPath).ContinueWith(value =>
                     {
-                        var jObject = JObject.FromObject(e.Result);
+                        var jObject = JObject.FromObject(value);
                         var itemHistories = jObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
                         var itemHistoriesLength = itemHistories.Length;
                         _textListItems = new TextJsonObject[itemHistoriesLength];
@@ -362,9 +363,9 @@ public class ReferenceEditorWindow : EditorWindow
                     _textListItems = Array.Empty<TextJsonObject>();
                     _textPreviews = Array.Empty<string>();
                     var guid = _currentTextListItem.guid;
-                    Database.GetValueAsync($"{TextsPath}.{guid}").ContinueWithOnMainThread(e =>
+                    Database.GetValueAsync($"{TextsPath}.{guid}").ContinueWith(value =>
                     {
-                        var jObject = JObject.FromObject(e.Result);
+                        var jObject = JObject.FromObject(value);
                         var itemHistories = jObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
                         var itemHistoriesLength = itemHistories.Length;
                         itemHistories = itemHistories.OrderBy(x => long.Parse(x.Name)).ToArray();
@@ -454,14 +455,8 @@ public class ReferenceEditorWindow : EditorWindow
                     var guid = _currentTextListItem.guid;
                     var utcNowTicks = DateTime.UtcNow.Ticks;
                     var objectName = $"{guid}-{utcNowTicks}{ext}";
-                    GoogleCloudStorage.UploadText(objectName, _textPreviews[0]).ContinueWithOnMainThread(e =>
+                    GoogleCloudStorage.UploadText(objectName, _textPreviews[0]).ContinueWith(downloadUri =>
                     {
-                        if (e.Exception != null)
-                        {
-                            Debug.LogError(e.Exception);
-                            return;
-                        }
-                        var downloadUri = e.Result;
                         _currentTextListItem.lastModifiedUtcTicks = utcNowTicks;
                         _currentTextListItem.path = downloadUri.ToString();
                         Database.AddObjectChild($"{TextsPath}.{guid}", utcNowTicks.ToString(), _currentTextListItem);
@@ -499,21 +494,14 @@ public class ReferenceEditorWindow : EditorWindow
                     var utcNowTicks = DateTime.UtcNow.Ticks;
                     var utcNowTicksString = utcNowTicks.ToString();
                     var objectName = $"{guid}-{utcNowTicks}{ext}";
-                    GoogleCloudStorage.UploadText(objectName, _textPreviews[0]).ContinueWithOnMainThread(e =>
+                    GoogleCloudStorage.UploadText(objectName, _textPreviews[0]).ContinueWith(downloadUri =>
                     {
-                        if (e.Exception != null)
-                        {
-                            Debug.LogError(e.Exception);
-                            return;
-                        }
-                        var downloadUri = e.Result;
                         //var textReference = LocalbaseDatabase.DefaultInstance.GetReference($"{TextsPath}.{guid}");
                         _currentTextListItem.createdUtcTicks = utcNowTicks;
                         _currentTextListItem.lastModifiedUtcTicks = utcNowTicks;
                         _currentTextListItem.path = downloadUri.ToString();
-                        Database.GetValueAsync($"{TextsPath}.{guid}").ContinueWithOnMainThread(e =>
+                        Database.GetValueAsync($"{TextsPath}.{guid}").ContinueWith(value =>
                         {
-                            var value = e.Result;
                             if (value == null)
                             {
                                 var jObject = new JObject();

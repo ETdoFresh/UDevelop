@@ -1,5 +1,5 @@
 using System;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace GameEditor.Databases
 {
@@ -49,10 +49,10 @@ namespace GameEditor.Databases
         public static void RemoveArrayChild(string path, int index) =>
             _database.RemoveArrayChild(path, index);
         
-        public static async Task SetValueAsync(string path, object value) =>
+        public static async UniTask SetValueAsync(string path, object value) =>
             await _database.SetValueAsync(path, value);
         
-        public static async Task<object> GetValueAsync(string path) =>
+        public static async UniTask<object> GetValueAsync(string path) =>
             await _database.GetValueAsync(path);
     }
 }

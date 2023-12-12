@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using ETdoFresh.Localbase;
 
 namespace GameEditor.Databases
@@ -115,10 +115,10 @@ namespace GameEditor.Databases
         public async void RemoveArrayChild(string path, int index) =>
             await _database.GetReference(path).Child(index.ToString()).RemoveValueAsync();
 
-        public async Task SetValueAsync(string path, object value) =>
+        public async UniTask SetValueAsync(string path, object value) =>
             await _database.GetReference(path).SetValueAsync(value);
 
-        public async Task<object> GetValueAsync(string path) =>
+        public async UniTask<object> GetValueAsync(string path) =>
             await _database.GetReference(path).GetValueAsync();
     }
 

@@ -1,5 +1,5 @@
 using System;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Firebase;
 using Firebase.Extensions;
 using Firebase.Storage;
@@ -12,12 +12,12 @@ namespace GameEditor.References
         private static string _defaultBucket;
         private static FirebaseApp _app;
 
-        public static async Task<Uri> UploadText(string objectName, string text, string contentType = "text/plain")
+        public static async UniTask<Uri> UploadText(string objectName, string text, string contentType = "text/plain")
         {
             return await UploadBytes(objectName, System.Text.Encoding.UTF8.GetBytes(text), contentType);
         }
 
-        public static async Task<Uri> UploadBytes(string objectName, byte[] bytes, string contentType = null)
+        public static async UniTask<Uri> UploadBytes(string objectName, byte[] bytes, string contentType = null)
         {
             if (_app == null)
             {

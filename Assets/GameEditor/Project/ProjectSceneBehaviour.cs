@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using ETdoFresh.ReadonlyInspectorAttribute;
 using ETdoFresh.SceneReferences;
 using ETdoFresh.UnityPackages.ExtensionMethods;
@@ -78,7 +79,7 @@ namespace GameEditor.Project
             Database.AddChildChangedListener(ProjectsPath, OnProjectsChildChanged);
             Database.AddChildRemovedListener(ProjectsPath, OnProjectsChildRemoved);
             Database.AddChildMovedListener(ProjectsPath, OnProjectsChildMoved);
-            Database.GetValueAsync(ProjectsPath).ContinueWithOnMainThread(task => OnProjectsValueChanged(task.Result));
+            Database.GetValueAsync(ProjectsPath).ContinueWith(OnProjectsValueChanged);
         }
 
         private void OnDisable()
