@@ -133,7 +133,7 @@ namespace GameEditor.Databases
             await _database.GetReference(path).SetValueAsync(value);
 
         public async UniTask<object> GetValueAsync(string path) =>
-            await _database.GetReference(path).GetValueAsync();
+            (await _database.GetReference(path).GetValueAsync()).Value;
     }
 
     public class FirebaseValueChangedEventArgs : IValueChangedEventArgs

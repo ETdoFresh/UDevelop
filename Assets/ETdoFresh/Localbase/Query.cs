@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace ETdoFresh.Localbase
 {
@@ -54,9 +54,17 @@ namespace ETdoFresh.Localbase
         
         public DatabaseReference Reference { get; set; }
 
-        public Task<DataSnapshot> GetValueAsync()
+        public async UniTask<DataSnapshot> GetValueAsync()
         {
-            throw new NotImplementedException();
+            var tcs = new UniTaskCompletionSource<DataSnapshot>();
+            EventHandler<ValueChangedEventArgs> listener = null;
+            listener = (sender, args) =>
+            {
+                queryEntry.valueChanged.RemoveListener(listener);
+                tcs.TrySetResult(args.Snapshot);
+            };
+            queryEntry.valueChanged.AddListener(listener);
+            return await tcs.Task;
         }
 
         public object KeepSynced(bool keepSynced)
