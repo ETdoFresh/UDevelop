@@ -30,7 +30,7 @@ namespace GameEditor.Project
         private void OnDisable()
         {
             if (!string.IsNullOrEmpty(guid))
-                Database.ValueChanged.RemoveListener(ProjectPath, OnProjectChanged);
+                Database.RemoveValueChangedListener(ProjectPath, OnProjectChanged);
         }
 
         public static void SetGuid(string newGuid)
@@ -38,15 +38,15 @@ namespace GameEditor.Project
             if (Instance == null) return;
             
             if (!string.IsNullOrEmpty(Instance.guid))
-                Database.ValueChanged.RemoveListener(Instance.ProjectPath, OnProjectChanged);
+                Database.RemoveValueChangedListener(Instance.ProjectPath, OnProjectChanged);
             
             Instance.guid = newGuid;
-            Database.ValueChanged.AddListener(Instance.ProjectPath, OnProjectChanged);
+            Database.AddValueChangedListener(Instance.ProjectPath, OnProjectChanged);
         }
 
-        private static void OnProjectChanged(object sender, ValueChangedEventArgsWrapper e)
+        private static void OnProjectChanged(object sender, IValueChangedEventArgs e)
         {
-            var projectData = JsonConvert.DeserializeObject<ProjectJsonObject>(e.Snapshot.GetRawJsonValue());
+            var projectData = JsonConvert.DeserializeObject<ProjectJsonObject>(e.SnapshotGetRawJsonValue());
             Debug.Log($"[{nameof(ProjectSingletonBehaviour)}] {nameof(OnProjectChanged)} {projectData?.name} {projectData?.guid}");
             Instance.projectData = projectData;
         }

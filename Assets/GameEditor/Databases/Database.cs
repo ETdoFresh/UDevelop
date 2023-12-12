@@ -1,105 +1,58 @@
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GameEditor.Databases
 {
     public static class Database
     {
-        public static class ValueChanged
-        {
-            public static void AddListener(string path, EventHandler<ValueChangedEventArgsWrapper> listener) =>
-                DatabaseWrapper.DefaultInstance.GetReference(path).ValueChanged += listener;
-
-            public static void RemoveListener(string path, EventHandler<ValueChangedEventArgsWrapper> listener) =>
-                DatabaseWrapper.DefaultInstance.GetReference(path).ValueChanged -= listener;
-        }
-
-        public static class ChildAdded
-        {
-            public static void AddListener(string path, EventHandler<ChildChangedEventArgsWrapper> listener) =>
-                DatabaseWrapper.DefaultInstance.GetReference(path).ChildAdded += listener;
-
-            public static void RemoveListener(string path, EventHandler<ChildChangedEventArgsWrapper> listener) =>
-                DatabaseWrapper.DefaultInstance.GetReference(path).ChildAdded -= listener;
-        }
-
-        public static class ChildRemoved
-        {
-            public static void AddListener(string path, EventHandler<ChildChangedEventArgsWrapper> listener) =>
-                DatabaseWrapper.DefaultInstance.GetReference(path).ChildRemoved += listener;
-
-            public static void RemoveListener(string path, EventHandler<ChildChangedEventArgsWrapper> listener) =>
-                DatabaseWrapper.DefaultInstance.GetReference(path).ChildRemoved -= listener;
-        }
-
-        public static class ChildChanged
-        {
-            public static void AddListener(string path, EventHandler<ChildChangedEventArgsWrapper> listener) =>
-                DatabaseWrapper.DefaultInstance.GetReference(path).ChildChanged += listener;
-
-            public static void RemoveListener(string path, EventHandler<ChildChangedEventArgsWrapper> listener) =>
-                DatabaseWrapper.DefaultInstance.GetReference(path).ChildChanged -= listener;
-        }
-
-        public static class ChildMoved
-        {
-            public static void AddListener(string path, EventHandler<ChildChangedEventArgsWrapper> listener) =>
-                DatabaseWrapper.DefaultInstance.GetReference(path).ChildMoved += listener;
-
-            public static void RemoveListener(string path, EventHandler<ChildChangedEventArgsWrapper> listener) =>
-                DatabaseWrapper.DefaultInstance.GetReference(path).ChildMoved -= listener;
-        }
-
-
-        public static class Object
-        {
-            public static void AddChild(string path, string key, object value) =>
-                DatabaseWrapper.DefaultInstance.GetReference(path).UpdateChildrenAsync(
-                    new Dictionary<string, object> { { key, value } });
-
-            public static void RemoveChild(string path, string key) =>
-                DatabaseWrapper.DefaultInstance.GetReference(path).UpdateChildrenAsync(
-                    new Dictionary<string, object> { { key, null } });
-        }
-
-        public static class Array
-        {
-            public static void AddChild(string path, object value) =>
-                DatabaseWrapper.DefaultInstance.GetReference(path).Push().SetValueAsync(value);
-
-            public static void RemoveChild(string path, int index) =>
-                DatabaseWrapper.DefaultInstance.GetReference(path).Child(index.ToString()).RemoveValueAsync();
-        }
-
+        private static IDatabase _database = new LocalbaseAdapter();
+        
+        public static void AddValueChangedListener(string path, EventHandler<IValueChangedEventArgs> listener) => 
+            _database.AddValueChangedListener(path, listener);
+        
+        public static void RemoveValueChangedListener(string path, EventHandler<IValueChangedEventArgs> listener) =>
+            _database.RemoveValueChangedListener(path, listener);
+        
+        public static void AddChildAddedListener(string path, EventHandler<IChildChangedEventArgs> listener) =>
+            _database.AddChildAddedListener(path, listener);
+        
+        public static void RemoveChildAddedListener(string path, EventHandler<IChildChangedEventArgs> listener) =>
+            _database.RemoveChildAddedListener(path, listener);
+        
+        public static void AddChildRemovedListener(string path, EventHandler<IChildChangedEventArgs> listener) =>
+            _database.AddChildRemovedListener(path, listener);
+        
+        public static void RemoveChildRemovedListener(string path, EventHandler<IChildChangedEventArgs> listener) =>
+            _database.RemoveChildRemovedListener(path, listener);
+        
+        public static void AddChildChangedListener(string path, EventHandler<IChildChangedEventArgs> listener) =>
+            _database.AddChildChangedListener(path, listener);
+        
+        public static void RemoveChildChangedListener(string path, EventHandler<IChildChangedEventArgs> listener) =>
+            _database.RemoveChildChangedListener(path, listener);
+        
+        public static void AddChildMovedListener(string path, EventHandler<IChildChangedEventArgs> listener) =>
+            _database.AddChildMovedListener(path, listener);
+        
+        public static void RemoveChildMovedListener(string path, EventHandler<IChildChangedEventArgs> listener) =>
+            _database.RemoveChildMovedListener(path, listener);
+        
+        public static void AddObjectChild(string path, string key, object value) =>
+            _database.AddObjectChild(path, key, value);
+        
+        public static void RemoveObjectChild(string path, string key) =>
+            _database.RemoveObjectChild(path, key);
+        
+        public static void AddArrayChild(string path, object value) =>
+            _database.AddArrayChild(path, value);
+        
+        public static void RemoveArrayChild(string path, int index) =>
+            _database.RemoveArrayChild(path, index);
+        
         public static async Task SetValueAsync(string path, object value) =>
-            await DatabaseWrapper.DefaultInstance.GetReference(path).SetValueAsync(value);
-
-        public static async Task<object> GetValueAsync(string path)
-        {
-            var tcs = new TaskCompletionSource<object>();
-            EventHandler<ValueChangedEventArgsWrapper> listener = null;
-            listener = (sender, args) =>
-            {
-                DatabaseWrapper.DefaultInstance.GetReference(path).ValueChanged -= listener;
-                tcs.SetResult(args.Snapshot.Value);
-            };
-            DatabaseWrapper.DefaultInstance.GetReference(path).ValueChanged += listener;
-            return await tcs.Task;
-        }
-
-        public static void GetValueCallback(string path, Action<object, ValueChangedEventArgsWrapper> callback)
-        {
-            EventHandler<ValueChangedEventArgsWrapper> listener = null;
-            listener = (sender, args) =>
-            {
-                DatabaseWrapper.DefaultInstance.GetReference(path).ValueChanged -= listener;
-                callback?.Invoke(sender, args);
-            };
-            DatabaseWrapper.DefaultInstance.GetReference(path).ValueChanged += listener;
-        }
-
-        public static async Task<bool> IsNullCheckAsync(string path) =>
-            await GetValueAsync(path) == null;
+            await _database.SetValueAsync(path, value);
+        
+        public static async Task<object> GetValueAsync(string path) =>
+            await _database.GetValueAsync(path);
     }
 }

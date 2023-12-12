@@ -7,15 +7,15 @@ public class TestLocalbaseDatabase : MonoBehaviour
 
     private void OnEnable()
     {
-        Database.ValueChanged.AddListener(endpoint, OnTestValueChanged);
+        Database.AddValueChangedListener(endpoint, OnTestValueChanged);
     }
 
     private void OnDisable()
     {
-        Database.ValueChanged.RemoveListener(endpoint, OnTestValueChanged);
+        Database.RemoveValueChangedListener(endpoint, OnTestValueChanged);
     }
 
-    private void OnTestValueChanged(object sender, ValueChangedEventArgsWrapper e)
+    private void OnTestValueChanged(object sender, IValueChangedEventArgs e)
     {
         Debug.Log(e);
     }

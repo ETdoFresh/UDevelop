@@ -74,10 +74,10 @@ namespace GameEditor.Project
             addProjectButton.onClick.AddPersistentListener(OnAddProjectButtonClicked);
             createProjectButton.onClick.AddPersistentListener(OnCreateProjectButtonClicked);
             cancelCreateProjectButton.onClick.AddPersistentListener(OnCancelCreateProjectButtonClicked);
-            Database.ChildAdded.AddListener(ProjectsPath, OnProjectsChildAdded);
-            Database.ChildChanged.AddListener(ProjectsPath, OnProjectsChildChanged);
-            Database.ChildRemoved.AddListener(ProjectsPath, OnProjectsChildRemoved);
-            Database.ChildMoved.AddListener(ProjectsPath, OnProjectsChildMoved);
+            Database.AddChildAddedListener(ProjectsPath, OnProjectsChildAdded);
+            Database.AddChildChangedListener(ProjectsPath, OnProjectsChildChanged);
+            Database.AddChildRemovedListener(ProjectsPath, OnProjectsChildRemoved);
+            Database.AddChildMovedListener(ProjectsPath, OnProjectsChildMoved);
             Database.GetValueAsync(ProjectsPath).ContinueWithOnMainThread(task => OnProjectsValueChanged(task.Result));
         }
 
@@ -87,10 +87,10 @@ namespace GameEditor.Project
             addProjectButton.onClick.RemovePersistentListener(OnAddProjectButtonClicked);
             createProjectButton.onClick.RemovePersistentListener(OnCreateProjectButtonClicked);
             cancelCreateProjectButton.onClick.RemovePersistentListener(OnCancelCreateProjectButtonClicked);
-            Database.ChildAdded.RemoveListener(ProjectsPath, OnProjectsChildAdded);
-            Database.ChildChanged.RemoveListener(ProjectsPath, OnProjectsChildChanged);
-            Database.ChildRemoved.RemoveListener(ProjectsPath, OnProjectsChildRemoved);
-            Database.ChildMoved.RemoveListener(ProjectsPath, OnProjectsChildMoved);
+            Database.RemoveChildAddedListener(ProjectsPath, OnProjectsChildAdded);
+            Database.RemoveChildChangedListener(ProjectsPath, OnProjectsChildChanged);
+            Database.RemoveChildRemovedListener(ProjectsPath, OnProjectsChildRemoved);
+            Database.RemoveChildMovedListener(ProjectsPath, OnProjectsChildMoved);
         }
 
         private void OnBackButtonClicked()
@@ -130,7 +130,7 @@ namespace GameEditor.Project
             projectJsonObject.localScenePath = NullIfEmpty(projectSceneLocalPathInputField.text);
             projectJsonObject.localMaterialPath = NullIfEmpty(projectMaterialLocalPathInputField.text);
             projectJsonObject.localAnimationPath = NullIfEmpty(projectAnimationLocalPathInputField.text);
-            Database.Object.AddChild(ProjectsPath, projectJsonObject.guid, projectJsonObject);
+            Database.AddObjectChild(ProjectsPath, projectJsonObject.guid, projectJsonObject);
 
             createProjectUI.SetActive(false);
             selectProjectUI.SetActive(true);
@@ -161,9 +161,9 @@ namespace GameEditor.Project
             createProjectUI.SetActive(false);
         }
 
-        private void OnProjectsChildAdded(object sender, ChildChangedEventArgsWrapper e)
+        private void OnProjectsChildAdded(object sender, IChildChangedEventArgs e)
         {
-            var newProject = (e.Snapshot.Value as JObject)?.ToObject<ProjectJsonObject>();
+            var newProject = (e.SnapshotValue as JObject)?.ToObject<ProjectJsonObject>();
             Debug.Log($"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildAdded {newProject.name} {newProject.guid}");
 
             var projectSlot = Instantiate(inSceneProjectSlot, projectButtonsParent);
@@ -175,9 +175,9 @@ namespace GameEditor.Project
             projectSlots.Add(projectSlot);
         }
 
-        private void OnProjectsChildRemoved(object sender, ChildChangedEventArgsWrapper e)
+        private void OnProjectsChildRemoved(object sender, IChildChangedEventArgs e)
         {
-            var removedProject = (e.Snapshot.Value as JObject)?.ToObject<ProjectJsonObject>();
+            var removedProject = (e.SnapshotValue as JObject)?.ToObject<ProjectJsonObject>();
             Debug.Log(
                 $"[{nameof(ProjectSceneBehaviour)}] OnProjectsChildRemoved {removedProject.name} {removedProject.guid}");
             var projectSlot = projectSlots.Find(slot =>
@@ -187,7 +187,7 @@ namespace GameEditor.Project
             Destroy(projectSlot);
         }
 
-        private void OnProjectsChildMoved(object sender, ChildChangedEventArgsWrapper e)
+        private void OnProjectsChildMoved(object sender, IChildChangedEventArgs e)
         {
             // var oldProjectGuid = e.PreviousChildName;
             // var newProjectGuid = e.Snapshot.Key;
@@ -198,7 +198,7 @@ namespace GameEditor.Project
             // projectSlot.GetComponent<ProjectSlotBehaviour>().Data.guid = newProjectGuid;
         }
 
-        private void OnProjectsChildChanged(object sender, ChildChangedEventArgsWrapper e)
+        private void OnProjectsChildChanged(object sender, IChildChangedEventArgs e)
         {
             // var databaseReference = e.Snapshot.Reference;
             // while (!databaseReference.IsRoot() && databaseReference.Parent.Key != ProjectsPath)

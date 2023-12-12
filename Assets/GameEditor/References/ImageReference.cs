@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using ETdoFresh.Localbase;
+using Firebase.Extensions;
 using GameEditor.Databases;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -22,23 +23,19 @@ namespace GameEditor.References
 
         private string EndPoint => $"{ImagesPath}.{guid}";
         
-        private void OnEnable()
+        private async void OnEnable()
         {
-            if (!string.IsNullOrEmpty(guid))
-                Database.GetValueCallback(EndPoint, OnValueChanged);
-        }
-
-        private void OnValueChanged(object sender, ValueChangedEventArgsWrapper e)
-        {
+            if (string.IsNullOrEmpty(guid)) return;
             bestTickString = null;
             bestJsonString = null;
-            var value = e.Snapshot.Value;
+            var value = await Database.GetValueAsync(EndPoint);
             if (value == null)
             {
                 Debug.LogError($"[{nameof(Texture2DReference)}] Value is null");
                 return;
             }
-            var jObject = JsonConvert.DeserializeObject<JObject>(e.Snapshot.GetRawJsonValue());
+
+            var jObject = JObject.FromObject(value);
             if (jObject == null)
             {
                 Debug.LogError($"[{nameof(Texture2DReference)}] Value is not a JObject");
