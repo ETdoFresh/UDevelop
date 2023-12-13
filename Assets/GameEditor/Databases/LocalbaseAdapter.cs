@@ -22,13 +22,13 @@ namespace GameEditor.Databases
                 _valueChangedListeners.Add(listener, valueChangedListener);
             }
 
-            _database.GetReference(path).ValueChanged += _valueChangedListeners[listener];
+            _database.GetReference(PathToKey(path)).ValueChanged += _valueChangedListeners[listener];
         }
 
         public void RemoveValueChangedListener(string path, EventHandler<IValueChangedEventArgs> listener)
         {
             if (_valueChangedListeners.TryGetValue(listener, out var valueChangedListener))
-                _database.GetReference(path).ValueChanged -= valueChangedListener;
+                _database.GetReference(PathToKey(path)).ValueChanged -= valueChangedListener;
         }
 
         public void AddChildAddedListener(string path, EventHandler<IChildChangedEventArgs> listener)
@@ -40,13 +40,13 @@ namespace GameEditor.Databases
                 _childChangedListeners.Add(listener, childChangedListener);
             }
 
-            _database.GetReference(path).ChildAdded += _childChangedListeners[listener];
+            _database.GetReference(PathToKey(path)).ChildAdded += _childChangedListeners[listener];
         }
 
         public void RemoveChildAddedListener(string path, EventHandler<IChildChangedEventArgs> listener)
         {
             if (_childChangedListeners.TryGetValue(listener, out var childAddedListener))
-                _database.GetReference(path).ChildAdded -= childAddedListener;
+                _database.GetReference(PathToKey(path)).ChildAdded -= childAddedListener;
         }
 
         public void AddChildRemovedListener(string path, EventHandler<IChildChangedEventArgs> listener)
@@ -58,13 +58,13 @@ namespace GameEditor.Databases
                 _childChangedListeners.Add(listener, childChangedListener);
             }
 
-            _database.GetReference(path).ChildRemoved += _childChangedListeners[listener];
+            _database.GetReference(PathToKey(path)).ChildRemoved += _childChangedListeners[listener];
         }
 
         public void RemoveChildRemovedListener(string path, EventHandler<IChildChangedEventArgs> listener)
         {
             if (_childChangedListeners.TryGetValue(listener, out var childRemovedListener))
-                _database.GetReference(path).ChildRemoved -= childRemovedListener;
+                _database.GetReference(PathToKey(path)).ChildRemoved -= childRemovedListener;
         }
 
         public void AddChildChangedListener(string path, EventHandler<IChildChangedEventArgs> listener)
@@ -76,13 +76,13 @@ namespace GameEditor.Databases
                 _childChangedListeners.Add(listener, childChangedListener);
             }
 
-            _database.GetReference(path).ChildChanged += _childChangedListeners[listener];
+            _database.GetReference(PathToKey(path)).ChildChanged += _childChangedListeners[listener];
         }
 
         public void RemoveChildChangedListener(string path, EventHandler<IChildChangedEventArgs> listener)
         {
             if (_childChangedListeners.TryGetValue(listener, out var childChangedListener))
-                _database.GetReference(path).ChildChanged -= childChangedListener;
+                _database.GetReference(PathToKey(path)).ChildChanged -= childChangedListener;
         }
 
         public void AddChildMovedListener(string path, EventHandler<IChildChangedEventArgs> listener)
@@ -94,32 +94,34 @@ namespace GameEditor.Databases
                 _childChangedListeners.Add(listener, childChangedListener);
             }
 
-            _database.GetReference(path).ChildMoved += _childChangedListeners[listener];
+            _database.GetReference(PathToKey(path)).ChildMoved += _childChangedListeners[listener];
         }
 
         public void RemoveChildMovedListener(string path, EventHandler<IChildChangedEventArgs> listener)
         {
             if (_childChangedListeners.TryGetValue(listener, out var childMovedListener))
-                _database.GetReference(path).ChildMoved -= childMovedListener;
+                _database.GetReference(PathToKey(path)).ChildMoved -= childMovedListener;
         }
 
         public async void AddObjectChild(string path, string key, object value) => 
-            await _database.GetReference(path).Child(key).SetValueAsync(value);
+            await _database.GetReference(PathToKey(path)).Child(key).SetValueAsync(value);
 
         public async void RemoveObjectChild(string path, string key) =>
-            await _database.GetReference(path).Child(key).RemoveValueAsync();
+            await _database.GetReference(PathToKey(path)).Child(key).RemoveValueAsync();
 
         public async void AddArrayChild(string path, object value) =>
-            await _database.GetReference(path).Push().SetValueAsync(value);
+            await _database.GetReference(PathToKey(path)).Push().SetValueAsync(value);
 
         public async void RemoveArrayChild(string path, int index) =>
-            await _database.GetReference(path).Child(index.ToString()).RemoveValueAsync();
+            await _database.GetReference(PathToKey(path)).Child(index.ToString()).RemoveValueAsync();
 
         public async UniTask SetValueAsync(string path, object value) =>
-            await _database.GetReference(path).SetValueAsync(value);
+            await _database.GetReference(PathToKey(path)).SetValueAsync(value);
 
         public async UniTask<object> GetValueAsync(string path) =>
-            (await _database.GetReference(path).GetValueAsync()).Value;
+            (await _database.GetReference(PathToKey(path)).GetValueAsync()).Value;
+        
+        private static string PathToKey(string path) => path.Replace('/', '.');
     }
 
     public class LocalbaseValueChangedEventArgs : IValueChangedEventArgs

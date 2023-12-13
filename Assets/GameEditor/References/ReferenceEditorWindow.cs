@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using Firebase.Extensions;
@@ -23,11 +24,29 @@ public class ReferenceEditorWindow : EditorWindow
 
     private enum ReferenceType
     {
-        Database, Organization, Project, User, Scene, Package, Prefab, Image,
-        Audio, Script, Material, Model, Text
+        Database,
+        Organization,
+        Project,
+        User,
+        Scene,
+        Package,
+        Prefab,
+        Image,
+        Audio,
+        Script,
+        Material,
+        Model,
+        Text
     }
 
-    private enum OperationType { List, Create, Read, Update, Delete }
+    private enum OperationType
+    {
+        List,
+        Create,
+        Read,
+        Update,
+        Delete
+    }
 
     private string _currentOrganizationsPath = OrganizationsPath;
     private string _currentProjectsPath = ProjectsPath;
@@ -152,7 +171,7 @@ public class ReferenceEditorWindow : EditorWindow
                     _currentProjectsPath = ProjectsPath;
                     Database.GetValueAsync(_currentProjectsPath).ContinueWith(value =>
                     {
-                        var jObject = JObject.FromObject(value);
+                        var jObject = value != null ? JObject.FromObject(value) : new JObject();
                         var properties = jObject.Properties().ToArray();
                         var propertiesCount = properties.Length;
                         _projectListItems = new ProjectJsonObject[propertiesCount];
@@ -177,23 +196,28 @@ public class ReferenceEditorWindow : EditorWindow
                         _operationType = OperationType.Read;
                         _currentProjectListItem = projectListItem;
                     }
+
                     if (GUILayout.Button("Update"))
                     {
                         _operationType = OperationType.Update;
                         _currentProjectListItem = projectListItem;
                     }
+
                     if (GUILayout.Button("Delete"))
                     {
                         _operationType = OperationType.Delete;
                         _currentProjectListItem = projectListItem;
                     }
+
                     EditorGUILayout.EndHorizontal();
                 }
+
                 if (GUILayout.Button("Create"))
                 {
                     _operationType = OperationType.Create;
                     _currentProjectListItem = new ProjectJsonObject { guid = Guid.NewGuid().ToString() };
                 }
+
                 break;
 
             case OperationType.Create:
@@ -210,6 +234,7 @@ public class ReferenceEditorWindow : EditorWindow
                     Database.AddObjectChild(ProjectsPath, _currentProjectListItem.guid, _currentProjectListItem);
                     _operationType = OperationType.List;
                 }
+
                 EditorGUILayout.EndHorizontal();
                 break;
 
@@ -236,6 +261,7 @@ public class ReferenceEditorWindow : EditorWindow
                     Database.SetValueAsync($"{ProjectsPath}.{_currentProjectListItem.guid}", _currentProjectListItem);
                     _operationType = OperationType.List;
                 }
+
                 EditorGUILayout.EndHorizontal();
                 break;
             case OperationType.Delete:
@@ -243,6 +269,7 @@ public class ReferenceEditorWindow : EditorWindow
                 {
                     Database.RemoveObjectChild(ProjectsPath, _currentProjectListItem.guid);
                 }
+
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
                 EditorGUILayout.LabelField("Delete Project", EditorStyles.boldLabel);
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
@@ -279,8 +306,8 @@ public class ReferenceEditorWindow : EditorWindow
                     _textListItems = Array.Empty<TextJsonObject>();
                     Database.GetValueAsync(TextsPath).ContinueWith(value =>
                     {
-                        var jObject = JObject.FromObject(value);
-                        var itemHistories = jObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
+                        var jObject = value != null ? JObject.FromObject(value) : new JObject();
+                        var itemHistories = jObject.Properties().ToArray();
                         var itemHistoriesLength = itemHistories.Length;
                         _textListItems = new TextJsonObject[itemHistoriesLength];
                         var utcNowTicks = DateTime.UtcNow.Ticks;
@@ -301,6 +328,7 @@ public class ReferenceEditorWindow : EditorWindow
                                     minTick = itemHistoryItemTick;
                                     minIndex = j;
                                 }
+
                                 if (itemHistoryItemTick <= utcNowTicks &&
                                     itemHistoryItemTick > closestWithoutGoingOverTick)
                                 {
@@ -308,6 +336,7 @@ public class ReferenceEditorWindow : EditorWindow
                                     closestWithoutGoingOverIndex = j;
                                 }
                             }
+
                             var index = closestWithoutGoingOverIndex == -1 ? minIndex : closestWithoutGoingOverIndex;
                             var itemHistoryItemJObject = itemHistory[index].Value as JObject;
                             var itemHistoryItem = itemHistoryItemJObject?.ToObject<TextJsonObject>();
@@ -333,25 +362,30 @@ public class ReferenceEditorWindow : EditorWindow
                         _operationType = OperationType.Read;
                         _currentTextListItem = listItem;
                     }
+
                     EditorGUI.BeginDisabledGroup(isDeleted);
                     if (GUILayout.Button(isDeleted ? "Deleted" : "Update"))
                     {
                         _operationType = OperationType.Update;
                         _currentTextListItem = listItem;
                     }
+
                     if (GUILayout.Button(isDeleted ? "Deleted" : "Delete"))
                     {
                         _operationType = OperationType.Delete;
                         _currentTextListItem = listItem;
                     }
+
                     EditorGUI.EndDisabledGroup();
                     EditorGUILayout.EndHorizontal();
                 }
+
                 if (GUILayout.Button("Create"))
                 {
                     _operationType = OperationType.Create;
                     _currentTextListItem = new TextJsonObject { guid = Guid.NewGuid().ToString("N") };
                 }
+
                 break;
             case OperationType.Read:
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
@@ -387,6 +421,7 @@ public class ReferenceEditorWindow : EditorWindow
                         }
                     });
                 }
+
                 _textListItems ??= Array.Empty<TextJsonObject>();
                 _textPreviews ??= Array.Empty<string>();
                 var textListItemsCount = _textListItems.Length;
@@ -463,6 +498,7 @@ public class ReferenceEditorWindow : EditorWindow
                         _operationType = OperationType.List;
                     });
                 }
+
                 EditorGUILayout.EndHorizontal();
                 break;
             case OperationType.Create:
@@ -504,14 +540,9 @@ public class ReferenceEditorWindow : EditorWindow
                         {
                             if (value == null)
                             {
-                                var jObject = new JObject();
-                                var settings = new JsonSerializer
-                                {
-                                    NullValueHandling = NullValueHandling.Ignore,
-                                    DefaultValueHandling = DefaultValueHandling.Ignore,
-                                };
-                                jObject.Add(utcNowTicksString, JObject.FromObject(_currentTextListItem, settings));
-                                _ = Database.SetValueAsync(path, jObject);
+                                var dictionary = new Dictionary<string, object>
+                                    { { utcNowTicksString, _currentTextListItem } };
+                                _ = Database.SetValueAsync(path, dictionary);
                                 _operationType = OperationType.List;
                             }
                             else
@@ -522,6 +553,7 @@ public class ReferenceEditorWindow : EditorWindow
                         });
                     });
                 }
+
                 EditorGUILayout.EndHorizontal();
                 break;
             case OperationType.Delete:
@@ -536,6 +568,7 @@ public class ReferenceEditorWindow : EditorWindow
                     _currentTextListItem.path = null;
                     Database.AddObjectChild(path, UtcNowTicksString, _currentTextListItem);
                 }
+
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
                 EditorGUILayout.LabelField("Delete Text Asset", EditorStyles.boldLabel);
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);

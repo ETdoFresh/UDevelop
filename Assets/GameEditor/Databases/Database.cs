@@ -5,7 +5,8 @@ namespace GameEditor.Databases
 {
     public static class Database
     {
-        private static IDatabase _database = new LocalbaseAdapter();
+        //private static IDatabase _database = new LocalbaseAdapter();
+        private static IDatabase _database = new FirebaseAdapter();
         
         public static void AddValueChangedListener(string path, EventHandler<IValueChangedEventArgs> listener) => 
             _database.AddValueChangedListener(path, listener);
