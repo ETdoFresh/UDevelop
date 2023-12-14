@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Battlehub.Utils;
 using Cysharp.Threading.Tasks;
-using Firebase.Extensions;
 using GameEditor.Databases;
 using GameEditor.Organizations;
 using GameEditor.Project;
 using GameEditor.References;
 using GameEditor.Storages;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEditor;
 using UnityEngine;
@@ -24,29 +23,11 @@ public class ReferenceEditorWindow : EditorWindow
 
     private enum ReferenceType
     {
-        Database,
-        Organization,
-        Project,
-        User,
-        Scene,
-        Package,
-        Prefab,
-        Image,
-        Audio,
-        Script,
-        Material,
-        Model,
-        Text
+        Organization, Project, User, Scene, Package, Prefab, Image, Audio,
+        Script, Material, Model, Text
     }
 
-    private enum OperationType
-    {
-        List,
-        Create,
-        Read,
-        Update,
-        Delete
-    }
+    private enum OperationType { List, Create, Read, Update, Delete }
 
     private string _currentOrganizationsPath = OrganizationsPath;
     private string _currentProjectsPath = ProjectsPath;
@@ -93,6 +74,7 @@ public class ReferenceEditorWindow : EditorWindow
     private TextJsonObject[] _textListItems;
     private TextJsonObject _currentTextListItem;
     private string[] _textPreviews;
+    private MonoScript _script;
 
     private ReferenceType _referenceType;
     private ReferenceType _previousReferenceType;
@@ -100,9 +82,14 @@ public class ReferenceEditorWindow : EditorWindow
     private OperationType _operationType;
     private OperationType _previousOperationType;
     private bool _operationTypeChangedThisFrame;
+    private Vector2 _scrollViewPosition;
 
     private void OnGUI()
     {
+        _script ??= MonoScript.FromScriptableObject(this);
+        EditorGUI.BeginDisabledGroup(true);
+        EditorGUILayout.ObjectField("Script", _script, typeof(MonoScript), false);
+        EditorGUI.EndDisabledGroup();
         _referenceType = (ReferenceType)EditorGUILayout.EnumPopup("Reference Type", _referenceType);
         EditorGUI.BeginDisabledGroup(true);
         _operationType = (OperationType)EditorGUILayout.EnumPopup("Operation Type", _operationType);
@@ -168,6 +155,7 @@ public class ReferenceEditorWindow : EditorWindow
 
                 if (_referenceTypeChangedThisFrame || _operationTypeChangedThisFrame)
                 {
+                    _scrollViewPosition = Vector2.zero;
                     _currentProjectsPath = ProjectsPath;
                     Database.GetValueAsync(_currentProjectsPath).ContinueWith(value =>
                     {
@@ -183,6 +171,9 @@ public class ReferenceEditorWindow : EditorWindow
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
                 EditorGUILayout.LabelField("Projects", EditorStyles.boldLabel);
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                _scrollViewPosition =
+                    EditorGUILayout.BeginScrollView(_scrollViewPosition, GUIStyle.none, GUI.skin.verticalScrollbar);
+
                 _projectListItems ??= Array.Empty<ProjectJsonObject>();
                 var projectListItemsCount = _projectListItems.Length;
                 for (var i = 0; i < projectListItemsCount; i++)
@@ -218,6 +209,7 @@ public class ReferenceEditorWindow : EditorWindow
                     _currentProjectListItem = new ProjectJsonObject { guid = Guid.NewGuid().ToString() };
                 }
 
+                EditorGUILayout.EndScrollView();
                 break;
 
             case OperationType.Create:
@@ -286,7 +278,316 @@ public class ReferenceEditorWindow : EditorWindow
     private void OnScenesGUI() { }
     private void OnPackagesGUI() { }
     private void OnPrefabsGUI() { }
-    private void OnImagesGUI() { }
+
+    private void OnImagesGUI()
+    {
+        if (_referenceTypeChangedThisFrame)
+            _operationType = OperationType.List;
+
+        switch (_operationType)
+        {
+            case OperationType.List:
+
+                if (_referenceTypeChangedThisFrame || _operationTypeChangedThisFrame)
+                {
+                    _scrollViewPosition = Vector2.zero;
+                    _imageListItems = Array.Empty<ImageJsonObject>();
+                    Database.GetValueAsync(ImagesPath).ContinueWith(value =>
+                    {
+                        var jObject = value != null ? JObject.FromObject(value) : new JObject();
+                        var itemHistories = jObject.Properties().ToArray();
+                        var itemHistoriesLength = itemHistories.Length;
+                        _imageListItems = new ImageJsonObject[itemHistoriesLength];
+                        var utcNowTicks = DateTime.UtcNow.Ticks;
+                        for (var i = 0; i < itemHistoriesLength; i++)
+                        {
+                            var itemHistoryJObject = itemHistories[i].Value as JObject;
+                            var itemHistory = itemHistoryJObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
+                            var itemHistoryLength = itemHistory.Length;
+                            var closestWithoutGoingOverTick = 0L;
+                            var closestWithoutGoingOverIndex = -1;
+                            var minTick = long.MaxValue;
+                            var minIndex = -1;
+                            for (var j = 0; j < itemHistoryLength; j++)
+                            {
+                                var itemHistoryItemTick = long.Parse(itemHistory[j].Name);
+                                if (itemHistoryItemTick < minTick)
+                                {
+                                    minTick = itemHistoryItemTick;
+                                    minIndex = j;
+                                }
+
+                                if (itemHistoryItemTick <= utcNowTicks &&
+                                    itemHistoryItemTick > closestWithoutGoingOverTick)
+                                {
+                                    closestWithoutGoingOverTick = itemHistoryItemTick;
+                                    closestWithoutGoingOverIndex = j;
+                                }
+                            }
+
+                            var index = closestWithoutGoingOverIndex == -1 ? minIndex : closestWithoutGoingOverIndex;
+                            var itemHistoryItemJObject = itemHistory[index].Value as JObject;
+                            var itemHistoryItem = itemHistoryItemJObject?.ToObject<ImageJsonObject>();
+                            _imageListItems[i] = itemHistoryItem;
+                        }
+                    });
+                }
+
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                EditorGUILayout.LabelField("Image Assets", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                _scrollViewPosition =
+                    EditorGUILayout.BeginScrollView(_scrollViewPosition, GUIStyle.none, GUI.skin.verticalScrollbar);
+
+                _imageListItems ??= Array.Empty<ImageJsonObject>();
+                var listItemsCount = _imageListItems.Length;
+                for (var i = 0; i < listItemsCount; i++)
+                {
+                    var listItem = _imageListItems[i];
+                    var isDeleted = listItem?.deletedUtcTicks.HasValue == true;
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField(listItem?.name ?? "null");
+                    EditorGUILayout.LabelField(listItem?.guid ?? "null");
+                    if (GUILayout.Button("Read"))
+                    {
+                        _operationType = OperationType.Read;
+                        _currentImageListItem = listItem;
+                    }
+
+                    EditorGUI.BeginDisabledGroup(isDeleted);
+                    if (GUILayout.Button(isDeleted ? "Deleted" : "Update"))
+                    {
+                        _operationType = OperationType.Update;
+                        _currentImageListItem = listItem;
+                    }
+
+                    if (GUILayout.Button(isDeleted ? "Deleted" : "Delete"))
+                    {
+                        _operationType = OperationType.Delete;
+                        _currentImageListItem = listItem;
+                    }
+
+                    EditorGUI.EndDisabledGroup();
+                    EditorGUILayout.EndHorizontal();
+                }
+
+                if (GUILayout.Button("Create"))
+                {
+                    _operationType = OperationType.Create;
+                    _currentImageListItem = new ImageJsonObject { guid = Guid.NewGuid().ToString("N") };
+                }
+
+                EditorGUILayout.EndScrollView();
+                break;
+
+            case OperationType.Read:
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                EditorGUILayout.LabelField("Read Image Asset", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+                if (_operationTypeChangedThisFrame)
+                {
+                    _imageListItems = Array.Empty<ImageJsonObject>();
+                    _imagePreviews = Array.Empty<Texture2D>();
+                    var guid = _currentImageListItem.guid;
+                    Database.GetValueAsync($"{ImagesPath}.{guid}").ContinueWith(value =>
+                    {
+                        var jObject = JObject.FromObject(value);
+                        var itemHistories = jObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
+                        var itemHistoriesLength = itemHistories.Length;
+                        itemHistories = itemHistories.OrderBy(x => long.Parse(x.Name)).ToArray();
+                        _imageListItems = new ImageJsonObject[itemHistoriesLength];
+                        for (var i = 0; i < itemHistoriesLength; i++)
+                        {
+                            var itemHistoryJObject = itemHistories[i].Value as JObject;
+                            var imageAsset = itemHistoryJObject?.ToObject<ImageJsonObject>();
+                            _imageListItems[i] = imageAsset;
+                        }
+
+                        _imagePreviews = new Texture2D[itemHistoriesLength];
+                        for (var i = 0; i < itemHistoriesLength; i++)
+                        {
+                            var imagePath = _imageListItems[i]?.path;
+                            if (string.IsNullOrEmpty(imagePath)) continue;
+                            var index = i;
+                            HttpCache.GetBytesAsync(imagePath).ContinueWith(textureValue =>
+                                _imagePreviews[index] = GetTexture2DFromBytes(textureValue));
+                        }
+                    });
+                }
+
+                _imageListItems ??= Array.Empty<ImageJsonObject>();
+                _imagePreviews ??= Array.Empty<Texture2D>();
+                var imageListItemsCount = _imageListItems.Length;
+                for (var i = 0; i < imageListItemsCount; i++)
+                {
+                    var imageListItem = _imageListItems[i];
+                    var isDeleted = imageListItem?.deletedUtcTicks.HasValue == true;
+                    var lastModifiedUtc = new DateTime(imageListItem.lastModifiedUtcTicks);
+                    var lastModified = lastModifiedUtc.ToLocalTime();
+                    var lastModifiedString = lastModified.ToString("yyyy-MM-dd HH:mm:ss");
+
+                    EditorGUILayout.BeginHorizontal();
+                    EditorGUILayout.LabelField(imageListItem.guid);
+                    EditorGUILayout.LabelField(lastModifiedString);
+                    EditorGUILayout.LabelField(imageListItem.name);
+                    EditorGUILayout.EndHorizontal();
+
+                    if (isDeleted)
+                    {
+                        EditorGUILayout.LabelField("Deleted");
+                    }
+                    else
+                    {
+                        EditorGUILayout.LabelField(imageListItem.path);
+                        EditorGUILayout.LabelField("Cache", HttpCache.GetCacheFilename(imageListItem.path, ".bytes"));
+
+                        EditorGUI.BeginDisabledGroup(true);
+                        EditorGUILayout.ObjectField(_imagePreviews[i], typeof(Texture2D), false);
+                        EditorGUI.EndDisabledGroup();
+                    }
+
+                    if (i < imageListItemsCount - 1)
+                        EditorGUILayout.Space();
+                }
+
+                if (GUILayout.Button("Back"))
+                    _operationType = OperationType.List;
+                break;
+
+            case OperationType.Update:
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                EditorGUILayout.LabelField("Update Image Asset", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+                if (_operationTypeChangedThisFrame)
+                {
+                    _imagePreviews = new Texture2D[1];
+                    _imagePreviews[0] = null;
+                    HttpCache.GetBytesAsync(_currentImageListItem.path).ContinueWith(textureValue =>
+                        _imagePreviews[0] = GetTexture2DFromBytes(textureValue));
+                }
+
+                EditorGUILayout.BeginHorizontal();
+                _currentImageListItem.name = EditorGUILayout.TextField("Name", _currentImageListItem.name);
+                EditorGUILayout.LabelField("Guid", _currentImageListItem.guid);
+                EditorGUILayout.EndHorizontal();
+
+                EditorGUI.BeginDisabledGroup(_imagePreviews[0] == null);
+                _imagePreviews[0] = (Texture2D)EditorGUILayout.ObjectField(_imagePreviews[0], typeof(Texture2D), false);
+                EditorGUI.EndDisabledGroup();
+
+                EditorGUILayout.BeginHorizontal();
+                if (GUILayout.Button("Back"))
+                    _operationType = OperationType.List;
+                if (GUILayout.Button("Update"))
+                {
+                    var ext = System.IO.Path.GetExtension(_currentImageListItem.name);
+                    var guid = _currentImageListItem.guid;
+                    var utcNowTicks = DateTime.UtcNow.Ticks;
+                    var objectName = $"{guid}-{utcNowTicks}{ext}";
+                    GoogleCloudStorage.UploadBytes(objectName, _imagePreviews[0].DeCompress().EncodeToPNG())
+                        .ContinueWith(
+                            downloadUri =>
+                            {
+                                _currentImageListItem.lastModifiedUtcTicks = utcNowTicks;
+                                _currentImageListItem.path = downloadUri.ToString();
+                                Database.AddObjectChild($"{ImagesPath}.{guid}", utcNowTicks.ToString(),
+                                    _currentImageListItem);
+                                _operationType = OperationType.List;
+                            });
+                }
+
+                EditorGUILayout.EndHorizontal();
+                break;
+
+            case OperationType.Create:
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                EditorGUILayout.LabelField("Create Image Asset", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+                if (_operationTypeChangedThisFrame)
+                {
+                    _imagePreviews = new Texture2D[1];
+                    _imagePreviews[0] = null;
+                }
+
+                EditorGUILayout.BeginHorizontal();
+                _currentImageListItem.name = EditorGUILayout.TextField("Name", _currentImageListItem.name);
+                EditorGUILayout.LabelField("Guid", _currentImageListItem.guid);
+                EditorGUILayout.EndHorizontal();
+
+                _imagePreviews[0] = (Texture2D)EditorGUILayout.ObjectField(_imagePreviews[0], typeof(Texture2D), false);
+
+                if (string.IsNullOrEmpty(_currentImageListItem.name) && _imagePreviews[0] &&
+                    !string.IsNullOrEmpty(_imagePreviews[0].name))
+                    _currentImageListItem.name = $"{_imagePreviews[0].name}.png";
+
+                EditorGUILayout.BeginHorizontal();
+                if (GUILayout.Button("Back"))
+                    _operationType = OperationType.List;
+                if (GUILayout.Button("Create"))
+                {
+                    var ext = System.IO.Path.GetExtension(_currentImageListItem.name);
+                    var guid = _currentImageListItem.guid;
+                    var path = $"{ImagesPath}.{guid}";
+                    var utcNowTicks = DateTime.UtcNow.Ticks;
+                    var utcNowTicksString = utcNowTicks.ToString();
+                    var objectName = $"{guid}-{utcNowTicks}{ext}";
+                    GoogleCloudStorage.UploadBytes(objectName, _imagePreviews[0].DeCompress().EncodeToPNG())
+                        .ContinueWith(
+                            downloadUri =>
+                            {
+                                //var imageReference = LocalbaseDatabase.DefaultInstance.GetReference($"{ImagesPath}.{guid}");
+                                _currentImageListItem.createdUtcTicks = utcNowTicks;
+                                _currentImageListItem.lastModifiedUtcTicks = utcNowTicks;
+                                _currentImageListItem.path = downloadUri.ToString();
+                                Database.GetValueAsync($"{ImagesPath}.{guid}").ContinueWith(value =>
+                                {
+                                    if (value == null)
+                                    {
+                                        var dictionary = new Dictionary<string, object>
+                                            { { utcNowTicksString, _currentImageListItem } };
+                                        _ = Database.SetValueAsync(path, dictionary);
+                                        _operationType = OperationType.List;
+                                    }
+                                    else
+                                    {
+                                        Database.AddObjectChild(path, utcNowTicksString, _currentImageListItem);
+                                        _operationType = OperationType.List;
+                                    }
+                                });
+                            });
+                }
+
+                EditorGUILayout.EndHorizontal();
+                break;
+
+            case OperationType.Delete:
+                if (_operationTypeChangedThisFrame)
+                {
+                    var guid = _currentImageListItem.guid;
+                    var UtcNowTicks = DateTime.UtcNow.Ticks;
+                    var UtcNowTicksString = UtcNowTicks.ToString();
+                    var path = $"{ImagesPath}.{guid}";
+                    _currentImageListItem.lastModifiedUtcTicks = UtcNowTicks;
+                    _currentImageListItem.deletedUtcTicks = UtcNowTicks;
+                    _currentImageListItem.path = null;
+                    Database.AddObjectChild(path, UtcNowTicksString, _currentImageListItem);
+                }
+
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                EditorGUILayout.LabelField("Delete Image Asset", EditorStyles.boldLabel);
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                EditorGUILayout.LabelField("You have deleted the following image asset:");
+                EditorGUILayout.LabelField(_currentImageListItem.name);
+                EditorGUILayout.LabelField(_currentImageListItem.guid);
+                if (GUILayout.Button("Back"))
+                    _operationType = OperationType.List;
+                break;
+        }
+    }
+
     private void OnAudioGUI() { }
     private void OnScriptsGUI() { }
     private void OnMaterialsGUI() { }
@@ -303,6 +604,7 @@ public class ReferenceEditorWindow : EditorWindow
 
                 if (_referenceTypeChangedThisFrame || _operationTypeChangedThisFrame)
                 {
+                    _scrollViewPosition = Vector2.zero;
                     _textListItems = Array.Empty<TextJsonObject>();
                     Database.GetValueAsync(TextsPath).ContinueWith(value =>
                     {
@@ -348,6 +650,9 @@ public class ReferenceEditorWindow : EditorWindow
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
                 EditorGUILayout.LabelField("Text Assets", EditorStyles.boldLabel);
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                _scrollViewPosition =
+                    EditorGUILayout.BeginScrollView(_scrollViewPosition, GUIStyle.none, GUI.skin.verticalScrollbar);
+
                 _textListItems ??= Array.Empty<TextJsonObject>();
                 var listItemsCount = _textListItems.Length;
                 for (var i = 0; i < listItemsCount; i++)
@@ -386,6 +691,7 @@ public class ReferenceEditorWindow : EditorWindow
                     _currentTextListItem = new TextJsonObject { guid = Guid.NewGuid().ToString("N") };
                 }
 
+                EditorGUILayout.EndScrollView();
                 break;
             case OperationType.Read:
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
@@ -417,7 +723,8 @@ public class ReferenceEditorWindow : EditorWindow
                             var textPath = _textListItems[i]?.path;
                             if (string.IsNullOrEmpty(textPath)) continue;
                             var index = i;
-                            HttpCache.GetTextCallback(textPath, textValue => _textPreviews[index] = textValue);
+                            HttpCache.GetTextAsync(textPath)
+                                .ContinueWith(textValue => _textPreviews[index] = textValue);
                         }
                     });
                 }
@@ -469,7 +776,8 @@ public class ReferenceEditorWindow : EditorWindow
                 {
                     _textPreviews = new string[1];
                     _textPreviews[0] = null;
-                    HttpCache.GetTextCallback(_currentTextListItem.path, textValue => _textPreviews[0] = textValue);
+                    HttpCache.GetTextAsync(_currentTextListItem.path)
+                        .ContinueWith(textValue => _textPreviews[0] = textValue);
                 }
 
                 EditorGUILayout.BeginHorizontal();
@@ -579,5 +887,12 @@ public class ReferenceEditorWindow : EditorWindow
                     _operationType = OperationType.List;
                 break;
         }
+    }
+
+    private Texture2D GetTexture2DFromBytes(byte[] bytes)
+    {
+        var texture = new Texture2D(2, 2);
+        texture.LoadImage(bytes);
+        return texture;
     }
 }

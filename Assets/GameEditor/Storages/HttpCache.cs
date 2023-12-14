@@ -1,6 +1,6 @@
 ﻿using System.IO;
 using System.Net;
-using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine.Networking;
 
 namespace GameEditor.Storages
@@ -10,7 +10,7 @@ namespace GameEditor.Storages
     {
         private const string CachePath = "cache";
         
-        public static async Task<string> GetTextAsync(string url)
+        public static async UniTask<string> GetTextAsync(string url)
         {
             if (string.IsNullOrEmpty(url)) return null;
             
@@ -19,13 +19,13 @@ namespace GameEditor.Storages
                 return await File.ReadAllTextAsync(cachePath);
 
             var webRequest = UnityWebRequest.Get(url);
-            var tcs = new TaskCompletionSource<string>();
+            var tcs = new UniTaskCompletionSource<string>();
             webRequest.SendWebRequest().completed += operation =>
             {
                 if (webRequest.error != null)
-                    tcs.SetException(new WebException(webRequest.error));
+                    tcs.TrySetException(new WebException(webRequest.error));
                 else
-                    tcs.SetResult(webRequest.downloadHandler.text);
+                    tcs.TrySetResult(webRequest.downloadHandler.text);
             };
             var text = await tcs.Task;
             Directory.CreateDirectory(Path.GetDirectoryName(cachePath));
@@ -33,34 +33,7 @@ namespace GameEditor.Storages
             return text;
         }
         
-        public static void GetTextCallback(string url, System.Action<string> callback)
-        {
-            if (string.IsNullOrEmpty(url)) return;
-            
-            var cachePath = GetCachePath(url, ".txt");
-            if (File.Exists(cachePath))
-            {
-                callback?.Invoke(File.ReadAllText(cachePath));
-                return;
-            }
-
-            var webRequest = UnityWebRequest.Get(url);
-            var operation = webRequest.SendWebRequest();
-            operation.completed += _ =>
-            {
-                if (webRequest.error != null)
-                    callback?.Invoke(null);
-                else
-                {
-                    var text = webRequest.downloadHandler.text;
-                    Directory.CreateDirectory(Path.GetDirectoryName(cachePath));
-                    File.WriteAllText(cachePath, text);
-                    callback?.Invoke(text);
-                }
-            };
-        }
-        
-        public static async Task<byte[]> GetBytesAsync(string url)
+        public static async UniTask<byte[]> GetBytesAsync(string url)
         {
             if (string.IsNullOrEmpty(url)) return null;
             
@@ -69,13 +42,13 @@ namespace GameEditor.Storages
                 return await File.ReadAllBytesAsync(cachePath);
 
             var webRequest = UnityWebRequest.Get(url);
-            var tcs = new TaskCompletionSource<byte[]>();
+            var tcs = new UniTaskCompletionSource<byte[]>();
             webRequest.SendWebRequest().completed += operation =>
             {
                 if (webRequest.error != null)
-                    tcs.SetException(new WebException(webRequest.error));
+                    tcs.TrySetException(new WebException(webRequest.error));
                 else
-                    tcs.SetResult(webRequest.downloadHandler.data);
+                    tcs.TrySetResult(webRequest.downloadHandler.data);
             };
             var bytes = await tcs.Task;
             Directory.CreateDirectory(Path.GetDirectoryName(cachePath));
