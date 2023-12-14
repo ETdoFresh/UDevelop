@@ -1,6 +1,8 @@
 using System;
 using ETdoFresh.Localbase;
 using GameEditor.Databases;
+using GameEditor.Organizations;
+using GameEditor.Storages;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using static ETdoFresh.Localbase.Paths;
@@ -31,19 +33,28 @@ namespace GameEditor.References
             }
 
             var jObject = JObject.FromObject(value);
+            var bestJObject = (JObject)null;
             if (tick == 0)
             {
                 bestTick = DatabaseTickUtility.GetClosestTickWithoutGoingOverNow(jObject);
-                bestJsonString = DatabaseTickUtility.GetValueAtUtcNow(jObject).ToString();
+                bestJObject = DatabaseTickUtility.GetValueAtUtcNow(jObject) as JObject;
+                bestJsonString = bestJObject?.ToString();
             }
             else
             {
                 bestTick = DatabaseTickUtility.GetClosestTickWithoutGoingOver(jObject, tick);
-                bestJsonString = DatabaseTickUtility.GetValueAtUtcTick(jObject, tick).ToString();
+                bestJObject = DatabaseTickUtility.GetValueAtUtcTick(jObject, tick) as JObject;
+                bestJsonString = bestJObject?.ToString();
             }
             bestTickString = new DateTime(bestTick).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss.fff");
-            
-            
+
+            var pathToTexture = bestJObject?.ToObject<ImageJsonObject>()?.path;
+            if (!string.IsNullOrEmpty(pathToTexture))
+            {
+                _texture2D = new Texture2D(1, 1);
+                _texture2D.LoadImage(await HttpCache.GetBytesAsync(pathToTexture));
+                GetComponent<SpriteRenderer>().sprite = Sprite.Create(_texture2D, new Rect(0, 0, _texture2D.width, _texture2D.height), new Vector2(0.5f, 0.5f));
+            }
         }
     }
 }
