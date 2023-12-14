@@ -1,13 +1,10 @@
 using System;
 using System.Linq;
 using ETdoFresh.Localbase;
-using Firebase.Extensions;
 using GameEditor.Databases;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using static ETdoFresh.Localbase.Paths;
-using ValueChangedEventArgs = Firebase.Database.ValueChangedEventArgs;
 
 namespace GameEditor.References
 {

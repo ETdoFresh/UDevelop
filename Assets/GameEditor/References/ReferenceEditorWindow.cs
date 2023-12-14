@@ -298,37 +298,12 @@ public class ReferenceEditorWindow : EditorWindow
                         var itemHistories = jObject.Properties().ToArray();
                         var itemHistoriesLength = itemHistories.Length;
                         _imageListItems = new ImageJsonObject[itemHistoriesLength];
-                        var utcNowTicks = DateTime.UtcNow.Ticks;
                         for (var i = 0; i < itemHistoriesLength; i++)
                         {
                             var itemHistoryJObject = itemHistories[i].Value as JObject;
-                            var itemHistory = itemHistoryJObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
-                            var itemHistoryLength = itemHistory.Length;
-                            var closestWithoutGoingOverTick = 0L;
-                            var closestWithoutGoingOverIndex = -1;
-                            var minTick = long.MaxValue;
-                            var minIndex = -1;
-                            for (var j = 0; j < itemHistoryLength; j++)
-                            {
-                                var itemHistoryItemTick = long.Parse(itemHistory[j].Name);
-                                if (itemHistoryItemTick < minTick)
-                                {
-                                    minTick = itemHistoryItemTick;
-                                    minIndex = j;
-                                }
-
-                                if (itemHistoryItemTick <= utcNowTicks &&
-                                    itemHistoryItemTick > closestWithoutGoingOverTick)
-                                {
-                                    closestWithoutGoingOverTick = itemHistoryItemTick;
-                                    closestWithoutGoingOverIndex = j;
-                                }
-                            }
-
-                            var index = closestWithoutGoingOverIndex == -1 ? minIndex : closestWithoutGoingOverIndex;
-                            var itemHistoryItemJObject = itemHistory[index].Value as JObject;
-                            var itemHistoryItem = itemHistoryItemJObject?.ToObject<ImageJsonObject>();
-                            _imageListItems[i] = itemHistoryItem;
+                            var itemAtUtcNow = DatabaseTickUtility.GetValueAtUtcNow(itemHistoryJObject);
+                            var itemJObject = itemAtUtcNow as JObject;
+                            _imageListItems[i] = itemJObject?.ToObject<ImageJsonObject>();
                         }
                     });
                 }
@@ -612,37 +587,12 @@ public class ReferenceEditorWindow : EditorWindow
                         var itemHistories = jObject.Properties().ToArray();
                         var itemHistoriesLength = itemHistories.Length;
                         _textListItems = new TextJsonObject[itemHistoriesLength];
-                        var utcNowTicks = DateTime.UtcNow.Ticks;
                         for (var i = 0; i < itemHistoriesLength; i++)
                         {
                             var itemHistoryJObject = itemHistories[i].Value as JObject;
-                            var itemHistory = itemHistoryJObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
-                            var itemHistoryLength = itemHistory.Length;
-                            var closestWithoutGoingOverTick = 0L;
-                            var closestWithoutGoingOverIndex = -1;
-                            var minTick = long.MaxValue;
-                            var minIndex = -1;
-                            for (var j = 0; j < itemHistoryLength; j++)
-                            {
-                                var itemHistoryItemTick = long.Parse(itemHistory[j].Name);
-                                if (itemHistoryItemTick < minTick)
-                                {
-                                    minTick = itemHistoryItemTick;
-                                    minIndex = j;
-                                }
-
-                                if (itemHistoryItemTick <= utcNowTicks &&
-                                    itemHistoryItemTick > closestWithoutGoingOverTick)
-                                {
-                                    closestWithoutGoingOverTick = itemHistoryItemTick;
-                                    closestWithoutGoingOverIndex = j;
-                                }
-                            }
-
-                            var index = closestWithoutGoingOverIndex == -1 ? minIndex : closestWithoutGoingOverIndex;
-                            var itemHistoryItemJObject = itemHistory[index].Value as JObject;
-                            var itemHistoryItem = itemHistoryItemJObject?.ToObject<TextJsonObject>();
-                            _textListItems[i] = itemHistoryItem;
+                            var itemAtUtcNow = DatabaseTickUtility.GetValueAtUtcNow(itemHistoryJObject);
+                            var itemJObject = itemAtUtcNow as JObject;
+                            _textListItems[i] = itemJObject?.ToObject<TextJsonObject>();
                         }
                     });
                 }
