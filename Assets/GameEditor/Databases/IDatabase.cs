@@ -5,6 +5,7 @@ namespace GameEditor.Databases
 {
     public interface IDatabase
     {
+        void OpenDatabaseFromEditor();
         void AddValueChangedListener(string path, EventHandler<IValueChangedEventArgs> listener);
         void RemoveValueChangedListener(string path, EventHandler<IValueChangedEventArgs> listener);
         void AddChildAddedListener(string path, EventHandler<IChildChangedEventArgs> listener);

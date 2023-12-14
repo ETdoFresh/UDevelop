@@ -13,6 +13,13 @@ namespace GameEditor.Databases
         private readonly Dictionary<EventHandler<IChildChangedEventArgs>, EventHandler<ChildChangedEventArgs>>
             _childChangedListeners = new();
 
+        public void OpenDatabaseFromEditor()
+        {
+#if UNITY_EDITOR
+            UnityEngine.Application.OpenURL(LocalbaseDatabase.DefaultInstance.Path);
+#endif
+        }
+
         public void AddValueChangedListener(string path, EventHandler<IValueChangedEventArgs> listener)
         {
             if (!_valueChangedListeners.ContainsKey(listener))

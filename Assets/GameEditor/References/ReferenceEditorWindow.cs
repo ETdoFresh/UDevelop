@@ -90,6 +90,8 @@ public class ReferenceEditorWindow : EditorWindow
         EditorGUI.BeginDisabledGroup(true);
         EditorGUILayout.ObjectField("Script", _script, typeof(MonoScript), false);
         EditorGUI.EndDisabledGroup();
+        if (GUILayout.Button("Open Database")) 
+            Database.OpenDatabaseFromEditor();
         _referenceType = (ReferenceType)EditorGUILayout.EnumPopup("Reference Type", _referenceType);
         EditorGUI.BeginDisabledGroup(true);
         _operationType = (OperationType)EditorGUILayout.EnumPopup("Operation Type", _operationType);

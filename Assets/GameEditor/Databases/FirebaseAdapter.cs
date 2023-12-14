@@ -20,6 +20,13 @@ namespace GameEditor.Databases
             var app = FirebaseApp.DefaultInstance;
             _database = FirebaseDatabase.GetInstance(app);
         }
+        
+        public void OpenDatabaseFromEditor()
+        {
+#if UNITY_EDITOR
+            UnityEngine.Application.OpenURL("https://console.firebase.google.com/u/0/project/ingameeditor-f4937/database");
+#endif
+        }
 
         public void AddValueChangedListener(string path, EventHandler<IValueChangedEventArgs> listener)
         {

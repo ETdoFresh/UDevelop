@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using ETdoFresh.Localbase;
 using GameEditor.Databases;
 using Newtonsoft.Json.Linq;
@@ -8,11 +7,12 @@ using static ETdoFresh.Localbase.Paths;
 
 namespace GameEditor.References
 {
-    public class Texture2DReference : MonoBehaviour
+    public class ImageReference : MonoBehaviour
     {
         [SerializeField] private string guid;
         [SerializeField] private long tick;
         [SerializeField] private bool lockTickOnPublish = true;
+        [SerializeField] private long bestTick;
         [SerializeField] private string bestTickString;
         [SerializeField] private string bestJsonString;
         private DatabaseReference _reference;
@@ -23,60 +23,27 @@ namespace GameEditor.References
         private async void OnEnable()
         {
             if (string.IsNullOrEmpty(guid)) return;
-            bestTickString = null;
-            bestJsonString = null;
             var value = await Database.GetValueAsync(EndPoint);
             if (value == null)
             {
-                Debug.LogError($"[{nameof(Texture2DReference)}] Value is null");
+                Debug.LogError($"[{nameof(ImageReference)}] Value is null");
                 return;
             }
 
             var jObject = JObject.FromObject(value);
-            if (jObject == null)
+            if (tick == 0)
             {
-                Debug.LogError($"[{nameof(Texture2DReference)}] Value is not a JObject");
-                return;
+                bestTick = DatabaseTickUtility.GetClosestTickWithoutGoingOverNow(jObject);
+                bestJsonString = DatabaseTickUtility.GetValueAtUtcNow(jObject).ToString();
             }
+            else
+            {
+                bestTick = DatabaseTickUtility.GetClosestTickWithoutGoingOver(jObject, tick);
+                bestJsonString = DatabaseTickUtility.GetValueAtUtcTick(jObject, tick).ToString();
+            }
+            bestTickString = new DateTime(bestTick).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss.fff");
             
-            var properties = jObject.Properties().ToArray();
-            if (properties.Length == 0)
-            {
-                Debug.LogError($"[{nameof(Texture2DReference)}] Value is an empty JObject");
-                return;
-            }
             
-            var desiredTimestamp = tick == 0 ? DateTime.Now.Ticks : tick;
-            var bestTick = 0L;
-            var bestValue = (JToken)null;
-            var maxTick = 0L;
-            var maxValue = (JToken)null;
-            foreach (var property in properties)
-            {
-                var currentTimestamp = long.Parse(property.Name);
-                if (currentTimestamp > bestTick && currentTimestamp <= desiredTimestamp)
-                {
-                    bestTick = currentTimestamp;
-                    bestValue = property.Value;
-                }
-                if (currentTimestamp > maxTick)
-                {
-                    maxTick = currentTimestamp;
-                    maxValue = property.Value;
-                }
-            }
-            if (bestValue == null && tick != 0)
-            {
-                Debug.LogError($"[{nameof(Texture2DReference)}] Could not find a value for timestamp {desiredTimestamp}");
-                return;
-            }
-            if (bestValue == null)
-            {
-                Debug.LogWarning($"[{nameof(Texture2DReference)}] Could not find a value for timestamp {desiredTimestamp}, using latest value");
-                bestValue = maxValue;
-            }
-            bestTickString = bestTick.ToString();
-            bestJsonString = bestValue.ToString();
         }
     }
 }

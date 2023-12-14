@@ -8,6 +8,8 @@ namespace GameEditor.Databases
         //private static IDatabase _database = new LocalbaseAdapter();
         private static IDatabase _database = new FirebaseAdapter();
         
+        public static void OpenDatabaseFromEditor() => _database.OpenDatabaseFromEditor();
+        
         public static void AddValueChangedListener(string path, EventHandler<IValueChangedEventArgs> listener) => 
             _database.AddValueChangedListener(path, listener);
         
