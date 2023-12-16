@@ -19,6 +19,7 @@ namespace GameEditor.References
             DestroyInstance();
         }
 
+        [ContextMenu("Create Instance")]
         private void CreateInstance()
         {
             if (instance != null)
@@ -31,6 +32,7 @@ namespace GameEditor.References
                 instance.transform.SetParent(transform, false);
         }
         
+        [ContextMenu("Destroy Instance")]
         private void DestroyInstance()
         {
             if (instance != null)
@@ -53,10 +55,37 @@ namespace GameEditor.References
         [UnityEditor.MenuItem("ETdoFresh/Copy Selected Serialized To Clipboard")]
         private static void CopySelectedSerializedToClipboard()
         {
-            var json = SceneSerialization.ToJson(UnityEditor.Selection.activeGameObject);
+            if (UnityEditor.Selection.activeObject == null) throw new System.Exception("No object selected");
+            var activeObject = UnityEditor.Selection.activeObject;
+            var activeObjectType = activeObject.GetType();
+            var sceneSerializationToJsonMethod = typeof(SceneSerialization).GetMethod("ToJson");
+            var sceneSerializationToJsonGenericMethod = sceneSerializationToJsonMethod.MakeGenericMethod(activeObjectType);
+            var assetPackGuid = UnityEditor.AssetDatabase.FindAssets("t:AssetPack ETPack")[0];
+            var assetPackPath = UnityEditor.AssetDatabase.GUIDToAssetPath(assetPackGuid);
+            var assetPack = UnityEditor.AssetDatabase.LoadAssetAtPath<AssetPack>(assetPackPath);
+            var serializationMetadata = new SerializationMetadata(assetPack);
+            var json = (string) sceneSerializationToJsonGenericMethod.Invoke(null, new object[] {activeObject, serializationMetadata});
             GUIUtility.systemCopyBuffer = json;
-            Debug.Log(json);
+            Debug.Log(json, UnityEditor.Selection.activeObject);
         }
 #endif
+    }
+    
+    public static class GameObjectSerialization
+    {
+        public static string ToJson(GameObject go)
+        {
+            var json = SceneSerialization.ToJson(go);
+            return json;
+        }
+        
+        public static GameObject FromJson(string json)
+        {
+            var serializationMetadata = new SerializationMetadata
+            {
+                AssetPack = {  }
+            };
+            return SceneSerialization.FromJson<GameObject>(json);
+        }
     }
 }

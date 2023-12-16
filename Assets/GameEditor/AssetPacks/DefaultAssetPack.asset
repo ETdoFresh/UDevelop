@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 318a9aecae3fb8e49816f2c92f5e81b2, type: 3}
+  m_Name: DefaultAssetPack
+  m_EditorClassIdentifier: 
+  m_SceneAsset: {fileID: 102900000, guid: cbb3bb0450f70d244a7cb087e22269fb, type: 3}
+  m_Guids:
+  - 8884154dfe85442a3a3578be807dbcdf
+  - 0000000000000000f000000000000000
+  - 207ee8102dd4143d288186ef0be518ee
+  - a86470a33a6bf42c4b3595704624658b
+  - b670ab75dde984907b8570040daa08c5
+  - 5aa8b770bc43046bc8d993d0d5b7f4a5
+  - 19fb86013d8c24d6cb8410c0aadf30fa
+  - 311925a002f4447b3a28927169b83ea6
+  - 75f5f34dc1b5347e0b8351032682f224
+  - 0000000000000000e000000000000000
+  - 31321ba15b8f8eb4c954353edc038b1d
+  - 8f586378b4e144a9851e7b34d9b748ee
+  - c4779cce72a511746b6f9643b77edc1c
+  - 594ea882c5a793440b60ff72d896021e
+  - e823cd5b5d27c0f4b8256e7c12ee3e6d
+  m_Assets:
+  - m_FileIds: 9a49011b7f3826b8
+    m_Assets:
+    - {fileID: -5177388603050735206, guid: 8884154dfe85442a3a3578be807dbcdf, type: 3}
+  - m_FileIds: 022a0000000000009b2a000000000000992a000000000000952a000000000000a12a000000000000a52a0000000000004028000000000000
+    m_Assets:
+    - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+    - {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+    - {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+    - {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+    - {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+    - {fileID: 10917, guid: 0000000000000000f000000000000000, type: 0}
+    - {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  - m_FileIds: 6f967c7fd184c581
+    m_Assets:
+    - {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  - m_FileIds: 813d45e4996f80de
+    m_Assets:
+    - {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  - m_FileIds: 73cfa58211c22126
+    m_Assets:
+    - {fileID: 2747690628134850419, guid: b670ab75dde984907b8570040daa08c5, type: 3}
+  - m_FileIds: 02bde9ca36e05ce2
+    m_Assets:
+    - {fileID: -2135585597343286014, guid: 5aa8b770bc43046bc8d993d0d5b7f4a5, type: 3}
+  - m_FileIds: 931fdf6bf4bd4e32
+    m_Assets:
+    - {fileID: 3625043607559282579, guid: 19fb86013d8c24d6cb8410c0aadf30fa, type: 3}
+  - m_FileIds: d200a9b695c6d767
+    m_Assets:
+    - {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  - m_FileIds: d200a9b695c6d767
+    m_Assets:
+    - {fileID: 7482667652216324306, guid: 75f5f34dc1b5347e0b8351032682f224, type: 3}
+  - m_FileIds: da27000000000000df27000000000000e027000000000000de27000000000000e127000000000000e2270000000000007627000000000000
+    m_Assets:
+    - {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+    - {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+    - {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+    - {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+    - {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+    - {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+    - {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+  - m_FileIds: 200b200000000000
+    m_Assets:
+    - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - m_FileIds: a84421000000000040f3ad0000000000
+    m_Assets:
+    - {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+    - {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  - m_FileIds: 8009ee0000000000
+    m_Assets:
+    - {fileID: 15600000, guid: c4779cce72a511746b6f9643b77edc1c, type: 2}
+  - m_FileIds: 200b200000000000
+    m_Assets:
+    - {fileID: 2100000, guid: 594ea882c5a793440b60ff72d896021e, type: 2}
+  - m_FileIds: 200b200000000000
+    m_Assets:
+    - {fileID: 2100000, guid: e823cd5b5d27c0f4b8256e7c12ee3e6d, type: 2}
+  m_PrefabGuids: []
+  m_Prefabs: []
