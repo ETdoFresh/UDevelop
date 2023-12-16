@@ -11,6 +11,7 @@ public class Test1 : MonoBehaviour
     [SerializeField] private string testString = "Hello World!";
     [SerializeField] private Vector3 testVector3 = Vector3.one;
     [SerializeField] private Quaternion testQuaternion = Quaternion.identity;
+    [SerializeField] private UnityEngine.Object testObject;
     
     private async void OnEnable()
     {

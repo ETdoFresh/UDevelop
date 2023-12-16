@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using GameEditor.References;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 
@@ -40,4 +42,67 @@ public class GameObjectJsonConverter : JsonConverter<GameObject>
         gameObject.transform.localScale = obj["transform"]["localScale"].ToObject<Vector3>();
         return gameObject;
     }
+}
+
+public class MeshFilterJsonConverter : JsonConverter<MeshFilter>
+{
+    public override void WriteJson(JsonWriter writer, MeshFilter value, JsonSerializer serializer)
+    {
+        writer.WriteStartObject();
+        writer.WritePropertyName("sharedMesh");
+        serializer.Serialize(writer, value.sharedMesh);
+        writer.WriteEndObject();
+    }
+
+    public override MeshFilter ReadJson(JsonReader reader, System.Type objectType, MeshFilter existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        var obj = JObject.Load(reader);
+        var meshFilter = new GameObject().AddComponent<MeshFilter>();
+        meshFilter.sharedMesh = obj["sharedMesh"].ToObject<Mesh>();
+        return meshFilter;
+    }
+}
+
+public static class UnityObjectReferenceSerializerUtility
+{
+    public static UnityObjectReference Serialize(UnityEngine.Object objectReference)
+    {
+        var obj = new JObject();
+        if (objectReference is GameObject gameObject)
+        {
+            if (gameObject.TryGetComponent(out PrefabInstance prefabInstance))
+            {
+                return prefabInstance.GetReference();
+            }
+
+            return new UnityObjectReference();
+        }
+
+        return new UnityObjectReference();
+    }
+}
+
+[Serializable]
+public class UnityObjectReference
+{
+    public string path;
+    public string guid;
+    public long fileID = -1;
+    
+    // Scenarios:
+    
+    // (Project Scope) Reference a Unity AssetDatabase asset
+    // { path: "assetDatabase", guid: "assetGuid", fileID: 12 }
+    
+    // (Project Scope) Reference an Object in the Database
+    // { path: "images", guid: "assetGuid", fileID: -1 }
+    
+    // (Scene Scope) Reference an instance in scene
+    // { path: "scenes", guid: "sceneGuid", fileID: 12 [, fileId2: 12] }
+    // Note: fileId2 is needed if referencing a component of prefab instance
+    
+    // (Prefab Scope) Reference an instance in prefab
+    // { path: "prefabs", guid: "prefabGuid", fileID: 12 }
+    
+    // It's likely prefab references in scene will 
 }

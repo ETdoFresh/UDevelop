@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318a9aecae3fb8e49816f2c92f5e81b2, type: 3}
   m_Name: DefaultAssetPack
   m_EditorClassIdentifier: 
-  m_SceneAsset: {fileID: 102900000, guid: cbb3bb0450f70d244a7cb087e22269fb, type: 3}
+  m_SceneAsset: {fileID: 102900000, guid: 7e4419c316903894382ef3f0fa7e9967, type: 3}
   m_Guids:
   - 8884154dfe85442a3a3578be807dbcdf
   - 0000000000000000f000000000000000

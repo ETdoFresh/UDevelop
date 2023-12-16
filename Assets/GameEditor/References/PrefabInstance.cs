@@ -45,5 +45,10 @@ namespace GameEditor.References
             }
             bestTickString = new DateTime(bestTick).ToString("yyyy-MM-dd HH:mm:ss.fff");
         }
+
+        public UnityObjectReference GetReference()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

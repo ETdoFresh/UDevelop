@@ -2584,12 +2584,12 @@
                                 "y": 0
                             },
                             "anchoredPosition": {
-                                "x": 209.5,
-                                "y": 388.5
+                                "x": 327,
+                                "y": 226.25
                             },
                             "sizeDelta": {
-                                "x": 508.7649,
-                                "y": 943.4614
+                                "x": 832.9141,
+                                "y": 576.2899
                             },
                             "pivot": {
                                 "x": 0.5,
@@ -2597,8 +2597,8 @@
                             },
                             "drivenProperties": -1,
                             "localPosition": {
-                                "x": 209.5,
-                                "y": 388.5,
+                                "x": 327,
+                                "y": 226.25,
                                 "z": 0
                             },
                             "localRotation": {
@@ -2608,16 +2608,16 @@
                                 "w": 1
                             },
                             "localScale": {
-                                "x": 0.8235632,
-                                "y": 0.8235632,
-                                "z": 0.8235632
+                                "x": 0.7851951,
+                                "y": 0.7851951,
+                                "z": 0.7851951
                             },
                             "hideFlags": 0
                         },
                         {
                             "$type": "UnityEngine.Canvas, UnityEngine.UIModule",
                             "renderMode": 0,
-                            "scaleFactor": 0.8235632,
+                            "scaleFactor": 0.7851951,
                             "referencePixelsPerUnit": 100,
                             "overridePixelPerfect": false,
                             "vertexColorAlwaysGammaSpace": false,
@@ -2699,8 +2699,8 @@
                                     },
                                     "drivenProperties": 0,
                                     "localPosition": {
-                                        "x": -254.3824,
-                                        "y": 471.7307,
+                                        "x": -416.457,
+                                        "y": 288.145,
                                         "z": 0
                                     },
                                     "localRotation": {
@@ -2798,8 +2798,8 @@
                                     },
                                     "drivenProperties": 0,
                                     "localPosition": {
-                                        "x": -204.3824,
-                                        "y": 471.7307,
+                                        "x": -366.457,
+                                        "y": 288.145,
                                         "z": 0
                                     },
                                     "localRotation": {
@@ -3016,8 +3016,8 @@
                                     },
                                     "drivenProperties": 0,
                                     "localPosition": {
-                                        "x": -154.3824,
-                                        "y": 471.7307,
+                                        "x": -316.457,
+                                        "y": 288.145,
                                         "z": 0
                                     },
                                     "localRotation": {
@@ -3112,8 +3112,8 @@
                                     },
                                     "drivenProperties": 0,
                                     "localPosition": {
-                                        "x": -104.3824,
-                                        "y": 471.7307,
+                                        "x": -266.457,
+                                        "y": 288.145,
                                         "z": 0
                                     },
                                     "localRotation": {
@@ -3203,8 +3203,8 @@
                                     },
                                     "drivenProperties": 0,
                                     "localPosition": {
-                                        "x": -54.38243,
-                                        "y": 471.7307,
+                                        "x": -216.457,
+                                        "y": 288.145,
                                         "z": 0
                                     },
                                     "localRotation": {
@@ -3303,8 +3303,8 @@
                                     },
                                     "drivenProperties": 0,
                                     "localPosition": {
-                                        "x": -4.382431,
-                                        "y": 471.7307,
+                                        "x": -166.457,
+                                        "y": 288.145,
                                         "z": 0
                                     },
                                     "localRotation": {
@@ -3755,8 +3755,8 @@
                                     },
                                     "drivenProperties": 0,
                                     "localPosition": {
-                                        "x": 45.61757,
-                                        "y": 471.7307,
+                                        "x": -116.457,
+                                        "y": 288.145,
                                         "z": 0
                                     },
                                     "localRotation": {
@@ -4308,8 +4308,8 @@
                                     },
                                     "drivenProperties": 0,
                                     "localPosition": {
-                                        "x": 95.61757,
-                                        "y": 471.7307,
+                                        "x": -66.45703,
+                                        "y": 288.145,
                                         "z": 0
                                     },
                                     "localRotation": {
@@ -4654,8 +4654,8 @@
                                     },
                                     "drivenProperties": 0,
                                     "localPosition": {
-                                        "x": 145.6176,
-                                        "y": 471.7307,
+                                        "x": -16.45703,
+                                        "y": 288.145,
                                         "z": 0
                                     },
                                     "localRotation": {
@@ -4879,7 +4879,7 @@
                                                     },
                                                     "anchoredPosition": {
                                                         "x": -1.907349E-05,
-                                                        "y": 267.0034
+                                                        "y": 267.0002
                                                     },
                                                     "sizeDelta": {
                                                         "x": 0,
@@ -4892,7 +4892,7 @@
                                                     "drivenProperties": 0,
                                                     "localPosition": {
                                                         "x": -1.907349E-05,
-                                                        "y": 267.0034,
+                                                        "y": 267.0002,
                                                         "z": 0
                                                     },
                                                     "localRotation": {
@@ -5017,7 +5017,7 @@
                                             },
                                             "m_Direction": 0,
                                             "m_Value": 1,
-                                            "m_Size": 1,
+                                            "m_Size": 0.9999999,
                                             "m_NumberOfSteps": 0,
                                             "m_OnValueChanged": {
                                                 "m_PersistentCalls": {
@@ -5165,7 +5165,7 @@
                                                         {
                                                             "$type": "UnityEngine.RectTransform, UnityEngine.CoreModule",
                                                             "anchorMin": {
-                                                                "x": 0,
+                                                                "x": 1.192093E-07,
                                                                 "y": 0
                                                             },
                                                             "anchorMax": {
@@ -5186,7 +5186,7 @@
                                                             },
                                                             "drivenProperties": 3840,
                                                             "localPosition": {
-                                                                "x": 0,
+                                                                "x": 4.768372E-07,
                                                                 "y": 0,
                                                                 "z": 0
                                                             },
@@ -5362,8 +5362,8 @@
                                                 "sceneID": 209
                                             },
                                             "m_Direction": 2,
-                                            "m_Value": -1.262993E-05,
-                                            "m_Size": 0.1090824,
+                                            "m_Value": -1.000108E-06,
+                                            "m_Size": 0.11,
                                             "m_NumberOfSteps": 0,
                                             "m_OnValueChanged": {
                                                 "m_PersistentCalls": {
@@ -5516,7 +5516,7 @@
                                                             },
                                                             "anchorMax": {
                                                                 "x": 1,
-                                                                "y": 0.1090824
+                                                                "y": 0.11
                                                             },
                                                             "anchoredPosition": {
                                                                 "x": 0,
@@ -5533,7 +5533,7 @@
                                                             "drivenProperties": 3840,
                                                             "localPosition": {
                                                                 "x": 0,
-                                                                "y": -5.790965,
+                                                                "y": -5.785,
                                                                 "z": 0
                                                             },
                                                             "localRotation": {
@@ -5638,8 +5638,8 @@
                                     },
                                     "drivenProperties": 0,
                                     "localPosition": {
-                                        "x": 195.6176,
-                                        "y": 471.7307,
+                                        "x": 33.54297,
+                                        "y": 288.145,
                                         "z": 0
                                     },
                                     "localRotation": {
@@ -6163,6 +6163,132 @@
                             "m_RepeatDelay": 0.5,
                             "m_ForceModuleActive": false,
                             "m_SendPointerHoverToParent": true,
+                            "enabled": true,
+                            "hideFlags": 0
+                        }
+                    ],
+                    "children": []
+                }
+            ]
+        },
+        {
+            "name": "--- Serializer ---",
+            "hideFlags": 0,
+            "layer": 0,
+            "tag": "Untagged",
+            "active": true,
+            "components": [
+                {
+                    "$type": "UnityEngine.Transform, UnityEngine.CoreModule",
+                    "localPosition": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "localRotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "localScale": {
+                        "x": 1,
+                        "y": 1,
+                        "z": 1
+                    },
+                    "hideFlags": 0
+                },
+                {
+                    "$type": "GameObjectSerializerBehaviour, Assembly-CSharp",
+                    "objectToSerialize": {
+                        "sceneID": 39
+                    },
+                    "serializedObject": "{\n  \"name\": \"Cube\",\n  \"hideFlags\": 0,\n  \"layer\": 0,\n  \"tag\": \"Untagged\",\n  \"active\": true,\n  \"components\": [\n    {\n      \"$type\": \"UnityEngine.Transform, UnityEngine.CoreModule\",\n      \"localPosition\": {\n        \"x\": 0.0,\n        \"y\": 2.0,\n        \"z\": 0.0\n      }\n    },\n    {\n      \"$type\": \"UnityEngine.MeshFilter, UnityEngine.CoreModule\"\n    },\n    {\n      \"$type\": \"UnityEngine.MeshRenderer, UnityEngine.CoreModule\"\n    },\n    {\n      \"$type\": \"UnityEngine.BoxCollider, UnityEngine.PhysicsModule\"\n    }\n  ]\n}",
+                    "enabled": true,
+                    "hideFlags": 0
+                }
+            ],
+            "children": []
+        },
+        {
+            "name": "ChildReferenceParentTest",
+            "hideFlags": 0,
+            "layer": 0,
+            "tag": "Untagged",
+            "active": true,
+            "components": [
+                {
+                    "$type": "UnityEngine.Transform, UnityEngine.CoreModule",
+                    "localPosition": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0
+                    },
+                    "localRotation": {
+                        "x": 0,
+                        "y": 0,
+                        "z": 0,
+                        "w": 1
+                    },
+                    "localScale": {
+                        "x": 1,
+                        "y": 1,
+                        "z": 1
+                    },
+                    "hideFlags": 0
+                }
+            ],
+            "children": [
+                {
+                    "name": "ReferenceParentTest",
+                    "hideFlags": 0,
+                    "layer": 0,
+                    "tag": "Untagged",
+                    "active": true,
+                    "components": [
+                        {
+                            "$type": "UnityEngine.Transform, UnityEngine.CoreModule",
+                            "localPosition": {
+                                "x": 0,
+                                "y": 0,
+                                "z": 0
+                            },
+                            "localRotation": {
+                                "x": 0,
+                                "y": 0,
+                                "z": 0,
+                                "w": 1
+                            },
+                            "localScale": {
+                                "x": 1,
+                                "y": 1,
+                                "z": 1
+                            },
+                            "hideFlags": 0
+                        },
+                        {
+                            "$type": "Test1, Assembly-CSharp",
+                            "tempScene": {
+                                "sceneID": 232
+                            },
+                            "testBool": true,
+                            "testInt": 1,
+                            "testFloat": 1,
+                            "testString": "Hello World!",
+                            "testVector3": {
+                                "x": 1,
+                                "y": 1,
+                                "z": 1
+                            },
+                            "testQuaternion": {
+                                "x": 0,
+                                "y": 0,
+                                "z": 0,
+                                "w": 1
+                            },
+                            "testObject": {
+                                "sceneID": 232
+                            },
                             "enabled": true,
                             "hideFlags": 0
                         }

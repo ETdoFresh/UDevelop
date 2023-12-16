@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -602,8 +602,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1472957160}
   m_HandleRect: {fileID: 1472957159}
   m_Direction: 2
-  m_Value: -0.0000004571922
-  m_Size: 0.11
+  m_Value: -0.000001000108
+  m_Size: 0.110000014
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -7727,6 +7727,58 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1026260554
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1026260555}
+  - component: {fileID: 1026260556}
+  m_Layer: 0
+  m_Name: ReferenceParentTest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1026260555
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026260554}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1986823278}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1026260556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026260554}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da71ce4536478a74bac291d487ddc2fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tempScene: {fileID: 1986823277}
+  testBool: 1
+  testInt: 1
+  testFloat: 1
+  testString: Hello World!
+  testVector3: {x: 1, y: 1, z: 1}
+  testQuaternion: {x: 0, y: 0, z: 0, w: 1}
+  testObject: {fileID: 1986823277}
 --- !u!1 &1045209893
 GameObject:
   m_ObjectHideFlags: 0
@@ -7922,7 +7974,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 653518262}
   m_Direction: 0
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9762,8 +9814,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a07f89a5c7f2fa4a8f39d77cd1bd761, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToSerialize: {fileID: 1893220127}
-  serializedObject: 
+  objectToSerialize: {fileID: 684900167}
+  serializedObject: "{\n  \"name\": \"Cube\",\n  \"hideFlags\": 0,\n  \"layer\":
+    0,\n  \"tag\": \"Untagged\",\n  \"active\": true,\n  \"components\": [\n    {\n     
+    \"$type\": \"UnityEngine.Transform, UnityEngine.CoreModule\",\n      \"localPosition\":
+    {\n        \"x\": 0.0,\n        \"y\": 2.0,\n        \"z\": 0.0\n      }\n   
+    },\n    {\n      \"$type\": \"UnityEngine.MeshFilter, UnityEngine.CoreModule\"\n   
+    },\n    {\n      \"$type\": \"UnityEngine.MeshRenderer, UnityEngine.CoreModule\"\n   
+    },\n    {\n      \"$type\": \"UnityEngine.BoxCollider, UnityEngine.PhysicsModule\"\n   
+    }\n  ]\n}"
 --- !u!4 &1715683829
 Transform:
   m_ObjectHideFlags: 0
@@ -10278,9 +10337,41 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000019073486, y: 267.0001}
+  m_AnchoredPosition: {x: -0.000019073486, y: 267.00024}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
+--- !u!1 &1986823277
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1986823278}
+  m_Layer: 0
+  m_Name: ChildReferenceParentTest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1986823278
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1986823277}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1026260555}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2004426794
 GameObject:
   m_ObjectHideFlags: 0
@@ -10739,3 +10830,4 @@ SceneRoots:
   - {fileID: 1655487089}
   - {fileID: 1953479575}
   - {fileID: 1715683829}
+  - {fileID: 1986823278}
