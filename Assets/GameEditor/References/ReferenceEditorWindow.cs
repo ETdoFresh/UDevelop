@@ -167,6 +167,8 @@ public class ReferenceEditorWindow : EditorWindow
                         _projectListItems = new ProjectJsonObject[propertiesCount];
                         for (var i = 0; i < propertiesCount; i++)
                             _projectListItems[i] = (properties[i].Value as JObject)?.ToObject<ProjectJsonObject>();
+                        
+                        _projectListItems = _projectListItems.OrderBy(x => x?.name).ToArray();
                     });
                 }
 
@@ -307,6 +309,7 @@ public class ReferenceEditorWindow : EditorWindow
                             _imageListItems[i] =
                                 DatabaseTickUtility.GetValueAtUtcNow<ImageJsonObject>(itemHistoryJObject);
                         }
+                        _imageListItems = _imageListItems.OrderBy(x => x.name).ToArray();
                     });
                 }
 
@@ -463,7 +466,7 @@ public class ReferenceEditorWindow : EditorWindow
                     var guid = _currentImageListItem.guid;
                     var utcNowTicks = DateTime.UtcNow.Ticks;
                     var objectName = $"{guid}-{utcNowTicks}{ext}";
-                    GoogleCloudStorage.UploadBytes(objectName, _imagePreviews[0].DeCompress().EncodeToPNG())
+                    GoogleCloudStorage.UploadBytes(objectName, _imagePreviews[0].DeCompress().EncodeToPNG(), "image/png")
                         .ContinueWith(
                             downloadUri =>
                             {
@@ -511,7 +514,7 @@ public class ReferenceEditorWindow : EditorWindow
                     var utcNowTicks = DateTime.UtcNow.Ticks;
                     var utcNowTicksString = utcNowTicks.ToString();
                     var objectName = $"{guid}-{utcNowTicks}{ext}";
-                    GoogleCloudStorage.UploadBytes(objectName, _imagePreviews[0].DeCompress().EncodeToPNG())
+                    GoogleCloudStorage.UploadBytes(objectName, _imagePreviews[0].DeCompress().EncodeToPNG(), "image/png")
                         .ContinueWith(
                             downloadUri =>
                             {
@@ -595,6 +598,7 @@ public class ReferenceEditorWindow : EditorWindow
                             _textListItems[i] =
                                 DatabaseTickUtility.GetValueAtUtcNow<TextJsonObject>(itemHistoryJObject);
                         }
+                        _textListItems = _textListItems.OrderBy(x => x.name).ToArray();
                     });
                 }
 
