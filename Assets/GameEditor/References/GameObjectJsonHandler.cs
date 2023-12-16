@@ -68,6 +68,14 @@ namespace GameEditor.References
             GUIUtility.systemCopyBuffer = json;
             Debug.Log(json, UnityEditor.Selection.activeObject);
         }
+        
+        [UnityEditor.MenuItem("GameObject/Serialize To Clipboard", false, 0)]
+        private static void SerializeToClipboard()
+        {
+            var json = SceneSerialization.ToJson(UnityEditor.Selection.activeGameObject);
+            GUIUtility.systemCopyBuffer = json;
+            Debug.Log(json);
+        }
 #endif
     }
     
