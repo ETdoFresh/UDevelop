@@ -7,14 +7,14 @@ namespace GameEditor.Databases
 {
     public class DatabaseTickUtility
     {
-        public static async UniTask<object> GetValueAtUtcTickAsync(string path, long tick)
+        public static async UniTask<T> GetValueAtUtcTickAsync<T>(string path, long tick)
         {
             var value = await Database.GetValueAsync(path);
-            return value == null ? null : GetValueAtUtcTick(JObject.FromObject(value), tick);
+            return value == null ? default : GetValueAtUtcTick<T>(JObject.FromObject(value), tick);
         }
 
-        public static async UniTask<object> GetValueAtUtcNowAsync(string path) =>
-            await GetValueAtUtcTickAsync(path, DateTime.UtcNow.Ticks);
+        public static async UniTask<T> GetValueAtUtcNowAsync<T>(string path) =>
+            await GetValueAtUtcTickAsync<T>(path, DateTime.UtcNow.Ticks);
         
         public static async UniTask<long> GetClosestTickWithoutGoingOverAsync(string path, long tick)
         {
@@ -25,9 +25,9 @@ namespace GameEditor.Databases
         public static async UniTask<long> GetClosestTickWithoutGoingOverNowAsync(string path) =>
             await GetClosestTickWithoutGoingOverAsync(path, DateTime.UtcNow.Ticks);
 
-        public static object GetValueAtUtcTick(JObject jObject, long tick)
+        public static T GetValueAtUtcTick<T>(JObject jObject, long tick)
         {
-            if (jObject == null) return null;
+            if (jObject == null) return default;
             var properties = jObject.Properties().ToArray();
             var bestTick = 0L;
             var bestValue = (JToken)null;
@@ -47,11 +47,11 @@ namespace GameEditor.Databases
                     minValue = property.Value;
                 }
             }
-            return bestValue ?? minValue;
+            return bestValue != null ? bestValue.ToObject<T>() : minValue != null ? minValue.ToObject<T>() : default;
         }
 
-        public static object GetValueAtUtcNow(JObject jObject) =>
-            GetValueAtUtcTick(jObject, DateTime.UtcNow.Ticks);
+        public static T GetValueAtUtcNow<T>(JObject jObject) =>
+            GetValueAtUtcTick<T>(jObject, DateTime.UtcNow.Ticks);
         
         public static long GetClosestTickWithoutGoingOver(JObject jObject, long tick)
         {

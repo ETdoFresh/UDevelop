@@ -90,7 +90,7 @@ public class ReferenceEditorWindow : EditorWindow
         EditorGUI.BeginDisabledGroup(true);
         EditorGUILayout.ObjectField("Script", _script, typeof(MonoScript), false);
         EditorGUI.EndDisabledGroup();
-        if (GUILayout.Button("Open Database")) 
+        if (GUILayout.Button("Open Database"))
             Database.OpenDatabaseFromEditor();
         _referenceType = (ReferenceType)EditorGUILayout.EnumPopup("Reference Type", _referenceType);
         EditorGUI.BeginDisabledGroup(true);
@@ -252,7 +252,8 @@ public class ReferenceEditorWindow : EditorWindow
                     _operationType = OperationType.List;
                 if (GUILayout.Button("Update"))
                 {
-                    Database.SetValueAsync($"{ProjectsPath}.{_currentProjectListItem.guid}", _currentProjectListItem);
+                    _ = Database.SetValueAsync($"{ProjectsPath}.{_currentProjectListItem.guid}",
+                        _currentProjectListItem);
                     _operationType = OperationType.List;
                 }
 
@@ -303,9 +304,8 @@ public class ReferenceEditorWindow : EditorWindow
                         for (var i = 0; i < itemHistoriesLength; i++)
                         {
                             var itemHistoryJObject = itemHistories[i].Value as JObject;
-                            var itemAtUtcNow = DatabaseTickUtility.GetValueAtUtcNow(itemHistoryJObject);
-                            var itemJObject = itemAtUtcNow as JObject;
-                            _imageListItems[i] = itemJObject?.ToObject<ImageJsonObject>();
+                            _imageListItems[i] =
+                                DatabaseTickUtility.GetValueAtUtcNow<ImageJsonObject>(itemHistoryJObject);
                         }
                     });
                 }
@@ -544,13 +544,13 @@ public class ReferenceEditorWindow : EditorWindow
                 if (_operationTypeChangedThisFrame)
                 {
                     var guid = _currentImageListItem.guid;
-                    var UtcNowTicks = DateTime.UtcNow.Ticks;
-                    var UtcNowTicksString = UtcNowTicks.ToString();
+                    var utcNowTicks = DateTime.UtcNow.Ticks;
+                    var utcNowTicksString = utcNowTicks.ToString();
                     var path = $"{ImagesPath}.{guid}";
-                    _currentImageListItem.lastModifiedUtcTicks = UtcNowTicks;
-                    _currentImageListItem.deletedUtcTicks = UtcNowTicks;
+                    _currentImageListItem.lastModifiedUtcTicks = utcNowTicks;
+                    _currentImageListItem.deletedUtcTicks = utcNowTicks;
                     _currentImageListItem.path = null;
-                    Database.AddObjectChild(path, UtcNowTicksString, _currentImageListItem);
+                    Database.AddObjectChild(path, utcNowTicksString, _currentImageListItem);
                 }
 
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
@@ -592,9 +592,8 @@ public class ReferenceEditorWindow : EditorWindow
                         for (var i = 0; i < itemHistoriesLength; i++)
                         {
                             var itemHistoryJObject = itemHistories[i].Value as JObject;
-                            var itemAtUtcNow = DatabaseTickUtility.GetValueAtUtcNow(itemHistoryJObject);
-                            var itemJObject = itemAtUtcNow as JObject;
-                            _textListItems[i] = itemJObject?.ToObject<TextJsonObject>();
+                            _textListItems[i] =
+                                DatabaseTickUtility.GetValueAtUtcNow<TextJsonObject>(itemHistoryJObject);
                         }
                     });
                 }
@@ -658,7 +657,7 @@ public class ReferenceEditorWindow : EditorWindow
                     Database.GetValueAsync($"{TextsPath}.{guid}").ContinueWith(value =>
                     {
                         var jObject = JObject.FromObject(value);
-                        var itemHistories = jObject?.Properties().ToArray() ?? Array.Empty<JProperty>();
+                        var itemHistories = jObject.Properties().ToArray() ?? Array.Empty<JProperty>();
                         var itemHistoriesLength = itemHistories.Length;
                         itemHistories = itemHistories.OrderBy(x => long.Parse(x.Name)).ToArray();
                         _textListItems = new TextJsonObject[itemHistoriesLength];
@@ -820,13 +819,13 @@ public class ReferenceEditorWindow : EditorWindow
                 if (_operationTypeChangedThisFrame)
                 {
                     var guid = _currentTextListItem.guid;
-                    var UtcNowTicks = DateTime.UtcNow.Ticks;
-                    var UtcNowTicksString = UtcNowTicks.ToString();
+                    var utcNowTicks = DateTime.UtcNow.Ticks;
+                    var utcNowTicksString = utcNowTicks.ToString();
                     var path = $"{TextsPath}.{guid}";
-                    _currentTextListItem.lastModifiedUtcTicks = UtcNowTicks;
-                    _currentTextListItem.deletedUtcTicks = UtcNowTicks;
+                    _currentTextListItem.lastModifiedUtcTicks = utcNowTicks;
+                    _currentTextListItem.deletedUtcTicks = utcNowTicks;
                     _currentTextListItem.path = null;
-                    Database.AddObjectChild(path, UtcNowTicksString, _currentTextListItem);
+                    Database.AddObjectChild(path, utcNowTicksString, _currentTextListItem);
                 }
 
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);

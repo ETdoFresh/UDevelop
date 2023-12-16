@@ -1,5 +1,6 @@
 using System;
 using Cysharp.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace GameEditor.Databases
 {
@@ -57,5 +58,8 @@ namespace GameEditor.Databases
         
         public static async UniTask<object> GetValueAsync(string path) =>
             await _database.GetValueAsync(path);
+        
+        public static async UniTask<T> GetValueAsync<T>(string path) =>
+            JToken.FromObject(await _database.GetValueAsync(path)).ToObject<T>();
     }
 }

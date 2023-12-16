@@ -33,17 +33,17 @@ namespace GameEditor.References
             }
 
             var jObject = JObject.FromObject(value);
-            var bestJObject = (JObject)null;
+            JObject bestJObject;
             if (tick == 0)
             {
                 bestTick = DatabaseTickUtility.GetClosestTickWithoutGoingOverNow(jObject);
-                bestJObject = DatabaseTickUtility.GetValueAtUtcNow(jObject) as JObject;
+                bestJObject = DatabaseTickUtility.GetValueAtUtcNow<JObject>(jObject);
                 bestJsonString = bestJObject?.ToString();
             }
             else
             {
                 bestTick = DatabaseTickUtility.GetClosestTickWithoutGoingOver(jObject, tick);
-                bestJObject = DatabaseTickUtility.GetValueAtUtcTick(jObject, tick) as JObject;
+                bestJObject = DatabaseTickUtility.GetValueAtUtcTick<JObject>(jObject, tick);
                 bestJsonString = bestJObject?.ToString();
             }
             bestTickString = new DateTime(bestTick).ToLocalTime().ToString("yyyy-MM-dd HH:mm:ss.fff");
